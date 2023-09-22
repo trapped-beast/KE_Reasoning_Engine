@@ -43,7 +43,7 @@ low_id   [a-z][a-zA-Z_0-9]*
 --.*      { /* 忽略单行注释 */ }
 
 "."        return yy::parser::make_DOT      (loc);
-"=>"       return yy::parser::make_IMPLIES (loc);
+"=>"       return yy::parser::make_IMPLIES  (loc);
 "+"        return yy::parser::make_PLUS     (loc);
 "-"        return yy::parser::make_MINUS    (loc);
 "*"        return yy::parser::make_MUL      (loc);
@@ -57,8 +57,8 @@ low_id   [a-z][a-zA-Z_0-9]*
 ";"        return yy::parser::make_SEMI     (loc);
 ":"        return yy::parser::make_COLON    (loc);
 "="        return yy::parser::make_EQ       (loc);
-":="       return yy::parser::make_ASSIGN   (loc);
 "=="       return yy::parser::make_MEQ      (loc);
+":="       return yy::parser::make_ASSIGN   (loc);
 ">="       return yy::parser::make_GTE      (loc);
 "<="       return yy::parser::make_LTE      (loc);
 "<-"       return yy::parser::make_INH      (loc);
@@ -66,10 +66,12 @@ low_id   [a-z][a-zA-Z_0-9]*
 ">"        return yy::parser::make_GT       (loc);
 "<"        return yy::parser::make_LT       (loc);
 
-"def_cpt"  return yy::parser::make_DEF_CPT   (yytext, loc);
-"def_indi" return yy::parser::make_DEF_INDI  (yytext, loc);
-"def_op"   return yy::parser::make_DEF_OP    (yytext, loc);
-"assert"   return yy::parser::make_KB_ASSERT (yytext, loc);
+"def_cpt"  return yy::parser::make_DEF_CPT    (yytext, loc);
+"def_indi" return yy::parser::make_DEF_INDI   (yytext, loc);
+"def_op"   return yy::parser::make_DEF_OP     (yytext, loc);
+"assert"   return yy::parser::make_KB_ASSERT  (yytext, loc);
+"modify"   return yy::parser::make_KB_MODIFY  (yytext, loc);
+"retract"  return yy::parser::make_KB_RETRACT (yytext, loc);
 
 #[^#]+#    return yy::parser::make_DESCRIPTION (yytext, loc);
 

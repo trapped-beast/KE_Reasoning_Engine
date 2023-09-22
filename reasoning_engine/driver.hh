@@ -20,6 +20,9 @@ public:
   int parse (const std::string& f); // 解析文件，成功返回0
 
 
+  shared_ptr<Knowledge_Base> kb; // 知识库
+  vector<shared_ptr<Question>> questions; // 问题信息
+
   int result; // 解析是否成功
   std::string file; // 要解析的文件路径
   bool trace_parsing; // 是否生成 parser debug traces

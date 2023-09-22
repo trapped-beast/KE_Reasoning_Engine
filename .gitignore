@@ -1,0 +1,11 @@
+# VS Code 配置文件
+.vscode/
+
+# 中间代码
+*.o
+
+# 可执行文件
+solver
+
+# png dot 文件
+*.dot *.png

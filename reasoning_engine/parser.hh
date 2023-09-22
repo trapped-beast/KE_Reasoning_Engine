@@ -409,14 +409,86 @@ namespace yy {
     /// An auxiliary type to compute the largest semantic type.
     union union_type
     {
+      // assertion
+      char dummy1[sizeof (Assertion)];
+
+      // assignment
+      char dummy2[sizeof (Assignment)];
+
+      // concept
+      char dummy3[sizeof (Concept)];
+
+      // coordinate
+      char dummy4[sizeof (Coordinate)];
+
+      // cud
+      char dummy5[sizeof (Cud)];
+
+      // def_concept
+      char dummy6[sizeof (Def_Concept)];
+
+      // def_individual
+      char dummy7[sizeof (Def_Individual)];
+
+      // def_operator
+      char dummy8[sizeof (Def_Operator)];
+
+      // fact
+      char dummy9[sizeof (Fact)];
+
+      // individual
+      char dummy10[sizeof (Individual)];
+
+      // ke_kb
+      char dummy11[sizeof (Knowledge_Base)];
+
+      // math_equation
+      char dummy12[sizeof (Math_Equation)];
+
+      // math_expr
+      char dummy13[sizeof (Math_Expr)];
+
+      // math_func
+      char dummy14[sizeof (Math_Func)];
+
+      // math_individual
+      char dummy15[sizeof (Math_Individual)];
+
+      // number
+      char dummy16[sizeof (Number)];
+
+      // ke_question
+      char dummy17[sizeof (Question)];
+
+      // ke_rule
+      char dummy18[sizeof (Rule)];
+
+      // sugar_for_and
+      char dummy19[sizeof (Sugar_For_And)];
+
+      // sugar_for_ctor
+      char dummy20[sizeof (Sugar_For_Ctor)];
+
+      // sugar_for_oprt_apply
+      char dummy21[sizeof (Sugar_For_Oprt_Apply)];
+
+      // sugar_for_pred
+      char dummy22[sizeof (Sugar_For_Pred)];
+
+      // term
+      char dummy23[sizeof (Term)];
+
+      // variable
+      char dummy24[sizeof (Variable)];
+
       // BOOL
-      char dummy1[sizeof (bool)];
+      char dummy25[sizeof (bool)];
 
       // FLOAT
-      char dummy2[sizeof (double)];
+      char dummy26[sizeof (double)];
 
       // INTEGER
-      char dummy3[sizeof (int)];
+      char dummy27[sizeof (int)];
 
       // DESCRIPTION
       // SYMBOL
@@ -426,8 +498,43 @@ namespace yy {
       // DEF_INDI
       // DEF_OP
       // KB_ASSERT
+      // KB_MODIFY
+      // KB_RETRACT
       // MATH_FUNC_NAME
-      char dummy4[sizeof (std::string)];
+      // predicate_operator
+      char dummy28[sizeof (std::string)];
+
+      // assignment_list
+      char dummy29[sizeof (vector<shared_ptr<Assignment>>)];
+
+      // def_concept_list
+      char dummy30[sizeof (vector<shared_ptr<Def_Concept>>)];
+
+      // def_individual_list
+      char dummy31[sizeof (vector<shared_ptr<Def_Individual>>)];
+
+      // def_operator_list
+      char dummy32[sizeof (vector<shared_ptr<Def_Operator>>)];
+
+      // fact_list
+      char dummy33[sizeof (vector<shared_ptr<Fact>>)];
+
+      // individual_list
+      // individual_and_list
+      // to_solve
+      char dummy34[sizeof (vector<shared_ptr<Individual>>)];
+
+      // math_expr_list
+      char dummy35[sizeof (vector<shared_ptr<Math_Expr>>)];
+
+      // ke_questions
+      char dummy36[sizeof (vector<shared_ptr<Question>>)];
+
+      // ke_rule_list
+      char dummy37[sizeof (vector<shared_ptr<Rule>>)];
+
+      // variable_list
+      char dummy38[sizeof (vector<shared_ptr<Variable>>)];
     };
 
     /// The size of the largest semantic type.
@@ -514,7 +621,9 @@ namespace yy {
     TOK_DEF_INDI = 34,             // DEF_INDI
     TOK_DEF_OP = 35,               // DEF_OP
     TOK_KB_ASSERT = 36,            // KB_ASSERT
-    TOK_MATH_FUNC_NAME = 37        // MATH_FUNC_NAME
+    TOK_KB_MODIFY = 37,            // KB_MODIFY
+    TOK_KB_RETRACT = 38,           // KB_RETRACT
+    TOK_MATH_FUNC_NAME = 39        // MATH_FUNC_NAME
       };
       /// Backward compatibility alias (Bison 3.6).
       typedef token_kind_type yytokentype;
@@ -531,7 +640,7 @@ namespace yy {
     {
       enum symbol_kind_type
       {
-        YYNTOKENS = 38, ///< Number of tokens.
+        YYNTOKENS = 40, ///< Number of tokens.
         S_YYEMPTY = -2,
         S_YYEOF = 0,                             // "end of file"
         S_YYerror = 1,                           // error
@@ -570,32 +679,32 @@ namespace yy {
         S_DEF_INDI = 34,                         // DEF_INDI
         S_DEF_OP = 35,                           // DEF_OP
         S_KB_ASSERT = 36,                        // KB_ASSERT
-        S_MATH_FUNC_NAME = 37,                   // MATH_FUNC_NAME
-        S_YYACCEPT = 38,                         // $accept
-        S_statement = 39,                        // statement
-        S_ke_kb = 40,                            // ke_kb
-        S_def_concept_list = 41,                 // def_concept_list
-        S_def_concept = 42,                      // def_concept
-        S_def_individual_list = 43,              // def_individual_list
-        S_def_individual = 44,                   // def_individual
-        S_def_operator_list = 45,                // def_operator_list
-        S_def_operator = 46,                     // def_operator
-        S_ke_rule_list = 47,                     // ke_rule_list
-        S_ke_rule = 48,                          // ke_rule
-        S_individual = 49,                       // individual
-        S_term = 50,                             // term
-        S_assertion = 51,                        // assertion
-        S_sugar_for_and = 52,                    // sugar_for_and
-        S_sugar_for_pred = 53,                   // sugar_for_pred
-        S_sugar_for_ctor = 54,                   // sugar_for_ctor
-        S_sugar_for_oprt_apply = 55,             // sugar_for_oprt_apply
-        S_cud = 56,                              // cud
-        S_assignment_list = 57,                  // assignment_list
-        S_assignment = 58,                       // assignment
-        S_math_individual = 59,                  // math_individual
-        S_predicate_operator = 60,               // predicate_operator
-        S_constructor_list = 61,                 // constructor_list
-        S_constructor = 62,                      // constructor
+        S_KB_MODIFY = 37,                        // KB_MODIFY
+        S_KB_RETRACT = 38,                       // KB_RETRACT
+        S_MATH_FUNC_NAME = 39,                   // MATH_FUNC_NAME
+        S_YYACCEPT = 40,                         // $accept
+        S_statement = 41,                        // statement
+        S_ke_kb = 42,                            // ke_kb
+        S_def_concept_list = 43,                 // def_concept_list
+        S_def_concept = 44,                      // def_concept
+        S_def_individual_list = 45,              // def_individual_list
+        S_def_individual = 46,                   // def_individual
+        S_def_operator_list = 47,                // def_operator_list
+        S_def_operator = 48,                     // def_operator
+        S_ke_rule_list = 49,                     // ke_rule_list
+        S_ke_rule = 50,                          // ke_rule
+        S_individual = 51,                       // individual
+        S_term = 52,                             // term
+        S_assertion = 53,                        // assertion
+        S_sugar_for_and = 54,                    // sugar_for_and
+        S_sugar_for_pred = 55,                   // sugar_for_pred
+        S_sugar_for_ctor = 56,                   // sugar_for_ctor
+        S_sugar_for_oprt_apply = 57,             // sugar_for_oprt_apply
+        S_cud = 58,                              // cud
+        S_assignment_list = 59,                  // assignment_list
+        S_assignment = 60,                       // assignment
+        S_math_individual = 61,                  // math_individual
+        S_predicate_operator = 62,               // predicate_operator
         S_individual_list = 63,                  // individual_list
         S_individual_and_list = 64,              // individual_and_list
         S_concept = 65,                          // concept
@@ -608,11 +717,10 @@ namespace yy {
         S_math_expr_list = 72,                   // math_expr_list
         S_number = 73,                           // number
         S_ke_questions = 74,                     // ke_questions
-        S_ke_question_list = 75,                 // ke_question_list
-        S_ke_question = 76,                      // ke_question
-        S_fact_list = 77,                        // fact_list
-        S_fact = 78,                             // fact
-        S_to_solve = 79                          // to_solve
+        S_ke_question = 75,                      // ke_question
+        S_fact_list = 76,                        // fact_list
+        S_fact = 77,                             // fact
+        S_to_solve = 78                          // to_solve
       };
     };
 
@@ -649,6 +757,102 @@ namespace yy {
       {
         switch (this->kind ())
     {
+      case symbol_kind::S_assertion: // assertion
+        value.move< Assertion > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.move< Assignment > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.move< Concept > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.move< Coordinate > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.move< Cud > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.move< Def_Concept > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.move< Def_Individual > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.move< Def_Operator > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.move< Fact > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.move< Individual > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.move< Knowledge_Base > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.move< Math_Equation > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.move< Math_Expr > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.move< Math_Func > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.move< Math_Individual > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_number: // number
+        value.move< Number > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.move< Question > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.move< Rule > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.move< Sugar_For_And > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.move< Sugar_For_Ctor > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.move< Sugar_For_Oprt_Apply > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.move< Sugar_For_Pred > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_term: // term
+        value.move< Term > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.move< Variable > (std::move (that.value));
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.move< bool > (std::move (that.value));
         break;
@@ -669,8 +873,53 @@ namespace yy {
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.move< std::string > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.move< vector<shared_ptr<Assignment>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.move< vector<shared_ptr<Def_Concept>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.move< vector<shared_ptr<Def_Individual>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.move< vector<shared_ptr<Def_Operator>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.move< vector<shared_ptr<Fact>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.move< vector<shared_ptr<Individual>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.move< vector<shared_ptr<Math_Expr>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.move< vector<shared_ptr<Question>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.move< vector<shared_ptr<Rule>> > (std::move (that.value));
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.move< vector<shared_ptr<Variable>> > (std::move (that.value));
         break;
 
       default:
@@ -692,6 +941,342 @@ namespace yy {
 #else
       basic_symbol (typename Base::kind_type t, const location_type& l)
         : Base (t)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Assertion&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Assertion& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Assignment&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Assignment& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Concept&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Concept& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Coordinate&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Coordinate& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Cud&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Cud& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Def_Concept&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Def_Concept& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Def_Individual&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Def_Individual& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Def_Operator&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Def_Operator& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Fact&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Fact& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Individual&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Individual& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Knowledge_Base&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Knowledge_Base& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Math_Equation&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Math_Equation& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Math_Expr&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Math_Expr& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Math_Func&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Math_Func& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Math_Individual&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Math_Individual& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Number&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Number& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Question&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Question& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Rule&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Rule& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Sugar_For_And&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Sugar_For_And& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Sugar_For_Ctor&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Sugar_For_Ctor& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Sugar_For_Oprt_Apply&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Sugar_For_Oprt_Apply& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Sugar_For_Pred&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Sugar_For_Pred& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Term&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Term& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, Variable&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const Variable& v, const location_type& l)
+        : Base (t)
+        , value (v)
         , location (l)
       {}
 #endif
@@ -752,6 +1337,146 @@ namespace yy {
       {}
 #endif
 
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Assignment>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Assignment>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Def_Concept>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Def_Concept>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Def_Individual>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Def_Individual>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Def_Operator>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Def_Operator>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Fact>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Fact>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Individual>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Individual>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Math_Expr>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Math_Expr>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Question>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Question>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Rule>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Rule>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
+#if 201103L <= YY_CPLUSPLUS
+      basic_symbol (typename Base::kind_type t, vector<shared_ptr<Variable>>&& v, location_type&& l)
+        : Base (t)
+        , value (std::move (v))
+        , location (std::move (l))
+      {}
+#else
+      basic_symbol (typename Base::kind_type t, const vector<shared_ptr<Variable>>& v, const location_type& l)
+        : Base (t)
+        , value (v)
+        , location (l)
+      {}
+#endif
+
       /// Destroy the symbol.
       ~basic_symbol ()
       {
@@ -776,6 +1501,102 @@ namespace yy {
         // Value type destructor.
 switch (yykind)
     {
+      case symbol_kind::S_assertion: // assertion
+        value.template destroy< Assertion > ();
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.template destroy< Assignment > ();
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.template destroy< Concept > ();
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.template destroy< Coordinate > ();
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.template destroy< Cud > ();
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.template destroy< Def_Concept > ();
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.template destroy< Def_Individual > ();
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.template destroy< Def_Operator > ();
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.template destroy< Fact > ();
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.template destroy< Individual > ();
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.template destroy< Knowledge_Base > ();
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.template destroy< Math_Equation > ();
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.template destroy< Math_Expr > ();
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.template destroy< Math_Func > ();
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.template destroy< Math_Individual > ();
+        break;
+
+      case symbol_kind::S_number: // number
+        value.template destroy< Number > ();
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.template destroy< Question > ();
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.template destroy< Rule > ();
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.template destroy< Sugar_For_And > ();
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.template destroy< Sugar_For_Ctor > ();
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.template destroy< Sugar_For_Oprt_Apply > ();
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.template destroy< Sugar_For_Pred > ();
+        break;
+
+      case symbol_kind::S_term: // term
+        value.template destroy< Term > ();
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.template destroy< Variable > ();
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.template destroy< bool > ();
         break;
@@ -796,8 +1617,53 @@ switch (yykind)
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.template destroy< std::string > ();
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.template destroy< vector<shared_ptr<Assignment>> > ();
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.template destroy< vector<shared_ptr<Def_Concept>> > ();
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.template destroy< vector<shared_ptr<Def_Individual>> > ();
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.template destroy< vector<shared_ptr<Def_Operator>> > ();
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.template destroy< vector<shared_ptr<Fact>> > ();
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.template destroy< vector<shared_ptr<Individual>> > ();
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.template destroy< vector<shared_ptr<Math_Expr>> > ();
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.template destroy< vector<shared_ptr<Question>> > ();
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.template destroy< vector<shared_ptr<Rule>> > ();
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.template destroy< vector<shared_ptr<Variable>> > ();
         break;
 
       default:
@@ -1555,6 +2421,36 @@ switch (yykind)
 #if 201103L <= YY_CPLUSPLUS
       static
       symbol_type
+      make_KB_MODIFY (std::string v, location_type l)
+      {
+        return symbol_type (token::TOK_KB_MODIFY, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_KB_MODIFY (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::TOK_KB_MODIFY, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
+      make_KB_RETRACT (std::string v, location_type l)
+      {
+        return symbol_type (token::TOK_KB_RETRACT, std::move (v), std::move (l));
+      }
+#else
+      static
+      symbol_type
+      make_KB_RETRACT (const std::string& v, const location_type& l)
+      {
+        return symbol_type (token::TOK_KB_RETRACT, v, l);
+      }
+#endif
+#if 201103L <= YY_CPLUSPLUS
+      static
+      symbol_type
       make_MATH_FUNC_NAME (std::string v, location_type l)
       {
         return symbol_type (token::TOK_MATH_FUNC_NAME, std::move (v), std::move (l));
@@ -1653,12 +2549,12 @@ switch (yykind)
     static const short yypgoto_[];
 
     // YYDEFGOTO[NTERM-NUM].
-    static const unsigned char yydefgoto_[];
+    static const signed char yydefgoto_[];
 
     // YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
     // positive, shift that token.  If negative, reduce the rule whose
     // number is the opposite.  If YYTABLE_NINF, syntax error.
-    static const short yytable_[];
+    static const unsigned char yytable_[];
 
     static const unsigned char yycheck_[];
 
@@ -1911,9 +2807,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 187,     ///< Last index in yytable_.
-      yynnts_ = 42,  ///< Number of nonterminal symbols.
-      yyfinal_ = 21 ///< Termination state number.
+      yylast_ = 188,     ///< Last index in yytable_.
+      yynnts_ = 39,  ///< Number of nonterminal symbols.
+      yyfinal_ = 20 ///< Termination state number.
     };
 
 
@@ -1938,6 +2834,102 @@ switch (yykind)
   {
     switch (this->kind ())
     {
+      case symbol_kind::S_assertion: // assertion
+        value.copy< Assertion > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.copy< Assignment > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.copy< Concept > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.copy< Coordinate > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.copy< Cud > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.copy< Def_Concept > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.copy< Def_Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.copy< Def_Operator > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.copy< Fact > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.copy< Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.copy< Knowledge_Base > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.copy< Math_Equation > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.copy< Math_Expr > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.copy< Math_Func > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.copy< Math_Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_number: // number
+        value.copy< Number > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.copy< Question > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.copy< Rule > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.copy< Sugar_For_And > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.copy< Sugar_For_Ctor > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.copy< Sugar_For_Oprt_Apply > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.copy< Sugar_For_Pred > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_term: // term
+        value.copy< Term > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.copy< Variable > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.copy< bool > (YY_MOVE (that.value));
         break;
@@ -1958,8 +2950,53 @@ switch (yykind)
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.copy< std::string > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.copy< vector<shared_ptr<Assignment>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.copy< vector<shared_ptr<Def_Concept>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.copy< vector<shared_ptr<Def_Individual>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.copy< vector<shared_ptr<Def_Operator>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.copy< vector<shared_ptr<Fact>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.copy< vector<shared_ptr<Individual>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.copy< vector<shared_ptr<Math_Expr>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.copy< vector<shared_ptr<Question>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.copy< vector<shared_ptr<Rule>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.copy< vector<shared_ptr<Variable>> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -1993,6 +3030,102 @@ switch (yykind)
     super_type::move (s);
     switch (this->kind ())
     {
+      case symbol_kind::S_assertion: // assertion
+        value.move< Assertion > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.move< Assignment > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.move< Concept > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.move< Coordinate > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.move< Cud > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.move< Def_Concept > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.move< Def_Individual > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.move< Def_Operator > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.move< Fact > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.move< Individual > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.move< Knowledge_Base > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.move< Math_Equation > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.move< Math_Expr > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.move< Math_Func > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.move< Math_Individual > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_number: // number
+        value.move< Number > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.move< Question > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.move< Rule > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.move< Sugar_For_And > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.move< Sugar_For_Ctor > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.move< Sugar_For_Oprt_Apply > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.move< Sugar_For_Pred > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_term: // term
+        value.move< Term > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.move< Variable > (YY_MOVE (s.value));
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.move< bool > (YY_MOVE (s.value));
         break;
@@ -2013,8 +3146,53 @@ switch (yykind)
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.move< std::string > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.move< vector<shared_ptr<Assignment>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.move< vector<shared_ptr<Def_Concept>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.move< vector<shared_ptr<Def_Individual>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.move< vector<shared_ptr<Def_Operator>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.move< vector<shared_ptr<Fact>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.move< vector<shared_ptr<Individual>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.move< vector<shared_ptr<Math_Expr>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.move< vector<shared_ptr<Question>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.move< vector<shared_ptr<Rule>> > (YY_MOVE (s.value));
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.move< vector<shared_ptr<Variable>> > (YY_MOVE (s.value));
         break;
 
       default:
@@ -2083,7 +3261,7 @@ switch (yykind)
 
 
 } // yy
-#line 2087 "parser.hh"
+#line 3265 "parser.hh"
 
 
 

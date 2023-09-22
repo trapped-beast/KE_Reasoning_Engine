@@ -33,4 +33,4 @@ solver.o : solver.cc
 
 .PHONY : clean
 clean :
-	rm solver
+	rm solver $(objects)

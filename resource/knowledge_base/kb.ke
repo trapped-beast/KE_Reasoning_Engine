@@ -95,9 +95,9 @@ h:Hyperbola_Std_1 => {Focus_On_X_Axis(h)} # 标准双曲线Hyperbola_Std_1的焦
 
 h:Hyperbola_Std_2 => {Focus_On_X_Axis(h)} # 标准双曲线Hyperbola_Std_2的焦点在其Y轴上 #
 
-h:Hyperbola_Std_1 => {Line_Equation(Asymptote(h))=Or(Generate_Line_Eq(Div(Param_B(h),Param_A(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_B(h),Param_A(h))),-1,0))} # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #
+h:Hyperbola_Std_1 => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h),Param_A(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_B(h),Param_A(h))),-1,0))} # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #
 
-h:Hyperbola_Std_2 => {Line_Equation(Asymptote(h))=Or(Generate_Line_Eq(Div(Param_A(h),Param_B(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_A(h),Param_B(h))),-1,0))} # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #
+h:Hyperbola_Std_2 => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h),Param_B(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_A(h),Param_B(h))),-1,0))} # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #
 
 h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 椭圆的离心率=参数c/参数a #
 

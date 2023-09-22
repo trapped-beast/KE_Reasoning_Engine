@@ -209,6 +209,102 @@ namespace yy {
   {
     switch (that.kind ())
     {
+      case symbol_kind::S_assertion: // assertion
+        value.YY_MOVE_OR_COPY< Assertion > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.YY_MOVE_OR_COPY< Assignment > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.YY_MOVE_OR_COPY< Concept > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.YY_MOVE_OR_COPY< Coordinate > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.YY_MOVE_OR_COPY< Cud > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.YY_MOVE_OR_COPY< Def_Concept > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.YY_MOVE_OR_COPY< Def_Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.YY_MOVE_OR_COPY< Def_Operator > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.YY_MOVE_OR_COPY< Fact > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.YY_MOVE_OR_COPY< Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.YY_MOVE_OR_COPY< Knowledge_Base > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.YY_MOVE_OR_COPY< Math_Equation > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.YY_MOVE_OR_COPY< Math_Expr > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.YY_MOVE_OR_COPY< Math_Func > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.YY_MOVE_OR_COPY< Math_Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_number: // number
+        value.YY_MOVE_OR_COPY< Number > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.YY_MOVE_OR_COPY< Question > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.YY_MOVE_OR_COPY< Rule > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.YY_MOVE_OR_COPY< Sugar_For_And > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.YY_MOVE_OR_COPY< Sugar_For_Ctor > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.YY_MOVE_OR_COPY< Sugar_For_Oprt_Apply > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.YY_MOVE_OR_COPY< Sugar_For_Pred > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_term: // term
+        value.YY_MOVE_OR_COPY< Term > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.YY_MOVE_OR_COPY< Variable > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.YY_MOVE_OR_COPY< bool > (YY_MOVE (that.value));
         break;
@@ -229,8 +325,53 @@ namespace yy {
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.YY_MOVE_OR_COPY< std::string > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Assignment>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Def_Concept>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Def_Individual>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Def_Operator>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Fact>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Individual>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Math_Expr>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Question>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Rule>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.YY_MOVE_OR_COPY< vector<shared_ptr<Variable>> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -248,6 +389,102 @@ namespace yy {
   {
     switch (that.kind ())
     {
+      case symbol_kind::S_assertion: // assertion
+        value.move< Assertion > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.move< Assignment > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.move< Concept > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.move< Coordinate > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.move< Cud > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.move< Def_Concept > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.move< Def_Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.move< Def_Operator > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.move< Fact > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.move< Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.move< Knowledge_Base > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.move< Math_Equation > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.move< Math_Expr > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.move< Math_Func > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.move< Math_Individual > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_number: // number
+        value.move< Number > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.move< Question > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.move< Rule > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.move< Sugar_For_And > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.move< Sugar_For_Ctor > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.move< Sugar_For_Oprt_Apply > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.move< Sugar_For_Pred > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_term: // term
+        value.move< Term > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.move< Variable > (YY_MOVE (that.value));
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.move< bool > (YY_MOVE (that.value));
         break;
@@ -268,8 +505,53 @@ namespace yy {
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.move< std::string > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.move< vector<shared_ptr<Assignment>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.move< vector<shared_ptr<Def_Concept>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.move< vector<shared_ptr<Def_Individual>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.move< vector<shared_ptr<Def_Operator>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.move< vector<shared_ptr<Fact>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.move< vector<shared_ptr<Individual>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.move< vector<shared_ptr<Math_Expr>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.move< vector<shared_ptr<Question>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.move< vector<shared_ptr<Rule>> > (YY_MOVE (that.value));
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.move< vector<shared_ptr<Variable>> > (YY_MOVE (that.value));
         break;
 
       default:
@@ -287,6 +569,102 @@ namespace yy {
     state = that.state;
     switch (that.kind ())
     {
+      case symbol_kind::S_assertion: // assertion
+        value.copy< Assertion > (that.value);
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.copy< Assignment > (that.value);
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.copy< Concept > (that.value);
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.copy< Coordinate > (that.value);
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.copy< Cud > (that.value);
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.copy< Def_Concept > (that.value);
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.copy< Def_Individual > (that.value);
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.copy< Def_Operator > (that.value);
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.copy< Fact > (that.value);
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.copy< Individual > (that.value);
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.copy< Knowledge_Base > (that.value);
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.copy< Math_Equation > (that.value);
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.copy< Math_Expr > (that.value);
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.copy< Math_Func > (that.value);
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.copy< Math_Individual > (that.value);
+        break;
+
+      case symbol_kind::S_number: // number
+        value.copy< Number > (that.value);
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.copy< Question > (that.value);
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.copy< Rule > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.copy< Sugar_For_And > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.copy< Sugar_For_Ctor > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.copy< Sugar_For_Oprt_Apply > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.copy< Sugar_For_Pred > (that.value);
+        break;
+
+      case symbol_kind::S_term: // term
+        value.copy< Term > (that.value);
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.copy< Variable > (that.value);
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.copy< bool > (that.value);
         break;
@@ -307,8 +685,53 @@ namespace yy {
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.copy< std::string > (that.value);
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.copy< vector<shared_ptr<Assignment>> > (that.value);
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.copy< vector<shared_ptr<Def_Concept>> > (that.value);
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.copy< vector<shared_ptr<Def_Individual>> > (that.value);
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.copy< vector<shared_ptr<Def_Operator>> > (that.value);
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.copy< vector<shared_ptr<Fact>> > (that.value);
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.copy< vector<shared_ptr<Individual>> > (that.value);
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.copy< vector<shared_ptr<Math_Expr>> > (that.value);
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.copy< vector<shared_ptr<Question>> > (that.value);
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.copy< vector<shared_ptr<Rule>> > (that.value);
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.copy< vector<shared_ptr<Variable>> > (that.value);
         break;
 
       default:
@@ -325,6 +748,102 @@ namespace yy {
     state = that.state;
     switch (that.kind ())
     {
+      case symbol_kind::S_assertion: // assertion
+        value.move< Assertion > (that.value);
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        value.move< Assignment > (that.value);
+        break;
+
+      case symbol_kind::S_concept: // concept
+        value.move< Concept > (that.value);
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        value.move< Coordinate > (that.value);
+        break;
+
+      case symbol_kind::S_cud: // cud
+        value.move< Cud > (that.value);
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        value.move< Def_Concept > (that.value);
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        value.move< Def_Individual > (that.value);
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        value.move< Def_Operator > (that.value);
+        break;
+
+      case symbol_kind::S_fact: // fact
+        value.move< Fact > (that.value);
+        break;
+
+      case symbol_kind::S_individual: // individual
+        value.move< Individual > (that.value);
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        value.move< Knowledge_Base > (that.value);
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        value.move< Math_Equation > (that.value);
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        value.move< Math_Expr > (that.value);
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        value.move< Math_Func > (that.value);
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        value.move< Math_Individual > (that.value);
+        break;
+
+      case symbol_kind::S_number: // number
+        value.move< Number > (that.value);
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        value.move< Question > (that.value);
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        value.move< Rule > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        value.move< Sugar_For_And > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        value.move< Sugar_For_Ctor > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        value.move< Sugar_For_Oprt_Apply > (that.value);
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        value.move< Sugar_For_Pred > (that.value);
+        break;
+
+      case symbol_kind::S_term: // term
+        value.move< Term > (that.value);
+        break;
+
+      case symbol_kind::S_variable: // variable
+        value.move< Variable > (that.value);
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         value.move< bool > (that.value);
         break;
@@ -345,8 +864,53 @@ namespace yy {
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         value.move< std::string > (that.value);
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        value.move< vector<shared_ptr<Assignment>> > (that.value);
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        value.move< vector<shared_ptr<Def_Concept>> > (that.value);
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        value.move< vector<shared_ptr<Def_Individual>> > (that.value);
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        value.move< vector<shared_ptr<Def_Operator>> > (that.value);
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        value.move< vector<shared_ptr<Fact>> > (that.value);
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        value.move< vector<shared_ptr<Individual>> > (that.value);
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        value.move< vector<shared_ptr<Math_Expr>> > (that.value);
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        value.move< vector<shared_ptr<Question>> > (that.value);
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        value.move< vector<shared_ptr<Rule>> > (that.value);
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        value.move< vector<shared_ptr<Variable>> > (that.value);
         break;
 
       default:
@@ -386,75 +950,309 @@ namespace yy {
         switch (yykind)
     {
       case symbol_kind::S_INTEGER: // INTEGER
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < int > (); }
-#line 392 "parser.cc"
+#line 956 "parser.cc"
         break;
 
       case symbol_kind::S_FLOAT: // FLOAT
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < double > (); }
-#line 398 "parser.cc"
+#line 962 "parser.cc"
         break;
 
       case symbol_kind::S_BOOL: // BOOL
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < bool > (); }
-#line 404 "parser.cc"
+#line 968 "parser.cc"
         break;
 
       case symbol_kind::S_DESCRIPTION: // DESCRIPTION
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 410 "parser.cc"
+#line 974 "parser.cc"
         break;
 
       case symbol_kind::S_SYMBOL: // SYMBOL
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 416 "parser.cc"
+#line 980 "parser.cc"
         break;
 
       case symbol_kind::S_OPERATOR: // OPERATOR
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 422 "parser.cc"
+#line 986 "parser.cc"
         break;
 
       case symbol_kind::S_CONCEPT: // CONCEPT
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 428 "parser.cc"
+#line 992 "parser.cc"
         break;
 
       case symbol_kind::S_DEF_CPT: // DEF_CPT
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 434 "parser.cc"
+#line 998 "parser.cc"
         break;
 
       case symbol_kind::S_DEF_INDI: // DEF_INDI
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 440 "parser.cc"
+#line 1004 "parser.cc"
         break;
 
       case symbol_kind::S_DEF_OP: // DEF_OP
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 446 "parser.cc"
+#line 1010 "parser.cc"
         break;
 
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 452 "parser.cc"
+#line 1016 "parser.cc"
+        break;
+
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < std::string > (); }
+#line 1022 "parser.cc"
+        break;
+
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < std::string > (); }
+#line 1028 "parser.cc"
         break;
 
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
-#line 62 "parser.yy"
+#line 101 "parser.yy"
                  { yyo << yysym.value.template as < std::string > (); }
-#line 458 "parser.cc"
+#line 1034 "parser.cc"
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Knowledge_Base > (); }
+#line 1040 "parser.cc"
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Def_Concept>> > (); }
+#line 1046 "parser.cc"
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Def_Concept > (); }
+#line 1052 "parser.cc"
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Def_Individual>> > (); }
+#line 1058 "parser.cc"
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Def_Individual > (); }
+#line 1064 "parser.cc"
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Def_Operator>> > (); }
+#line 1070 "parser.cc"
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Def_Operator > (); }
+#line 1076 "parser.cc"
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Rule>> > (); }
+#line 1082 "parser.cc"
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Rule > (); }
+#line 1088 "parser.cc"
+        break;
+
+      case symbol_kind::S_individual: // individual
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Individual > (); }
+#line 1094 "parser.cc"
+        break;
+
+      case symbol_kind::S_term: // term
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Term > (); }
+#line 1100 "parser.cc"
+        break;
+
+      case symbol_kind::S_assertion: // assertion
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Assertion > (); }
+#line 1106 "parser.cc"
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Sugar_For_And > (); }
+#line 1112 "parser.cc"
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Sugar_For_Pred > (); }
+#line 1118 "parser.cc"
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Sugar_For_Ctor > (); }
+#line 1124 "parser.cc"
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Sugar_For_Oprt_Apply > (); }
+#line 1130 "parser.cc"
+        break;
+
+      case symbol_kind::S_cud: // cud
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Cud > (); }
+#line 1136 "parser.cc"
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Assignment>> > (); }
+#line 1142 "parser.cc"
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Assignment > (); }
+#line 1148 "parser.cc"
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Math_Individual > (); }
+#line 1154 "parser.cc"
+        break;
+
+      case symbol_kind::S_predicate_operator: // predicate_operator
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < std::string > (); }
+#line 1160 "parser.cc"
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Individual>> > (); }
+#line 1166 "parser.cc"
+        break;
+
+      case symbol_kind::S_individual_and_list: // individual_and_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Individual>> > (); }
+#line 1172 "parser.cc"
+        break;
+
+      case symbol_kind::S_concept: // concept
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Concept > (); }
+#line 1178 "parser.cc"
+        break;
+
+      case symbol_kind::S_variable: // variable
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Variable > (); }
+#line 1184 "parser.cc"
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Variable>> > (); }
+#line 1190 "parser.cc"
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Math_Equation > (); }
+#line 1196 "parser.cc"
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Coordinate > (); }
+#line 1202 "parser.cc"
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Math_Expr > (); }
+#line 1208 "parser.cc"
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Math_Func > (); }
+#line 1214 "parser.cc"
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Math_Expr>> > (); }
+#line 1220 "parser.cc"
+        break;
+
+      case symbol_kind::S_number: // number
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Number > (); }
+#line 1226 "parser.cc"
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Question>> > (); }
+#line 1232 "parser.cc"
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Question > (); }
+#line 1238 "parser.cc"
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Fact>> > (); }
+#line 1244 "parser.cc"
+        break;
+
+      case symbol_kind::S_fact: // fact
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < Fact > (); }
+#line 1250 "parser.cc"
+        break;
+
+      case symbol_kind::S_to_solve: // to_solve
+#line 101 "parser.yy"
+                 { yyo << yysym.value.template as < vector<shared_ptr<Individual>> > (); }
+#line 1256 "parser.cc"
         break;
 
       default:
@@ -694,6 +1492,102 @@ namespace yy {
          when using variants.  */
       switch (yyr1_[yyn])
     {
+      case symbol_kind::S_assertion: // assertion
+        yylhs.value.emplace< Assertion > ();
+        break;
+
+      case symbol_kind::S_assignment: // assignment
+        yylhs.value.emplace< Assignment > ();
+        break;
+
+      case symbol_kind::S_concept: // concept
+        yylhs.value.emplace< Concept > ();
+        break;
+
+      case symbol_kind::S_coordinate: // coordinate
+        yylhs.value.emplace< Coordinate > ();
+        break;
+
+      case symbol_kind::S_cud: // cud
+        yylhs.value.emplace< Cud > ();
+        break;
+
+      case symbol_kind::S_def_concept: // def_concept
+        yylhs.value.emplace< Def_Concept > ();
+        break;
+
+      case symbol_kind::S_def_individual: // def_individual
+        yylhs.value.emplace< Def_Individual > ();
+        break;
+
+      case symbol_kind::S_def_operator: // def_operator
+        yylhs.value.emplace< Def_Operator > ();
+        break;
+
+      case symbol_kind::S_fact: // fact
+        yylhs.value.emplace< Fact > ();
+        break;
+
+      case symbol_kind::S_individual: // individual
+        yylhs.value.emplace< Individual > ();
+        break;
+
+      case symbol_kind::S_ke_kb: // ke_kb
+        yylhs.value.emplace< Knowledge_Base > ();
+        break;
+
+      case symbol_kind::S_math_equation: // math_equation
+        yylhs.value.emplace< Math_Equation > ();
+        break;
+
+      case symbol_kind::S_math_expr: // math_expr
+        yylhs.value.emplace< Math_Expr > ();
+        break;
+
+      case symbol_kind::S_math_func: // math_func
+        yylhs.value.emplace< Math_Func > ();
+        break;
+
+      case symbol_kind::S_math_individual: // math_individual
+        yylhs.value.emplace< Math_Individual > ();
+        break;
+
+      case symbol_kind::S_number: // number
+        yylhs.value.emplace< Number > ();
+        break;
+
+      case symbol_kind::S_ke_question: // ke_question
+        yylhs.value.emplace< Question > ();
+        break;
+
+      case symbol_kind::S_ke_rule: // ke_rule
+        yylhs.value.emplace< Rule > ();
+        break;
+
+      case symbol_kind::S_sugar_for_and: // sugar_for_and
+        yylhs.value.emplace< Sugar_For_And > ();
+        break;
+
+      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+        yylhs.value.emplace< Sugar_For_Ctor > ();
+        break;
+
+      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+        yylhs.value.emplace< Sugar_For_Oprt_Apply > ();
+        break;
+
+      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+        yylhs.value.emplace< Sugar_For_Pred > ();
+        break;
+
+      case symbol_kind::S_term: // term
+        yylhs.value.emplace< Term > ();
+        break;
+
+      case symbol_kind::S_variable: // variable
+        yylhs.value.emplace< Variable > ();
+        break;
+
       case symbol_kind::S_BOOL: // BOOL
         yylhs.value.emplace< bool > ();
         break;
@@ -714,8 +1608,53 @@ namespace yy {
       case symbol_kind::S_DEF_INDI: // DEF_INDI
       case symbol_kind::S_DEF_OP: // DEF_OP
       case symbol_kind::S_KB_ASSERT: // KB_ASSERT
+      case symbol_kind::S_KB_MODIFY: // KB_MODIFY
+      case symbol_kind::S_KB_RETRACT: // KB_RETRACT
       case symbol_kind::S_MATH_FUNC_NAME: // MATH_FUNC_NAME
+      case symbol_kind::S_predicate_operator: // predicate_operator
         yylhs.value.emplace< std::string > ();
+        break;
+
+      case symbol_kind::S_assignment_list: // assignment_list
+        yylhs.value.emplace< vector<shared_ptr<Assignment>> > ();
+        break;
+
+      case symbol_kind::S_def_concept_list: // def_concept_list
+        yylhs.value.emplace< vector<shared_ptr<Def_Concept>> > ();
+        break;
+
+      case symbol_kind::S_def_individual_list: // def_individual_list
+        yylhs.value.emplace< vector<shared_ptr<Def_Individual>> > ();
+        break;
+
+      case symbol_kind::S_def_operator_list: // def_operator_list
+        yylhs.value.emplace< vector<shared_ptr<Def_Operator>> > ();
+        break;
+
+      case symbol_kind::S_fact_list: // fact_list
+        yylhs.value.emplace< vector<shared_ptr<Fact>> > ();
+        break;
+
+      case symbol_kind::S_individual_list: // individual_list
+      case symbol_kind::S_individual_and_list: // individual_and_list
+      case symbol_kind::S_to_solve: // to_solve
+        yylhs.value.emplace< vector<shared_ptr<Individual>> > ();
+        break;
+
+      case symbol_kind::S_math_expr_list: // math_expr_list
+        yylhs.value.emplace< vector<shared_ptr<Math_Expr>> > ();
+        break;
+
+      case symbol_kind::S_ke_questions: // ke_questions
+        yylhs.value.emplace< vector<shared_ptr<Question>> > ();
+        break;
+
+      case symbol_kind::S_ke_rule_list: // ke_rule_list
+        yylhs.value.emplace< vector<shared_ptr<Rule>> > ();
+        break;
+
+      case symbol_kind::S_variable_list: // variable_list
+        yylhs.value.emplace< vector<shared_ptr<Variable>> > ();
         break;
 
       default:
@@ -738,68 +1677,488 @@ namespace yy {
         {
           switch (yyn)
             {
+  case 2: // statement: ke_kb
+#line 104 "parser.yy"
+                  {drv.kb = make_shared<Knowledge_Base>(yystack_[0].value.as < Knowledge_Base > ());}
+#line 1684 "parser.cc"
+    break;
+
+  case 3: // statement: ke_questions
+#line 105 "parser.yy"
+                         {drv.questions = yystack_[0].value.as < vector<shared_ptr<Question>> > ();}
+#line 1690 "parser.cc"
+    break;
+
+  case 4: // ke_kb: def_concept_list def_individual_list def_operator_list ke_rule_list
+#line 108 "parser.yy"
+                                                                            {Knowledge_Base kb(yystack_[3].value.as < vector<shared_ptr<Def_Concept>> > (), yystack_[2].value.as < vector<shared_ptr<Def_Individual>> > (), yystack_[1].value.as < vector<shared_ptr<Def_Operator>> > (), yystack_[0].value.as < vector<shared_ptr<Rule>> > ()); yylhs.value.as < Knowledge_Base > ()=kb;}
+#line 1696 "parser.cc"
+    break;
+
+  case 5: // def_concept_list: def_concept
+#line 110 "parser.yy"
+                               {vector<shared_ptr<Def_Concept>> v; v.push_back(make_shared<Def_Concept>(yystack_[0].value.as < Def_Concept > ())); yylhs.value.as < vector<shared_ptr<Def_Concept>> > ()=v;}
+#line 1702 "parser.cc"
+    break;
+
+  case 6: // def_concept_list: def_concept_list def_concept
+#line 111 "parser.yy"
+                                                {yystack_[1].value.as < vector<shared_ptr<Def_Concept>> > ().push_back(make_shared<Def_Concept>(yystack_[0].value.as < Def_Concept > ()));yylhs.value.as < vector<shared_ptr<Def_Concept>> > ()=yystack_[1].value.as < vector<shared_ptr<Def_Concept>> > ();}
+#line 1708 "parser.cc"
+    break;
+
+  case 7: // def_concept: DEF_CPT concept "=" "{" variable_list "}"
+#line 114 "parser.yy"
+                                                        {yylhs.value.as < Def_Concept > ()=Def_Concept(yystack_[4].value.as < Concept > (),yystack_[1].value.as < vector<shared_ptr<Variable>> > ());}
+#line 1714 "parser.cc"
+    break;
+
+  case 8: // def_concept: DEF_CPT concept "<-" concept "=" "{" variable_list "}"
+#line 115 "parser.yy"
+                                                                     {yylhs.value.as < Def_Concept > ()=Def_Concept(yystack_[6].value.as < Concept > (),yystack_[4].value.as < Concept > (),yystack_[1].value.as < vector<shared_ptr<Variable>> > ());}
+#line 1720 "parser.cc"
+    break;
+
+  case 9: // def_individual_list: def_individual
+#line 118 "parser.yy"
+                                     {vector<shared_ptr<Def_Individual>> v; v.push_back(make_shared<Def_Individual>(yystack_[0].value.as < Def_Individual > ())); yylhs.value.as < vector<shared_ptr<Def_Individual>> > ()=v;}
+#line 1726 "parser.cc"
+    break;
+
+  case 10: // def_individual_list: def_individual_list def_individual
+#line 119 "parser.yy"
+                                                         {yystack_[1].value.as < vector<shared_ptr<Def_Individual>> > ().push_back(make_shared<Def_Individual>(yystack_[0].value.as < Def_Individual > ()));yylhs.value.as < vector<shared_ptr<Def_Individual>> > ()=yystack_[1].value.as < vector<shared_ptr<Def_Individual>> > ();}
+#line 1732 "parser.cc"
+    break;
+
+  case 11: // def_individual: DEF_INDI SYMBOL ":" concept "=" individual
+#line 122 "parser.yy"
+                                                            {yylhs.value.as < Def_Individual > ()=Def_Individual(yystack_[4].value.as < std::string > (),yystack_[2].value.as < Concept > (),yystack_[0].value.as < Individual > ());}
+#line 1738 "parser.cc"
+    break;
+
+  case 12: // def_operator_list: def_operator
+#line 124 "parser.yy"
+                                 {vector<shared_ptr<Def_Operator>> v; v.push_back(make_shared<Def_Operator>(yystack_[0].value.as < Def_Operator > ())); yylhs.value.as < vector<shared_ptr<Def_Operator>> > ()=v;}
+#line 1744 "parser.cc"
+    break;
+
+  case 13: // def_operator_list: def_operator_list def_operator
+#line 125 "parser.yy"
+                                                   {yystack_[1].value.as < vector<shared_ptr<Def_Operator>> > ().push_back(make_shared<Def_Operator>(yystack_[0].value.as < Def_Operator > ()));yylhs.value.as < vector<shared_ptr<Def_Operator>> > ()=yystack_[1].value.as < vector<shared_ptr<Def_Operator>> > ();}
+#line 1750 "parser.cc"
+    break;
+
+  case 14: // def_operator: DEF_OP OPERATOR "(" variable_list ")" "=" individual
+#line 128 "parser.yy"
+                                                                    {yylhs.value.as < Def_Operator > ()=Def_Operator(yystack_[5].value.as < std::string > (),yystack_[3].value.as < vector<shared_ptr<Variable>> > (),yystack_[0].value.as < Individual > ());}
+#line 1756 "parser.cc"
+    break;
+
+  case 15: // ke_rule_list: ke_rule
+#line 131 "parser.yy"
+                       {vector<shared_ptr<Rule>> v; v.push_back(make_shared<Rule>(yystack_[0].value.as < Rule > ())); yylhs.value.as < vector<shared_ptr<Rule>> > ()=v;}
+#line 1762 "parser.cc"
+    break;
+
+  case 16: // ke_rule_list: ke_rule_list ke_rule
+#line 132 "parser.yy"
+                                    {yystack_[1].value.as < vector<shared_ptr<Rule>> > ().push_back(make_shared<Rule>(yystack_[0].value.as < Rule > ()));yylhs.value.as < vector<shared_ptr<Rule>> > ()=yystack_[1].value.as < vector<shared_ptr<Rule>> > ();}
+#line 1768 "parser.cc"
+    break;
+
   case 17: // ke_rule: individual "=>" individual DESCRIPTION
-#line 96 "parser.yy"
-                                                 {cout<<endl<<"sugar_for_rule!"<<endl<<endl;}
-#line 745 "parser.cc"
+#line 135 "parser.yy"
+                                                 {Rule rule(yystack_[3].value.as < Individual > (),yystack_[1].value.as < Individual > (),yystack_[0].value.as < std::string > ()); yylhs.value.as < Rule > ()=rule;}
+#line 1774 "parser.cc"
     break;
 
-  case 21: // individual: assertion
-#line 102 "parser.yy"
-                      {cout<<"assertion"<<endl;}
-#line 751 "parser.cc"
+  case 18: // individual: variable
+#line 138 "parser.yy"
+                       {yylhs.value.as < Individual > ()=Individual(yystack_[0].value.as < Variable > ());}
+#line 1780 "parser.cc"
     break;
 
-  case 22: // individual: cud
-#line 103 "parser.yy"
-                {cout<<"cud"<<endl;}
-#line 757 "parser.cc"
+  case 19: // individual: BOOL
+#line 139 "parser.yy"
+                       {yylhs.value.as < Individual > ()=Individual(yystack_[0].value.as < bool > ());}
+#line 1786 "parser.cc"
+    break;
+
+  case 20: // individual: cud
+#line 140 "parser.yy"
+                       {yylhs.value.as < Individual > ()=Individual(yystack_[0].value.as < Cud > ());}
+#line 1792 "parser.cc"
+    break;
+
+  case 21: // individual: term
+#line 141 "parser.yy"
+                       {yylhs.value.as < Individual > ()=Individual(yystack_[0].value.as < Term > ());}
+#line 1798 "parser.cc"
+    break;
+
+  case 22: // individual: assertion
+#line 142 "parser.yy"
+                       {yylhs.value.as < Individual > ()=Individual(yystack_[0].value.as < Assertion > ());}
+#line 1804 "parser.cc"
+    break;
+
+  case 23: // individual: math_individual
+#line 143 "parser.yy"
+                             {yylhs.value.as < Individual > ()=Individual(yystack_[0].value.as < Math_Individual > ());}
+#line 1810 "parser.cc"
+    break;
+
+  case 24: // term: OPERATOR "(" individual_list ")"
+#line 146 "parser.yy"
+                                        {yylhs.value.as < Term > ()=Term(yystack_[3].value.as < std::string > (),yystack_[1].value.as < vector<shared_ptr<Individual>> > ());}
+#line 1816 "parser.cc"
     break;
 
   case 25: // term: sugar_for_and
-#line 108 "parser.yy"
-                     {cout<<"sugar_for_and"<<endl;}
-#line 763 "parser.cc"
+#line 147 "parser.yy"
+                      {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_And > ());}
+#line 1822 "parser.cc"
     break;
 
   case 26: // term: sugar_for_pred
-#line 109 "parser.yy"
-                     {cout<<"sugar_for_pred"<<endl;}
-#line 769 "parser.cc"
+#line 148 "parser.yy"
+                      {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Pred > ());}
+#line 1828 "parser.cc"
     break;
 
   case 27: // term: sugar_for_ctor
-#line 110 "parser.yy"
-                     {cout<<"sugar_for_ctor"<<endl;}
-#line 775 "parser.cc"
+#line 149 "parser.yy"
+                      {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Ctor > ());}
+#line 1834 "parser.cc"
     break;
 
   case 28: // term: sugar_for_oprt_apply
-#line 111 "parser.yy"
-                           {cout<<"sugar_for_oprt_apply"<<endl;}
-#line 781 "parser.cc"
+#line 150 "parser.yy"
+                            {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Oprt_Apply > ());}
+#line 1840 "parser.cc"
     break;
 
-  case 35: // cud: KB_ASSERT variable "=" "{" assignment_list "}"
-#line 126 "parser.yy"
-                                                    {cout<<"KB_ASSERT"<<endl;}
-#line 787 "parser.cc"
+  case 29: // assertion: "{" individual "}"
+#line 153 "parser.yy"
+                               {yylhs.value.as < Assertion > ()=Assertion(yystack_[1].value.as < Individual > ());}
+#line 1846 "parser.cc"
     break;
 
-  case 37: // assignment_list: assignment
-#line 130 "parser.yy"
-                             {cout<<"assignment"<<endl;}
-#line 793 "parser.cc"
+  case 30: // assertion: "{" individual "=" individual "}"
+#line 154 "parser.yy"
+                                              {yylhs.value.as < Assertion > ()=Assertion(yystack_[3].value.as < Individual > (),yystack_[1].value.as < Individual > ());}
+#line 1852 "parser.cc"
     break;
 
-  case 39: // assignment: SYMBOL ":=" individual
-#line 134 "parser.yy"
-                                   {cout<<"assignment 中的 SYMBOL: "<<yystack_[2].value.as < std::string > ()<<endl;}
-#line 799 "parser.cc"
+  case 31: // sugar_for_and: "{" individual_and_list ";" individual "}"
+#line 157 "parser.yy"
+                                                           {yystack_[3].value.as < vector<shared_ptr<Individual>> > ().push_back(make_shared<Individual>(yystack_[1].value.as < Individual > ())); yylhs.value.as < Sugar_For_And > ()=Sugar_For_And(yystack_[3].value.as < vector<shared_ptr<Individual>> > ());}
+#line 1858 "parser.cc"
+    break;
+
+  case 32: // sugar_for_pred: "{" individual predicate_operator individual "}"
+#line 159 "parser.yy"
+                                                                  {yylhs.value.as < Sugar_For_Pred > ()=Sugar_For_Pred(yystack_[3].value.as < Individual > (),yystack_[2].value.as < std::string > (),yystack_[1].value.as < Individual > ());}
+#line 1864 "parser.cc"
+    break;
+
+  case 33: // sugar_for_ctor: "{" assignment_list "}"
+#line 161 "parser.yy"
+                                         {yylhs.value.as < Sugar_For_Ctor > ()=Sugar_For_Ctor(yystack_[1].value.as < vector<shared_ptr<Assignment>> > ());}
+#line 1870 "parser.cc"
+    break;
+
+  case 34: // sugar_for_oprt_apply: SYMBOL "." SYMBOL
+#line 163 "parser.yy"
+                                         {yylhs.value.as < Sugar_For_Oprt_Apply > ()=Sugar_For_Oprt_Apply(yystack_[2].value.as < std::string > (),yystack_[0].value.as < std::string > ());}
+#line 1876 "parser.cc"
+    break;
+
+  case 35: // cud: KB_ASSERT individual "=" individual
+#line 165 "parser.yy"
+                                           {yylhs.value.as < Cud > ()=Cud(yystack_[3].value.as < std::string > (),yystack_[2].value.as < Individual > (),yystack_[0].value.as < Individual > ());}
+#line 1882 "parser.cc"
+    break;
+
+  case 36: // cud: KB_MODIFY individual "=" individual
+#line 166 "parser.yy"
+                                           {yylhs.value.as < Cud > ()=Cud(yystack_[3].value.as < std::string > (),yystack_[2].value.as < Individual > (),yystack_[0].value.as < Individual > ());}
+#line 1888 "parser.cc"
+    break;
+
+  case 37: // cud: KB_RETRACT individual "=" individual
+#line 167 "parser.yy"
+                                           {yylhs.value.as < Cud > ()=Cud(yystack_[3].value.as < std::string > (),yystack_[2].value.as < Individual > (),yystack_[0].value.as < Individual > ());}
+#line 1894 "parser.cc"
+    break;
+
+  case 38: // assignment_list: assignment
+#line 170 "parser.yy"
+                             {vector<shared_ptr<Assignment>> v; v.push_back(make_shared<Assignment>(yystack_[0].value.as < Assignment > ())); yylhs.value.as < vector<shared_ptr<Assignment>> > ()=v;}
+#line 1900 "parser.cc"
+    break;
+
+  case 39: // assignment_list: assignment_list ";" assignment
+#line 171 "parser.yy"
+                                                 {yystack_[2].value.as < vector<shared_ptr<Assignment>> > ().push_back(make_shared<Assignment>(yystack_[0].value.as < Assignment > ()));yylhs.value.as < vector<shared_ptr<Assignment>> > ()=yystack_[2].value.as < vector<shared_ptr<Assignment>> > ();}
+#line 1906 "parser.cc"
+    break;
+
+  case 40: // assignment: SYMBOL ":=" individual
+#line 174 "parser.yy"
+                                    {yylhs.value.as < Assignment > ()=Assignment(yystack_[2].value.as < std::string > (),yystack_[0].value.as < Individual > ());}
+#line 1912 "parser.cc"
+    break;
+
+  case 41: // math_individual: math_expr
+#line 176 "parser.yy"
+                                {yylhs.value.as < Math_Individual > ()=Math_Individual(yystack_[0].value.as < Math_Expr > ());}
+#line 1918 "parser.cc"
+    break;
+
+  case 42: // math_individual: math_equation
+#line 177 "parser.yy"
+                                {yylhs.value.as < Math_Individual > ()=Math_Individual(yystack_[0].value.as < Math_Equation > ());}
+#line 1924 "parser.cc"
+    break;
+
+  case 43: // math_individual: coordinate
+#line 178 "parser.yy"
+                                {yylhs.value.as < Math_Individual > ()=Math_Individual(yystack_[0].value.as < Coordinate > ());}
+#line 1930 "parser.cc"
+    break;
+
+  case 44: // predicate_operator: ">="
+#line 183 "parser.yy"
+                          {yylhs.value.as < std::string > ()=std::string(">=");}
+#line 1936 "parser.cc"
+    break;
+
+  case 45: // predicate_operator: "<="
+#line 184 "parser.yy"
+                          {yylhs.value.as < std::string > ()=std::string("<=");}
+#line 1942 "parser.cc"
+    break;
+
+  case 46: // predicate_operator: "!="
+#line 185 "parser.yy"
+                          {yylhs.value.as < std::string > ()=std::string("!=");}
+#line 1948 "parser.cc"
+    break;
+
+  case 47: // predicate_operator: ">"
+#line 186 "parser.yy"
+                          {yylhs.value.as < std::string > ()=std::string(">");}
+#line 1954 "parser.cc"
+    break;
+
+  case 48: // predicate_operator: "<"
+#line 187 "parser.yy"
+                          {yylhs.value.as < std::string > ()=std::string("<");}
+#line 1960 "parser.cc"
+    break;
+
+  case 49: // individual_list: individual
+#line 190 "parser.yy"
+                             {vector<shared_ptr<Individual>> v; v.push_back(make_shared<Individual>(yystack_[0].value.as < Individual > ())); yylhs.value.as < vector<shared_ptr<Individual>> > ()=v;}
+#line 1966 "parser.cc"
+    break;
+
+  case 50: // individual_list: individual_list "," individual
+#line 191 "parser.yy"
+                                                 {yystack_[2].value.as < vector<shared_ptr<Individual>> > ().push_back(make_shared<Individual>(yystack_[0].value.as < Individual > ()));yylhs.value.as < vector<shared_ptr<Individual>> > ()=yystack_[2].value.as < vector<shared_ptr<Individual>> > ();}
+#line 1972 "parser.cc"
+    break;
+
+  case 51: // individual_and_list: individual
+#line 194 "parser.yy"
+                                 {vector<shared_ptr<Individual>> v; v.push_back(make_shared<Individual>(yystack_[0].value.as < Individual > ())); yylhs.value.as < vector<shared_ptr<Individual>> > ()=v;}
+#line 1978 "parser.cc"
+    break;
+
+  case 52: // individual_and_list: individual_and_list ";" individual
+#line 195 "parser.yy"
+                                                         {yystack_[2].value.as < vector<shared_ptr<Individual>> > ().push_back(make_shared<Individual>(yystack_[0].value.as < Individual > ()));yylhs.value.as < vector<shared_ptr<Individual>> > ()=yystack_[2].value.as < vector<shared_ptr<Individual>> > ();}
+#line 1984 "parser.cc"
+    break;
+
+  case 53: // concept: CONCEPT
+#line 198 "parser.yy"
+                  {yylhs.value.as < Concept > ()=Concept(yystack_[0].value.as < std::string > ());}
+#line 1990 "parser.cc"
+    break;
+
+  case 54: // concept: OPERATOR "(" concept ")"
+#line 199 "parser.yy"
+                                   {yylhs.value.as < Concept > ()=Concept(yystack_[3].value.as < std::string > (),yystack_[1].value.as < Concept > ());}
+#line 1996 "parser.cc"
+    break;
+
+  case 55: // variable: SYMBOL ":" concept
+#line 202 "parser.yy"
+                              {yylhs.value.as < Variable > ()=Variable(yystack_[2].value.as < std::string > (),yystack_[0].value.as < Concept > ());}
+#line 2002 "parser.cc"
+    break;
+
+  case 56: // variable_list: variable
+#line 204 "parser.yy"
+                         {vector<shared_ptr<Variable>> v; v.push_back(make_shared<Variable>(yystack_[0].value.as < Variable > ())); yylhs.value.as < vector<shared_ptr<Variable>> > ()=v;}
+#line 2008 "parser.cc"
+    break;
+
+  case 57: // variable_list: variable_list ";" variable
+#line 205 "parser.yy"
+                                           {yystack_[2].value.as < vector<shared_ptr<Variable>> > ().push_back(make_shared<Variable>(yystack_[0].value.as < Variable > ()));yylhs.value.as < vector<shared_ptr<Variable>> > ()=yystack_[2].value.as < vector<shared_ptr<Variable>> > ();}
+#line 2014 "parser.cc"
+    break;
+
+  case 58: // math_equation: math_expr "==" math_expr
+#line 208 "parser.yy"
+                                         {yylhs.value.as < Math_Equation > ()=Math_Equation(yystack_[2].value.as < Math_Expr > (),yystack_[0].value.as < Math_Expr > ());}
+#line 2020 "parser.cc"
+    break;
+
+  case 59: // coordinate: "(" math_expr "," math_expr ")"
+#line 209 "parser.yy"
+                                                {yylhs.value.as < Coordinate > ()=Coordinate(yystack_[3].value.as < Math_Expr > (),yystack_[1].value.as < Math_Expr > ());}
+#line 2026 "parser.cc"
+    break;
+
+  case 60: // math_expr: number
+#line 216 "parser.yy"
+                          {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[0].value.as < Number > ());}
+#line 2032 "parser.cc"
+    break;
+
+  case 61: // math_expr: SYMBOL
+#line 217 "parser.yy"
+                          {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[0].value.as < std::string > ());}
+#line 2038 "parser.cc"
+    break;
+
+  case 62: // math_expr: math_expr "+" math_expr
+#line 218 "parser.yy"
+                                           {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[2].value.as < Math_Expr > (),'+',yystack_[0].value.as < Math_Expr > ());}
+#line 2044 "parser.cc"
+    break;
+
+  case 63: // math_expr: math_expr "-" math_expr
+#line 219 "parser.yy"
+                                           {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[2].value.as < Math_Expr > (),'-',yystack_[0].value.as < Math_Expr > ());}
+#line 2050 "parser.cc"
+    break;
+
+  case 64: // math_expr: math_expr "*" math_expr
+#line 220 "parser.yy"
+                                           {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[2].value.as < Math_Expr > (),'*',yystack_[0].value.as < Math_Expr > ());}
+#line 2056 "parser.cc"
+    break;
+
+  case 65: // math_expr: math_expr "/" math_expr
+#line 221 "parser.yy"
+                                           {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[2].value.as < Math_Expr > (),'/',yystack_[0].value.as < Math_Expr > ());}
+#line 2062 "parser.cc"
+    break;
+
+  case 66: // math_expr: math_expr "^" math_expr
+#line 222 "parser.yy"
+                                           {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[2].value.as < Math_Expr > (),'^',yystack_[0].value.as < Math_Expr > ());}
+#line 2068 "parser.cc"
+    break;
+
+  case 67: // math_expr: math_func
+#line 223 "parser.yy"
+                             {yylhs.value.as < Math_Expr > ()=Math_Expr(yystack_[0].value.as < Math_Func > ());}
+#line 2074 "parser.cc"
+    break;
+
+  case 68: // math_func: MATH_FUNC_NAME "(" math_expr_list ")"
+#line 226 "parser.yy"
+                                                         {yylhs.value.as < Math_Func > ()=Math_Func(yystack_[3].value.as < std::string > (),yystack_[1].value.as < vector<shared_ptr<Math_Expr>> > ());}
+#line 2080 "parser.cc"
+    break;
+
+  case 69: // math_expr_list: math_expr
+#line 228 "parser.yy"
+                             {vector<shared_ptr<Math_Expr>> v;v.push_back(make_shared<Math_Expr>(yystack_[0].value.as < Math_Expr > ()));yylhs.value.as < vector<shared_ptr<Math_Expr>> > ()=v;}
+#line 2086 "parser.cc"
+    break;
+
+  case 70: // math_expr_list: math_expr_list "," math_expr
+#line 229 "parser.yy"
+                                                {yystack_[2].value.as < vector<shared_ptr<Math_Expr>> > ().push_back(make_shared<Math_Expr>(yystack_[0].value.as < Math_Expr > ()));yylhs.value.as < vector<shared_ptr<Math_Expr>> > ()=yystack_[2].value.as < vector<shared_ptr<Math_Expr>> > ();}
+#line 2092 "parser.cc"
+    break;
+
+  case 71: // number: INTEGER
+#line 232 "parser.yy"
+                 {yylhs.value.as < Number > ()=Number(yystack_[0].value.as < int > ());}
+#line 2098 "parser.cc"
+    break;
+
+  case 72: // number: FLOAT
+#line 233 "parser.yy"
+                 {yylhs.value.as < Number > ()=Number(yystack_[0].value.as < double > ());}
+#line 2104 "parser.cc"
+    break;
+
+  case 73: // ke_questions: ke_question
+#line 236 "parser.yy"
+                           {vector<shared_ptr<Question>> v; v.push_back(make_shared<Question>(yystack_[0].value.as < Question > ())); yylhs.value.as < vector<shared_ptr<Question>> > ()=v;}
+#line 2110 "parser.cc"
+    break;
+
+  case 74: // ke_questions: ke_questions ke_question
+#line 237 "parser.yy"
+                                        {yystack_[1].value.as < vector<shared_ptr<Question>> > ().push_back(make_shared<Question>(yystack_[0].value.as < Question > ()));yylhs.value.as < vector<shared_ptr<Question>> > ()=yystack_[1].value.as < vector<shared_ptr<Question>> > ();}
+#line 2116 "parser.cc"
+    break;
+
+  case 75: // ke_question: DESCRIPTION fact_list to_solve
+#line 240 "parser.yy"
+                                             {yylhs.value.as < Question > ()=Question(yystack_[2].value.as < std::string > (),yystack_[1].value.as < vector<shared_ptr<Fact>> > (),yystack_[0].value.as < vector<shared_ptr<Individual>> > ());}
+#line 2122 "parser.cc"
+    break;
+
+  case 76: // fact_list: fact
+#line 242 "parser.yy"
+                 {vector<shared_ptr<Fact>> v; v.push_back(make_shared<Fact>(yystack_[0].value.as < Fact > ())); yylhs.value.as < vector<shared_ptr<Fact>> > ()=v;}
+#line 2128 "parser.cc"
+    break;
+
+  case 77: // fact_list: fact_list ";" fact
+#line 243 "parser.yy"
+                               {yystack_[2].value.as < vector<shared_ptr<Fact>> > ().push_back(make_shared<Fact>(yystack_[0].value.as < Fact > ()));yylhs.value.as < vector<shared_ptr<Fact>> > ()=yystack_[2].value.as < vector<shared_ptr<Fact>> > ();}
+#line 2134 "parser.cc"
+    break;
+
+  case 78: // fact: assertion
+#line 246 "parser.yy"
+                 {yylhs.value.as < Fact > ()=Fact(yystack_[0].value.as < Assertion > ());}
+#line 2140 "parser.cc"
+    break;
+
+  case 79: // fact: variable
+#line 247 "parser.yy"
+                 {yylhs.value.as < Fact > ()=Fact(yystack_[0].value.as < Variable > ());}
+#line 2146 "parser.cc"
+    break;
+
+  case 80: // fact: def_individual
+#line 248 "parser.yy"
+                      {yylhs.value.as < Fact > ()=Fact(yystack_[0].value.as < Def_Individual > ());}
+#line 2152 "parser.cc"
+    break;
+
+  case 81: // to_solve: OPERATOR "(" individual_list ")"
+#line 251 "parser.yy"
+                                            {assert(yystack_[3].value.as < std::string > ()==std::string("To_Solve"));yylhs.value.as < vector<shared_ptr<Individual>> > ()=yystack_[1].value.as < vector<shared_ptr<Individual>> > ();}
+#line 2158 "parser.cc"
     break;
 
 
-#line 803 "parser.cc"
+#line 2162 "parser.cc"
 
             default:
               break;
@@ -987,17 +2346,17 @@ namespace yy {
   "(", ")", "{", "}", ",", ";", ":", "=", ":=", "==", ">=", "<=", "!=",
   ">", "<", "=>", "<-", "INTEGER", "FLOAT", "BOOL", "DESCRIPTION",
   "SYMBOL", "OPERATOR", "CONCEPT", "DEF_CPT", "DEF_INDI", "DEF_OP",
-  "KB_ASSERT", "MATH_FUNC_NAME", "$accept", "statement", "ke_kb",
-  "def_concept_list", "def_concept", "def_individual_list",
-  "def_individual", "def_operator_list", "def_operator", "ke_rule_list",
-  "ke_rule", "individual", "term", "assertion", "sugar_for_and",
-  "sugar_for_pred", "sugar_for_ctor", "sugar_for_oprt_apply", "cud",
-  "assignment_list", "assignment", "math_individual", "predicate_operator",
-  "constructor_list", "constructor", "individual_list",
+  "KB_ASSERT", "KB_MODIFY", "KB_RETRACT", "MATH_FUNC_NAME", "$accept",
+  "statement", "ke_kb", "def_concept_list", "def_concept",
+  "def_individual_list", "def_individual", "def_operator_list",
+  "def_operator", "ke_rule_list", "ke_rule", "individual", "term",
+  "assertion", "sugar_for_and", "sugar_for_pred", "sugar_for_ctor",
+  "sugar_for_oprt_apply", "cud", "assignment_list", "assignment",
+  "math_individual", "predicate_operator", "individual_list",
   "individual_and_list", "concept", "variable", "variable_list",
   "math_equation", "coordinate", "math_expr", "math_func",
-  "math_expr_list", "number", "ke_questions", "ke_question_list",
-  "ke_question", "fact_list", "fact", "to_solve", YY_NULLPTR
+  "math_expr_list", "number", "ke_questions", "ke_question", "fact_list",
+  "fact", "to_solve", YY_NULLPTR
     };
     return yy_sname[yysymbol];
   }
@@ -1266,156 +2625,154 @@ namespace yy {
   }
 
 
-  const signed char parser::yypact_ninf_ = -122;
+  const signed char parser::yypact_ninf_ = -124;
 
-  const signed char parser::yytable_ninf_ = -54;
+  const signed char parser::yytable_ninf_ = -1;
 
   const short
   parser::yypact_[] =
   {
-     -17,     2,    63,     6,  -122,   -19,  -122,  -122,    23,  -122,
-      55,    48,   -11,  -122,  -122,  -122,     4,  -122,    71,  -122,
-      46,  -122,  -122,    77,  -122,  -122,    14,    79,  -122,  -122,
-    -122,    34,    75,    55,    99,    58,  -122,  -122,  -122,  -122,
-    -122,  -122,  -122,  -122,   101,  -122,  -122,  -122,   117,  -122,
-    -122,    63,   103,     2,   110,  -122,    63,   115,    63,    96,
-    -122,    -6,  -122,  -122,   153,    31,   118,    33,  -122,   116,
-     106,    55,   113,   126,    14,    55,  -122,    55,    14,    14,
-      14,    14,    14,    14,  -122,    63,  -122,    55,   121,   114,
-     127,   136,  -122,    55,  -122,   124,    14,    55,  -122,  -122,
-    -122,  -122,  -122,    55,  -122,   119,    55,  -122,  -122,    29,
-      55,   139,   170,    65,   141,  -122,    91,    91,   143,   143,
-     143,   170,   138,    66,  -122,  -122,    56,   144,   114,  -122,
-      55,   163,  -122,   150,   146,  -122,   152,  -122,  -122,   135,
-    -122,    14,  -122,    55,  -122,  -122,   114,   114,    59,   151,
-    -122,  -122,  -122,   155,    89,  -122,   170,  -122,  -122,    90,
-     165,  -122,    55,  -122,   135,  -122,    55,  -122,  -122,  -122
+     -13,     2,    12,    22,  -124,    53,  -124,    -2,  -124,    54,
+      49,   -24,  -124,  -124,  -124,   -10,  -124,    68,  -124,    29,
+    -124,  -124,    65,  -124,  -124,    40,    87,  -124,  -124,  -124,
+       4,    74,    54,    54,    54,    86,    34,  -124,  -124,  -124,
+    -124,  -124,  -124,  -124,  -124,  -124,  -124,  -124,   101,  -124,
+    -124,    12,    89,     2,   107,  -124,    12,   111,    12,    96,
+    -124,     3,  -124,  -124,   138,    32,   118,    62,  -124,   121,
+     102,    54,   131,   134,   136,    40,  -124,    54,    40,    40,
+      40,    40,    40,    40,  -124,    12,  -124,    54,   143,   130,
+     152,   161,  -124,    54,  -124,   147,    40,    54,  -124,  -124,
+    -124,  -124,  -124,    54,  -124,   142,    54,  -124,  -124,     5,
+      54,    54,    54,   158,    38,   162,   104,   104,   165,   165,
+     165,   158,   159,    59,  -124,  -124,   119,   166,   130,  -124,
+      54,   151,  -124,   164,   163,  -124,   167,  -124,    54,  -124,
+    -124,  -124,  -124,    40,  -124,    54,  -124,  -124,   130,   130,
+      61,   149,  -124,  -124,  -124,  -124,   158,  -124,  -124,   155,
+     168,  -124,  -124,    54,  -124
   };
 
   const signed char
   parser::yydefact_[] =
   {
-       0,     0,     0,     0,     2,     0,     5,     3,    75,    76,
-       0,     0,     0,    83,    81,    82,     0,    79,     0,    55,
-       0,     1,     6,     0,     9,    77,     0,     0,    73,    74,
-      19,    63,     0,     0,     0,    51,    23,    21,    25,    26,
-      27,    28,    22,    20,     0,    18,    41,    42,    40,    69,
-      62,     0,     0,     0,     0,    78,     0,     0,     0,     0,
-      10,     0,    12,    63,     0,    63,    51,     0,    48,     0,
-       0,     0,     0,     0,     0,     0,    30,     0,     0,     0,
-       0,     0,     0,     0,    57,     0,    80,     0,     0,     0,
-       0,     0,    13,     4,    15,     0,     0,     0,    43,    44,
-      45,    46,    47,     0,    33,     0,     0,    34,    51,     0,
-       0,     0,    71,     0,     0,    52,    64,    65,    66,    67,
-      68,    60,     0,     0,    56,    58,     0,     0,     0,    16,
-       0,     0,    50,     0,     0,    49,    54,    24,    36,     0,
-      70,     0,    29,     0,    84,     7,     0,     0,     0,     0,
-      61,    32,    31,     0,     0,    37,    72,    11,    59,     0,
-       0,    17,     0,    35,     0,     8,     0,    39,    38,    14
+       0,     0,     0,     0,     2,     0,     5,     3,    73,     0,
+       0,     0,    80,    78,    79,     0,    76,     0,    53,     0,
+       1,     6,     0,     9,    74,     0,     0,    71,    72,    19,
+      61,     0,     0,     0,     0,     0,     0,    21,    22,    25,
+      26,    27,    28,    20,    23,    18,    42,    43,    41,    67,
+      60,     0,     0,     0,     0,    75,     0,     0,     0,     0,
+      10,     0,    12,    61,     0,    61,    51,     0,    38,     0,
+       0,     0,     0,     0,     0,     0,    29,     0,     0,     0,
+       0,     0,     0,     0,    55,     0,    77,     0,     0,     0,
+       0,     0,    13,     4,    15,     0,     0,     0,    44,    45,
+      46,    47,    48,     0,    33,     0,     0,    34,    49,     0,
+       0,     0,     0,    69,     0,     0,    62,    63,    64,    65,
+      66,    58,     0,     0,    54,    56,     0,     0,     0,    16,
+       0,     0,    40,     0,     0,    39,    52,    24,     0,    35,
+      36,    37,    68,     0,    30,     0,    81,     7,     0,     0,
+       0,     0,    59,    32,    31,    50,    70,    11,    57,     0,
+       0,    17,     8,     0,    14
   };
 
   const short
   parser::yypgoto_[] =
   {
-    -122,  -122,  -122,  -122,   174,  -122,     5,  -122,   122,  -122,
-      92,   -10,  -122,     7,  -122,  -122,  -122,  -122,  -122,  -122,
-      18,  -122,  -122,  -122,    81,   -44,  -122,   -47,     0,  -121,
-    -122,  -122,   -24,  -122,  -122,  -122,  -122,  -122,   176,  -122,
-     134,  -122
+    -124,  -124,  -124,  -124,   176,  -124,     6,  -124,   122,  -124,
+      92,    -9,  -124,     8,  -124,  -124,  -124,  -124,  -124,  -124,
+      77,  -124,  -124,    99,  -124,   -48,     0,  -123,  -124,  -124,
+     -23,  -124,  -124,  -124,  -124,   180,  -124,   135,  -124
+  };
+
+  const signed char
+  parser::yydefgoto_[] =
+  {
+       0,     3,     4,     5,     6,    22,    12,    61,    62,    93,
+      94,    95,    37,    38,    39,    40,    41,    42,    43,    67,
+      68,    44,   103,   109,    69,    19,    45,   126,    46,    47,
+      48,    49,   114,    50,     7,     8,    15,    16,    55
   };
 
   const unsigned char
-  parser::yydefgoto_[] =
-  {
-       0,     3,     4,     5,     6,    23,    13,    61,    62,    93,
-      94,    95,    36,    37,    38,    39,    40,    41,    42,   154,
-     155,    43,   103,    67,    68,    44,    69,    20,    45,   126,
-      46,    47,    48,    49,   113,    50,     7,     8,     9,    16,
-      17,    55
-  };
-
-  const short
   parser::yytable_[] =
   {
-      35,    15,    64,    26,    84,    27,    21,   148,    14,    88,
-      24,    90,     1,    10,     2,    12,     2,    66,    53,    52,
-      28,    29,    30,    72,    31,    32,   159,   109,    60,    59,
-      33,    34,    11,    73,    70,    54,    12,    70,   122,   137,
-      28,    29,    77,   123,    63,   104,    51,   105,    97,    51,
-     112,    34,     1,    15,   116,   117,   118,   119,   120,   121,
-      14,   108,    57,    51,    26,   114,    27,   115,   145,   160,
-     146,    58,   131,   146,    75,   140,   144,   108,   141,    77,
-      56,    28,    29,    30,    71,    31,    32,   132,    26,   125,
-      27,    33,    34,   133,    18,    19,   136,    80,    81,    82,
-     138,   163,   165,   164,   146,    28,    29,    30,    74,    65,
-      32,    12,    59,    76,    77,    33,    34,   156,    85,    87,
-     149,    78,    79,    80,    81,    82,    89,    91,   125,   110,
-     106,   124,   -53,   157,    75,    83,   107,    98,    99,   100,
-     101,   102,   111,   127,    11,   128,   158,   125,   130,   134,
-     139,    82,   167,   142,   143,   147,   169,    78,    79,    80,
-      81,    82,   151,    97,   152,   153,    96,    78,    79,    80,
-      81,    82,   162,   150,    78,    79,    80,    81,    82,    22,
-     161,   166,   168,    92,    25,   129,   135,    86
+      36,    14,    64,    84,    53,   150,    52,    70,    88,    13,
+      90,    23,    25,     9,    26,   137,     1,    66,   138,    51,
+       2,    54,    20,    72,    73,    74,   159,     1,    60,    27,
+      28,    29,    10,    30,    31,    70,    11,   122,    59,    32,
+      33,    34,    35,    17,    18,    57,    76,    51,   142,    97,
+      77,   143,   113,    14,    58,   116,   117,   118,   119,   120,
+     121,    13,   108,    25,    51,    26,    27,    28,   115,   146,
+      63,   160,   138,   131,   104,   148,   105,    56,   108,    35,
+      27,    28,    29,    71,    30,    31,     2,    11,   132,   125,
+      32,    33,    34,    35,   133,    75,    25,   136,    26,    11,
+      59,   139,   140,   141,    85,    78,    79,    80,    81,    82,
+      80,    81,    82,    27,    28,    29,    87,    65,    31,    83,
+     156,   151,    89,    32,    33,    34,    35,    91,   125,   155,
+      76,   147,   107,   148,    77,   106,   157,    98,    99,   100,
+     101,   102,    78,    79,    80,    81,    82,   110,   158,   125,
+     111,    96,   112,   124,   164,    78,    79,    80,    81,    82,
+      10,   152,    78,    79,    80,    81,    82,   162,   127,   148,
+     128,   130,   134,    82,   144,   145,   153,   149,   161,   154,
+      97,    21,   135,    92,   163,   129,   123,    24,    86
   };
 
   const unsigned char
   parser::yycheck_[] =
   {
-      10,     1,    26,     9,    51,    11,     0,   128,     1,    56,
-       5,    58,    29,    11,    33,    34,    33,    27,    14,    30,
-      26,    27,    28,    33,    30,    31,   147,    71,    23,    35,
-      36,    37,    30,    33,     3,    31,    34,     3,    85,    10,
-      26,    27,    13,    87,    30,    12,    15,    14,    17,    15,
-      74,    37,    29,    53,    78,    79,    80,    81,    82,    83,
-      53,    71,    16,    15,     9,    75,    11,    77,    12,    10,
-      14,    25,    96,    14,    16,    10,    10,    87,    13,    13,
-       9,    26,    27,    28,     9,    30,    31,    97,     9,    89,
-      11,    36,    37,   103,    31,    32,   106,     6,     7,     8,
-     110,    12,    12,    14,    14,    26,    27,    28,     9,    30,
-      31,    34,    35,    12,    13,    36,    37,   141,    15,     9,
-     130,     4,     5,     6,     7,     8,    11,    31,   128,    16,
-      14,    10,    14,   143,    16,    18,    30,    19,    20,    21,
-      22,    23,    16,    16,    30,     9,   146,   147,    24,    30,
-      11,     8,   162,    12,    16,    11,   166,     4,     5,     6,
-       7,     8,    12,    17,    12,    30,    13,     4,     5,     6,
-       7,     8,    17,    10,     4,     5,     6,     7,     8,     5,
-      29,    16,   164,    61,     8,    93,   105,    53
+       9,     1,    25,    51,    14,   128,    30,     3,    56,     1,
+      58,     5,     9,    11,    11,    10,    29,    26,    13,    15,
+      33,    31,     0,    32,    33,    34,   149,    29,    22,    26,
+      27,    28,    30,    30,    31,     3,    34,    85,    35,    36,
+      37,    38,    39,    31,    32,    16,    12,    15,    10,    17,
+      16,    13,    75,    53,    25,    78,    79,    80,    81,    82,
+      83,    53,    71,     9,    15,    11,    26,    27,    77,    10,
+      30,    10,    13,    96,    12,    14,    14,     9,    87,    39,
+      26,    27,    28,     9,    30,    31,    33,    34,    97,    89,
+      36,    37,    38,    39,   103,     9,     9,   106,    11,    34,
+      35,   110,   111,   112,    15,     4,     5,     6,     7,     8,
+       6,     7,     8,    26,    27,    28,     9,    30,    31,    18,
+     143,   130,    11,    36,    37,    38,    39,    31,   128,   138,
+      12,    12,    30,    14,    16,    14,   145,    19,    20,    21,
+      22,    23,     4,     5,     6,     7,     8,    16,   148,   149,
+      16,    13,    16,    10,   163,     4,     5,     6,     7,     8,
+      30,    10,     4,     5,     6,     7,     8,    12,    16,    14,
+       9,    24,    30,     8,    12,    16,    12,    11,    29,    12,
+      17,     5,   105,    61,    16,    93,    87,     7,    53
   };
 
   const signed char
   parser::yystos_[] =
   {
-       0,    29,    33,    39,    40,    41,    42,    74,    75,    76,
-      11,    30,    34,    44,    51,    66,    77,    78,    31,    32,
-      65,     0,    42,    43,    44,    76,     9,    11,    26,    27,
-      28,    30,    31,    36,    37,    49,    50,    51,    52,    53,
-      54,    55,    56,    59,    63,    66,    68,    69,    70,    71,
-      73,    15,    30,    14,    31,    79,     9,    16,    25,    35,
-      44,    45,    46,    30,    70,    30,    49,    61,    62,    64,
-       3,     9,    49,    66,     9,    16,    12,    13,     4,     5,
-       6,     7,     8,    18,    65,    15,    78,     9,    65,    11,
-      65,    31,    46,    47,    48,    49,    13,    17,    19,    20,
-      21,    22,    23,    60,    12,    14,    14,    30,    49,    63,
-      16,    16,    70,    72,    49,    49,    70,    70,    70,    70,
-      70,    70,    65,    63,    10,    66,    67,    16,     9,    48,
-      24,    70,    49,    49,    30,    62,    49,    10,    49,    11,
-      10,    13,    12,    16,    10,    12,    14,    11,    67,    49,
-      10,    12,    12,    30,    57,    58,    70,    49,    66,    67,
-      10,    29,    17,    12,    14,    12,    16,    49,    58,    49
+       0,    29,    33,    41,    42,    43,    44,    74,    75,    11,
+      30,    34,    46,    53,    66,    76,    77,    31,    32,    65,
+       0,    44,    45,    46,    75,     9,    11,    26,    27,    28,
+      30,    31,    36,    37,    38,    39,    51,    52,    53,    54,
+      55,    56,    57,    58,    61,    66,    68,    69,    70,    71,
+      73,    15,    30,    14,    31,    78,     9,    16,    25,    35,
+      46,    47,    48,    30,    70,    30,    51,    59,    60,    64,
+       3,     9,    51,    51,    51,     9,    12,    16,     4,     5,
+       6,     7,     8,    18,    65,    15,    77,     9,    65,    11,
+      65,    31,    48,    49,    50,    51,    13,    17,    19,    20,
+      21,    22,    23,    62,    12,    14,    14,    30,    51,    63,
+      16,    16,    16,    70,    72,    51,    70,    70,    70,    70,
+      70,    70,    65,    63,    10,    66,    67,    16,     9,    50,
+      24,    70,    51,    51,    30,    60,    51,    10,    13,    51,
+      51,    51,    10,    13,    12,    16,    10,    12,    14,    11,
+      67,    51,    10,    12,    12,    51,    70,    51,    66,    67,
+      10,    29,    12,    16,    51
   };
 
   const signed char
   parser::yyr1_[] =
   {
-       0,    38,    39,    39,    40,    41,    41,    42,    42,    43,
-      43,    44,    45,    45,    46,    47,    47,    48,    49,    49,
-      49,    49,    49,    49,    50,    50,    50,    50,    50,    51,
-      51,    52,    53,    54,    55,    56,    56,    57,    57,    58,
-      59,    59,    59,    60,    60,    60,    60,    60,    61,    61,
-      62,    63,    63,    64,    64,    65,    65,    66,    67,    67,
-      68,    69,    70,    70,    70,    70,    70,    70,    70,    70,
-      71,    72,    72,    73,    73,    74,    75,    75,    76,    77,
-      77,    78,    78,    78,    79
+       0,    40,    41,    41,    42,    43,    43,    44,    44,    45,
+      45,    46,    47,    47,    48,    49,    49,    50,    51,    51,
+      51,    51,    51,    51,    52,    52,    52,    52,    52,    53,
+      53,    54,    55,    56,    57,    58,    58,    58,    59,    59,
+      60,    61,    61,    61,    62,    62,    62,    62,    62,    63,
+      63,    64,    64,    65,    65,    66,    67,    67,    68,    69,
+      70,    70,    70,    70,    70,    70,    70,    70,    71,    72,
+      72,    73,    73,    74,    74,    75,    76,    76,    77,    77,
+      77,    78
   };
 
   const signed char
@@ -1423,13 +2780,13 @@ namespace yy {
   {
        0,     2,     1,     1,     4,     1,     2,     6,     8,     1,
        2,     6,     1,     2,     7,     1,     2,     4,     1,     1,
-       1,     1,     1,     1,     4,     1,     1,     1,     1,     5,
-       3,     5,     5,     3,     3,     6,     4,     1,     3,     3,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     3,
-       3,     1,     3,     1,     3,     1,     4,     3,     1,     3,
-       3,     5,     1,     1,     3,     3,     3,     3,     3,     1,
-       4,     1,     3,     1,     1,     1,     1,     2,     3,     1,
-       3,     1,     1,     1,     4
+       1,     1,     1,     1,     4,     1,     1,     1,     1,     3,
+       5,     5,     5,     3,     3,     4,     4,     4,     1,     3,
+       3,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       3,     1,     3,     1,     4,     3,     1,     3,     3,     5,
+       1,     1,     3,     3,     3,     3,     3,     1,     4,     1,
+       3,     1,     1,     1,     2,     3,     1,     3,     1,     1,
+       1,     4
   };
 
 
@@ -1439,15 +2796,15 @@ namespace yy {
   const unsigned char
   parser::yyrline_[] =
   {
-       0,    65,    65,    66,    69,    71,    72,    75,    76,    79,
-      80,    83,    85,    86,    89,    92,    93,    96,    99,   100,
-     101,   102,   103,   104,   107,   108,   109,   110,   111,   114,
-     115,   118,   120,   122,   124,   126,   127,   130,   131,   134,
-     136,   137,   138,   143,   144,   145,   146,   147,   150,   151,
-     154,   156,   157,   160,   161,   164,   165,   168,   170,   171,
-     174,   175,   182,   183,   184,   185,   186,   187,   188,   189,
-     192,   194,   195,   198,   199,   202,   204,   205,   208,   210,
-     211,   214,   215,   216,   219
+       0,   104,   104,   105,   108,   110,   111,   114,   115,   118,
+     119,   122,   124,   125,   128,   131,   132,   135,   138,   139,
+     140,   141,   142,   143,   146,   147,   148,   149,   150,   153,
+     154,   157,   159,   161,   163,   165,   166,   167,   170,   171,
+     174,   176,   177,   178,   183,   184,   185,   186,   187,   190,
+     191,   194,   195,   198,   199,   202,   204,   205,   208,   209,
+     216,   217,   218,   219,   220,   221,   222,   223,   226,   228,
+     229,   232,   233,   236,   237,   240,   242,   243,   246,   247,
+     248,   251
   };
 
   void
@@ -1479,9 +2836,9 @@ namespace yy {
 
 
 } // yy
-#line 1483 "parser.cc"
+#line 2840 "parser.cc"
 
-#line 221 "parser.yy"
+#line 253 "parser.yy"
 
 
 void
