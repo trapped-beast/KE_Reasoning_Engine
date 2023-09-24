@@ -103,3 +103,6 @@ h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 椭圆的离心�
 
 
 {p:Point; c:Curve; {Point_On_Curve(p,c)}} =>  Subst_Point_Into_Curve(p,c) # 如果点在曲线上，就把点代入曲线方程 #
+
+
+{a:Num; b:Num; {a>0}; {b>0}; {a>b}} => {a^2>b^2} # 如果a>0,b>0,a>b,那么a^2>b^2 #

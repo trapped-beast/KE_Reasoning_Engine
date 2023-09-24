@@ -520,6 +520,7 @@ public:
     shared_ptr<Individual> lhs; // left-hand side
     shared_ptr<Individual> rhs; // right-hand side
     string description; // 描述信息
+    // map
 };
 
 class Knowledge_Base{ // 定义知识库

@@ -2,12 +2,13 @@
 #include <iostream>
 #include <cstdlib>
 #include "driver.hh"
+#include "Rete_Network.hh"
 using std::string;
 using std::endl;
 using std::cout;
 
 bool ke_parse(const string &,const string &,shared_ptr<Knowledge_Base> &,vector<shared_ptr<Question>> &);
-
+shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> &);
 
 int main (int argc, char *argv[])
 {
@@ -17,6 +18,11 @@ int main (int argc, char *argv[])
   vector<shared_ptr<Question>> questions;
   if(!ke_parse(kb_name,question_name,kb,questions))
     return EXIT_FAILURE;
+  size_t num = 1; // 当前要解的题目是第几题
+  cout<<"当前例题库中的题目数是: "<<questions.size()<<endl;
+  cout<<"第"<<num<<"题:"<<endl<<*questions[num-1];
+
+  // shared_ptr<Rete_Network> rete_network = construct_rete(kb);
 
   return EXIT_SUCCESS;
 }
