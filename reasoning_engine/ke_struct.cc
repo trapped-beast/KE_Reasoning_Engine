@@ -1,9 +1,14 @@
 #include "ke_struct.hh"
+#include "global_var_decl.hh"
 // #define NDEBUG
 
 // AL抽象语法树相关的数据结构 的相关操作实现
 
-ostream& operator<<(ostream &os, const Number &e){
+
+// 下面是重载 << 相关:
+
+ostream& operator<<(ostream &os, const Number &e){ // 输出 Number
+    assert(e.is_int+e.is_float==1);
     if(e.is_int) 
         os<<e.i_val;
     else
@@ -11,7 +16,8 @@ ostream& operator<<(ostream &os, const Number &e){
     return os;
 }
 
-ostream& operator<<(ostream &os, const Math_Expr &e){ // 输出数学表达式
+ostream& operator<<(ostream &os, const Math_Expr &e){ // 输出数字
+    assert(e.is_num+e.is_sy+e.is_func+e.is_mathe==1);
     if(e.is_mathe){ // 判断是否是 +-*/^
         os<<*e.left<<e.op_val<<*e.right;
     }
@@ -55,6 +61,7 @@ ostream& operator<<(ostream &os, const Coordinate &e){ // 输出坐标
 }
 
 ostream& operator<<(ostream &os, const Math_Individual &e){ // 输出数学个体
+    assert(e.is_equation+e.is_coordinate+e.is_math_expr==1);
     if(e.is_equation)
         os<<*e.equation_val;
     else if(e.is_coordinate)
@@ -69,6 +76,7 @@ ostream& operator<<(ostream &os, const Math_Individual &e){ // 输出数学个�
 }
 
 ostream& operator<<(ostream &os, const Concept &e){ // 输出概念
+    assert(e.is_atomic+e.is_compound==1);
     if(e.is_atomic)
         os<<e.atomic_concept;
     else{ // compound_concept
@@ -92,6 +100,7 @@ ostream& operator<<(ostream &os, const vector<shared_ptr<Variable>> &e){
 }
 
 ostream& operator<<(ostream &os, const Individual &e){ // 输出个体
+    assert(e.is_var+e.is_bool+e.is_cud+e.is_term+e.is_assertion+e.is_math_indi==1);
     if(e.is_var)
         os<<*e.var_val;
     else if(e.is_bool)
@@ -168,6 +177,7 @@ ostream& operator<<(ostream &os, const Sugar_For_Oprt_Apply &e){ // 输出 sugar
 }
 
 ostream& operator<<(ostream &os, const Term &e){ // 输出 term
+    assert(e.is_and+e.is_pred+e.is_ctor+e.is_oprt_apply+e.is_std==1);
     if(e.is_and)
         os<<*e.and_val;
     else if(e.is_pred)
@@ -189,6 +199,7 @@ ostream& operator<<(ostream &os, const Term &e){ // 输出 term
 }
 
 ostream& operator<<(ostream &os, const Assertion &e){ // 输出 Assertion
+    assert(e.is_std+e.is_sugar_for_true==1);
     if(e.is_std)
         os<<"{"<<*e.left<<"="<<*e.right<<"}";
     else // is_sugar_for_true
@@ -208,6 +219,7 @@ ostream& operator<<(ostream &os, const vector<shared_ptr<Def_Individual>> &e){
 }
 
 ostream& operator<<(ostream &os, const Fact &e){ // 输出事实
+    assert(e.is_assert+e.is_var+e.is_def_indi==1);
     if(e.is_assert)
         os<<*e.assertion;
     else if(e.is_var)
@@ -240,6 +252,7 @@ ostream& operator<<(ostream &os, const vector<shared_ptr<Question>> &e){
 }
 
 ostream& operator<<(ostream &os, const Def_Concept &e){ // 输出定义概念
+    assert(e.with_parent+e.without_parent==1);
     if(e.without_parent)
         os<<"def_cpt "<<*e.concept<<"="<<"{"<<e.members<<"}";
     else // with_parent
@@ -287,10 +300,22 @@ ostream& operator<<(ostream &os, const Knowledge_Base &e){ // 输出知识库
     return os;
 }
 
+ostream& operator<<(ostream &os, const Rete_Rule &e){ // 输出适应 Rete 改造后的规则
+    os<<"(";
+    string sep = "";
+    for(const auto &i:e.var_decl){
+        cout<<sep<<i.first<<":"<<i.second;
+        sep = "; ";
+    }
+    os<<")\t";
+    if(e.lhs) // 改造后的lhs部分可能为空个体
+        os<<*e.lhs;
+    os<<" => "<<*e.rhs<<"  "<<e.description;
+    return os;
+}
 
 
-
-
+// 下面是重载 == 相关:
 
 // Number 重载 ==
 bool Number::operator==(const Number &rhs) const{
@@ -436,4 +461,56 @@ bool Fact::operator==(const Fact &rhs) const{
         return variable==rhs.variable;
     else // is_def_indi
         return def_indi==rhs.def_indi;
+}
+
+
+// 下面是各个类自身特殊的成员函数:
+
+shared_ptr<Rete_Rule> Rule::get_adapted(){ // 获取适配 Rete 算法版本的规则
+    // 提取 lhs 中的变量声明
+    map<string,Concept> var_decl; // 存放变量声明
+    shared_ptr<Rete_Rule> ret;
+    shared_ptr<Rule> rule;
+    // lhs 要么是单个 Variable, 要么是 Sugar_For_And
+    if(lhs->is_var){
+        var_decl.insert(pair<string,Concept>(lhs->var_val->symbol,*lhs->var_val->concept));
+        // lhs 除去 Variable 后为 nullptr
+        shared_ptr<Individual> to_be_empty = make_shared<Individual>(true);
+        rule = make_shared<Rule>(*to_be_empty,*rhs,description); // 先使用一个任意的 lhs 来参与初始化
+        rule->lhs = nullptr;
+    }
+    else{
+        assert(lhs->is_term && lhs->term->is_and);
+        // 提取每个Variable
+        vector<shared_ptr<Individual>> not_var; // 暂时存放非变量的个体
+        auto &vec = lhs->term->and_val->content;
+        for(size_t i=0;i!=vec.size();++i){
+            if(vec[i]->is_var)
+                var_decl.insert(pair<string,Concept>(vec[i]->var_val->symbol,*vec[i]->var_val->concept));
+            else
+                not_var.push_back(vec[i]);
+        }
+        shared_ptr<Individual> new_lhs;
+        if(not_var.size()==0){ // 如果非变量个体数量为0, 处理后的 lhs 为 nullptr
+            shared_ptr<Individual> to_be_empty = make_shared<Individual>(true);
+            rule = make_shared<Rule>(*to_be_empty,*rhs,description);
+            rule->lhs = nullptr;
+        }
+        else if(not_var.size()==1){ // 如果非变量个体数量为1, 根据类型创建新的 lhs
+            auto &indi = not_var[0];
+            if(indi->is_assertion)
+                new_lhs = make_shared<Individual>(*indi->assertion);
+            else if(indi->is_term)
+                new_lhs = make_shared<Individual>(*indi->term);
+            else // 不可能是其它的情况
+                cerr<<"At line "<<__LINE__<<" get_adapted 时出错"<<endl;
+            rule = make_shared<Rule>(*new_lhs,*rhs,description);
+        }
+        else{ // 如果非变量个体数量大于1, 新的 lhs 还是 Sugar_For_And
+            new_lhs = make_shared<Individual>(Term(*make_shared<Sugar_For_And>(not_var)));
+            rule = make_shared<Rule>(*new_lhs,*rhs,description);
+        }
+    }
+    ret = make_shared<Rete_Rule>(*rule,var_decl);
+    return ret;
 }

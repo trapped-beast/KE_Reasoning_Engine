@@ -10,8 +10,17 @@ using std::cout;
 bool ke_parse(const string &,const string &,shared_ptr<Knowledge_Base> &,vector<shared_ptr<Question>> &);
 shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> &);
 
+void test(){
+  bool a = true;
+  bool b = false;
+  bool c = true;
+  bool d = false;
+  cout<<"RET: "<<a+b+c+d<<endl;
+}
+
 int main (int argc, char *argv[])
 {
+  test();
   const string kb_name = "kb.ke"; // 知识库文件
   const string question_name = "question.ke"; // 题目信息文件
   shared_ptr<Knowledge_Base> kb;
@@ -22,7 +31,7 @@ int main (int argc, char *argv[])
   cout<<"当前例题库中的题目数是: "<<questions.size()<<endl;
   cout<<"第"<<num<<"题:"<<endl<<*questions[num-1];
 
-  // shared_ptr<Rete_Network> rete_network = construct_rete(kb);
+  shared_ptr<Rete_Network> rete_network = construct_rete(kb);
 
   return EXIT_SUCCESS;
 }

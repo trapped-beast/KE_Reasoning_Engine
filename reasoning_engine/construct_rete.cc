@@ -2,7 +2,10 @@
 // 构造 Rete 网络
 
 shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> &kb){
-    // cout<<"开始构建 Rete 网络..."<<endl;
+    cout<<"开始构建 Rete 网络..."<<endl;
+    for(auto i:kb->rules){
+        cout<<*i->get_adapted()<<endl;
+    }
     // shared_ptr<Rete_Network> rete_network = make_shared<Rete_Network>();
     // for(const auto &rule:kb->)
 }

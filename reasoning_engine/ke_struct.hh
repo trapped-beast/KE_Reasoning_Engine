@@ -14,11 +14,13 @@
 using std::make_shared;
 using std::shared_ptr;
 using std::vector;
+using std::pair;
 using std::map;
 using std::set;
 using std::string;
 using std::ostream;
 using std::cout;
+using std::cerr;
 using std::endl;
 
 
@@ -374,7 +376,7 @@ public:
     bool is_pred = false; // 是否是sugar_for_pred
     bool is_ctor= false; // 是否是sugar_for_ctor
     bool is_oprt_apply = false; // 是否是sugar_for_oprt_apply
-    bool is_std; // 是否是标准形式
+    bool is_std = false; // 是否是标准形式
 
     shared_ptr<Sugar_For_And> and_val; // sugar_for_and 形式的项
     shared_ptr<Sugar_For_Pred> pred_val; // sugar_for_pred 形式的项
@@ -399,8 +401,8 @@ public:
     bool operator==(const Assertion &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
-    bool is_std; // 是否是标准形式
-    bool is_sugar_for_true; // 是否是 Individual=true 的语法糖
+    bool is_std = false; // 是否是标准形式
+    bool is_sugar_for_true = false; // 是否是 Individual=true 的语法糖
 
     shared_ptr<Individual> left; // 断言的左部
     shared_ptr<Individual> right; // 断言的右部
@@ -504,6 +506,7 @@ public:
     shared_ptr<Individual> output; // 算子的输出
 };
 
+class Rete_Rule;
 class Rule{ // 定义规则
 public:
     // 用 左右个体和描述信息 初始化
@@ -517,10 +520,26 @@ public:
     bool operator==(const Rule &r) const {return lhs==r.lhs && rhs==r.rhs && description==r.description;}; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
+    shared_ptr<Rete_Rule> get_adapted(); // 获取适配Rete算法版本的规则
+
     shared_ptr<Individual> lhs; // left-hand side
     shared_ptr<Individual> rhs; // right-hand side
     string description; // 描述信息
-    // map
+};
+
+class Rete_Rule:public Rule{ // 为适应 Rete 算法对 Rule 进行改造后的版本
+public:
+    // 用 Rule和变量声明 初始化
+    Rete_Rule(const Rule &rule,const map<string,Concept> &var_info):Rule(rule),var_decl(var_info){}
+    Rete_Rule(){} // 默认构造
+    // 拷贝构造
+    Rete_Rule(const Rete_Rule &rhs):Rule(rhs),var_decl(rhs.var_decl){}
+    // 拷贝赋值
+    Rete_Rule& operator=(const Rete_Rule &rhs){Rule::operator=(rhs);var_decl=rhs.var_decl;return *this;}
+
+    string get_output_str() const; // 获取输出字符串 (改造后的lhs部分可能为空个体)
+    
+    map<string,Concept> var_decl; // 变量声明
 };
 
 class Knowledge_Base{ // 定义知识库
@@ -577,6 +596,7 @@ ostream& operator<<(ostream &os, const vector<shared_ptr<Def_Operator>> &e);
 ostream& operator<<(ostream &os, const Rule &e);
 ostream& operator<<(ostream &os, const vector<shared_ptr<Rule>> &e);
 ostream& operator<<(ostream &os, const Knowledge_Base &e);
+ostream& operator<<(ostream &os, const Rete_Rule &e);
 
 
 inline string Number::get_output_str() const{
@@ -695,6 +715,11 @@ inline string Rule::get_output_str() const{
     return oss.str();
 }
 inline string Knowledge_Base::get_output_str() const{
+    std::ostringstream oss;
+    oss<<*this;
+    return oss.str();
+}
+inline string Rete_Rule::get_output_str() const{
     std::ostringstream oss;
     oss<<*this;
     return oss.str();
