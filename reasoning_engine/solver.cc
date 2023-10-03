@@ -8,14 +8,11 @@ using std::endl;
 using std::cout;
 
 bool ke_parse(const string &,const string &,shared_ptr<Knowledge_Base> &,vector<shared_ptr<Question>> &);
-shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> &);
+shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base>);
+
 
 void test(){
-  bool a = true;
-  bool b = false;
-  bool c = true;
-  bool d = false;
-  cout<<"RET: "<<a+b+c+d<<endl;
+
 }
 
 int main (int argc, char *argv[])
@@ -31,7 +28,7 @@ int main (int argc, char *argv[])
   cout<<"当前例题库中的题目数是: "<<questions.size()<<endl;
   cout<<"第"<<num<<"题:"<<endl<<*questions[num-1];
 
-  shared_ptr<Rete_Network> rete_network = construct_rete(kb);
+  // shared_ptr<Rete_Network> rete_network = construct_rete(kb);
 
   return EXIT_SUCCESS;
 }
@@ -67,5 +64,20 @@ bool ke_parse(const string &kb_name,const string &question_name,shared_ptr<Knowl
     cout<<"题目信息解析失败!"<<endl;
     ret = false;
   }
+  kb->get_adapted_rules(); // 改造原始规则以得到易于进行推理的规则
+  kb->propagate_var_decl(); // 传播变量声明到改造后的规则
+  // for(auto i:kb->rete_rules){
+  //   cout<<*i<<endl;
+  // }
+  cout<<"开始改造原始问题以得到易于进行推理的问题..."<<endl;
+  cout<<"开始传播变量声明到改造后的问题..."<<endl;
+  for(auto question:questions){
+    question->get_adapted_question(); // 改造原始问题以得到易于进行推理的问题
+    question->propagate_var_decl(); // 传播变量声明到改造后的问题
+  }
+  // for(auto question:questions){
+  //   cout<<*question->rete_question<<endl;
+  // }
+
   return ret; // 知识库和题目信息均解析成功才返回true
 }

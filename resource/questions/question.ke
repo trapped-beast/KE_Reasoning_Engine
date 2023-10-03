@@ -48,4 +48,4 @@ To_Solve(Equation(c))
 
 # 11. 已知双曲线c1的方程为x^2/16-y^2/9=1、抛物线c2的方程为y^2=m*x、点q(12,24)在c2上、有椭圆c3、c3的短轴长等于c2的参数p、c3和c1的参数c相等、c3的焦点在x轴上、c3的中心在坐标原点、求c3的标准方程。 #
 c1:Hyperbola; c2:Parabola; c3:Ellipse; {Equation(c1) = x^2/16-y^2/9==1}; {Equation(c2) = y^2==m*x}; def_indi q:Point={x:=12;y:=24}; {Point_On_Curve(q,c2)}; {Length(Minor_Axis(c3))=Param_P(c2)}; {Param_C(c3)=Param_C(c1)}; {Focus_On_X_Axis(c3)}; {Center(c3)=origin}
-To_Solve(Equation(c))
+To_Solve(Equation(c3))
