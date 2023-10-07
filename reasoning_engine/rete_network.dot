@@ -1,0 +1,323 @@
+digraph rete_network {
+	graph [bb="0,0,8154,720",
+		ordering=in,
+		rankdir=LR,
+		ranksep="5 equally"
+	];
+	node [label="\N"];
+	subgraph cluster_alpha_network {
+		graph [bb="652.5,8,3525,242",
+			bgcolor=lightblue,
+			style=dashed
+		];
+		subgraph concept_node {
+			"Concept_Node: c:Curve"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="734.5,213",
+				shape=rect,
+				style=filled,
+				width=2.0556];
+			"Concept_Node: p:Point"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="1395,162",
+				shape=rect,
+				style=filled,
+				width=2];
+			"Concept_Node: a:Num"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="734.5,156",
+				shape=rect,
+				style=filled,
+				width=1.9861];
+			"Concept_Node: b:Num"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="1395,54",
+				shape=rect,
+				style=filled,
+				width=1.9861];
+		}
+		subgraph concept_memory {
+			"CM: c:Curve"	[fillcolor="#4a9759",
+				height=0.5,
+				pos="1395,216",
+				shape=cylinder,
+				style=filled,
+				width=1.2361];
+			"CM: p:Point"	[fillcolor="#4a9759",
+				height=0.5,
+				pos="2055.5,162",
+				shape=cylinder,
+				style=filled,
+				width=1.1806];
+			"CM: c:Curve; p:Point"	[fillcolor="#4a9759",
+				height=0.5,
+				pos="2055.5,216",
+				shape=cylinder,
+				style=filled,
+				width=1.875];
+			"CM: a:Num"	[fillcolor="#4a9759",
+				height=0.5,
+				pos="1395,108",
+				shape=cylinder,
+				style=filled,
+				width=1.1528];
+			"CM: b:Num"	[fillcolor="#4a9759",
+				height=0.5,
+				pos="2055.5,34",
+				shape=cylinder,
+				style=filled,
+				width=1.1667];
+			"CM: a:Num; b:Num"	[fillcolor="#4a9759",
+				height=0.5,
+				pos="2055.5,88",
+				shape=cylinder,
+				style=filled,
+				width=1.7917];
+		}
+		subgraph intra_node {
+			"Intra_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="2716,216",
+				shape=rect,
+				style=filled,
+				width=4.4444];
+			"Intra_Node: {a>0} | a:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="2716,160",
+				shape=rect,
+				style=filled,
+				width=2.3333];
+			"Intra_Node: {a>b} | a:Num; b:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="2716,101",
+				shape=rect,
+				style=filled,
+				width=2.9722];
+			"Intra_Node: {b>0} | b:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="2716,37",
+				shape=rect,
+				style=filled,
+				width=2.3611];
+		}
+		subgraph alpha_memory {
+			graph [rank=same];
+			"AM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="3376.5,216",
+				shape=cylinder,
+				style=filled,
+				width=3.9028];
+			"AM: {a>0} | a:Num"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="3376.5,161",
+				shape=cylinder,
+				style=filled,
+				width=1.7917];
+			"AM: {a>b} | a:Num; b:Num"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="3376.5,104",
+				shape=cylinder,
+				style=filled,
+				width=2.4306];
+			"AM: {b>0} | b:Num"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="3376.5,42",
+				shape=cylinder,
+				style=filled,
+				width=1.8194];
+		}
+		"Concept_Node: c:Curve" -> "CM: c:Curve"	[pos="e,1350.3,215.8 808.8,213.33 941.98,213.94 1220.8,215.21 1339.1,215.75"];
+		"CM: c:Curve" -> "CM: c:Curve; p:Point"	[pos="e,1987.6,216 1440,216 1549.7,216 1836.8,216 1976.2,216"];
+		"Concept_Node: p:Point" -> "CM: p:Point"	[pos="e,2012.6,162 1467.4,162 1600.5,162 1883.6,162 2001.4,162"];
+		"Concept_Node: p:Point" -> "CM: c:Curve; p:Point"	[pos="e,1987.7,210.52 1467.4,167.86 1591.8,178.06 1847.4,199.02 1976.4,209.59"];
+		"CM: c:Curve; p:Point" -> "Intra_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,2555.7,216 2123.3,216 2221.1,216 2406.8,216 2544.2,216"];
+		"Concept_Node: a:Num" -> "CM: a:Num"	[pos="e,1353.2,110.98 806.28,150.84 939.53,141.13 1224.8,120.34 1342,111.79"];
+		"CM: a:Num" -> "CM: a:Num; b:Num"	[pos="e,1990.6,89.941 1436.7,106.76 1544.6,103.49 1839.5,94.531 1979.2,90.288"];
+		"CM: a:Num" -> "Intra_Node: {a>0} | a:Num"	[pos="e,2631.7,156.35 1437,109.45 1547.7,113.38 1861.8,124.63 2123,135 2298.6,141.97 2503.4,150.77 2620.3,155.85"];
+		"Concept_Node: b:Num" -> "CM: b:Num"	[pos="e,2013.3,35.252 1466.8,51.85 1599.9,47.808 1884.6,39.161 2002.1,35.592"];
+		"Concept_Node: b:Num" -> "CM: a:Num; b:Num"	[pos="e,1990.9,84.718 1466.8,57.655 1592.1,64.123 1851.6,77.525 1979.7,84.138"];
+		"CM: b:Num" -> "Intra_Node: {b>0} | b:Num"	[pos="e,2630.5,36.615 2097.9,34.189 2201.5,34.66 2473.5,35.9 2619.4,36.564"];
+		"CM: a:Num; b:Num" -> "Intra_Node: {a>b} | a:Num; b:Num"	[pos="e,2608.6,98.899 2120.2,89.258 2230.4,91.433 2457.9,95.925 2597.4,98.679"];
+		"Intra_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "AM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,3235.7,216 2876.4,216 2982.3,216 3120.4,216 3224.5,216"];
+		"Intra_Node: {a>0} | a:Num" -> "AM: {a>0} | a:Num"	[pos="e,3312,160.9 2800.4,160.13 2929.8,160.32 3176.8,160.7 3300.7,160.89"];
+		"Intra_Node: {a>b} | a:Num; b:Num" -> "AM: {a>b} | a:Num; b:Num"	[pos="e,3288.7,103.6 2823.2,101.48 2948.7,102.06 3155.8,103 3277.6,103.55"];
+		"Intra_Node: {b>0} | b:Num" -> "AM: {b>0} | b:Num"	[pos="e,3310.8,41.509 2801.4,37.641 2930.6,38.622 3175.6,40.482 3299.5,41.423"];
+	}
+	subgraph cluster_beta_network {
+		graph [bb="3295.5,250,7483.5,356",
+			bgcolor=lightyellow,
+			style=dashed
+		];
+		subgraph dummy_top_node {
+			graph [rank=same];
+		}
+		subgraph beta_memory {
+			"BM: dummy_top_node"	[fillcolor="#7246d0",
+				height=0.5,
+				pos="3376.5,303",
+				shape=cylinder,
+				style=filled,
+				width=2.0278];
+			"BM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor=burlywood,
+				height=0.5,
+				pos="4697.5,330",
+				shape=cylinder,
+				style=filled,
+				width=3.8889];
+			"BM: {a>0} | a:Num"	[fillcolor=burlywood,
+				height=0.5,
+				pos="4697.5,276",
+				shape=cylinder,
+				style=filled,
+				width=1.7778];
+			"BM: {{a>0}; {b>0}} | a:Num; b:Num"	[fillcolor=burlywood,
+				height=0.5,
+				pos="6018.5,276",
+				shape=cylinder,
+				style=filled,
+				width=3.1944];
+			"BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[fillcolor=burlywood,
+				height=0.5,
+				pos="7339.5,276",
+				shape=cylinder,
+				style=filled,
+				width=3.7778];
+		}
+		subgraph join_node {
+			"Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="4037,330",
+				shape=rect,
+				style=filled,
+				width=4.4028];
+			"Join_Node: {a>0} | a:Num"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="4037,276",
+				shape=rect,
+				style=filled,
+				width=2.2917];
+			"Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="5358,276",
+				shape=rect,
+				style=filled,
+				width=3.7083];
+			"Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="6679,276",
+				shape=rect,
+				style=filled,
+				width=4.2917];
+		}
+		"Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "BM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,4557.1,330 4195.7,330 4301.9,330 4441.1,330 4545.8,330"];
+		"BM: dummy_top_node" -> "Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,3878,323.52 3449.9,305.97 3549.5,310.05 3731.8,317.53 3866.7,323.06"];
+		"BM: dummy_top_node" -> "Join_Node: {a>0} | a:Num"	[pos="e,3954,279.36 3449.9,300.03 3569.9,295.11 3810.1,285.26 3942.7,279.83"];
+		"Join_Node: {a>0} | a:Num" -> "BM: {a>0} | a:Num"	[pos="e,4633.1,276 4119.7,276 4248.7,276 4497.3,276 4621.8,276"];
+		"BM: {a>0} | a:Num" -> "Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,5224.2,276 4761.9,276 4865.3,276 5072.5,276 5213,276"];
+		"Join_Node: {{a>0}; {b>0}} | a:Num; b:Num" -> "BM: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,5903.2,276 5491.9,276 5608.7,276 5777.4,276 5892,276"];
+		"BM: {{a>0}; {b>0}} | a:Num; b:Num" -> "Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,6524,276 6133.8,276 6238.5,276 6394.5,276 6512.7,276"];
+		"Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num" -> "BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,7203,276 6834,276 6941.9,276 7085.2,276 7191.6,276"];
+	}
+	subgraph root {
+		root	[fillcolor=lightcyan,
+			height=0.79716,
+			pos="74,133",
+			shape=doublecircle,
+			style=filled,
+			width=0.79716];
+	}
+	subgraph terminal_node {
+		graph [rank=same];
+		"Terminal: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="8000,330",
+			shape=cylinder,
+			style=filled,
+			width=4.2778];
+		"Terminal: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="8000,276",
+			shape=cylinder,
+			style=filled,
+			width=4.1806];
+	}
+	subgraph cluster_legend {
+		graph [bb="8,170,140,712",
+			fontname="Times-BoldItalic",
+			fontsize=20,
+			label=legend,
+			labelloc=b,
+			lheight=0.31,
+			lp="74,185",
+			lwidth=0.76,
+			style=dashed
+		];
+		Root	[fillcolor=lightcyan,
+			height=0.88743,
+			pos="74,672",
+			shape=doublecircle,
+			style=filled,
+			width=0.88743];
+		Concept_Node	[fillcolor=cadetblue,
+			height=0.5,
+			pos="74,604",
+			shape=rect,
+			style=filled,
+			width=1.3611];
+		Concept_Memory	[fillcolor="#4a9759",
+			height=0.5,
+			pos="74,550",
+			shape=cylinder,
+			style=filled,
+			width=1.6111];
+		Intra_Node	[fillcolor="#948ed6",
+			height=0.5,
+			pos="74,496",
+			shape=rect,
+			style=filled,
+			width=1.0833];
+		Alpha_Memory	[fillcolor=aquamarine,
+			height=0.5,
+			pos="74,442",
+			shape=cylinder,
+			style=filled,
+			width=1.4444];
+		dummy_top_node	[fillcolor="#7246d0",
+			height=0.5,
+			pos="74,388",
+			shape=cylinder,
+			style=filled,
+			width=1.6111];
+		Beta_Memory	[fillcolor=burlywood,
+			height=0.5,
+			pos="74,334",
+			shape=cylinder,
+			style=filled,
+			width=1.3333];
+		Join_Node	[fillcolor=cornsilk,
+			height=0.5,
+			pos="74,280",
+			shape=rect,
+			style=filled,
+			width=1.0417];
+		Terminal_Node	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="74,226",
+			shape=cylinder,
+			style=filled,
+			width=1.4306];
+	}
+	root -> "Concept_Node: c:Curve"	[pos="e,660.24,204.1 102.87,136.39 196.1,147.71 499.53,184.58 648.89,202.72"];
+	root -> "Concept_Node: p:Point"	[pos="e,1322.9,156.69 103.24,132.74 187.02,131.96 441.45,129.73 652.5,129 721.83,128.76 739.19,127.05 808.5,129 988.06,134.06 1198.2,147.82 \
+1311.5,155.88"];
+	root -> "Concept_Node: a:Num"	[pos="e,662.6,153.52 103.29,133.99 197.52,137.28 503.1,147.95 651.34,153.13"];
+	root -> "Concept_Node: b:Num"	[pos="e,1323.3,58.237 103.16,131.31 262.54,121.77 1053.6,74.391 1312.1,58.906"];
+	"AM: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,3928,311.51 3479.7,233.81 3580.9,251.44 3740.4,279.17 3878.5,303 3890.9,305.13 3903.8,307.36 3916.7,309.57"];
+	"AM: {a>0} | a:Num" -> "Join_Node: {a>0} | a:Num"	[pos="e,3954.1,261.7 3441.2,172.13 3558.1,192.54 3807.1,236.03 3942.9,259.75"];
+	"AM: {a>b} | a:Num; b:Num" -> "Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,6543.5,257.51 3464.2,111.01 3675.1,127.43 4231.4,167 4696.5,167 4696.5,167 4696.5,167 5359,167 5786.5,167 6289.3,224.57 6532.1,\
+256.03"];
+	"AM: {b>0} | b:Num" -> "Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,5224.3,260.32 3442.2,49.653 3720.2,82.517 4816.7,212.13 5213.1,258.99"];
+	"BM: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "Terminal: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,7845.7,330 4837.6,330 5078.1,330 5587.3,330 6017.5,330 6017.5,330 6017.5,330 6680,330 7095.5,330 7584.7,330 7834.3,330"];
+	"BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num" -> "Terminal: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,7849,276 7475.7,276 7580.7,276 7726.6,276 7837.7,276"];
+}

@@ -2,14 +2,15 @@ BISON = bison
 FLEX = flex
 CXX = clang++
 CXXFLAGS = -g -c -std=c++11
-
+GRAPHVIZ_INCLUDE = -I /opt/homebrew/include
+GRAPHVIZ_DYLIB = -L /opt/homebrew/lib -lcgraph -lgvc
 
 objects = driver.o parser.o scanner.o ke_struct.o Rete_Network.o construct_rete.o \
-		global_var_def.o solver.o
+		global_var_def.o draw_rete_network.o solver.o
 
 
 solver : $(objects)
-	$(CXX) -o $@ $(objects)
+	$(CXX) $(GRAPHVIZ_DYLIB) -o $@ $(objects)
 
 %.cc %.hh: %.yy driver.hh ke_struct.hh
 	$(BISON) $(BISONFLAGS) -o $*.cc $<
@@ -37,6 +38,9 @@ construct_rete.o : construct_rete.cc Rete_Network.hh
 
 global_var_def.o : global_var_def.cc global_var_decl.hh
 	$(CXX) $(CXXFLAGS) -o$@ $<
+
+draw_rete_network.o : draw_rete_network.cc
+	$(CXX) $(CXXFLAGS) $(GRAPHVIZ_INCLUDE) -o$@ $<
 
 solver.o : solver.cc
 	$(CXX) $(CXXFLAGS) -o$@ $<

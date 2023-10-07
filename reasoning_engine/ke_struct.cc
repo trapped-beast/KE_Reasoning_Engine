@@ -5,6 +5,39 @@
 // AL抽象语法树相关的数据结构 的相关操作实现
 
 
+// 变量声明的字符串输出
+string get_output_str(const map<string, shared_ptr<Concept>> &var_decl){
+    std::ostringstream oss;
+    string sep = "";
+    for(auto &i:var_decl){
+        oss<<sep<<i.first<<":"<<*i.second;
+        sep = "; ";
+    }
+    return oss.str();
+}
+
+// 把变量声明改造为 Individual(具体地说是Variable)
+shared_ptr<Individual> var_decl_to_indi(const map<string, shared_ptr<Concept>> &var_decl){
+    shared_ptr<Individual> ret;
+    auto it = var_decl.begin();
+    if(var_decl.size()==1){ // 结果是单个 Variable 提升上来的 Individual
+        shared_ptr<Variable> var = make_shared<Variable>(it->first,*it->second);
+        ret =  make_shared<Individual>(*var);
+    }
+    else{ // 结果是多个 Individual 组成的 sugar_for_and ，进而提升上来的 Individual
+        assert(var_decl.size()>1);
+        vector<shared_ptr<Individual>> and_content; // sugar_for_and 的内容
+        while(it!=var_decl.end()){
+            map<string, shared_ptr<Concept>> new_var_decl;
+            new_var_decl.insert(*it);
+            and_content.push_back(var_decl_to_indi(new_var_decl));
+        }
+        ret = make_shared<Individual>(*make_shared<Term>(*make_shared<Sugar_For_And>(and_content)));
+    }
+    return ret;
+}
+
+
 // 下面是重载 << 相关:
 
 ostream& operator<<(ostream &os, const Number &e){ // 输出 Number
@@ -815,8 +848,10 @@ shared_ptr<Rete_Rule> Rule::get_adapted(){ // 获取适配 Rete 算法版本的�
             auto &indi = not_var[0];
             if(indi->is_assertion)
                 new_lhs = make_shared<Individual>(*indi->assertion);
-            else if(indi->is_term)
+            else if(indi->is_term){
+                assert(indi->term->is_pred); // 其实只会是sugar_for_pred
                 new_lhs = make_shared<Individual>(*indi->term);
+            }
             else // 不可能是其它的情况
                 cerr<<"At line "<<__LINE__<<" get_adapted 时出错"<<endl;
             rule = make_shared<Rule>(*new_lhs,*rhs,description);

@@ -25,7 +25,6 @@ using std::endl;
 
 
 // 为保持数据一致性，原则上，成员中包含更小类对象的一律用（智能）指针，这会导致初始化伴随着大量的指针操作
-// 而为了程序易读和语义正确，一般来说，当函数需要改变参数对象时，其参数应使用引用而不是智能指针
 
 class Number{
 public:
@@ -205,9 +204,11 @@ public:
     Concept& operator=(const Concept &rhs){is_atomic=rhs.is_atomic,is_compound=rhs.is_compound,atomic_concept=rhs.atomic_concept,outer_oprt=rhs.outer_oprt,inner_concept=rhs.inner_concept;return *this;}
 
     string get_output_str() const; // 获取输出字符串
-    bool operator==(const Concept &rhs) const; // 重载 ==
-    // 重载 < 
-    // bool operator<(const Concept &rhs) const; ??todo
+    // 重载 <
+    bool operator<(const Concept &rhs) const{return get_output_str()<rhs.get_output_str();}
+    // 重载 ==
+    bool operator==(const Concept &rhs) const;
+    // bool operator==(const Concept &rhs) const{return get_output_str()==rhs.get_output_str();}
     
     bool is_atomic = false; // 是否是原子概念
     bool is_compound = false; // 是否是复合概念
@@ -687,6 +688,9 @@ ostream& operator<<(ostream &os, const Knowledge_Base &e);
 ostream& operator<<(ostream &os, const Rete_Rule &e);
 ostream& operator<<(ostream &os, const map<string, shared_ptr<Concept>> &m);
 ostream& operator<<(ostream &os, const Rete_Question &e);
+
+string get_output_str(const map<string, shared_ptr<Concept>> &var_decl); // 变量声明的字符串输出
+shared_ptr<Individual> var_decl_to_indi(const map<string, shared_ptr<Concept>> &var_decl); // 把变量声明改造为 Individual(具体地说是Variable)
 
 
 inline string Number::get_output_str() const{
