@@ -34,11 +34,12 @@ def_op Subst_Point_Into_Curve(p:Point; c:Curve) = {assert Subst(Subst(Left(Equat
 
 
 
-
 -- 知识部分
 
+{e:Ellipse; {Is_In_Form(Equation(e),x^2/a^2+y^2/b^2==1)}} => {assert e_std:Ellipse_Std = {recip_coeff_sq_x:=Recip(Extract_Coeff(Equation(e),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(e),y^2))}; {e=e_std}} # 如果椭圆方程（可）满足标准形式 x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #
 
-{p:Point; c:Curve; {Point_On_Curve(p,c)}} =>  Subst_Point_Into_Curve(p,c) # 如果点在曲线上，就把点代入曲线方程 #
+{e:Ellipse_Std; {e.recip_coeff_sq_x<e.recip_coeff_sq_y}} => {Focus_On_Y_Axis(e)} # 已知标准椭圆方程中x^2系数的倒数小于y^2系数的倒数，可得到椭圆的焦点在y轴上 #
 
+{e:Ellipse_Std; {Focus_On_Y_Axis(e)}} => {{Param_A(e) = Sqrt(e.recip_coeff_sq_y)}; {Param_B(e) = Sqrt(e.recip_coeff_sq_x)}} # 已知标准椭圆e的焦点在y轴上，可得:e的参数a等于其y^2系数的倒数的开方、e的参数b等于其x^2系数的倒数的开方  #
 
-{a:Num; b:Num; {a>0}; {b>0}; {a>b}} => {a^2>b^2} # 如果a>0,b>0,a>b,那么a^2>b^2 #
+e:Ellipse => {Length(Major_Axis(e)) = Mul(2,Param_A(e))} # 椭圆的长轴长等于两倍的参数a #

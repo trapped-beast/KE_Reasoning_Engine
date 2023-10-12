@@ -6,7 +6,7 @@
 
 
 // 变量声明的字符串输出
-string get_output_str(const map<string, shared_ptr<Concept>> &var_decl){
+string str_of_var_decl(const map<string, shared_ptr<Concept>> &var_decl){
     std::ostringstream oss;
     string sep = "";
     for(auto &i:var_decl){
@@ -15,6 +15,18 @@ string get_output_str(const map<string, shared_ptr<Concept>> &var_decl){
     }
     return oss.str();
 }
+
+// 约束变元的实例对应的字符串输出
+string str_of_abs_to_con(const map<string, string> &abstrct_to_concrete){
+    std::ostringstream oss;
+    string sep = "";
+    for(auto &i:abstrct_to_concrete){
+        oss<<sep<<i.first<<":"<<i.second;
+        sep = "; ";
+    }
+    return oss.str();
+}
+
 
 // 把变量声明改造为 Individual(具体地说是Variable)
 shared_ptr<Individual> var_decl_to_indi(const map<string, shared_ptr<Concept>> &var_decl){
@@ -278,10 +290,14 @@ ostream& operator<<(ostream &os, const Fact &e){ // 输出事实
     assert(e.is_assert+e.is_var+e.is_def_indi==1);
     if(e.is_assert)
         os<<*e.assertion;
+    else if(e.is_pred)
+        os<<*e.pred_val;
     else if(e.is_var)
         os<<*e.variable;
     else // is_def_indi
         os<<*e.def_indi;
+    if(print_var_info && !e.var_decl.empty())
+        cout<<" ["<<"该Fact中变量:"<<e.var_decl<<"] ";
     return os;
 }
 
@@ -360,10 +376,10 @@ ostream& operator<<(ostream &os, const Rete_Rule &e){ // 输出适应推理系�
     os<<"(";
     string sep = "";
     for(const auto &i:e.var_decl){
-        cout<<sep<<i.first<<":"<<*i.second;
+        os<<sep<<i.first<<":"<<*i.second;
         sep = "; ";
     }
-    os<<")\t";
+    os<<")    ";
     if(e.lhs) // 改造后的lhs部分可能为空个体
         os<<*e.lhs;
     else
@@ -538,6 +554,8 @@ bool Def_Individual::operator==(const Def_Individual &rhs) const{
 bool Fact::operator==(const Fact &rhs) const{
     if(rhs.is_assert)
         return assertion==rhs.assertion;
+    else if(rhs.is_pred)
+        return pred_val==rhs.pred_val;
     else if(rhs.is_var)
         return variable==rhs.variable;
     else // is_def_indi
@@ -795,6 +813,7 @@ void Question::propagate_var_decl(){ // 传播变量声明到改造后的问题
     for(auto fact:rete_question->fact_list){ // 改造后的 fact 只有两种情况：Assertion 和 Def_Indi
         if(fact->is_assert){
             fact->assertion->propagate_var_decl(rete_question->var_decl);
+            fact->var_decl = fact->assertion->var_decl;
         }
         else if(fact->is_def_indi){
             ; // Def_Indi 暂时不用处理
@@ -803,6 +822,229 @@ void Question::propagate_var_decl(){ // 传播变量声明到改造后的问题
     // 处理 to_solve
     for(auto unknown:rete_question->to_solve)
         unknown->propagate_var_decl(rete_question->var_decl);
+}
+
+
+
+
+
+// 下面是 实例化规则 相关: (整体结构和 传播变量声明 部分类似)
+
+map<string, shared_ptr<Concept>> instantiate_var_decl(const map<string, shared_ptr<Concept>> &var_decl, const map<string, string> &abstract_to_concrete){ // 实例化变量声明
+    // #ifndef NDEBUG
+    //     cout<<"原来的变量声明为: "<< str_of_var_decl(var_decl)<<endl;
+    //     cout<<"约束变元的实例对应为: "<< str_of_abs_to_con(abstract_to_concrete)<<endl;
+    // #endif
+    map<string, shared_ptr<Concept>> ret;
+    bool find;
+    for(auto each_var_decl:var_decl){ // 每个变量都要在 abstract_to_concrete 中找到对应
+        find = true;
+        for(auto abs_to_con:abstract_to_concrete){
+            if(each_var_decl.first==abs_to_con.first){
+                ret.insert(pair<string, shared_ptr<Concept>>(abs_to_con.second, each_var_decl.second));
+                find = true;
+                break;
+            }
+            find = false;
+        }
+        assert(find);
+    }
+    // #ifndef NDEBUG
+    //     cout<<"实例化后的新变量声明为: "<< str_of_var_decl(ret)<<endl;
+    // #endif
+    return ret;
+}
+
+shared_ptr<Assertion> Assertion::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Assertion
+    auto ret = make_shared<Assertion>(*this); // 先构造一个和原来相同的 Assertion
+    if(is_std){
+        ret->left = left->instantiate(abstract_to_concrete);
+        ret->right = right->instantiate(abstract_to_concrete);
+    }
+    else{
+        assert(is_sugar_for_true);
+        ret->lonely_left = lonely_left->instantiate(abstract_to_concrete);
+    }
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Assertion 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Cud> Cud::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Cud
+    auto ret = make_shared<Cud>(*this); // 先构造一个和原来相同的 Cud
+    ret->left = left->instantiate(abstract_to_concrete);
+    ret->right = right->instantiate(abstract_to_concrete);
+    return ret;
+}
+
+shared_ptr<Sugar_For_And> Sugar_For_And::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Sugar_For_And
+    auto ret = make_shared<Sugar_For_And>(*this); // 先构造一个和原来相同的 Sugar_For_And
+    vector<shared_ptr<Individual>> new_content;
+    for(auto arg:content){ // 处理每一个参数
+        new_content.push_back(arg->instantiate(abstract_to_concrete));
+    }
+    ret->content = new_content;
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Sugar_For_And 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Sugar_For_Oprt_Apply> Sugar_For_Oprt_Apply::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Sugar_For_Oprt_Apply
+    auto ret = make_shared<Sugar_For_Oprt_Apply>(*this); // 先构造一个和原来相同的 Sugar_For_Oprt_Apply
+    // 找到对应自由变元的个体实例
+    for(auto abs_to_con:abstract_to_concrete){
+        if(indi==abs_to_con.first){
+            ret->indi = abs_to_con.second;
+            break;
+        }
+    }
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Sugar_For_Oprt_Apply 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Sugar_For_Pred> Sugar_For_Pred::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Sugar_For_Pred
+    auto ret = make_shared<Sugar_For_Pred>(*this); // 先构造一个和原来相同的 Sugar_For_Pred
+    ret->left = left->instantiate(abstract_to_concrete);
+    ret->right = right->instantiate(abstract_to_concrete);
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Sugar_For_Pred 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Assignment> Assignment::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Assignment
+    auto ret = make_shared<Assignment>(*this); // 先构造一个和原来相同的 Assignment
+    ret->val = val->instantiate(abstract_to_concrete);
+    return ret;
+}
+
+shared_ptr<Sugar_For_Ctor> Sugar_For_Ctor::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Sugar_For_Ctor
+    auto ret = make_shared<Sugar_For_Ctor>(*this); // 先构造一个和原来相同的 Sugar_For_Ctor
+    vector<shared_ptr<Assignment>> new_content;
+    for(auto arg:content){ // 处理每一个参数
+        new_content.push_back(arg->instantiate(abstract_to_concrete));
+    }
+    ret->content = new_content;
+    return ret;
+}
+
+shared_ptr<Term> Term::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化Term
+    auto ret = make_shared<Term>(*this); // 先构造一个和原来相同的 Term
+    if(is_and)
+        ret->and_val = and_val->instantiate(abstract_to_concrete);
+    else if(is_pred)
+        ret->pred_val = pred_val->instantiate(abstract_to_concrete);
+    else if(is_ctor)
+        ret->ctor_val = ctor_val->instantiate(abstract_to_concrete);
+    else if(is_oprt_apply){
+        ret->oprt_apply_val = oprt_apply_val->instantiate(abstract_to_concrete);
+    }
+    else{
+        assert(is_std);
+        vector<shared_ptr<Individual>> new_args;
+        for(auto arg:args){ // 处理每一个参数
+            new_args.push_back(arg->instantiate(abstract_to_concrete));
+        }
+        ret->args = new_args;
+    }
+
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Term 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Math_Equation> Math_Equation::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Math_Equation
+    auto ret = make_shared<Math_Equation>(*this); // 先构造一个和原来相同的 Math_Equation
+    ret->left = left->instantiate(abstract_to_concrete);
+    ret->right = right->instantiate(abstract_to_concrete);
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Math_Equation 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Coordinate> Coordinate::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Coordinate
+    auto ret = make_shared<Coordinate>(*this); // 先构造一个和原来相同的 Coordinate
+    ret->abscissa = abscissa->instantiate(abstract_to_concrete);
+    ret->ordinate = ordinate->instantiate(abstract_to_concrete);
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Coordinate 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Math_Expr> Math_Expr::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Math_Expr
+    auto ret = make_shared<Math_Expr>(*this); // 先构造一个和原来相同的 Math_Expr
+    if(is_num)
+        ; // Number 不需要处理
+    else if(is_sy){
+        for(auto abs_to_con:abstract_to_concrete){ // 找到对应自由变元的个体实例
+            if(sy_val==abs_to_con.first){
+                ret->sy_val = abs_to_con.second;
+                break;
+            }
+        }
+    }
+    else if(is_func)
+        ret->func_val = func_val->instantiate(abstract_to_concrete);
+    else{
+        assert(is_mathe);
+        ret->left = left->instantiate(abstract_to_concrete);
+        ret->right = right->instantiate(abstract_to_concrete);
+    }
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Math_Expr 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Math_Func> Math_Func::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Math_Func
+    auto ret = make_shared<Math_Func>(*this); // 先构造一个和原来相同的 Sugar_For_And
+    vector<shared_ptr<Math_Expr>> new_args;
+    for(auto arg:args){ // 处理每一个参数
+        new_args.push_back(arg->instantiate(abstract_to_concrete));
+    }
+    ret->args = new_args;
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Math_Func 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Math_Individual> Math_Individual::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Math_Individual
+    auto ret = make_shared<Math_Individual>(*this); // 先构造一个和原来相同的 Math_Individual
+    if(is_equation)
+        ret->equation_val = equation_val->instantiate(abstract_to_concrete);
+    else if(is_coordinate)
+        ret->coordinate_val = coordinate_val->instantiate(abstract_to_concrete);
+    else{
+        assert(is_math_expr);
+        ret->expr_val = expr_val->instantiate(abstract_to_concrete);
+    }
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Math_Individual 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Individual> Individual::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Individual
+    auto ret = make_shared<Individual>(*this); // 先构造一个和原来相同的 Individual
+    // 和传播变量声明时只需要处理个体为：项、断言、数学个体 的情况不同，这里还需要处理 Cud
+    if(is_assertion){
+        ret->assertion = assertion->instantiate(abstract_to_concrete);
+    }
+    else if(is_term){
+        ret->term = term->instantiate(abstract_to_concrete);
+    }
+    else if(is_math_indi){
+        ret->math_indi = math_indi->instantiate(abstract_to_concrete);
+    }
+    else if(is_cud){
+        ret->cud = cud->instantiate(abstract_to_concrete);
+    }
+    ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Individual 自身的变量声明
+    return ret;
+}
+
+shared_ptr<Rete_Rule> Rete_Rule::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化规则
+    cout<<"原有 Rule: "<<*this<<endl;
+    cout<<"abstract_to_concrete :" <<str_of_abs_to_con(abstract_to_concrete) <<endl;
+    auto ret = make_shared<Rete_Rule>();
+    // 分别处理 lhs、rhs
+    if(lhs) // lhs 可能为空
+        ret->lhs = lhs->instantiate(abstract_to_concrete);
+    // cout<<"ret->lhs: "<<*ret->lhs<<endl;
+    ret->rhs = rhs->instantiate(abstract_to_concrete);
+    // cout<<"ret->rhs: "<<*ret->rhs<<endl;
+    // 处理 rule 自身的变量声明
+    ret->var_decl = instantiate_var_decl(var_decl, abstract_to_concrete);
+    cout<<"实例化后得到新的 Rule: "<<*ret<<endl;
+    return ret;
 }
 
 
@@ -866,6 +1108,7 @@ shared_ptr<Rete_Rule> Rule::get_adapted(){ // 获取适配 Rete 算法版本的�
 }
 
 void Question::get_adapted_question(){ // 改造原始问题以得到易于进行推理的问题
+    // 把条件中变量部分单独提为一个变量声明部分
     // 提取 fact_list 中的变量声明
     map<string,shared_ptr<Concept>> var_decl; // 存放变量声明
     shared_ptr<Rete_Question> ret;
@@ -884,5 +1127,62 @@ void Question::get_adapted_question(){ // 改造原始问题以得到易于进�
     }
     shared_ptr<Question> q = make_shared<Question>(description,new_fact_lists,to_solve);
     ret = make_shared<Rete_Question>(*q,var_decl);
-    this->rete_question = ret; // 填充自身的成员值
+    rete_question = ret; // 填充自身的成员值
+}
+
+void Rete_Question::print_result(){ // 打印求解结果
+    cout<<endl<<"答案: ";
+    string sep = "";
+    for(auto i:to_solve){
+        assert(i->alt_val_is_known);
+        cout<<sep<<i->get_output_str()<<" = "<<i->alt_val->get_output_str();
+        sep = "; ";
+    }
+    cout<<endl;
+};
+
+void Rete_Question::take_action(shared_ptr<Cud> cud){
+    #ifndef NDEBUG
+        cout<<"当前 Question:"<<endl<<*this<<endl;
+        cout<<"当前要执行的 Cud: "<<*cud<<endl;
+    #endif
+
+    if(cud->action=="assert"){ // 目前处理 assert
+        
+    }
+
+    #ifndef NDEBUG
+        cout<<"Cud 执行结束后的 Question:"<<endl<<*this<<endl;
+    #endif
+}
+
+void Rete_Question::take_action(shared_ptr<Individual> rhs){ // 执行动作
+    #ifndef NDEBUG
+        cout<<"当前 Question:"<<endl<<*this<<endl;
+        cout<<"当前要执行的 RHS: "<<*rhs<<endl;
+    #endif
+    // RHS 要考虑的情况有: Cud、Term、Assertion
+    if(rhs->is_cud){
+        take_action(rhs->cud);
+    }
+    else if(rhs->is_term){
+        // RHS 为 Term 时要考虑的情况有: sugar_for_and、sugar_for_pred
+        auto t = rhs->term;
+        if(t->is_and){
+            for(auto indi:t->and_val->content){
+                take_action(indi);
+            }
+        }
+        else{
+            assert(t->is_pred);
+            fact_list.push_back(make_shared<Fact>(*t->pred_val));
+        }
+    }
+    else{
+        assert(rhs->is_assertion);
+        fact_list.push_back(make_shared<Fact>(*rhs->assertion));
+    }
+    #ifndef NDEBUG
+        cout<<"RHS 执行结束后的 Question:"<<endl<<*this<<endl;
+    #endif
 }

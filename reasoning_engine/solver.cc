@@ -9,26 +9,28 @@ using std::cout;
 
 bool ke_parse(const string &,const string &,shared_ptr<Knowledge_Base> &,vector<shared_ptr<Question>> &);
 void draw_rete_network(const Rete_Network &);
+void reasoning(shared_ptr<Rete_Question>, shared_ptr<Rete_Network>);
 
 void test(){
-
+  
 }
 
 int main (int argc, char *argv[])
 {
   test();
-  const string kb_name = "kb_test.ke"; // 知识库文件
+  const string kb_name = "kb_test1.ke"; // 知识库文件
   const string question_name = "question.ke"; // 题目信息文件
   shared_ptr<Knowledge_Base> kb;
   vector<shared_ptr<Question>> questions;
   if(!ke_parse(kb_name,question_name,kb,questions))
     return EXIT_FAILURE;
+  cout<<"当前例题库中的题目数量为: "<<questions.size()<<endl;
   size_t num = 1; // 当前要解的题目是第几题
-  cout<<"当前例题库中的题目数是: "<<questions.size()<<endl;
-  cout<<"第"<<num<<"题:"<<endl<<*questions[num-1];
+  cout<<"当前要解的题目是 第"<<num<<"题:"<<endl<<*questions[num-1]->rete_question;
 
   shared_ptr<Rete_Network> rete_network = construct_rete(kb);
-  draw_rete_network(*rete_network);
+  // draw_rete_network(*rete_network);
+  reasoning(questions[num-1]->rete_question, rete_network);
 
   return EXIT_SUCCESS;
 }
@@ -66,8 +68,8 @@ bool ke_parse(const string &kb_name,const string &question_name,shared_ptr<Knowl
   }
   kb->get_adapted_rules(); // 改造原始规则以得到易于进行推理的规则
   kb->propagate_var_decl(); // 传播变量声明到改造后的规则
-  // for(auto i:kb->rete_rules){
-  //   cout<<*i<<endl;
+  // for(auto r:kb->rete_rules){
+  //   cout<<*r<<endl;
   // }
   cout<<"开始改造原始问题以得到易于进行推理的问题..."<<endl;
   cout<<"开始传播变量声明到改造后的问题..."<<endl;

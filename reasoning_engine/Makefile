@@ -6,7 +6,7 @@ GRAPHVIZ_INCLUDE = -I /opt/homebrew/include
 GRAPHVIZ_DYLIB = -L /opt/homebrew/lib -lcgraph -lgvc
 
 objects = driver.o parser.o scanner.o ke_struct.o Rete_Network.o construct_rete.o \
-		global_var_def.o draw_rete_network.o solver.o
+		global_var_def.o draw_rete_network.o eval.o reasoning.o solver.o
 
 
 solver : $(objects)
@@ -27,7 +27,7 @@ parser.o : parser.cc parser.hh
 scanner.o : scanner.cc parser.hh
 	$(CXX) $(CXXFLAGS) -o$@ $<
 
-ke_struct.o : ke_struct.cc ke_struct.hh
+ke_struct.o : ke_struct.cc ke_struct.hh Rete_Network.hh
 	$(CXX) $(CXXFLAGS) -o$@ $<
 
 Rete_Network.o : Rete_Network.cc Rete_Network.hh
@@ -41,6 +41,12 @@ global_var_def.o : global_var_def.cc global_var_decl.hh
 
 draw_rete_network.o : draw_rete_network.cc
 	$(CXX) $(CXXFLAGS) $(GRAPHVIZ_INCLUDE) -o$@ $<
+
+eval.o : eval.cc
+	$(CXX) $(CXXFLAGS) -o$@ $<
+
+reasoning.o : reasoning.cc
+	$(CXX) $(CXXFLAGS) -o$@ $<
 
 solver.o : solver.cc
 	$(CXX) $(CXXFLAGS) -o$@ $<

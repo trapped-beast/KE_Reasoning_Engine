@@ -24,7 +24,7 @@ void format_cm(void *node)
 {
     agsafeset(node, (char *)"shape", (char *)"cylinder", (char *)"");
     agsafeset(node, (char *)"style", (char *)"filled", (char *)"");
-    agsafeset(node, (char *)"fillcolor", (char *)"#4a9759", (char *)"");
+    agsafeset(node, (char *)"fillcolor", (char *)"#bbd0c0", (char *)"");
 }
 
 // 设置 AM 属性
@@ -64,7 +64,7 @@ void format_dummy_node(void *node)
 {
     agsafeset(node, (char *)"shape", (char *)"cylinder", (char *)"");
     agsafeset(node, (char *)"style", (char *)"filled", (char *)"");
-    agsafeset(node, (char *)"fillcolor", (char *)"#7246d0", (char *)"");
+    agsafeset(node, (char *)"fillcolor", (char *)"#4a9759", (char *)"");
 }
 
 // 设置 Terminal_Node 属性
@@ -170,8 +170,7 @@ void draw_rete_network(const Rete_Network &rete_network){
     }
     // 添加 Terminal_Node
     for(auto n:rete_network.bm_hash_table){
-        if(n.second->terminal){ // 检查 BM 是否连接着 Terminal_Node
-            auto t_node = n.second->terminal;
+        for(auto t_node:n.second->terminals){
             string terminal_name = t_node->get_figure_info();
             Agnode_t *terminal = agnode(subg_terminal_nodes, (char *)terminal_name.c_str(), 1); // 该点已经存在，不会重复添加
             format_terminal(terminal);
@@ -180,6 +179,7 @@ void draw_rete_network(const Rete_Network &rete_network){
             e = agedge(g, bm, terminal, (char *)"", 1); // 添加边 BM -> Terminal_Node
         }
     }
+
 
     // 设置全图属性
     agsafeset(g, (char *)"rankdir", (char *)"LR", (char *)"");  // 边从左向右

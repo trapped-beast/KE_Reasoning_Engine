@@ -65,6 +65,7 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v); // 传播变量声明
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Individual &parent); // 传播变量声明 (Math_Func 的上层可能是 Math_Individual)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Expr &parent); // 传播变量声明 (Math_Func 的上层可能是 Math_Expr)
+    shared_ptr<Math_Func> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     string func_name; //函数名
     vector<shared_ptr<Math_Expr>> args; // 参数列表
@@ -99,6 +100,8 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Coordinate &parent); // 传播变量声明 (Math_Expr 的上层可能是 Coordinate)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Func &parent); // 传播变量声明 (Math_Expr 的上层可能是 Math_Func)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Expr &parent); // 传播变量声明 (Math_Expr 的上层可能是 Math_Expr)
+    shared_ptr<Math_Expr> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+
 
     bool is_num = false; // 是否是数
     bool is_sy = false; // 是否是符号
@@ -130,7 +133,8 @@ public:
     string get_output_str() const; // 获取输出字符串
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Individual &parent); // 传播变量声明
-    
+    shared_ptr<Math_Equation> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+
     shared_ptr<Math_Expr> left; // 方程左部
     shared_ptr<Math_Expr> right; // 方程右部
 
@@ -151,6 +155,7 @@ public:
     string get_output_str() const; // 获取输出字符串
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Individual &parent); // 传播变量声明
+    shared_ptr<Coordinate> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
     
     shared_ptr<Math_Expr> abscissa; // 横坐标
     shared_ptr<Math_Expr> ordinate; // 纵坐标
@@ -178,7 +183,8 @@ public:
     bool operator==(const Math_Individual &rhs) const; // 重载 ==
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Individual &parent); // 传播变量声明
-    
+    shared_ptr<Math_Individual> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+
     bool is_equation = false; // 是否是方程
     bool is_coordinate = false; // 是否是坐标
     bool is_math_expr = false; // 是否是数学表达式
@@ -255,9 +261,9 @@ public:
 
     Individual(){} // 默认构造
     // 拷贝构造
-    Individual(const Individual &rhs):is_var(rhs.is_var),is_bool(rhs.is_bool),is_cud(rhs.is_cud),is_term(rhs.is_term),is_assertion(rhs.is_assertion),is_math_indi(rhs.is_math_indi),var_val(rhs.var_val),bool_val(rhs.bool_val),cud(rhs.cud),term(rhs.term),assertion(rhs.assertion),math_indi(rhs.math_indi),var_decl(rhs.var_decl){}
+    Individual(const Individual &rhs):is_var(rhs.is_var),is_bool(rhs.is_bool),is_cud(rhs.is_cud),is_term(rhs.is_term),is_assertion(rhs.is_assertion),is_math_indi(rhs.is_math_indi),var_val(rhs.var_val),bool_val(rhs.bool_val),cud(rhs.cud),term(rhs.term),assertion(rhs.assertion),math_indi(rhs.math_indi),var_decl(rhs.var_decl),val_is_known(rhs.val_is_known),alt_val_is_known(rhs.alt_val_is_known),alt_val(rhs.alt_val){}
     // 拷贝赋值
-    Individual& operator=(const Individual &rhs){is_var=rhs.is_var;is_bool=rhs.is_bool;is_cud=rhs.is_cud;is_term=rhs.is_term;is_assertion=rhs.is_assertion;is_math_indi=rhs.is_math_indi;var_val=rhs.var_val;bool_val=rhs.bool_val;cud=rhs.cud;term=rhs.term;assertion=rhs.assertion;math_indi=rhs.math_indi;var_decl=rhs.var_decl;return *this;}
+    Individual& operator=(const Individual &rhs){is_var=rhs.is_var;is_bool=rhs.is_bool;is_cud=rhs.is_cud;is_term=rhs.is_term;is_assertion=rhs.is_assertion;is_math_indi=rhs.is_math_indi;var_val=rhs.var_val;bool_val=rhs.bool_val;cud=rhs.cud;term=rhs.term;assertion=rhs.assertion;math_indi=rhs.math_indi;var_decl=rhs.var_decl;val_is_known=rhs.val_is_known;alt_val_is_known=rhs.alt_val_is_known;alt_val=rhs.alt_val;return *this;}
 
     bool operator==(const Individual &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
@@ -267,6 +273,8 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Sugar_For_And &parent); // 传播变量声明 (Individual 的上层可能是 Sugar_For_And)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Sugar_For_Pred &parent); // 传播变量声明 (Individual 的上层可能是 Sugar_For_Pred)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Assertion &parent); // 传播变量声明 (Individual 的上层可能是 Assertion)
+
+    shared_ptr<Individual> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     bool is_var = false; // 是否是变量
     bool is_bool = false; // 是否是布尔值
@@ -283,6 +291,10 @@ public:
     shared_ptr<Math_Individual> math_indi; // 数学个体
 
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
+
+    bool val_is_known = false; // 值是否已知
+    bool alt_val_is_known = false; // 备用值是否已知
+    shared_ptr<Individual> alt_val = nullptr; // 备用值
 };
 
 class Assignment{ // 赋值式 symbol := individual
@@ -297,6 +309,8 @@ public:
 
     bool operator==(const Assignment &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
+
+    shared_ptr<Assignment> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     string symbol; // 符号
     shared_ptr<Individual> val; // 对应的个体
@@ -314,6 +328,8 @@ public:
 
     bool operator==(const Cud &rhs) const{return action==rhs.action && left==rhs.left && right==rhs.right;}; // 重载 ==
     string get_output_str() const; // 获取输出字符串
+
+    shared_ptr<Cud> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     string action; // "assert" "modify" "retract"
     shared_ptr<Individual> left;
@@ -334,6 +350,7 @@ public:
     string get_output_str() const; // 获取输出字符串
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Term &parent); // 传播变量声明
+    shared_ptr<Sugar_For_And> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     vector<shared_ptr<Individual>> content; // 与式 (注意这其中的分隔符应该是;)
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
@@ -354,10 +371,11 @@ public:
     string get_output_str() const; // 获取输出字符串
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Term &parent); // 传播变量声明
+    shared_ptr<Sugar_For_Pred> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     shared_ptr<Individual> left; // 第一个参数
     shared_ptr<Individual> right; // 第二个参数
-    string predicate; // 谓词
+    string predicate; // 谓词 (">"、"<"、">="、"<="、"!=" 中的一个)
 
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
 };
@@ -375,6 +393,8 @@ public:
     bool operator==(const Sugar_For_Ctor &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
+    shared_ptr<Sugar_For_Ctor> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+
     vector<shared_ptr<Assignment>> content;
 };
 
@@ -391,6 +411,7 @@ public:
     string get_output_str() const; // 获取输出字符串
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Term &parent); // 传播变量声明
+    shared_ptr<Sugar_For_Oprt_Apply> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     string indi; // 表示个体的符号
     string uni_oprt; // 表示一元算子的符号
@@ -420,6 +441,8 @@ public:
     string get_output_str() const; // 获取输出字符串
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Individual &parent); // 传播变量声明
+    shared_ptr<Term> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+
 
     bool is_and = false; // 是否是sugar_for_and
     bool is_pred = false; // 是否是sugar_for_pred
@@ -455,6 +478,8 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v); // 传播变量声明
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Individual &parent); // 传播变量声明
 
+    shared_ptr<Assertion> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+
     bool is_std = false; // 是否是标准形式
     bool is_sugar_for_true = false; // 是否是 Individual=true 的语法糖
 
@@ -485,6 +510,8 @@ class Fact{ // 事实
 public:
     // 用断言定义
     Fact(const Assertion &e):is_assert(true),assertion(make_shared<Assertion>(e)){}
+    // 用 Sugar_For_Pred 定义
+    Fact(const Sugar_For_Pred &e):is_pred(true),pred_val(make_shared<Sugar_For_Pred>(e)){}
     // 用变量定义
     Fact(const Variable &e):is_var(true),variable(make_shared<Variable>(e)){}
     // 用定义个体定义
@@ -492,22 +519,26 @@ public:
 
     Fact(){} // 默认构造
     // 拷贝构造
-    Fact(const Fact &rhs):is_assert(rhs.is_assert),is_var(rhs.is_var),is_def_indi(rhs.is_def_indi),assertion(rhs.assertion),variable(rhs.variable),def_indi(rhs.def_indi){}
+    Fact(const Fact &rhs):is_assert(rhs.is_assert),is_pred(rhs.is_pred),is_var(rhs.is_var),is_def_indi(rhs.is_def_indi),assertion(rhs.assertion),pred_val(rhs.pred_val),variable(rhs.variable),def_indi(rhs.def_indi),var_decl(rhs.var_decl),abstract_to_concrete(rhs.abstract_to_concrete),has_been_added(rhs.has_been_added){}
     // 拷贝赋值
-    Fact& operator=(const Fact &rhs){is_assert = rhs.is_assert;is_var = rhs.is_var;is_def_indi = rhs.is_def_indi;assertion = rhs.assertion;variable = rhs.variable;def_indi = rhs.def_indi;return *this;}
+    Fact& operator=(const Fact &rhs){is_assert = rhs.is_assert;is_pred = rhs.is_pred;is_var = rhs.is_var;is_def_indi = rhs.is_def_indi;assertion = rhs.assertion;pred_val=rhs.pred_val;variable = rhs.variable;def_indi = rhs.def_indi; var_decl =rhs.var_decl;abstract_to_concrete=rhs.abstract_to_concrete;has_been_added=rhs.has_been_added;return *this;}
 
     bool operator==(const Fact &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
-    shared_ptr<Fact> get_adapted(); // 获取适配Rete算法版本的事实
-
     bool is_assert = false; // 是否是断言
+    bool is_pred = false; // 是否是 Sugar_For_Pred
     bool is_var = false; // 是否是变量
     bool is_def_indi = false; // 是否是定义个体
 
     shared_ptr<Assertion> assertion; // 断言
+    shared_ptr<Sugar_For_Pred> pred_val; // Sugar_For_Pred
     shared_ptr<Variable> variable; // 变量
     shared_ptr<Def_Individual> def_indi; // 定义个体
+
+    map<string,shared_ptr<Concept>> var_decl; // 变量声明
+    map<string, string> abstract_to_concrete; // 约束变元的实例对应
+    bool has_been_added = false; // 是否已经加入过 Rete 网络
 };
 
 class Rete_Question;
@@ -523,7 +554,7 @@ public:
 
     string get_output_str() const; // 获取输出字符串
 
-    void get_adapted_question();
+    void get_adapted_question(); // 获取适配 Rete 算法版本的问题
     void propagate_var_decl(); // 传播变量声明到改造后的问题
 
     string description; // 描述信息
@@ -544,8 +575,13 @@ public:
     Rete_Question& operator=(const Rete_Question &rhs){Question::operator=(rhs);var_decl=rhs.var_decl;return *this;}
 
     string get_output_str() const; // 获取输出字符串
+    void take_action(shared_ptr<Individual> rhs); // 执行动作
+    void print_result(); // 打印求解结果
 
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
+
+private:
+    void take_action(shared_ptr<Cud> cud); // 执行 Cud
 };
 
 
@@ -618,6 +654,7 @@ public:
     Rete_Rule& operator=(const Rete_Rule &rhs){Rule::operator=(rhs);var_decl=rhs.var_decl;return *this;}
 
     string get_output_str() const; // 获取输出字符串 (改造后的lhs部分可能为空个体)
+    shared_ptr<Rete_Rule> instantiate(const map<string, string> &abstract_to_concrete); // 实例化规则
     
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
 };
@@ -689,9 +726,10 @@ ostream& operator<<(ostream &os, const Rete_Rule &e);
 ostream& operator<<(ostream &os, const map<string, shared_ptr<Concept>> &m);
 ostream& operator<<(ostream &os, const Rete_Question &e);
 
-string get_output_str(const map<string, shared_ptr<Concept>> &var_decl); // 变量声明的字符串输出
+string str_of_var_decl(const map<string, shared_ptr<Concept>> &var_decl); // 变量声明的字符串输出
+string str_of_abs_to_con(const map<string, string> &abstrct_to_concrete); // 约束变元的实例对应的字符串输出
 shared_ptr<Individual> var_decl_to_indi(const map<string, shared_ptr<Concept>> &var_decl); // 把变量声明改造为 Individual(具体地说是Variable)
-
+map<string, shared_ptr<Concept>> instantiate_var_decl(const map<string, shared_ptr<Concept>> &var_decl, const map<string, string> &abstract_to_concrete); // 实例化变量声明
 
 inline string Number::get_output_str() const{
     std::ostringstream oss;

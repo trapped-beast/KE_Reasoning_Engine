@@ -6,7 +6,7 @@ shared_ptr<Concept_Memory> build_or_share_cm(shared_ptr<Rete_Network> rete_netwo
     // 先判断是否有可共享的 CM
     auto new_var_decl = mem->var_decl;
     new_var_decl.insert(node->var_decl);
-    auto it = rete_network->cm_hash_table.find(get_output_str(new_var_decl));
+    auto it = rete_network->cm_hash_table.find(str_of_var_decl(new_var_decl));
     if(it!=rete_network->cm_hash_table.end())
         return it->second;
     // 如果没有可共享的 CM，为该变量声明构造 CM
@@ -21,21 +21,20 @@ shared_ptr<Concept_Memory> build_or_share_cm(shared_ptr<Rete_Network> rete_netwo
 // 根据 变量声明 创建 Concept_Memory
 shared_ptr<Concept_Memory> build_or_share_cm(shared_ptr<Rete_Network> rete_network, const map<string, shared_ptr<Concept>> &var_decl){
     // 先判断是否有可共享的 CM
-    auto it = rete_network->cm_hash_table.find(get_output_str(var_decl));
+    auto it = rete_network->cm_hash_table.find(str_of_var_decl(var_decl));
     if(it!=rete_network->cm_hash_table.end())
         return it->second;
     // 如果没有可共享的 CM，为该变量声明构造 CM
     shared_ptr<Concept_Node> cpt_node;
     shared_ptr<Concept_Memory> cm;
-    shared_ptr<Concept_Memory> ret;
     if(var_decl.size()==1){ // 只有一对变量声明
         cpt_node = make_shared<Concept_Node>(*var_decl.begin()); // 先构造 Concept_Node
-        ret = make_shared<Concept_Memory>(cpt_node); // 再构造 CM
+        cm = make_shared<Concept_Memory>(cpt_node); // 再构造 CM
         // 指向 Concept_Memory 对象自身的数据变动要在构造函数结束后执行
         // 还需要处理 前驱Concept_Node的自身后继
-        cpt_node->cm_child = ret;
+        cpt_node->cm_child = cm;
         rete_network->root->concept_nodes.push_back(cpt_node); // 把该 Concept_Node 加到根节点后
-        rete_network->cm_hash_table.insert(pair<string, shared_ptr<Concept_Memory>>(get_output_str(ret->constraint), ret)); // 保存 CM 到哈希表
+        rete_network->cm_hash_table.insert(pair<string, shared_ptr<Concept_Memory>>(str_of_var_decl(cm->constraint), cm)); // 保存 CM 到哈希表
     }
     else{ // 有多对变量声明
         // 为第一对变量声明构造 CM
@@ -49,18 +48,18 @@ shared_ptr<Concept_Memory> build_or_share_cm(shared_ptr<Rete_Network> rete_netwo
             temp_var_decl.insert(*it);
             // 从第二个 Concept_Node 开始，它除了有一个自身的 CM 孩子，还有一个和上面 CM 的共同孩子
             shared_ptr<Concept_Memory> self_child = build_or_share_cm(rete_network, temp_var_decl); // 构造自身CM后继
-            ret = build_or_share_cm(rete_network, self_child->cpt_node_parent, cm); // 构造共同后继
-            rete_network->cm_hash_table.insert(pair<string, shared_ptr<Concept_Memory>>(get_output_str(ret->constraint), ret)); // 保存 CM 到哈希表
+            cm = build_or_share_cm(rete_network, self_child->cpt_node_parent, cm); // 构造共同后继
+            rete_network->cm_hash_table.insert(pair<string, shared_ptr<Concept_Memory>>(str_of_var_decl(cm->constraint), cm)); // 保存 CM 到哈希表
             ++it;
         }
     }
-    return ret;
+    return cm;
 }
 
 //为 Intra_Node 找到对应的 CM ，并接在其后
 void find_cm_for_intra_node(shared_ptr<Rete_Network> rete_network, shared_ptr<Intra_Node> intra_node){
     // 根据 Intra_Node 的变量声明做哈希可以找到对应的 CM
-    auto it = rete_network->cm_hash_table.find(get_output_str(intra_node->var_decl));
+    auto it = rete_network->cm_hash_table.find(str_of_var_decl(intra_node->var_decl));
     assert(it!=rete_network->cm_hash_table.end());
     it->second->intra_node_children.push_back(intra_node);
     // 还要处理 Intra_Node 的父 CM
@@ -143,20 +142,23 @@ shared_ptr<Alpha_Memory> build_or_share_am(shared_ptr<Rete_Network> rete_network
     if(it!=rete_network->am_hash_table.end())
         return it->second;
     // 如果没有可共享的 AM，为该 individual 构造 AM
-    assert(indi->is_assertion+indi->is_term==1); // LHS 中的 Individual 只会是 Assertion 或 Term
+    assert(indi->is_assertion+indi->is_term==1); // LHS 中的 Individual 只会是 Assertion 或 Term (更具体地说是 sugar_for_pred)
+    // 直观上理解就是: 要测试的条件总能写成 assertion 的形式，只不过一些二元谓词可以简写为 sugar_for_pred
     shared_ptr<Alpha_Memory> ret;
     if(indi->is_assertion)
         ret = build_or_share_am(rete_network,indi->assertion);
     else{
         auto t = indi->term;
-        // LHS 中的 Individual 如果是 Term，那么只会是 sugar_for_and、sugar_for_pred、标准形式
-        assert(t->is_and + t->is_pred + t->is_std==1);
-        if(t->is_and)
-            ret = build_or_share_am(rete_network, t->and_val);
-        else if(t->is_pred)
-            ret = build_or_share_am(rete_network, t->pred_val);
-        else
-            ret = build_or_share_am(rete_network, t);
+        // LHS 中的 Individual 如果是 Term，那么只会是 sugar_for_pred
+        // 不允许 sugar_for_and 的嵌套
+        assert(t->is_pred==1);
+        // if(t->is_and)
+        //     ret = build_or_share_am(rete_network, t->and_val);
+        // else if(t->is_pred)
+        //     ret = build_or_share_am(rete_network, t->pred_val);
+        // else
+        //     ret = build_or_share_am(rete_network, t);
+        ret = build_or_share_am(rete_network, t->pred_val);
     }
     // 为该 AM 创建对应的 Intro_Node
     ret->parent = make_shared<Intra_Node>(ret);
@@ -169,7 +171,7 @@ shared_ptr<Alpha_Memory> build_or_share_am(shared_ptr<Rete_Network> rete_network
 shared_ptr<Alpha_Memory> build_or_share_am(shared_ptr<Rete_Network> rete_network, shared_ptr<Concept_Memory> cm){
     // 先判断是否有可共享的 AM
     // AM 哈希对象是由变量声明在内的两部分组成的，而 CM 的哈希对象本身就是变量声明，虽然不同，但是后者可以很方便的转为前者
-    Hash_Input hash_input(get_output_str(cm->var_decl),cm->var_decl); // 创建哈希对象
+    Hash_Input hash_input(str_of_var_decl(cm->var_decl),cm->var_decl); // 创建哈希对象
     auto it = rete_network->am_hash_table.find(hash_input);
     if(it!=rete_network->am_hash_table.end())
         return it->second;
@@ -203,16 +205,19 @@ shared_ptr<Beta_Memory> build_or_share_bm(shared_ptr<Rete_Network> rete_network,
     return ret;
 }
 
-// 根据 BM 创建 Terminal_Node
-shared_ptr<Terminal_Node> build_or_share_terminal_node(shared_ptr<Rete_Network> rete_network, shared_ptr<Beta_Memory> bm){
+// 根据 BM 和 Rete_Rule 创建 Terminal_Node
+shared_ptr<Terminal_Node> build_or_share_terminal_node(shared_ptr<Rete_Network> rete_network, shared_ptr<Beta_Memory> bm, shared_ptr<Rete_Rule> rule){
     // 先判断是否有可共享的 Terminal_Node
-    Hash_Input hash_input(bm->constraint->get_output_str(),bm->var_decl); // 创建哈希对象 (Terminal_Node 的约束和变量声明 与 其父BM 相同)
-    auto it = rete_network->t_node_hash_table.find(hash_input);
+    auto it = rete_network->t_node_hash_table.find(rule->get_output_str()); // Terminal_Node 以 rule 的字符串表示为哈希对象
     if(it!=rete_network->t_node_hash_table.end())
         return it->second;
     // 如果没有可共享的 Terminal_Node，为该 Beta_Memory 构造 Terminal_Node
     shared_ptr<Terminal_Node> ret = make_shared<Terminal_Node>(bm);
-    rete_network->t_node_hash_table.insert(pair<Hash_Input, shared_ptr<Terminal_Node>>(hash_input, ret)); // 保存 Terminal_Node 到哈希表
+    // Terminal_Node 维护一个指向冲突集的指针
+    ret->conflict_set = rete_network->conflict_set;
+    // 还要处理 父BM的后继
+    bm->terminals.push_back(ret);
+    rete_network->t_node_hash_table.insert(pair<string, shared_ptr<Terminal_Node>>(rule->get_output_str(), ret)); // 保存 Terminal_Node 到哈希表
     return ret;
 }
 
@@ -232,6 +237,12 @@ shared_ptr<Join_Node> build_or_share_join_node(shared_ptr<Rete_Network> rete_net
     }
     // 如果没有可共享的 Join_Node，为该 AM 和 BM 构造 Join_Node
     shared_ptr<Join_Node> ret = make_shared<Join_Node>(am, bm);
+    // 还需要处理 父AM的后继、夫BM的后继、节点自身的AM前驱和BM前驱
+    am->children.push_back(ret);
+    bm->children.push_back(ret);
+    ret->parent_am = am;
+    ret->parent_bm = bm;
+
     rete_network->join_nodes.push_back(ret);
     return ret;
 }
@@ -263,7 +274,7 @@ void add_rule(shared_ptr<Rete_Network> rete_network, shared_ptr<Rete_Rule> rule)
             join_node = build_or_share_join_node(rete_network, am, bm);
             // 唯一的一个条件也是最后一个条件，最后的 Join_Node 后要接一个 BM 和 Terminal_Node
             bm = build_or_share_bm(rete_network, join_node);
-            terminal = build_or_share_terminal_node(rete_network, bm);
+            terminal = build_or_share_terminal_node(rete_network, bm, rule);
         }
         else{ // LHS 有多个子条件
             // 为第一个子条件构造 AM
@@ -280,7 +291,7 @@ void add_rule(shared_ptr<Rete_Network> rete_network, shared_ptr<Rete_Rule> rule)
             }
             // 为该 Rule 构造 Terminal_Node，接在最后一个 BM 之后
             bm = build_or_share_bm(rete_network, join_node);
-            terminal = build_or_share_terminal_node(rete_network, bm);
+            terminal = build_or_share_terminal_node(rete_network, bm, rule);
         }
     }
     else{ // LHS 为空
@@ -289,7 +300,7 @@ void add_rule(shared_ptr<Rete_Network> rete_network, shared_ptr<Rete_Rule> rule)
         join_node = build_or_share_join_node(rete_network, am, bm);
         // 最后的 Join_Node 后要接一个 BM 和 Terminal_Node
         bm = build_or_share_bm(rete_network, join_node);
-        terminal = build_or_share_terminal_node(rete_network, bm);
+        terminal = build_or_share_terminal_node(rete_network, bm, rule);
     }
     terminal->match_rule = rule;
 }
@@ -298,6 +309,7 @@ shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> kb){
     cout<<"开始构建 Rete 网络..."<<endl;
     shared_ptr<Rete_Network> rete_network = make_shared<Rete_Network>();
     for(auto rule:kb->rete_rules){ // 处理每一条规则
+        // cout<<"添加规则: "<<rule->get_output_str()<<endl;
         add_rule(rete_network, rule);
     }
     cout<<"Rete 网络构建完成!"<<endl;
