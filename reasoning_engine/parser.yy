@@ -220,6 +220,7 @@ math_expr        : number {$$=Math_Expr($1);}
                  | math_expr "*" math_expr {$$=Math_Expr($1,'*',$3);}
                  | math_expr "/" math_expr {$$=Math_Expr($1,'/',$3);}
                  | math_expr "^" math_expr {$$=Math_Expr($1,'^',$3);}
+                 | "(" math_expr ")" {$$=Math_Expr(make_shared<Math_Expr>($2));}
                  | math_func {$$=Math_Expr($1);}
                  ;
 

@@ -42,7 +42,7 @@ global_var_def.o : global_var_def.cc global_var_decl.hh
 draw_rete_network.o : draw_rete_network.cc
 	$(CXX) $(CXXFLAGS) $(GRAPHVIZ_INCLUDE) -o$@ $<
 
-eval.o : eval.cc
+eval.o : eval.cc eval.hh
 	$(CXX) $(CXXFLAGS) -o$@ $<
 
 reasoning.o : reasoning.cc

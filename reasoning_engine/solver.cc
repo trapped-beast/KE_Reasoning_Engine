@@ -12,13 +12,14 @@ void draw_rete_network(const Rete_Network &);
 void reasoning(shared_ptr<Rete_Question>, shared_ptr<Rete_Network>);
 
 void test(){
-  
+
 }
 
 int main (int argc, char *argv[])
 {
   test();
   const string kb_name = "kb_test1.ke"; // 知识库文件
+  // const string kb_name = "kb_test1.ke"; // 知识库文件
   const string question_name = "question.ke"; // 题目信息文件
   shared_ptr<Knowledge_Base> kb;
   vector<shared_ptr<Question>> questions;
@@ -76,6 +77,9 @@ bool ke_parse(const string &kb_name,const string &question_name,shared_ptr<Knowl
   for(auto question:questions){
     question->get_adapted_question(); // 改造原始问题以得到易于进行推理的问题
     question->propagate_var_decl(); // 传播变量声明到改造后的问题
+    for(auto &fact:question->fact_list){
+      specify_the_question(question->rete_question,fact);
+    }
   }
   // for(auto question:questions){
   //   cout<<*question->rete_question<<endl;

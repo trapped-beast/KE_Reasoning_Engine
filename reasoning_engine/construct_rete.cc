@@ -312,6 +312,7 @@ shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> kb){
         // cout<<"添加规则: "<<rule->get_output_str()<<endl;
         add_rule(rete_network, rule);
     }
+    rete_network->underlying_kb = kb;
     cout<<"Rete 网络构建完成!"<<endl;
     return rete_network;
 }

@@ -1,8 +1,12 @@
 #include "ke_struct.hh"
 #include "global_var_decl.hh"
-// #define NDEBUG
 
 // AL抽象语法树相关的数据结构 的相关操作实现
+
+// 指明 fact 所在的 Question
+void specify_the_question(shared_ptr<Rete_Question> question,shared_ptr<Fact> fact){
+    fact->where_is = question;
+}
 
 
 // 变量声明的字符串输出
@@ -62,7 +66,7 @@ ostream& operator<<(ostream &os, const Number &e){ // 输出 Number
 }
 
 ostream& operator<<(ostream &os, const Math_Expr &e){ // 输出数学表达式
-    assert(e.is_num+e.is_sy+e.is_func+e.is_mathe==1);
+    assert(e.is_num+e.is_sy+e.is_func+e.is_mathe+e.is_enclosed==1);
     if(e.is_mathe){ // 判断是否是 +-*/^
         os<<*e.left<<e.op_val<<*e.right;
     }
@@ -72,6 +76,8 @@ ostream& operator<<(ostream &os, const Math_Expr &e){ // 输出数学表达式
         os<<*e.func_val;
     else if(e.is_num)  // 判断是否是数
         os<<*e.number_val;
+    else if(e.is_enclosed) // 判断是括号包起来的数学表达式
+        os<<"("<< *e.enclosed_expr<<")";
     else{
         // 原则上以下语句并不会执行，如果执行了说明存在逻辑错误
         #ifndef NDEBUG
@@ -399,6 +405,13 @@ ostream& operator<<(ostream &os, const map<string, shared_ptr<Concept>> &m){ // 
 
 ostream& operator<<(ostream &os, const Rete_Question &e){ // 输出适应推理系统改造后的问题
     os<<e.description<<endl;
+    if(e.def_indi_hash_table.size()){ // def_indi_hash_table 额外处理
+        cout<<"现有个体定义:"<<endl;
+        for(auto p:e.def_indi_hash_table){
+            cout<<"\t"<<p.first<<endl;
+        }
+        cout<<endl;
+    }
     os<<"(";
     string sep = "";
     for(const auto &i:e.var_decl){
@@ -427,11 +440,13 @@ bool Math_Expr::operator==(const Math_Expr &rhs) const{
     if(is_sy)
         return rhs.is_sy && sy_val==rhs.sy_val;
     else if(is_func)
-        return rhs.is_func && func_val == rhs.func_val;
+        return rhs.is_func && *func_val == *rhs.func_val;
     else if(is_mathe)
-        return rhs.is_mathe && op_val==rhs.op_val && *left==*right;
+        return rhs.is_mathe && op_val==rhs.op_val && *left==*rhs.left && *right==*rhs.right;
+    else if(is_enclosed)
+        return rhs.is_enclosed && *enclosed_expr==*rhs.enclosed_expr;
     else // number
-        return rhs.is_num && number_val==rhs.number_val;
+        return rhs.is_num && *number_val==*rhs.number_val;
 }
 
 // Math_Func 重载 ==
@@ -658,9 +673,14 @@ void Sugar_For_And::propagate_var_decl(const map<string, shared_ptr<Concept>> &v
         parent.var_decl.insert(var_info);
 }
 
-void Sugar_For_Pred::propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Term &parent){ // 传播变量声明
+void Sugar_For_Pred::propagate_var_decl(const map<string, shared_ptr<Concept>> &v){ // 传播变量声明
     left->propagate_var_decl(v, *this);
     right->propagate_var_decl(v, *this);
+    
+}
+
+void Sugar_For_Pred::propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Term &parent){ // 传播变量声明
+    propagate_var_decl(v);
     // 把自身的变量声明信息向上添加到父 Term
     for(auto &var_info:var_decl)
         parent.var_decl.insert(var_info);
@@ -744,6 +764,9 @@ void Math_Expr::propagate_var_decl(const map<string, shared_ptr<Concept>> &v){ /
         func_val->propagate_var_decl(v, *this);
         assert(var_decl.size()==func_val->var_decl.size());
     }
+    else if(is_enclosed){
+        enclosed_expr->propagate_var_decl(v, *this);
+    }
     else{
         assert(is_mathe);
         left->propagate_var_decl(v, *this);
@@ -815,8 +838,15 @@ void Question::propagate_var_decl(){ // 传播变量声明到改造后的问题
             fact->assertion->propagate_var_decl(rete_question->var_decl);
             fact->var_decl = fact->assertion->var_decl;
         }
+        else if(fact->is_pred){
+            fact->pred_val->propagate_var_decl(rete_question->var_decl);
+            fact->var_decl = fact->pred_val->var_decl;
+        }
         else if(fact->is_def_indi){
             ; // Def_Indi 暂时不用处理
+        }
+        else if(fact->is_var){
+            ; // Variable 暂时不用处理
         }
     }
     // 处理 to_solve
@@ -858,14 +888,38 @@ map<string, shared_ptr<Concept>> instantiate_var_decl(const map<string, shared_p
 shared_ptr<Assertion> Assertion::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化 Assertion
     auto ret = make_shared<Assertion>(*this); // 先构造一个和原来相同的 Assertion
     if(is_std){
+        cout<<endl<<"------------------------------------------------------------------------------------"<<endl;
+        cout<<"当前 Assertion 的左部: "<<*left<<endl;
+        cout<<"原来的 alt_vals 个数 :"<<left->alt_vals.size()<<endl;
+        if(left->alt_vals.size()){
+            cout<<"\t各个 alt 分别为: "<<endl;
+            for(auto alt:left->alt_vals){
+                cout<<"\t\t"<<*alt<<endl;
+            }
+        }
+        cout<<endl;
+
         ret->left = left->instantiate(abstract_to_concrete);
         ret->right = right->instantiate(abstract_to_concrete);
+
+        cout<<"实例化后的 Assertion 的左部: "<<*ret->left<<endl;
+        cout<<"实例化后的 alt_vals 个数 :"<<ret->left->alt_vals.size()<<endl;
+        if(ret->left->alt_vals.size()){
+            cout<<"\t各个 alt 分别为: "<<endl;
+            for(auto alt:ret->left->alt_vals){
+                cout<<"\t\t"<<*alt<<endl;
+            }
+        }
+        cout<<endl;
+        cout<<"------------------------------------------------------------------------------------"<<endl<<endl;
+
     }
     else{
         assert(is_sugar_for_true);
         ret->lonely_left = lonely_left->instantiate(abstract_to_concrete);
     }
     ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Assertion 自身的变量声明
+    
     return ret;
 }
 
@@ -978,6 +1032,8 @@ shared_ptr<Math_Expr> Math_Expr::instantiate(const map<string, string> &abstract
     }
     else if(is_func)
         ret->func_val = func_val->instantiate(abstract_to_concrete);
+    else if(is_enclosed)
+        ret->enclosed_expr = enclosed_expr->instantiate(abstract_to_concrete);
     else{
         assert(is_mathe);
         ret->left = left->instantiate(abstract_to_concrete);
@@ -1027,6 +1083,12 @@ shared_ptr<Individual> Individual::instantiate(const map<string, string> &abstra
     else if(is_cud){
         ret->cud = cud->instantiate(abstract_to_concrete);
     }
+    // 更新 Individual 的 alt_vals
+    vector<shared_ptr<Individual>> new_alt_vals;
+    for(auto alt:alt_vals){ 
+        new_alt_vals.push_back(alt->instantiate(abstract_to_concrete));
+    }
+    ret->alt_vals = new_alt_vals;
     ret->var_decl = instantiate_var_decl(ret->var_decl, abstract_to_concrete); // 处理 Individual 自身的变量声明
     return ret;
 }
@@ -1052,9 +1114,227 @@ shared_ptr<Rete_Rule> Rete_Rule::instantiate(const map<string, string> &abstract
 
 
 
+// 下面是 统一个体 相关
+
+
+void Rete_Question::normalize_individual(shared_ptr<Assertion> &assertion){ // 统一 assertion 中的 individual（要保存）
+    if(assertion->is_std){
+        normalize_individual(assertion->left);
+        normalize_individual(assertion->right);
+    }
+    else{
+        assert(assertion->is_sugar_for_true);
+        normalize_individual(assertion->lonely_left);
+    }
+
+    #ifndef NDEBUG
+        cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
+        for(auto p:indi_hash_map){
+            cout<<"\t"<<p.first<<"  对应 alt_val: ";
+            for(auto alt:p.second->alt_vals)
+                cout<<*alt<<"  ";
+            cout<<"("<<p.second->alt_vals.size()<<"个)";
+            cout<<endl;
+        }
+    #endif
+}
+
+void Rete_Question::normalize_individual(shared_ptr<Assignment> &assignment){ // 统一 assignment 中的 individual（要保存）
+    normalize_individual(assignment->val);
+}
+
+void Rete_Question::normalize_individual(shared_ptr<Term> &term){ // 统一 term 中的 individual（要保存）
+    if(term->is_and){
+        for(auto &arg:term->and_val->content){
+            normalize_individual(arg);
+        }
+    }
+    else if(term->is_pred){
+        normalize_individual(term->pred_val->left);
+        normalize_individual(term->pred_val->right);
+    }
+    else if(term->is_std){
+        for(auto &arg:term->args){
+            normalize_individual(arg);
+        }
+    }
+    else if(term->is_ctor){
+        for(auto &arg:term->ctor_val->content)
+            normalize_individual(arg);
+    }
+    else{
+        assert(term->is_oprt_apply);
+        ; // 无需处理
+    }
+}
+
+void Rete_Question::normalize_individual(shared_ptr<Cud> &cud){ // 统一 cud 中的 individual（要保存）
+    normalize_individual(cud->left);
+    normalize_individual(cud->right);
+}
+
+void Rete_Question::normalize_individual(shared_ptr<Individual> &indi){ // 统一 individual（要保存）
+    #ifndef NDEBUG
+        cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
+        for(auto p:indi_hash_map){
+            cout<<"\t"<<p.first<<"  对应 alt_val: ";
+            for(auto alt:p.second->alt_vals)
+                cout<<*alt<<"  ";
+            cout<<"("<<p.second->alt_vals.size()<<"个)";
+            cout<<endl;
+        }
+        cout<<endl<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+        cout<<"当前要统一的 Individual: "<<*indi<<endl;
+        cout<<"统一前的 Individual 个数为: "<<indi_hash_map.size()<<endl;
+        if(indi_hash_map.size()){
+            cout<<"分别为: ";
+            for(auto p:indi_hash_map){
+                cout<<p.first<<"  ";
+            }
+            cout<<endl<<endl;
+        }
+    #endif
+    
+    // 先迭代处理 alt_vals 部分
+    for(auto alt:indi->alt_vals){
+        normalize_individual(alt);
+    }
+    auto it = indi_hash_map.find(indi->get_output_str());
+    if(it!=indi_hash_map.end()){ // 如果已经存在则进行 normalization
+        cout<<"找到同名的 Individual: "<<*it->second<<endl;
+        // 后来的 Individual 可能 (由于新的 Assertion) 保存更新的 alt_vals 信息
+        auto new_indi = make_shared<Individual>(*it->second); // 先复制一份已经存在的 Individual
+        if(new_indi->alt_vals.size()){
+            cout<<"\t原来的 alt_vals: ";
+            for(auto alt:new_indi->alt_vals)
+                cout<<*alt<<"  ";
+            cout<<"("<<new_indi->alt_vals.size()<<"个)"<<endl;
+        }
+        // 要在原来的 alt_vals 的基础上进行追加
+        if(indi->alt_vals.size()){ // 新出现的 Individual 可能会携带一个 alt_val
+            assert(indi->alt_vals.size()==1);
+            auto new_alt_val = *indi->alt_vals.begin(); // 携带的那个 alt_val
+            // 如果已经在原来的 alt_vals 中, 则不必添加
+            bool existed = false;
+            for(auto alt:new_indi->alt_vals){
+                if(alt->get_output_str()==new_alt_val->get_output_str()){
+                    existed = true;
+                    break;
+                }
+            }
+            if(!existed)
+                new_indi->alt_vals.push_back(new_alt_val);
+        }
+
+        *indi = *new_indi;
+        if(new_indi->alt_vals.size()>it->second->alt_vals.size()){
+            cout<<"\t现在的 alt_vals: ";
+            for(auto alt:new_indi->alt_vals)
+                cout<<*alt<<"  ";
+            cout<<"("<<new_indi->alt_vals.size()<<"个)"<<endl;
+        }
+        it->second = indi; // 更新 indi_hash_map 中的 Individual
+    }
+    else{ // 如果不存在则保存自身
+        // Term 和 Assertion 要迭代处理，其它情况则不需要
+        if(indi->is_term)
+            normalize_individual(indi->term);
+        else if(indi->is_assertion)
+            normalize_individual(indi->assertion);
+        else if(indi->is_cud)
+            normalize_individual(indi->cud);
+        else // TODO: 考虑是否有必要在更细的粒度上进行 normalization
+            ;
+        indi_hash_map.insert(pair<string,shared_ptr<Individual>>(indi->get_output_str(),indi));
+    }
+    #ifndef NDEBUG
+        cout<<endl<<"统一后的 Individual 个数为: "<<indi_hash_map.size()<<endl;
+        if(indi_hash_map.size()){
+            cout<<"分别为: ";
+            for(auto p:indi_hash_map){
+                cout<<p.first<<"  ";
+            }
+            cout<<endl;
+        }
+        cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
+        for(auto p:indi_hash_map){
+            cout<<"\t"<<p.first<<"  对应 alt_val: ";
+            for(auto alt:p.second->alt_vals)
+                cout<<*alt<<"  ";
+            cout<<"("<<p.second->alt_vals.size()<<"个)";
+            cout<<endl;
+        }
+        cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl<<endl;
+    #endif
+}
+
+void Rete_Question::normalize_individual(shared_ptr<Fact> &fact){ // 统一 fact 中的 individual（要保存）
+    if(fact->is_assert) // 只需处理 Assertion
+        normalize_individual(fact->assertion);
+}
+
+void Rete_Question::normalize_individual(shared_ptr<Rete_Rule> &rule){ // 统一 Rete_Rule 中的 individual（要保存）
+    if(rule->lhs)
+        normalize_individual(rule->lhs);
+    normalize_individual(rule->rhs);
+}
+
 
 
 // 下面是各个类自身特殊的成员函数:
+
+string Individual::get_self_type(){ // 查询自身类型
+    string ret;
+    if(is_var)
+        ret = "Var";
+    else if(is_bool)
+        ret = "Bool";
+    else if(is_cud)
+        ret = "Cud";
+    else if(is_term)
+        ret = "Term";
+    else if(is_assertion)
+        ret = "Assertion";
+    else{
+        assert(is_math_indi);
+        if(math_indi->is_equation)
+            ret = "Equation";
+        else if(math_indi->is_coordinate)
+            ret = "Coordinate";
+        else{
+            assert(math_indi->is_math_expr);
+            ret = "Math_Expr";
+        }
+    }
+    return ret;
+}
+
+shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, const Rete_Question &question){ // 找到个体的某个特定类型的值
+    // 每个 Individual 可能有若干个替代值，如果该 Individual 本身不属于指定类型，那么要从其替代值中找到属于该类型的值
+    if(get_self_type()==type_name) // 自身是否就是指定类型
+        return make_shared<Individual>(*this);
+    for(auto alt_val:alt_vals){ // alt_vals 中是否有指定类型
+        if(alt_val->get_self_type()==type_name)
+            return alt_val;
+    }
+    // 除此之外，考虑个体的相等性传递
+    if(is_term && term->is_std && term->args.size()==1){ // 目前只考虑一元算子替换参数的情况
+        string oprt = term->oprt;
+        auto old_body = term->args[0]; // 原来的参数
+        for(auto alt:old_body->alt_vals){
+            string new_body_name = oprt+"("+alt->get_output_str()+")";
+            auto it = question.indi_hash_map.find(new_body_name);
+            if(it!=question.indi_hash_map.end()){
+                auto new_body = it->second;
+                cout<<"求 "<<get_output_str()<<" 只需求 "<<new_body->get_output_str()<<endl;
+                return new_body->find_specific_indi(type_name, question);
+            }
+        }
+    }
+
+    cerr<<*this<<" 找不到类型为 "<<type_name<<" 的值!"<<endl;
+    return nullptr;
+}
 
 shared_ptr<Rete_Rule> Rule::get_adapted(){ // 获取适配 Rete 算法版本的规则
     // 提取 lhs 中的变量声明
@@ -1133,56 +1413,155 @@ void Question::get_adapted_question(){ // 改造原始问题以得到易于进�
 void Rete_Question::print_result(){ // 打印求解结果
     cout<<endl<<"答案: ";
     string sep = "";
-    for(auto i:to_solve){
-        assert(i->alt_val_is_known);
-        cout<<sep<<i->get_output_str()<<" = "<<i->alt_val->get_output_str();
-        sep = "; ";
+    for(auto indi:to_solve){
+
+        // FIXME:本不该出现下面几行代码, 但是原先的 to_solve 的个体似乎丢失了 alt_val, 所以在哈希表中找到正确的个体
+        auto it = indi_hash_map.find(indi->get_output_str());
+        assert(it!=indi_hash_map.end());
+        indi = it->second;
+
+        for(auto alt:indi->alt_vals){
+            if(alt->val_is_known){
+                cout<<*indi<<" = "<<*alt<<endl;
+                break;
+            }
+        }
     }
     cout<<endl;
 };
 
-void Rete_Question::take_action(shared_ptr<Cud> cud){
+void Knowledge_Base::init_def_part(){ // 初始化定义概念、个体、算子的部分
+    // 加上知识库中的用户定义部分
+    for(auto e:def_concepts){
+        def_cpt_hash_table.insert(pair<string, shared_ptr<Def_Concept>>(e->concept->get_output_str(), e)); // 用概念名称做哈希对象
+    }
+    for(auto e:def_individuals){
+        def_indi_hash_table.insert(pair<string, shared_ptr<Def_Individual>>(e->symbol, e)); // 用个体名称做哈希对象
+    }
+    for(auto e:def_operators){
+        def_oprt_hash_table.insert(pair<string, shared_ptr<Def_Operator>>(e->oprt, e)); // 用算子名称做哈希对象
+    }
+}
+
+void Knowledge_Base::print_def_part(){ // 输出 定义概念、个体、算子 的部分
+    cout<<endl<<"定义了以下 Concept:"<<endl;
+    for(auto e:def_cpt_hash_table){
+        cout<<"\t"<<e.first<<" : "<<*e.second<<endl;
+    }
+    cout<<endl<<"定义了以下 Individual:"<<endl;
+    for(auto e:def_indi_hash_table){
+        cout<<"\t"<<e.first<<" : "<<*e.second<<endl;
+    }
+    cout<<endl<<"定义了以下 Operator:"<<endl;
+    for(auto e:def_oprt_hash_table){
+        cout<<"\t"<<e.first<<" : "<<*e.second<<endl;
+    }
+    cout<<endl;
+}
+
+
+
+void Rete_Question::take_action(shared_ptr<Cud> cud, shared_ptr<Knowledge_Base> kb){
     #ifndef NDEBUG
         cout<<"当前 Question:"<<endl<<*this<<endl;
         cout<<"当前要执行的 Cud: "<<*cud<<endl;
     #endif
 
-    if(cud->action=="assert"){ // 目前处理 assert
-        
+    if(cud->action=="assert"){
+        // 目前只需处理形如 action Variable = Sugar_For_Ctor 的 Cud
+        assert(cud->left->is_var && cud->right->is_term && cud->right->term->is_ctor);
+        // 把该变量加入 Rete_Question 的变量声明
+        // 把该定义个体加入 KB
+        string new_indi_name = cud->left->var_val->symbol; // 个体的名称
+        auto new_indi_cpt = cud->left->var_val->concept; // 个体的概念
+        auto new_assignment_val = make_shared<Sugar_For_Ctor>(*cud->right->term->ctor_val); // 赋予个体的值（先构造一个和 Cud 相同的 Sugar_For_Ctor，后续要进行计算更新）
+        for(auto &assignment:new_assignment_val->content){
+            assert(assignment->val->is_term && assignment->val->term->is_std); // Assignment 的右部一定是标准形式的 Term
+            assignment->val = eval(assignment->val,*this);
+        }
+        cout<<*new_assignment_val<<endl;
+        // 把新的个体定义加入到 question
+        auto new_assignment_indi = Individual(Term(*new_assignment_val));
+        auto new_def_indi = make_shared<Def_Individual>(new_indi_name,*new_indi_cpt,new_assignment_indi);
+        cout<<"得到新的 个体定义: "<<*new_def_indi<<endl;
+        def_indi_hash_table.insert(pair<string,shared_ptr<Def_Individual>>(new_def_indi->get_output_str(),new_def_indi));
+        // 把新的变量声明加入到 question
+        var_decl.insert(pair<string,shared_ptr<Concept>>(new_indi_name,new_indi_cpt));
     }
-
     #ifndef NDEBUG
         cout<<"Cud 执行结束后的 Question:"<<endl<<*this<<endl;
     #endif
 }
 
-void Rete_Question::take_action(shared_ptr<Individual> rhs){ // 执行动作
+// 对 assertion 进行可能的化简
+void try_to_simplify(shared_ptr<Assertion> &assertion, const Rete_Question &question){
+    if(assertion->is_sugar_for_true)
+        try_to_simplify(assertion->lonely_left, question);
+    else{
+        // 化简完毕要把 left 原来的 alt 换成新的 right
+        auto old_alt_name = assertion->right->get_output_str();
+        try_to_simplify(assertion->left, question);
+        try_to_simplify(assertion->right, question);
+        for(auto &alt:assertion->left->alt_vals){
+            if(alt->get_output_str()==old_alt_name){
+                alt = assertion->right;
+                break;
+            }
+        }
+    }
+}
+void try_to_simplify(shared_ptr<Individual> &indi, const Rete_Question &question){
+    // TODO:implement
+    if(indi->is_term){ // 目前只处理 Term
+        auto &term = indi->term;
+        if(term->is_oprt_apply || (term->is_std && std::find(built_in_oprts.begin(),built_in_oprts.end(),term->oprt)!=built_in_oprts.end())){
+            indi = eval(indi, question);
+        }
+    }
+}
+
+void Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb){ // 执行动作
     #ifndef NDEBUG
         cout<<"当前 Question:"<<endl<<*this<<endl;
         cout<<"当前要执行的 RHS: "<<*rhs<<endl;
     #endif
     // RHS 要考虑的情况有: Cud、Term、Assertion
     if(rhs->is_cud){
-        take_action(rhs->cud);
+        take_action(rhs->cud, kb);
     }
     else if(rhs->is_term){
         // RHS 为 Term 时要考虑的情况有: sugar_for_and、sugar_for_pred
         auto t = rhs->term;
         if(t->is_and){
             for(auto indi:t->and_val->content){
-                take_action(indi);
+                take_action(indi, kb);
             }
         }
         else{
             assert(t->is_pred);
-            fact_list.push_back(make_shared<Fact>(*t->pred_val));
+            auto new_fact = make_shared<Fact>(*t->pred_val);
+            normalize_individual(new_fact); // 保存之前先统一 Individual
+
+            // 传播变量声明 // TODO: 模块化
+            new_fact->pred_val->propagate_var_decl(var_decl);
+            new_fact->var_decl = new_fact->pred_val->var_decl;
+            fact_list.push_back(new_fact);
         }
     }
     else{
         assert(rhs->is_assertion);
-        fact_list.push_back(make_shared<Fact>(*rhs->assertion));
+        try_to_simplify(rhs->assertion,*this); // 对 assertion 进行可能的化简
+        auto new_fact = make_shared<Fact>(*rhs->assertion);
+        normalize_individual(new_fact); // 保存之前先统一 Individual
+
+        // 传播变量声明
+        new_fact->assertion->propagate_var_decl(var_decl);
+        new_fact->var_decl = new_fact->assertion->var_decl;
+        fact_list.push_back(new_fact);
     }
     #ifndef NDEBUG
         cout<<"RHS 执行结束后的 Question:"<<endl<<*this<<endl;
     #endif
 }
+
+// TODO:解例题1

@@ -196,8 +196,9 @@ private:
 };
 
 class Conflict_Set{ // 冲突集
-public:
+public: // TODO:改为set
     vector<shared_ptr<Rete_Rule>> content; // 保存实例化后的 Rule
+    vector<string> rule_names; // 保存实例化后的 Rule 的字符串输出 (由于实例化后的 Rule 在执行动作时可能会改变，而又需要能够判断冲突集中是否存在相同规则)
 };
 
 class Terminal_Node{
@@ -234,6 +235,7 @@ public:
     map<Hash_Input, shared_ptr<Beta_Memory>> bm_hash_table; // BM 的哈希表
     map<string, shared_ptr<Terminal_Node>> t_node_hash_table; // Terminal_Node 的哈希表
     shared_ptr<Conflict_Set> conflict_set = nullptr; // 冲突集
+    shared_ptr<Knowledge_Base> underlying_kb = nullptr; // underlying 知识库
 };
 
 
@@ -253,6 +255,7 @@ void add_rule(shared_ptr<Rete_Network> rete_network, shared_ptr<Rete_Rule> rule)
 shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> kb);
 void find_cm_for_intra_node(shared_ptr<Rete_Network> rete_network, shared_ptr<Intra_Node> intra_node);
 shared_ptr<Individual> eval(shared_ptr<Term> term, shared_ptr<Fact> fact);
+shared_ptr<Individual> get_con_indi(shared_ptr<Individual> abs_indi,shared_ptr<Fact> fact);
 
 
 #endif

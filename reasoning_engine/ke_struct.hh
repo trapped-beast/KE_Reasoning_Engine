@@ -1,5 +1,6 @@
 #ifndef AL_STRUCT_HH
 #define AL_STRUCT_HH
+#define NDEBUG
 
 // AL抽象语法树相关的数据结构
 
@@ -40,6 +41,12 @@ public:
     
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Number &rhs) const; // 重载 ==
+    bool operator>(const Number &rhs) const;
+    bool operator<(const Number &rhs) const;
+    bool operator>=(const Number &rhs) const;
+    bool operator<=(const Number &rhs) const;
+    bool operator!=(const Number &rhs) const;
+    Number operator*(const Number &rhs) const;
 
     bool is_int = false; // 是否是整数
     bool is_float = false; // 是否是浮点数
@@ -47,6 +54,54 @@ public:
     int i_val; // 整数
     double f_val; // 浮点数
 };
+
+inline bool Number::operator>(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    return l_val > r_val;
+}
+
+inline bool Number::operator<(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    return l_val < r_val;
+}
+
+inline bool Number::operator>=(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    return l_val >= r_val;
+}
+
+inline bool Number::operator<=(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    return l_val <= r_val;
+}
+
+inline bool Number::operator!=(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    return l_val != r_val;
+}
+inline Number Number::operator*(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    double ret = l_val * r_val;
+    double int_part;
+    double frac_part = std::modf(ret, &int_part); // 将 ret 拆分为整数和小数部分
+    if(frac_part == 0.0) // 如果是整数
+        return Number((int)ret);
+    else
+        return Number(ret);
+}
+
 
 class Math_Expr;class Concept;class Math_Individual;
 class Math_Func{ // 数学函数
@@ -84,12 +139,14 @@ public:
     Math_Expr(const Math_Func &func):is_func(true),func_val(make_shared<Math_Func>(func)){}
     // 用 Math_Expr OP Math_Expr 初始化
     Math_Expr(const Math_Expr &l, char op, const Math_Expr &r):is_mathe(true),op_val(op),left(make_shared<Math_Expr>(l)),right(make_shared<Math_Expr>(r)){}
-    
+    // 用单个 Math_Expr 初始化 // 为了和 拷贝构造 区分，这里的参数使用指针
+    Math_Expr(shared_ptr<Math_Expr> e):is_enclosed(true),enclosed_expr(e){}
+
     Math_Expr(){} // 默认构造
     // 拷贝构造
-    Math_Expr(const Math_Expr &rhs):is_num(rhs.is_num),is_sy(rhs.is_sy),is_func(rhs.is_func),is_mathe(rhs.is_mathe),number_val(rhs.number_val),sy_val(rhs.sy_val),func_val(rhs.func_val),op_val(rhs.op_val),left(rhs.left),right(rhs.right),var_decl(rhs.var_decl){}
+    Math_Expr(const Math_Expr &rhs):is_num(rhs.is_num),is_sy(rhs.is_sy),is_func(rhs.is_func),is_mathe(rhs.is_mathe),number_val(rhs.number_val),is_enclosed(rhs.is_enclosed),sy_val(rhs.sy_val),func_val(rhs.func_val),op_val(rhs.op_val),left(rhs.left),right(rhs.right),var_decl(rhs.var_decl),enclosed_expr(rhs.enclosed_expr){}
     // 拷贝赋值
-    Math_Expr& operator=(const Math_Expr &rhs){is_num = rhs.is_num; is_sy = rhs.is_sy; is_func = rhs.is_func; is_mathe = rhs.is_mathe; number_val = rhs.number_val; sy_val = rhs.sy_val; func_val = rhs.func_val; op_val = rhs.op_val; left = rhs.left; right = rhs.right; var_decl=rhs.var_decl; return *this;}
+    Math_Expr& operator=(const Math_Expr &rhs){is_num = rhs.is_num; is_sy = rhs.is_sy; is_func = rhs.is_func; is_mathe = rhs.is_mathe; number_val = rhs.number_val;is_enclosed=rhs.is_enclosed; sy_val = rhs.sy_val; func_val = rhs.func_val; op_val = rhs.op_val; left = rhs.left; right = rhs.right; var_decl=rhs.var_decl;enclosed_expr=rhs.enclosed_expr; return *this;}
 
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Math_Expr &rhs) const; // 重载 ==
@@ -107,13 +164,15 @@ public:
     bool is_sy = false; // 是否是符号
     bool is_func = false; // 是否是数学函数
     bool is_mathe = false; // 是否是 +-*/^
+    bool is_enclosed = false; // 是否是括号包起来的
 
-    shared_ptr<Number> number_val; // Number
+    shared_ptr<Number> number_val = nullptr; // Number
     string sy_val; // Symbol
-    shared_ptr<Math_Func> func_val; // 函数
+    shared_ptr<Math_Func> func_val = nullptr; // 函数
     char op_val = '!'; // +-*/^
-    shared_ptr<Math_Expr> left;
-    shared_ptr<Math_Expr> right;
+    shared_ptr<Math_Expr> left = nullptr;
+    shared_ptr<Math_Expr> right = nullptr;
+    shared_ptr<Math_Expr> enclosed_expr = nullptr; // 被括号包起来的 Math_Expr
 
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
 };
@@ -243,7 +302,7 @@ public:
     shared_ptr<Concept> concept; // 对应概念
 };
 
-class Cud; class Term; class Assertion; class Sugar_For_And; class Sugar_For_Pred;
+class Cud; class Term; class Assertion; class Sugar_For_And; class Sugar_For_Pred;class Rete_Question;
 class Individual{
 public:
     // 用变量初始化
@@ -257,13 +316,16 @@ public:
     // 用assertion初始化
     Individual(const Assertion &e):is_assertion(true),assertion(make_shared<Assertion>(e)){}
     // 用math_individual初始化
-    Individual(const Math_Individual &e):is_math_indi(true),math_indi(make_shared<Math_Individual>(e)){}
+    Individual(const Math_Individual &e):is_math_indi(true),math_indi(make_shared<Math_Individual>(e)){
+        if(e.is_math_expr && e.expr_val->is_num)
+            val_is_known = true;
+    }
 
     Individual(){} // 默认构造
     // 拷贝构造
-    Individual(const Individual &rhs):is_var(rhs.is_var),is_bool(rhs.is_bool),is_cud(rhs.is_cud),is_term(rhs.is_term),is_assertion(rhs.is_assertion),is_math_indi(rhs.is_math_indi),var_val(rhs.var_val),bool_val(rhs.bool_val),cud(rhs.cud),term(rhs.term),assertion(rhs.assertion),math_indi(rhs.math_indi),var_decl(rhs.var_decl),val_is_known(rhs.val_is_known),alt_val_is_known(rhs.alt_val_is_known),alt_val(rhs.alt_val){}
+    Individual(const Individual &rhs):is_var(rhs.is_var),is_bool(rhs.is_bool),is_cud(rhs.is_cud),is_term(rhs.is_term),is_assertion(rhs.is_assertion),is_math_indi(rhs.is_math_indi),var_val(rhs.var_val),bool_val(rhs.bool_val),cud(rhs.cud),term(rhs.term),assertion(rhs.assertion),math_indi(rhs.math_indi),var_decl(rhs.var_decl),val_is_known(rhs.val_is_known),alt_val_is_known(rhs.alt_val_is_known),alt_vals(rhs.alt_vals){}
     // 拷贝赋值
-    Individual& operator=(const Individual &rhs){is_var=rhs.is_var;is_bool=rhs.is_bool;is_cud=rhs.is_cud;is_term=rhs.is_term;is_assertion=rhs.is_assertion;is_math_indi=rhs.is_math_indi;var_val=rhs.var_val;bool_val=rhs.bool_val;cud=rhs.cud;term=rhs.term;assertion=rhs.assertion;math_indi=rhs.math_indi;var_decl=rhs.var_decl;val_is_known=rhs.val_is_known;alt_val_is_known=rhs.alt_val_is_known;alt_val=rhs.alt_val;return *this;}
+    Individual& operator=(const Individual &rhs){is_var=rhs.is_var;is_bool=rhs.is_bool;is_cud=rhs.is_cud;is_term=rhs.is_term;is_assertion=rhs.is_assertion;is_math_indi=rhs.is_math_indi;var_val=rhs.var_val;bool_val=rhs.bool_val;cud=rhs.cud;term=rhs.term;assertion=rhs.assertion;math_indi=rhs.math_indi;var_decl=rhs.var_decl;val_is_known=rhs.val_is_known;alt_val_is_known=rhs.alt_val_is_known;alt_vals=rhs.alt_vals;return *this;}
 
     bool operator==(const Individual &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
@@ -273,7 +335,7 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Sugar_For_And &parent); // 传播变量声明 (Individual 的上层可能是 Sugar_For_And)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Sugar_For_Pred &parent); // 传播变量声明 (Individual 的上层可能是 Sugar_For_Pred)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Assertion &parent); // 传播变量声明 (Individual 的上层可能是 Assertion)
-
+    shared_ptr<Individual> find_specific_indi(const string &type_name, const Rete_Question &question); // 找到个体的某个特定类型的值
     shared_ptr<Individual> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     bool is_var = false; // 是否是变量
@@ -294,7 +356,10 @@ public:
 
     bool val_is_known = false; // 值是否已知
     bool alt_val_is_known = false; // 备用值是否已知
-    shared_ptr<Individual> alt_val = nullptr; // 备用值
+    vector<shared_ptr<Individual>> alt_vals; // 备用值
+
+private:
+    string get_self_type(); // 查询自身类型
 };
 
 class Assignment{ // 赋值式 symbol := individual
@@ -334,6 +399,7 @@ public:
     string action; // "assert" "modify" "retract"
     shared_ptr<Individual> left;
     shared_ptr<Individual> right;
+    // 虽然目前使用到的 Cud 的形式只有: action Variable = Sugar_For_Ctor, 但为了未来可能的更多需求, 在语法上使用了: action Individual = Individual
 };
 
 class Sugar_For_And{ // 逻辑与的语法糖
@@ -370,6 +436,7 @@ public:
     bool operator==(const Sugar_For_Pred &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
+    void propagate_var_decl(const map<string, shared_ptr<Concept>> &v); // 传播变量声明
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Term &parent); // 传播变量声明
     shared_ptr<Sugar_For_Pred> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
@@ -463,7 +530,9 @@ public:
 class Assertion{
 public:
     // 用 左右两个个体 初始化
-    Assertion(const Individual &l,const Individual &r):is_std(true),left(make_shared<Individual>(l)),right(make_shared<Individual>(r)){}
+    Assertion(const Individual &l,const Individual &r):is_std(true),left(make_shared<Individual>(l)),right(make_shared<Individual>(r)){
+        left->alt_vals.push_back(right); // 保存 Assertion 蕴含的 equality 信息
+    }
     // 用 单个个体 初始化
     Assertion(const Individual &i):is_sugar_for_true(true),lonely_left(make_shared<Individual>(i)){}
     Assertion(){} // 默认构造
@@ -506,6 +575,7 @@ public:
     shared_ptr<Individual> indi; // 新定义的个体
 };
 
+class Rete_Question;
 class Fact{ // 事实
 public:
     // 用断言定义
@@ -519,9 +589,9 @@ public:
 
     Fact(){} // 默认构造
     // 拷贝构造
-    Fact(const Fact &rhs):is_assert(rhs.is_assert),is_pred(rhs.is_pred),is_var(rhs.is_var),is_def_indi(rhs.is_def_indi),assertion(rhs.assertion),pred_val(rhs.pred_val),variable(rhs.variable),def_indi(rhs.def_indi),var_decl(rhs.var_decl),abstract_to_concrete(rhs.abstract_to_concrete),has_been_added(rhs.has_been_added){}
+    Fact(const Fact &rhs):is_assert(rhs.is_assert),is_pred(rhs.is_pred),is_var(rhs.is_var),is_def_indi(rhs.is_def_indi),assertion(rhs.assertion),pred_val(rhs.pred_val),variable(rhs.variable),def_indi(rhs.def_indi),var_decl(rhs.var_decl),abstract_to_concrete(rhs.abstract_to_concrete),has_been_added(rhs.has_been_added),where_is(rhs.where_is){}
     // 拷贝赋值
-    Fact& operator=(const Fact &rhs){is_assert = rhs.is_assert;is_pred = rhs.is_pred;is_var = rhs.is_var;is_def_indi = rhs.is_def_indi;assertion = rhs.assertion;pred_val=rhs.pred_val;variable = rhs.variable;def_indi = rhs.def_indi; var_decl =rhs.var_decl;abstract_to_concrete=rhs.abstract_to_concrete;has_been_added=rhs.has_been_added;return *this;}
+    Fact& operator=(const Fact &rhs){is_assert = rhs.is_assert;is_pred = rhs.is_pred;is_var = rhs.is_var;is_def_indi = rhs.is_def_indi;assertion = rhs.assertion;pred_val=rhs.pred_val;variable = rhs.variable;def_indi = rhs.def_indi; var_decl =rhs.var_decl;abstract_to_concrete=rhs.abstract_to_concrete;has_been_added=rhs.has_been_added;where_is=rhs.where_is;return *this;}
 
     bool operator==(const Fact &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
@@ -539,9 +609,10 @@ public:
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
     map<string, string> abstract_to_concrete; // 约束变元的实例对应
     bool has_been_added = false; // 是否已经加入过 Rete 网络
+    shared_ptr<Rete_Question> where_is = nullptr; // 所在的 Rete_Question
 };
 
-class Rete_Question;
+
 class Question{ // 问题
 public:
     // 用 描述信息、事实列表、待求解项 初始化
@@ -564,24 +635,36 @@ public:
     shared_ptr<Rete_Question> rete_question; // 用于推理系统的问题
 };
 
+class Knowledge_Base;
+class Rete_Rule;
 class Rete_Question:public Question{ // 为适应推理系统对 Question 进行改造后的版本
 public:
     // 用 Question和变量声明 初始化
     Rete_Question(const Question &question,const map<string,shared_ptr<Concept>> &var_info):Question(question),var_decl(var_info){}
     Rete_Question(){} // 默认构造
     // 拷贝构造
-    Rete_Question(const Rete_Question &rhs):Question(rhs),var_decl(rhs.var_decl){}
+    Rete_Question(const Rete_Question &rhs):Question(rhs),indi_hash_map(rhs.indi_hash_map),def_indi_hash_table(rhs.def_indi_hash_table),var_decl(rhs.var_decl){}
     // 拷贝赋值
-    Rete_Question& operator=(const Rete_Question &rhs){Question::operator=(rhs);var_decl=rhs.var_decl;return *this;}
+    Rete_Question& operator=(const Rete_Question &rhs){Question::operator=(rhs);indi_hash_map=rhs.indi_hash_map;def_indi_hash_table=rhs.def_indi_hash_table;var_decl=rhs.var_decl;return *this;}
 
     string get_output_str() const; // 获取输出字符串
-    void take_action(shared_ptr<Individual> rhs); // 执行动作
+    void take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb); // 执行动作
     void print_result(); // 打印求解结果
 
+    void normalize_individual(shared_ptr<Assertion> &assertion); // 统一 assertion 中的 individual（要保存）
+    void normalize_individual(shared_ptr<Term> &term); // 统一 term 中的 individual（要保存）
+    void normalize_individual(shared_ptr<Cud> &cud); // 统一 cud 中的 individual（要保存）
+    void normalize_individual(shared_ptr<Assignment> &assignment); // 统一 assignment 中的 individual（要保存）
+    void normalize_individual(shared_ptr<Individual> &indi); // 统一 individual（要保存）
+    void normalize_individual(shared_ptr<Fact> &fact); // 统一 fact 中的 individual（要保存）
+    void normalize_individual(shared_ptr<Rete_Rule> &rule); // 统一 Rete_Rule 中的 individual（要保存）
+
+    map<string,shared_ptr<Individual>> indi_hash_map; // 存放所有的 Individual
+    map<string, shared_ptr<Def_Individual>> def_indi_hash_table; // 存放所有的 Def_Individual
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
 
 private:
-    void take_action(shared_ptr<Cud> cud); // 执行 Cud
+    void take_action(shared_ptr<Cud> cud, shared_ptr<Knowledge_Base> kb); // 执行 Cud
 };
 
 
@@ -662,12 +745,15 @@ public:
 class Knowledge_Base{ // 定义知识库
 public:
     // 用 定义概念、定义个体、定义算子、知识的列表 初始化
-    Knowledge_Base(const vector<shared_ptr<Def_Concept>> &c,const vector<shared_ptr<Def_Individual>> &i,const vector<shared_ptr<Def_Operator>> &o,const vector<shared_ptr<Rule>> &r):def_concepts(c),def_individuals(i),def_operators(o),rules(r){}
+    Knowledge_Base(const vector<shared_ptr<Def_Concept>> &c,const vector<shared_ptr<Def_Individual>> &i,const vector<shared_ptr<Def_Operator>> &o,const vector<shared_ptr<Rule>> &r):def_concepts(c),def_individuals(i),def_operators(o),rules(r){
+        init_def_part();
+        print_def_part();
+    }
     Knowledge_Base(){} // 默认构造
     // 拷贝构造
-    Knowledge_Base(const Knowledge_Base &rhs):def_concepts(rhs.def_concepts),def_individuals(rhs.def_individuals),def_operators(rhs.def_operators),rules(rhs.rules),rete_rules(rhs.rete_rules){}
+    Knowledge_Base(const Knowledge_Base &rhs):def_concepts(rhs.def_concepts),def_individuals(rhs.def_individuals),def_operators(rhs.def_operators),rules(rhs.rules),rete_rules(rhs.rete_rules),def_cpt_hash_table(rhs.def_cpt_hash_table),def_indi_hash_table(rhs.def_indi_hash_table),def_oprt_hash_table(rhs.def_oprt_hash_table){}
     // 拷贝赋值
-    Knowledge_Base& operator=(const Knowledge_Base &rhs){def_concepts=rhs.def_concepts;def_individuals=rhs.def_individuals;def_operators=rhs.def_operators;rules=rhs.rules;rete_rules=rhs.rete_rules;return *this;}
+    Knowledge_Base& operator=(const Knowledge_Base &rhs){def_concepts=rhs.def_concepts;def_individuals=rhs.def_individuals;def_operators=rhs.def_operators;rules=rhs.rules;rete_rules=rhs.rete_rules;def_cpt_hash_table=rhs.def_cpt_hash_table;def_indi_hash_table=rhs.def_indi_hash_table;def_oprt_hash_table=rhs.def_oprt_hash_table;return *this;}
 
     string get_output_str() const; // 获取输出字符串
 
@@ -683,7 +769,15 @@ public:
     vector<shared_ptr<Def_Operator>> def_operators; // 定义算子
     vector<shared_ptr<Rule>> rules; // 规则形式的知识
 
+    map<string, shared_ptr<Def_Concept>> def_cpt_hash_table; // 存放所有已定义的 Concept
+    map<string, shared_ptr<Def_Individual>> def_indi_hash_table; // 存放所有已定义的 Individual
+    map<string, shared_ptr<Def_Operator>> def_oprt_hash_table; // 存放所有已定义的 Operator
+
     vector<shared_ptr<Rete_Rule>> rete_rules; // 用于推理系统的规则
+
+private:
+    void init_def_part(); // 初始化 定义概念、个体、算子 的部分
+    void print_def_part(); // 输出 定义概念、个体、算子 的部分
 };
 
 
@@ -730,6 +824,10 @@ string str_of_var_decl(const map<string, shared_ptr<Concept>> &var_decl); // 变
 string str_of_abs_to_con(const map<string, string> &abstrct_to_concrete); // 约束变元的实例对应的字符串输出
 shared_ptr<Individual> var_decl_to_indi(const map<string, shared_ptr<Concept>> &var_decl); // 把变量声明改造为 Individual(具体地说是Variable)
 map<string, shared_ptr<Concept>> instantiate_var_decl(const map<string, shared_ptr<Concept>> &var_decl, const map<string, string> &abstract_to_concrete); // 实例化变量声明
+shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &question); // 个体求值
+void specify_the_question(shared_ptr<Rete_Question> question,shared_ptr<Fact> fact); // 指明 fact 所在的 Question
+void try_to_simplify(shared_ptr<Assertion> &assertion, const Rete_Question &question);
+void try_to_simplify(shared_ptr<Individual> &indi, const Rete_Question &question);
 
 inline string Number::get_output_str() const{
     std::ostringstream oss;

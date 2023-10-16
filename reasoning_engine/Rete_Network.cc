@@ -1,6 +1,6 @@
 #include "Rete_Network.hh"
 
-// Rete 网络数据结构的部分成员函数实现
+// Rete 网络数据结构的部分成员函数及相关函数的实现
 
 ostream& operator<<(ostream &os, const Token &e){
     string sep = "";
@@ -105,6 +105,7 @@ string Beta_Memory::get_figure_info(){
 void Rete_Node::activation(shared_ptr<Fact> fact){ // 根节点激活
     for(auto cpt_node:concept_nodes){
         cpt_node->activation(fact);
+        fact->abstract_to_concrete.clear();
     }
 }
 
@@ -115,13 +116,13 @@ bool Concept_Node::perform_concept_test(shared_ptr<Fact> fact){ // 测试fact是
     // Concept_Node 是用一对变量声明初始化的
 
     // fact 的变量声明中要存在一个指定的概念
-    bool pass = true;
+    bool pass = false;
     for(auto var_info:fact->var_decl){
         if(*var_info.second==*constraint.second){
             fact->abstract_to_concrete.insert(pair<string,string>(constraint.first,var_info.first)); // 补充 abstract_to_concrete
+            pass = true;
             break;
         }
-        pass = false;
     }
     #ifndef NDEBUG
         cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
@@ -189,20 +190,87 @@ void Concept_Memory::mem_side_activation(shared_ptr<Fact> fact){ // 来自共同
     }
 }
 
+// 求出抽象的个体在给定已知 fact 时的实例化结果
+shared_ptr<Individual> get_con_indi(shared_ptr<Individual> abs_indi,shared_ptr<Fact> fact){
+    cout<<endl<<"get_con_indi 要求抽象的个体在给定已知 fact 时的实例化结果"<<endl;
+    cout<<"当前的 抽象个体为: "<<*abs_indi<<endl;
+    cout<<"当前的 fact 为: "<<*fact<<endl;
+    shared_ptr<Individual> ret;
+    assert(abs_indi->is_term); // 只处理 Term
+    auto t = abs_indi->term;
+    if(t->is_oprt_apply){ // 这里的 Term 只会是 sugar_for_oprt_apply 或 标准形式
+        string abs_caller_name = t->oprt_apply_val->indi; // sugar_for_oprt_apply 的调用者
+        // 找到调用者对应的实例个体
+        string con_caller_name; // 在当前 fact 下的实际调用者
+        for(auto abs_to_con:fact->abstract_to_concrete){
+            if(abs_to_con.first == abs_caller_name){
+                con_caller_name = abs_to_con.second;
+                break;
+            }
+            assert(false);
+        }
+        shared_ptr<Individual> con_caller; // 实际调用(定义)个体的定义值
+        // 在当前的定义个体中寻找实际调用者个体
+        assert(fact->where_is && fact->where_is->def_indi_hash_table.size());
+        for(auto p:fact->where_is->def_indi_hash_table){
+            auto def_indi = p.second;
+            if(def_indi->symbol==con_caller_name){
+                con_caller = def_indi->indi;
+                break;
+            }
+            assert(false);
+        }
+        // 查询(定义)个体的某个属性值
+        string uni_oprt = t->oprt_apply_val->uni_oprt; // 调用的一元算子
+        assert(con_caller && con_caller->is_term && con_caller->term->is_ctor);
+        for(auto assignment:con_caller->term->ctor_val->content){
+            if(assignment->symbol==uni_oprt)
+                ret = assignment->val;
+        }
+    }
+    else{
+        assert(t->is_std);
+        // TODO:实现
+    }
+    assert(ret);
+    cout<<"实例化结果为: "<<*ret<<endl;
+    return ret;
+}
+
 bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constraint, shared_ptr<Fact> fact){ // 涉及 Sugar_For_Pred 的测试
     // 谓词只会是: ">"、"<"、">="、"<="、"!="
-    // 也就是说，要比较的值只会是 Number
+    // 目前支持这些比较的值只会是 Number
     #ifndef NDEBUG
         cout<<"进入到 predicate_test: "<<*test_constraint<<endl;
     #endif
-    // TODO:待实现
+    // 把要测试的左右对象求出来
+    auto con_left = get_con_indi(test_constraint->left,fact);
+    auto con_right = get_con_indi(test_constraint->right,fact);
+    assert(con_left->is_math_indi && con_left->math_indi->is_math_expr && con_left->math_indi->expr_val->is_num);
+    assert(con_right->is_math_indi && con_right->math_indi->is_math_expr && con_right->math_indi->expr_val->is_num);
+    auto left_val = *con_left->math_indi->expr_val->number_val;
+    auto right_val = *con_right->math_indi->expr_val->number_val;
+    bool ret = false;
+    auto predicate = test_constraint->predicate;
+    if(predicate == ">")
+        ret = left_val > right_val;
+    else if(predicate == "<")
+        ret = left_val < right_val;
+    else if(predicate == ">=")
+        ret = left_val >= right_val;
+    else if(predicate == "<=")
+        ret = left_val <= right_val;
+    else if(predicate == "!=")
+        ret = left_val != right_val;
+
+    return ret;
 }
 
 bool Intra_Node::perform_assertion_test(shared_ptr<Assertion> test_constraint, shared_ptr<Fact> fact){ // 涉及 Assertion 的测试
     #ifndef NDEBUG
         cout<<"进入到 assertion_test: "<<*test_constraint<<endl;
     #endif
-    // TODO:待实现
+    // TODO:待实现 is_std 的情况
     bool pass = false;
     if(test_constraint->is_sugar_for_true){ // 如果是 Individual = true 的语法糖
         // lonely_left 是一个标准形式的 term
@@ -289,7 +357,8 @@ void Alpha_Memory::activation(shared_ptr<Fact> fact){ // AM 激活
 }
 
 bool Join_Node::perform_join_test(shared_ptr<Token> token, shared_ptr<Fact> fact){ // Join_Node 测试
-    //TODO:待实现
+    // TODO: implement
+    return true;
 }
 
 void Join_Node::alpha_side_activation(shared_ptr<Fact> fact){ // AM 传递 Fact 导致的激活
@@ -343,7 +412,17 @@ void Terminal_Node::activation(shared_ptr<Token> token){ // Terminal_Node 激活
     cout<<"当前 Terminal: "<<*match_rule<<endl;
     cout<<"当前 Token: "<<*token<<endl;
     shared_ptr<Rete_Rule> new_rule = match_rule->instantiate(token->abstract_to_concrete); // grounding
+    // 要将实例化后的规则添加进冲突集，除非当前冲突集中已经存在相同的规则
+    string new_rule_name = new_rule->get_output_str();
+    for(auto rule_name:this->conflict_set->rule_names){
+        if(rule_name==new_rule_name){
+            cout<<"已经添加过该规则, 不重复添加!"<<endl;
+            return;
+        }
+    }
     conflict_set->content.push_back(new_rule);
+    conflict_set->rule_names.push_back(new_rule_name);
+    cout<<"把该规则添加至冲突集!"<<endl;
 }
 
 // 添加 fact 到 Rete Network
@@ -351,4 +430,5 @@ void Rete_Network::add_fact(shared_ptr<Fact> fact){
     cout<<"把以下 Fact 加入 Rete 网络: "<<fact->get_output_str()<<endl;
     root->activation(fact); // 激活根节点
     fact->has_been_added = true;
+    cout<<endl<<endl;
 }
