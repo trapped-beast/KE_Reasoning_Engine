@@ -306,6 +306,14 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
      * 综上，Intra_Node 的 constraint 要分析4种情况: (a)、(b)、(c)、(d)
      */
     
+    // TODO:重构
+    // 处理 (c)、(d) 分支都需要先根据当前的 abstract_to_concrete 实例化 constraint
+    // auto origin_constraint = make_shared<Individual>(*constraint);
+    // constraint = constraint->instantiate(fact->abstract_to_concrete);
+    // #ifndef NDEBUG
+    //     cout<<"实例化之后的当前测试 "<<get_figure_info()<<endl;
+    // #endif
+
     bool pass = false;
     // assert(constraint->is_var + constraint->is_term + constraint->is_assertion == 1);
     if(constraint->is_var){ // 分支 a
@@ -337,6 +345,7 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
         cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
     #endif
 
+    // constraint = origin_constraint;
     return pass;
 }
 
@@ -414,15 +423,27 @@ void Terminal_Node::activation(shared_ptr<Token> token){ // Terminal_Node 激活
     shared_ptr<Rete_Rule> new_rule = match_rule->instantiate(token->abstract_to_concrete); // grounding
     // 要将实例化后的规则添加进冲突集，除非当前冲突集中已经存在相同的规则
     string new_rule_name = new_rule->get_output_str();
-    for(auto rule_name:this->conflict_set->rule_names){
-        if(rule_name==new_rule_name){
-            cout<<"已经添加过该规则, 不重复添加!"<<endl;
-            return;
-        }
+    if(this->conflict_set->rule_names.find(new_rule_name)!=conflict_set->rule_names.end()){
+        cout<<"已经添加过该规则, 不重复添加!"<<endl;
+        return;
     }
     conflict_set->content.push_back(new_rule);
-    conflict_set->rule_names.push_back(new_rule_name);
+    conflict_set->rule_names.insert(new_rule_name);
     cout<<"把该规则添加至冲突集!"<<endl;
+
+    // 把当前的 fact 实例化规则的信息加入 Reasoning_Graph
+    shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
+    edge->abstract_rule = match_rule;
+    if(token->content.size()==1){
+        auto fact = *token->content.begin(); // 唯一的 fact
+        edge->fact_start = fact;
+        reasoning_graph->fact_nodes_hash_table.insert(pair<string,shared_ptr<Fact>>(fact->get_output_str(),fact));
+    }
+    else{
+        edge->token_start = token;
+        reasoning_graph->token_nodes_hash_table.insert(pair<string,shared_ptr<Token>>(token->get_output_str(),token));
+    }
+    reasoning_graph->edges.push_back(edge);
 }
 
 // 添加 fact 到 Rete Network

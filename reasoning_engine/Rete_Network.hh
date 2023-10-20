@@ -3,17 +3,14 @@
 
 // Rete 网络数据结构
 #include "ke_struct.hh"
+#include "global_var_decl.hh"
 
 class Hash_Input{ // 用于建立哈希索引的对象
 public:
     // 用 constraint(测试条件的字符串表达) 和 变量声明 来初始化
     Hash_Input(const string &s, const map<string, shared_ptr<Concept>> &var_info):val(pair<string, map<string, shared_ptr<Concept>>>(s,var_info)){}
     Hash_Input(){} // 默认构造
-    // 拷贝构造
-    Hash_Input(const Hash_Input &rhs):val(rhs.val){}
-    // 拷贝赋值
-    Hash_Input& operator=(const Hash_Input &rhs){val=rhs.val;return *this;}
-
+    
     // 重载 <
     bool operator<(const Hash_Input &rhs) const{return val<rhs.val;}
     // 重载 ==
@@ -196,9 +193,9 @@ private:
 };
 
 class Conflict_Set{ // 冲突集
-public: // TODO:改为set
+public: 
     vector<shared_ptr<Rete_Rule>> content; // 保存实例化后的 Rule
-    vector<string> rule_names; // 保存实例化后的 Rule 的字符串输出 (由于实例化后的 Rule 在执行动作时可能会改变，而又需要能够判断冲突集中是否存在相同规则)
+    set<string> rule_names; // 保存实例化后的 Rule 的字符串输出 (由于实例化后的 Rule 在执行动作时可能会改变，而又需要能够判断冲突集中是否存在相同规则)
 };
 
 class Terminal_Node{
@@ -236,6 +233,25 @@ public:
     map<string, shared_ptr<Terminal_Node>> t_node_hash_table; // Terminal_Node 的哈希表
     shared_ptr<Conflict_Set> conflict_set = nullptr; // 冲突集
     shared_ptr<Knowledge_Base> underlying_kb = nullptr; // underlying 知识库
+};
+
+class Reasoning_Edge{ // 推理图的边
+public:
+    // 用 实例化后的规则 初始化
+    Reasoning_Edge(shared_ptr<Rete_Rule> rule):instantiated_rule(rule){}
+
+    shared_ptr<Rete_Rule> abstract_rule; // 原始规则
+    shared_ptr<Rete_Rule> instantiated_rule; // 实例化之后的规则
+    shared_ptr<Fact> fact_start; // 起点可能是 Fact
+    shared_ptr<Token> token_start; // 起点可能是 Token
+    shared_ptr<Fact> end; // 终点
+};
+
+class Reasoning_Graph{ // 推理图
+public:
+    map<string,shared_ptr<Fact>> fact_nodes_hash_table; // 节点可能是 Fact
+    map<string,shared_ptr<Token>> token_nodes_hash_table; // 节点可能是 Token
+    vector<shared_ptr<Reasoning_Edge>> edges; // 边为 Rete_Rule
 };
 
 

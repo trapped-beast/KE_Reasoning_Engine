@@ -1,6 +1,6 @@
 #ifndef AL_STRUCT_HH
 #define AL_STRUCT_HH
-#define NDEBUG
+// #define NDEBUG
 
 // AL抽象语法树相关的数据结构
 
@@ -34,10 +34,6 @@ public:
     // 用 float 初始化
     Number(double d):is_float(true),f_val(d){}
     Number(){} // 默认构造
-    // 拷贝构造
-    Number(const Number &rhs):is_int(rhs.is_int),is_float(rhs.is_float),i_val(rhs.i_val),f_val(rhs.f_val){}
-    // 拷贝赋值
-    Number& operator=(const Number &rhs){is_int = rhs.is_int; is_float = rhs.is_float; i_val = rhs.i_val; f_val = rhs.f_val; return *this;}
     
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Number &rhs) const; // 重载 ==
@@ -109,10 +105,6 @@ public:
     // 用函数名和 vector<shared_ptr<Math_Expr>>格式的参数列表 初始化
     Math_Func(const string &name,const vector<shared_ptr<Math_Expr>> &expr_list):func_name(name),args(expr_list){}
     Math_Func(){} // 默认构造
-    // 拷贝构造
-    Math_Func(const Math_Func &rhs):func_name(rhs.func_name),args(rhs.args),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Math_Func& operator=(const Math_Func &rhs){func_name = rhs.func_name; args = rhs.args; var_decl = rhs.var_decl; return *this;}
     
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Math_Func &rhs) const; // 重载 ==
@@ -143,11 +135,6 @@ public:
     Math_Expr(shared_ptr<Math_Expr> e):is_enclosed(true),enclosed_expr(e){}
 
     Math_Expr(){} // 默认构造
-    // 拷贝构造
-    Math_Expr(const Math_Expr &rhs):is_num(rhs.is_num),is_sy(rhs.is_sy),is_func(rhs.is_func),is_mathe(rhs.is_mathe),number_val(rhs.number_val),is_enclosed(rhs.is_enclosed),sy_val(rhs.sy_val),func_val(rhs.func_val),op_val(rhs.op_val),left(rhs.left),right(rhs.right),var_decl(rhs.var_decl),enclosed_expr(rhs.enclosed_expr){}
-    // 拷贝赋值
-    Math_Expr& operator=(const Math_Expr &rhs){is_num = rhs.is_num; is_sy = rhs.is_sy; is_func = rhs.is_func; is_mathe = rhs.is_mathe; number_val = rhs.number_val;is_enclosed=rhs.is_enclosed; sy_val = rhs.sy_val; func_val = rhs.func_val; op_val = rhs.op_val; left = rhs.left; right = rhs.right; var_decl=rhs.var_decl;enclosed_expr=rhs.enclosed_expr; return *this;}
-
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Math_Expr &rhs) const; // 重载 ==
 
@@ -183,11 +170,7 @@ public:
     // 用左右两个 Math_Expr 初始化
     Math_Equation(const Math_Expr &l, const Math_Expr &r):left(make_shared<Math_Expr>(l)),right(make_shared<Math_Expr>(r)){}
     Math_Equation(){} // 默认构造
-    // 拷贝构造
-    Math_Equation(const Math_Equation &rhs):left(rhs.left),right(rhs.right),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Math_Equation& operator=(const Math_Equation &rhs){left = rhs.left; right = rhs.right;var_decl=rhs.var_decl; return *this;}
-    
+     
     bool operator==(const Math_Equation &rhs) const{return left==rhs.left && right==rhs.right;} // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -205,11 +188,7 @@ public:
     // 用横纵坐标的 Math_Expr 初始化
     Coordinate(const Math_Expr &x, const Math_Expr &y):abscissa(make_shared<Math_Expr>(x)),ordinate(make_shared<Math_Expr>(y)){}
     Coordinate(){} // 默认构造
-    // 拷贝构造
-    Coordinate(const Coordinate &rhs):abscissa(rhs.abscissa),ordinate(rhs.ordinate),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Coordinate& operator=(const Coordinate &rhs){abscissa = rhs.abscissa; ordinate = rhs.ordinate; var_decl=rhs.var_decl; return *this;}
-
+    
     bool operator==(const Coordinate &rhs) const{return abscissa==rhs.abscissa && ordinate==rhs.ordinate;} // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -233,11 +212,6 @@ public:
     Math_Individual(const Coordinate &e):is_coordinate(true),coordinate_val(make_shared<Coordinate>(e)){}
     
     Math_Individual(){} // 默认构造
-    // 拷贝构造
-    Math_Individual(const Math_Individual &rhs):is_equation(rhs.is_equation),is_coordinate(rhs.is_coordinate),is_math_expr(rhs.is_math_expr),equation_val(rhs.equation_val),coordinate_val(rhs.coordinate_val),expr_val(rhs.expr_val),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Math_Individual& operator=(const Math_Individual &rhs){is_equation = rhs.is_equation;is_coordinate = rhs.is_coordinate;is_math_expr = rhs.is_math_expr;equation_val = rhs.equation_val;coordinate_val = rhs.coordinate_val;expr_val = rhs.expr_val;var_decl=rhs.var_decl;return *this;}
-
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Math_Individual &rhs) const; // 重载 ==
 
@@ -263,11 +237,6 @@ public:
     Concept(const string &n, const Concept &c):is_compound(true),outer_oprt(n),inner_concept(make_shared<Concept>(c)){}
     
     Concept(){} // 默认构造
-    // 拷贝构造
-    Concept(const Concept &rhs):is_atomic(rhs.is_atomic),is_compound(rhs.is_compound),atomic_concept(rhs.atomic_concept),outer_oprt(rhs.outer_oprt),inner_concept(rhs.inner_concept){}
-    // 拷贝赋值
-    Concept& operator=(const Concept &rhs){is_atomic=rhs.is_atomic,is_compound=rhs.is_compound,atomic_concept=rhs.atomic_concept,outer_oprt=rhs.outer_oprt,inner_concept=rhs.inner_concept;return *this;}
-
     string get_output_str() const; // 获取输出字符串
     // 重载 <
     bool operator<(const Concept &rhs) const{return get_output_str()<rhs.get_output_str();}
@@ -288,13 +257,7 @@ public:
     // 用符号和对应概念初始化
     Variable(const string &sy,const Concept &cpt):symbol(sy),concept(make_shared<Concept>(cpt)){}
     Variable(){} // 默认构造
-    // 拷贝构造
-    Variable(const Variable &rhs):symbol(rhs.symbol),concept(rhs.concept){}
-    // 拷贝赋值
-    Variable& operator=(const Variable &rhs){symbol=rhs.symbol;concept=rhs.concept;return *this;}
-    // 重载 <
-    // bool operator<(const Variable &rhs) const  ??todo
-    
+     
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Variable &rhs) const{return symbol==rhs.symbol && *concept==*rhs.concept;} // 重载 ==
     
@@ -322,11 +285,6 @@ public:
     }
 
     Individual(){} // 默认构造
-    // 拷贝构造
-    Individual(const Individual &rhs):is_var(rhs.is_var),is_bool(rhs.is_bool),is_cud(rhs.is_cud),is_term(rhs.is_term),is_assertion(rhs.is_assertion),is_math_indi(rhs.is_math_indi),var_val(rhs.var_val),bool_val(rhs.bool_val),cud(rhs.cud),term(rhs.term),assertion(rhs.assertion),math_indi(rhs.math_indi),var_decl(rhs.var_decl),val_is_known(rhs.val_is_known),alt_val_is_known(rhs.alt_val_is_known),alt_vals(rhs.alt_vals){}
-    // 拷贝赋值
-    Individual& operator=(const Individual &rhs){is_var=rhs.is_var;is_bool=rhs.is_bool;is_cud=rhs.is_cud;is_term=rhs.is_term;is_assertion=rhs.is_assertion;is_math_indi=rhs.is_math_indi;var_val=rhs.var_val;bool_val=rhs.bool_val;cud=rhs.cud;term=rhs.term;assertion=rhs.assertion;math_indi=rhs.math_indi;var_decl=rhs.var_decl;val_is_known=rhs.val_is_known;alt_val_is_known=rhs.alt_val_is_known;alt_vals=rhs.alt_vals;return *this;}
-
     bool operator==(const Individual &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -367,11 +325,7 @@ public:
     // 用符号和个体初始化
     Assignment(const string &s,const Individual &i):symbol(s),val(make_shared<Individual>(i)){}
     Assignment(){} // 默认构造
-    // 拷贝构造
-    Assignment(const Assignment &rhs):symbol(rhs.symbol),val(rhs.val){}
-    // 拷贝赋值
-    Assignment& operator=(const Assignment &rhs){symbol=rhs.symbol;val=rhs.val;return *this;}
-
+    
     bool operator==(const Assignment &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -386,11 +340,7 @@ public:
     // 用 cud标识符、左右两个个体 初始化
     Cud(const string &cud_idf,const Individual &l,const Individual &r):action(cud_idf),left(make_shared<Individual>(l)),right(make_shared<Individual>(r)){}
     Cud(){} // 默认构造
-    // 拷贝构造
-    Cud(const Cud &rhs):action(rhs.action),left(rhs.left),right(rhs.right){}
-    // 拷贝赋值
-    Cud& operator=(const Cud &rhs){action=rhs.action;left=rhs.left;right=rhs.right;return *this;}
-
+    
     bool operator==(const Cud &rhs) const{return action==rhs.action && left==rhs.left && right==rhs.right;}; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -407,11 +357,7 @@ public:
     // 用 vector<shared_ptr<Individual>>格式的个体列表 初始化
     Sugar_For_And(const vector<shared_ptr<Individual>> &ls):content(ls){}
     Sugar_For_And(){} // 默认构造
-    // 拷贝构造
-    Sugar_For_And(const Sugar_For_And &rhs):content(rhs.content),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Sugar_For_And& operator=(const Sugar_For_And &rhs){content=rhs.content;var_decl=rhs.var_decl;return *this;}
-
+    
     bool operator==(const Sugar_For_And &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -426,12 +372,7 @@ class Sugar_For_Pred{ // 二元谓词的语法糖
 public:
     // 用 两个个体和一个谓词 初始化
     Sugar_For_Pred(const Individual &i_1,const string &pred,const Individual &i_2):left(make_shared<Individual>(i_1)),right(make_shared<Individual>(i_2)),predicate(pred){}
-    
     Sugar_For_Pred(){} // 默认构造
-    // 拷贝构造
-    Sugar_For_Pred(const Sugar_For_Pred &rhs):left(rhs.left),right(rhs.right),predicate(rhs.predicate),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Sugar_For_Pred& operator=(const Sugar_For_Pred &rhs){left=rhs.left;right=rhs.right;predicate=rhs.predicate;var_decl=rhs.var_decl;return *this;}
     
     bool operator==(const Sugar_For_Pred &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
@@ -452,11 +393,7 @@ public:
     // 用 vector<shared_ptr<Assignment>>格式的赋值式列表 初始化
     Sugar_For_Ctor(const vector<shared_ptr<Assignment>> &ls):content(ls){}
     Sugar_For_Ctor(){} // 默认构造
-    // 拷贝构造
-    Sugar_For_Ctor(const Sugar_For_Ctor &rhs):content(rhs.content){} 
-    // 拷贝赋值
-    Sugar_For_Ctor& operator=(const Sugar_For_Ctor &rhs){content=rhs.content;return *this;}
-
+    
     bool operator==(const Sugar_For_Ctor &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -469,11 +406,7 @@ class Sugar_For_Oprt_Apply{ // 一元算子应用的语法糖: a.b 表示 Get_b(
 public:
     // 用 表示个体的符号和表示一元算子的符号 初始化
     Sugar_For_Oprt_Apply(const string &i="",const string &op=""):indi(i),uni_oprt(op){}
-    // 拷贝构造
-    Sugar_For_Oprt_Apply(const Sugar_For_Oprt_Apply &rhs):indi(rhs.indi),uni_oprt(rhs.uni_oprt),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Sugar_For_Oprt_Apply& operator=(const Sugar_For_Oprt_Apply &rhs){indi=rhs.indi;uni_oprt=rhs.uni_oprt;var_decl=rhs.var_decl;return *this;}
-    
+     
     bool operator==(const Sugar_For_Oprt_Apply &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -499,11 +432,7 @@ public:
     Term(const string &op, vector<shared_ptr<Individual>> ls):is_std(true),oprt(op),args(ls){}
 
     Term(){}// 默认构造
-    // 拷贝构造
-    Term(const Term &rhs):is_and(rhs.is_and),is_pred(rhs.is_pred),is_ctor(rhs.is_ctor),is_oprt_apply(rhs.is_oprt_apply),is_std(rhs.is_std),and_val(rhs.and_val),pred_val(rhs.pred_val),ctor_val(rhs.ctor_val),oprt_apply_val(rhs.oprt_apply_val),oprt(rhs.oprt),args(rhs.args),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Term& operator=(const Term &rhs){is_and = rhs.is_and;is_pred = rhs.is_pred;is_ctor = rhs.is_ctor;is_oprt_apply = rhs.is_oprt_apply;is_std = rhs.is_std;and_val = rhs.and_val;pred_val = rhs.pred_val;ctor_val = rhs.ctor_val;oprt_apply_val = rhs.oprt_apply_val;oprt = rhs.oprt;args = rhs.args;var_decl=rhs.var_decl;return *this;}
-    
+     
     bool operator==(const Term &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -536,11 +465,7 @@ public:
     // 用 单个个体 初始化
     Assertion(const Individual &i):is_sugar_for_true(true),lonely_left(make_shared<Individual>(i)){}
     Assertion(){} // 默认构造
-    // 拷贝构造
-    Assertion(const Assertion &rhs):is_std(rhs.is_std),is_sugar_for_true(rhs.is_sugar_for_true),left(rhs.left),right(rhs.right),lonely_left(rhs.lonely_left),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Assertion& operator=(const Assertion &rhs){is_std = rhs.is_std;is_sugar_for_true = rhs.is_sugar_for_true;left = rhs.left;right = rhs.right;lonely_left = rhs.lonely_left;var_decl=rhs.var_decl;return *this;}
-
+    
     bool operator==(const Assertion &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -564,9 +489,7 @@ public:
     // 用 符号、概念、个体 自定义
     Def_Individual(const string &s,const Concept &c,const Individual &i):symbol(s),concept(make_shared<Concept>(c)),indi(make_shared<Individual>(i)){}
     Def_Individual(){} // 默认构造
-    Def_Individual(const Def_Individual &rhs):symbol(rhs.symbol),concept(rhs.concept),indi(rhs.indi){}; // 拷贝构造
-    Def_Individual& operator=(const Def_Individual &rhs){symbol=rhs.symbol;concept=rhs.concept;indi=rhs.indi;return *this;}; // 拷贝赋值
-
+    
     bool operator==(const Def_Individual &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -588,10 +511,6 @@ public:
     Fact(const Def_Individual &e):is_def_indi(true),def_indi(make_shared<Def_Individual>(e)){}
 
     Fact(){} // 默认构造
-    // 拷贝构造
-    Fact(const Fact &rhs):is_assert(rhs.is_assert),is_pred(rhs.is_pred),is_var(rhs.is_var),is_def_indi(rhs.is_def_indi),assertion(rhs.assertion),pred_val(rhs.pred_val),variable(rhs.variable),def_indi(rhs.def_indi),var_decl(rhs.var_decl),abstract_to_concrete(rhs.abstract_to_concrete),has_been_added(rhs.has_been_added),where_is(rhs.where_is){}
-    // 拷贝赋值
-    Fact& operator=(const Fact &rhs){is_assert = rhs.is_assert;is_pred = rhs.is_pred;is_var = rhs.is_var;is_def_indi = rhs.is_def_indi;assertion = rhs.assertion;pred_val=rhs.pred_val;variable = rhs.variable;def_indi = rhs.def_indi; var_decl =rhs.var_decl;abstract_to_concrete=rhs.abstract_to_concrete;has_been_added=rhs.has_been_added;where_is=rhs.where_is;return *this;}
 
     bool operator==(const Fact &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
@@ -618,11 +537,7 @@ public:
     // 用 描述信息、事实列表、待求解项 初始化
     Question(const string &s,const vector<shared_ptr<Fact>> &facts,const vector<shared_ptr<Individual>> &unkown):description(s),fact_list(facts),to_solve(unkown){}
     Question(){} // 默认构造
-    // 拷贝构造
-    Question(const Question &rhs):description(rhs.description),fact_list(rhs.fact_list),to_solve(rhs.to_solve){}
-    // 拷贝赋值
-    Question& operator=(const Question &rhs){description=rhs.description;fact_list=rhs.fact_list;to_solve=rhs.to_solve;return *this;}
-
+    
     string get_output_str() const; // 获取输出字符串
 
     void get_adapted_question(); // 获取适配 Rete 算法版本的问题
@@ -642,14 +557,11 @@ public:
     // 用 Question和变量声明 初始化
     Rete_Question(const Question &question,const map<string,shared_ptr<Concept>> &var_info):Question(question),var_decl(var_info){}
     Rete_Question(){} // 默认构造
-    // 拷贝构造
-    Rete_Question(const Rete_Question &rhs):Question(rhs),indi_hash_map(rhs.indi_hash_map),def_indi_hash_table(rhs.def_indi_hash_table),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Rete_Question& operator=(const Rete_Question &rhs){Question::operator=(rhs);indi_hash_map=rhs.indi_hash_map;def_indi_hash_table=rhs.def_indi_hash_table;var_decl=rhs.var_decl;return *this;}
-
+    
     string get_output_str() const; // 获取输出字符串
     void take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb); // 执行动作
-    void print_result(); // 打印求解结果
+    void print_result(); // 输出求解结果
+    void print_solving_precess(); // 输出求解过程
 
     void normalize_individual(shared_ptr<Assertion> &assertion); // 统一 assertion 中的 individual（要保存）
     void normalize_individual(shared_ptr<Term> &term); // 统一 term 中的 individual（要保存）
@@ -660,7 +572,7 @@ public:
     void normalize_individual(shared_ptr<Rete_Rule> &rule); // 统一 Rete_Rule 中的 individual（要保存）
 
     map<string,shared_ptr<Individual>> indi_hash_map; // 存放所有的 Individual
-    map<string, shared_ptr<Def_Individual>> def_indi_hash_table; // 存放所有的 Def_Individual
+    map<string,shared_ptr<Def_Individual>> def_indi_hash_table; // 存放所有的 Def_Individual
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
 
 private:
@@ -675,11 +587,7 @@ public:
     // 用 概念、父概念、变量列表 自定义
     Def_Concept(const Concept &c,const Concept &p,const vector<shared_ptr<Variable>> &ls):with_parent(true),concept(make_shared<Concept>(c)),parent_cpt(make_shared<Concept>(p)),members(ls){}
     Def_Concept(){} // 默认构造
-    // 拷贝构造
-    Def_Concept(const Def_Concept &rhs):with_parent(rhs.with_parent),without_parent(rhs.without_parent),concept(rhs.concept),parent_cpt(rhs.parent_cpt),members(rhs.members){};
-    // 拷贝赋值
-    Def_Concept& operator=(const Def_Concept &rhs){with_parent=rhs.with_parent;without_parent=rhs.without_parent;concept=rhs.concept;parent_cpt=rhs.parent_cpt;members=rhs.members;return *this;};
-
+    
     string get_output_str() const; // 获取输出字符串
 
     bool with_parent = false; // 有继承
@@ -695,9 +603,7 @@ public:
     // 用 算子、输入的变量列表、输出的个体 初始化
     Def_Operator(const string &s,const vector<shared_ptr<Variable>> &in,const Individual &out):oprt(s),input(in),output(make_shared<Individual>(out)){}
     Def_Operator(){} // 默认构造
-    Def_Operator(const Def_Operator &rhs):oprt(rhs.oprt),input(rhs.input),output(rhs.output){} // 拷贝构造
-    Def_Operator& operator=(const Def_Operator &rhs){oprt=rhs.oprt;input=rhs.input;output=rhs.output;return *this;} // 拷贝赋值
-
+    
     string get_output_str() const; // 获取输出字符串
 
     string oprt; // 新定义的算子
@@ -711,11 +617,7 @@ public:
     // 用 左右个体和描述信息 初始化
     Rule(const Individual &l,const Individual &r,const string &s):lhs(make_shared<Individual>(l)),rhs(make_shared<Individual>(r)),description(s){};
     Rule(){} // 默认构造
-    // 拷贝构造
-    Rule(const Rule &rhs):lhs(rhs.lhs),rhs(rhs.rhs),description(rhs.description){}
-    // 拷贝赋值
-    Rule& operator=(const Rule &r){lhs=r.lhs;rhs=r.rhs;description=r.description;return *this;}
-
+    
     bool operator==(const Rule &r) const {return lhs==r.lhs && rhs==r.rhs && description==r.description;}; // 重载 ==
     string get_output_str() const; // 获取输出字符串
 
@@ -731,10 +633,6 @@ public:
     // 用 Rule和变量声明 初始化
     Rete_Rule(const Rule &rule,const map<string,shared_ptr<Concept>> &var_info):Rule(rule),var_decl(var_info){}
     Rete_Rule(){} // 默认构造
-    // 拷贝构造
-    Rete_Rule(const Rete_Rule &rhs):Rule(rhs),var_decl(rhs.var_decl){}
-    // 拷贝赋值
-    Rete_Rule& operator=(const Rete_Rule &rhs){Rule::operator=(rhs);var_decl=rhs.var_decl;return *this;}
 
     string get_output_str() const; // 获取输出字符串 (改造后的lhs部分可能为空个体)
     shared_ptr<Rete_Rule> instantiate(const map<string, string> &abstract_to_concrete); // 实例化规则
@@ -750,11 +648,7 @@ public:
         print_def_part();
     }
     Knowledge_Base(){} // 默认构造
-    // 拷贝构造
-    Knowledge_Base(const Knowledge_Base &rhs):def_concepts(rhs.def_concepts),def_individuals(rhs.def_individuals),def_operators(rhs.def_operators),rules(rhs.rules),rete_rules(rhs.rete_rules),def_cpt_hash_table(rhs.def_cpt_hash_table),def_indi_hash_table(rhs.def_indi_hash_table),def_oprt_hash_table(rhs.def_oprt_hash_table){}
-    // 拷贝赋值
-    Knowledge_Base& operator=(const Knowledge_Base &rhs){def_concepts=rhs.def_concepts;def_individuals=rhs.def_individuals;def_operators=rhs.def_operators;rules=rhs.rules;rete_rules=rhs.rete_rules;def_cpt_hash_table=rhs.def_cpt_hash_table;def_indi_hash_table=rhs.def_indi_hash_table;def_oprt_hash_table=rhs.def_oprt_hash_table;return *this;}
-
+    
     string get_output_str() const; // 获取输出字符串
 
     void get_adapted_rules(){ // 改造原始规则以得到易于进行推理的规则

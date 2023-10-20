@@ -37,7 +37,15 @@ shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_p
     return ret;
 }
 
-// 对 term 进行求值
+
+
+/* 
+ * Intra_Node 测试可以分为两种:
+ *    1. 存在性判断: 只需判断当前已知 fact 中是否存在这样的一条 fact，因为在题目未解出的情况下所有的 fact 都会被先后送入 Rete 网络，所以检查当前的 fact 是不是目标事实也是等价的，所以这里我们使用的是后者
+ *    2. 执行性判断: 根据对当前已知信息中的相关个体进行求值来判断条件是否成立
+ */
+
+// 对 term 进行求值，用于 Intra_Node 测试
 shared_ptr<Individual> eval(shared_ptr<Term> term, shared_ptr<Fact> fact){
     #ifndef NDEBUG
         cout<<"当前求值的 Term 为: "<<*term<<endl;
@@ -46,14 +54,21 @@ shared_ptr<Individual> eval(shared_ptr<Term> term, shared_ptr<Fact> fact){
     string oprt = term->oprt;
     shared_ptr<Individual> ret;
     // 内部定义的算子
-    if(oprt=="Is_In_Form"){ // 判断某个方程是否满足指定形式 (参数是: 方程 Equation、某个形式的方程 Equation)
+    if(oprt=="Is_In_Form"){ // 判断某个方程是否满足指定形式 (参数是: 要判断其形式的方程 Term、某个形式的方程 Equation)
         assert(term->args.size()==2);
+        // 先根据当前 abstract_to_concrete 找到实际要判断其形式的方程
+
+
+        // auto equation = term->args[0]->alt_val;
         if(term->args[1]->get_output_str()=="x^2/a^2+y^2/b^2==1"){
             // TODO:实现
+            // TODO:
+            auto arg_0 = *term->args[0];
+            auto arg_1 = *term->args[1];
             ret = make_shared<Individual>(true);
         }
     }
-    else if(oprt=="Focus_On_Y_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
+    else if(oprt=="Focus_On_Y_Axis" || oprt=="Focus_On_X_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
         assert(term->args.size()==1);
         assert(term->args[0]->is_math_indi && term->args[0]->math_indi->is_math_expr && term->args[0]->math_indi->expr_val->is_sy);
         string abs_sy = term->args[0]->math_indi->expr_val->sy_val; // 圆锥曲线对象
