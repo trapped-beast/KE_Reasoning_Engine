@@ -24,7 +24,7 @@ int main (int argc, char *argv[]){
   if(!ke_parse(kb_name,question_name,kb,questions))
     return EXIT_FAILURE;
   cout<<"当前例题库中的题目数量为: "<<questions.size()<<endl;
-  size_t num = 2; // 当前要解的题目是第几题
+  size_t num = 1; // 当前要解的题目是第几题
   cout<<"当前要解的题目是 第"<<num<<"题:"<<endl<<*questions[num-1]->rete_question;
 
   shared_ptr<Rete_Network> rete_network = construct_rete(kb);

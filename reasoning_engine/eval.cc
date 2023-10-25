@@ -38,63 +38,85 @@ shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_p
 }
 
 
-
-/* 
- * Intra_Node 测试可以分为两种:
- *    1. 存在性判断: 只需判断当前已知 fact 中是否存在这样的一条 fact，因为在题目未解出的情况下所有的 fact 都会被先后送入 Rete 网络，所以检查当前的 fact 是不是目标事实也是等价的，所以这里我们使用的是后者
- *    2. 执行性判断: 根据对当前已知信息中的相关个体进行求值来判断条件是否成立
- */
-
-// 对 term 进行求值，用于 Intra_Node 测试
-shared_ptr<Individual> eval(shared_ptr<Term> term, shared_ptr<Fact> fact){
+// 对 Individual 进行求值，用于 Intra_Node 的执行性测试
+shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<Fact> fact){
     #ifndef NDEBUG
-        cout<<"当前求值的 Term 为: "<<*term<<endl;
+        cout<<"当前求值的 Individual 为: "<<*indi<<endl;
         cout<<"当前求值的 fact 为: "<<*fact<<endl;
     #endif
-    string oprt = term->oprt;
-    shared_ptr<Individual> ret;
+    // 要进行求值操作的是标准形式的 Term // TODO: 支持更多形式如 sugar_for_oprt_apply?
+    assert(indi->term->is_std);
+    auto t = indi->term;
+    string oprt = t->oprt;
+    auto &args = t->args;
+
+    shared_ptr<Individual> ret = make_shared<Individual>(false);
     // 内部定义的算子
     if(oprt=="Is_In_Form"){ // 判断某个方程是否满足指定形式 (参数是: 要判断其形式的方程 Term、某个形式的方程 Equation)
-        assert(term->args.size()==2);
-        // 先根据当前 abstract_to_concrete 找到实际要判断其形式的方程
-
-
-        // auto equation = term->args[0]->alt_val;
-        if(term->args[1]->get_output_str()=="x^2/a^2+y^2/b^2==1"){
-            // TODO:实现
-            // TODO:
-            auto arg_0 = *term->args[0];
-            auto arg_1 = *term->args[1];
-            ret = make_shared<Individual>(true);
+        assert(args.size()==2);
+        assert(args[0]->is_term);
+        assert(args[1]->is_math_indi && args[1]->math_indi->is_equation);
+        // 可能通过的 fact 必须具有以下形式: Equation(x) = 某个形式的方程
+        if(fact->is_assert && fact->assertion->left->get_output_str()==args[0]->get_output_str() && fact->assertion->right->is_math_indi && fact->assertion->right->math_indi->is_equation){
+            auto target_eq = args[1]->math_indi->equation_val; // 目标方程
+            auto test_eq = fact->assertion->right->math_indi->equation_val; // 测试方程
+            auto target_left = *target_eq->left;
+            auto target_right = *target_eq->right;
+            auto test_left = *test_eq->left;
+            auto test_right = *test_eq->right;
+            cout<<"目标方程左部为: "<<target_left<<endl;
+            cout<<"测试方程左部为: "<<test_left<<endl;
+            /*
+             * 能判断的方程形式有:
+             *     1. x^2/a^2 + y^2/b^2 = 1 (Ellipse)
+             *     2. y^2/a^2 + x^2/b^2 = 1 (Ellipse)
+             *     3. x^2/a^2 - y^2/b^2 = 1 (Hyperbola)
+             *     4. y^2/a^2 - x^2/b^2 = 1 (Hyperbola)
+             *     5. y^2 =  2*p*x (Parabola)
+             *     6. y^2 = -2*p*x (Parabola)
+             *     7. x^2 =  2*p*y (Parabola)
+             *     8. x^2 = -2*p*y (Parabola)
+             */
+            Math_Expr x = Math_Expr("x");
+            Math_Expr y = Math_Expr("y");
+            if(target_right==Math_Expr(1) && target_right==test_right){ // 前 4 种形式
+                if(target_left.op_val == test_left.op_val){ // 最外层的 +- 号要一致
+                    if(target_eq->get_output_str()=="x^2/a^2+y^2/b^2==1"){ // 形式 1、2 都满足
+                        if(target_left.op_val=='+'){
+                            // 左边是 x^2/Math_Expr，右边是 y^2/Math_Expr，或者对调
+                            auto left = *target_left.left;
+                            auto right = *target_left.right;
+                            // 首先，左右两边都必须是 未知数^2/Math_Expr
+                            bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^';
+                            bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^';
+                            // 其次，两个参数一个是 x、另一个是 y
+                            bool var_conform = (*left.left->left==x && *right.left->left==y) || (*left.left->left==y && *right.left->left==x);
+                            ret = make_shared<Individual>(left_conform && right_conform && var_conform);
+                        }
+                    }
+                    else if(target_eq->get_output_str()=="x^2/a^2-y^2/b^2==1" || target_eq->get_output_str()=="y^2/a^2-x^2/b^2==1"){
+                        if(target_left.op_val=='-'){
+                            // 左边是 x^2/Math_Expr，右边是 y^2/Math_Expr
+                            auto left = *target_left.left;
+                            auto right = *target_left.right;
+                            // 首先，左右两边都必须是 未知数^2/Math_Expr
+                            bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^';
+                            bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^';
+                            // 其次，两个参数分别是 x、y 或是 y、x
+                            bool var_conform;
+                            if(target_eq->get_output_str()=="x^2/a^2-y^2/b^2==1") // 形式 3
+                                var_conform = *left.left->left==x && *right.left->left==y;
+                            else // 形式 4
+                                var_conform = *left.left->left==y && *right.left->left==x;
+                            ret = make_shared<Individual>(left_conform && right_conform && var_conform);
+                        }
+                    }
+                }
+            }
         }
     }
     else if(oprt=="Focus_On_Y_Axis" || oprt=="Focus_On_X_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
-        assert(term->args.size()==1);
-        assert(term->args[0]->is_math_indi && term->args[0]->math_indi->is_math_expr && term->args[0]->math_indi->expr_val->is_sy);
-        string abs_sy = term->args[0]->math_indi->expr_val->sy_val; // 圆锥曲线对象
-        string con_sy;
-        // 先根据当前 abstract_to_concrete 构造一个实例化后的 Term
-        for(auto abs_to_con:fact->abstract_to_concrete){
-            if(abs_to_con.first==abs_sy){
-                con_sy = abs_to_con.second;
-                break;
-            }
-            assert(false);
-        }
-        vector<shared_ptr<Individual>> new_args; // 新的参数列表 (只有一个唯一的参数: Symbol)
-        new_args.push_back(make_shared<Individual>(Math_Individual(Math_Expr(con_sy))));
-        auto con_term = Term(oprt,new_args);
-        
-        // 直接在当前 fact_list 中查找是否包含该 fact
-        bool find = false;
-        auto con_term_assertion = Assertion(Individual(con_term)); // 如果出现在当前 fact_list 中, 应该以 Assertion 的形式出现
-        for(auto f:fact->where_is->fact_list){
-            if(con_term_assertion.get_output_str()==f->get_output_str()){
-                find = true;
-                break;
-            }
-        }
-        ret = find ? make_shared<Individual>(true) : make_shared<Individual>(false);
+        ; // 暂未定义执行性测试求值的算子, 默认返回 false
     }
     else{
         cerr<<"未定义算子: "<<oprt<<" !"<<endl;
@@ -105,11 +127,12 @@ shared_ptr<Individual> eval(shared_ptr<Term> term, shared_ptr<Fact> fact){
 }
 
 
+
 // 每个 Operator 要规定 自身的参数个数 以及 每个参数的类型
 
 
-// 对 Individual 进行求值
-shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &question){
+// 对 Individual 进行求值，用于 action_operator
+shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp){
     #ifndef NDEBUG
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
     #endif
@@ -139,13 +162,14 @@ shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &qu
         auto t = indi->term;
         string oprt = t->oprt;
         auto &args = t->args;
-
+        vector<shared_ptr<Fact>> conditions; // 求值可能需要用到的条件
+        shared_ptr<Fact> condition = make_shared<Fact>(); 
         // 内部定义的 算子
         if(oprt=="Recip"){ // 对某个数求倒数 (参数是: 求倒数的对象 Math_Expr )
             assert(args.size()==1);
-            auto target = args[0]->find_specific_indi("Math_Expr", question);
+            auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target) // 如果没有找到指定类型的个体值，需要迭代求值
-                target = eval(args[0], question);
+                target = action_eval(args[0], question);
             assert(target->is_math_indi && target->math_indi->is_math_expr);
             auto expr_val = target->math_indi->expr_val;
             auto one = Math_Expr((Number(1)));
@@ -174,15 +198,15 @@ shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &qu
         }
         else if(oprt=="Extract_Coeff"){ // 提取某个数学表达式的系数 (参数是: 整个表达式 Math_Expr 或 Equation、要提取系数的主体 Math_Expr)
             assert(args.size()==2);
-            auto target_1 = args[0]->find_specific_indi("Math_Expr", question);
+            auto target_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target_1){
-                target_1 = args[0]->find_specific_indi("Equation", question);
+                target_1 = args[0]->find_specific_indi("Equation", question, conditions_sp);
                 if(!target_1)
-                    target_1 = eval(args[0], question);
+                    target_1 = action_eval(args[0], question);
             }
-            auto target_2 = args[1]->find_specific_indi("Math_Expr", question);
+            auto target_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target_2)
-                target_2 = eval(args[1], question);
+                target_2 = action_eval(args[1], question);
             assert(target_1 && target_2);
             assert(target_1->is_math_indi);
             assert(target_2->is_math_indi && target_2->math_indi->is_math_expr);
@@ -207,9 +231,9 @@ shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &qu
         }
         else if(oprt=="Sqrt"){ // 对数学表达式进行开方 (参数是: 数学表达式 Math_Expr)
             assert(args.size()==1);
-            auto target = args[0]->find_specific_indi("Math_Expr", question);
+            auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target)
-                target = eval(args[0], question);
+                target = action_eval(args[0], question);
             assert(target->is_math_indi && target->math_indi->is_math_expr);
             auto target_val = target->math_indi->expr_val;
             if(target_val->is_num){
@@ -234,12 +258,12 @@ shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &qu
         else if(oprt=="Mul"){ // 对若干个数学表达式进行相乘 (参数是: 若干个数学表达式 Math_Expr)
             // 暂时处理两个参数
             assert(args.size()==2);
-            auto num_1 = args[0]->find_specific_indi("Math_Expr", question);
+            auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)
-                num_1 = eval(args[0],question);
-            auto num_2 = args[1]->find_specific_indi("Math_Expr", question);
+                num_1 = action_eval(args[0],question);
+            auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_2)
-                num_2 = eval(args[1],question);
+                num_2 = action_eval(args[1],question);
             if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
@@ -252,7 +276,16 @@ shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &qu
             }
         }
     }
-    if(eval_ret)
+    if(eval_ret){
         cout<<"求值 "<<*indi<<" 得到的结果为: "<<*eval_ret<<endl;
+        // // 构造新的 fact // 不是所有的求值细节都要展示
+        // if(indi->term->is_std){
+        //     auto new_fact = make_shared<Fact>(Assertion(*indi,*eval_ret));
+        //     question.normalize_individual(eval_ret);
+        //     new_fact->assertion->propagate_var_decl(question.var_decl);
+        //     new_fact->var_decl = new_fact->assertion->var_decl;
+        //     question.fact_list.push_back(new_fact);
+        // }
+    }
     return eval_ret;
 }

@@ -1,18 +1,22 @@
 -- Concept 定义部分
 
 -- 点
-def_cpt Point = {x:Int; y:Int}
+def_cpt Point = {x:Num; y:Num}
 
 -- 椭圆: 成员是其x、y的平方的系数的倒数
 def_cpt Ellipse_Std <- Curve = {recip_coeff_sq_x:Num; recip_coeff_sq_y:Num}
 
 -- 双曲线: 成员是其x、y的平方的系数的倒数
+-- Hyperbola_Std_1、Hyperbola_Std_2 分别代表焦点在 X 轴、Y 轴上的双曲线
 def_cpt Hyperbola_Std_1 <- Curve = {recip_coeff_sq_x:Num; recip_coeff_sq_y:Num}
 def_cpt Hyperbola_Std_2 <- Curve = {recip_coeff_sq_x:Num; recip_coeff_sq_y:Num}
 
 -- 抛物线: 成员是其x或y的系数
-def_cpt Parabola_Std_1 <- Curve = {coeff_x:Num}
-def_cpt Parabola_Std_2 <- Curve = {coeff_y:Num}
+-- Parabola_Std_r、Parabola_Std_l、Parabola_Std_u、Parabola_Std_d 分别代表开头朝 右、左、上、下 的抛物线
+def_cpt Parabola_Std_r <- Curve = {coeff_x:Num}
+def_cpt Parabola_Std_l <- Curve = {coeff_x:Num}
+def_cpt Parabola_Std_u <- Curve = {coeff_y:Num}
+def_cpt Parabola_Std_d <- Curve = {coeff_y:Num}
 
 -- 直线: ax+by+c=0
 def_cpt Line_Std = {a:Num; b:Num; c:Num}
@@ -31,7 +35,6 @@ def_op Generate_Line_Eq(l:Num; m:Num; n:Num) = {assert l_std:Line_Std = {a:=l; b
 
 -- 把点代入曲线方程，生成新的等式
 def_op Subst_Point_Into_Curve(p:Point; c:Curve) = {Subst(Subst(Left(Equation(c)),x,p.x),y,p.y) = Subst(Subst(Right(Equation(c)),x,p.x),y,p.y)}
-
 
 
 

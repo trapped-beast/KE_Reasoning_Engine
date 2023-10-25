@@ -30,8 +30,8 @@ scanner.o : scanner.cc parser.hh
 ke_struct.o : ke_struct.cc ke_struct.hh Rete_Network.hh
 	$(CXX) $(CXXFLAGS) -o$@ $<
 
-Rete_Network.o : Rete_Network.cc Rete_Network.hh
-	$(CXX) $(CXXFLAGS) -o$@ $<
+Rete_Network.o : Rete_Network.cc Rete_Network.hh ke_struct.hh
+	$(CXX) $(CXXFLAGS) $(GRAPHVIZ_INCLUDE) -o$@ $<
 
 construct_rete.o : construct_rete.cc Rete_Network.hh
 	$(CXX) $(CXXFLAGS) -o$@ $<

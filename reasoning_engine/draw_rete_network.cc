@@ -221,5 +221,5 @@ void draw_rete_network(const Rete_Network &rete_network){
     // 回收资源
     gvFreeLayout(gvc, g);
     agclose(g);
-    std::cout<<"Rete 网络绘制完成!"<<endl;
+    std::cout<<"Rete 网络绘制完成, 详见 rete_network.png 文件!!"<<endl;
 }

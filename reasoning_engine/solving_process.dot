@@ -1,0 +1,53 @@
+digraph solving_process {
+	graph [bb="0,0,869.61,540"];
+	node [label="\N"];
+	"{Equation(c)=x^2/9+y^2/16==1}"	[fillcolor=cornsilk,
+		height=0.5,
+		pos="612.63,522",
+		style=filled,
+		width=3.6469];
+	"def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[height=0.5,
+		pos="273.63,450",
+		width=7.6007];
+	"{Equation(c)=x^2/9+y^2/16==1}" -> "def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[pos="e,354.3,467.66 541.97,506.41 490.78,495.84 421.09,481.45 365.57,469.98"];
+	"{c=e_std}"	[height=0.5,
+		pos="612.63,450",
+		width=1.3179];
+	"{Equation(c)=x^2/9+y^2/16==1}" -> "{c=e_std}"	[pos="e,612.63,468.1 612.63,503.7 612.63,496.41 612.63,487.73 612.63,479.54"];
+	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[height=0.5,
+		pos="687.63,306",
+		width=5.0551];
+	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[pos="e,689.27,324.06 637.43,503.94 648.88,494.69 661.48,482.24 668.63,468 689.99,425.43 691.41,368.79 689.92,335.29"];
+	"{Focus_On_Y_Axis(e_std)}"	[height=0.5,
+		pos="274.63,378",
+		width=3.1053];
+	"def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}" -> "{Focus_On_Y_Axis(e_std)}"	[pos="e,274.38,396.1 273.87,431.7 273.98,424.41 274.1,415.73 274.22,407.54"];
+	"{Param_A(c)=Param_A(e_std)}"	[height=0.5,
+		pos="532.63,378",
+		width=3.5025];
+	"{c=e_std}" -> "{Param_A(c)=Param_A(e_std)}"	[pos="e,552.1,396.04 594.47,433.12 584.51,424.39 571.93,413.39 560.72,403.58"];
+	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[height=0.5,
+		pos="569.63,90",
+		width=7.7451];
+	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[pos="e,587.97,108.1 686.06,287.62 683.92,269.18 679.08,239.54 668.63,216 651.31,177.02 618.98,139.68 595.98,116.13"];
+	"{Param_A(e_std)=4}"	[height=0.5,
+		pos="305.63,306",
+		width=2.4192];
+	"{Focus_On_Y_Axis(e_std)}" -> "{Param_A(e_std)=4}"	[pos="e,298.05,324.1 282.29,359.7 285.67,352.07 289.72,342.92 293.49,334.4"];
+	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[height=0.5,
+		pos="451.63,234",
+		width=5.7773];
+	"{Param_A(e_std)=4}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[pos="e,415.73,252.21 339.12,288.94 358.8,279.51 383.96,267.44 405.49,257.12"];
+	"{Param_A(c)=Param_A(e_std)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[pos="e,459.61,252.41 520.05,359.7 512.85,349.52 503.85,336.27 496.63,324 484.84,303.99 473.04,280.51 464.49,262.69"];
+	"{Mul(2, Param_A(c))=8}"	[height=0.5,
+		pos="504.63,162",
+		width=2.8525];
+	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}" -> "{Mul(2, Param_A(c))=8}"	[pos="e,491.68,180.1 464.73,215.7 470.76,207.73 478.05,198.1 484.74,189.26"];
+	"{Mul(2, Param_A(c))=8}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[pos="e,553.58,108.28 520.36,144.05 527.99,135.84 537.32,125.79 545.8,116.66"];
+	"{Length(Major_Axis(c))=8}"	[fillcolor="#ee7b67",
+		height=0.5,
+		pos="569.63,18",
+		style=filled,
+		width=3.1233];
+	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}" -> "{Length(Major_Axis(c))=8}"	[pos="e,569.63,36.104 569.63,71.697 569.63,64.407 569.63,55.726 569.63,47.536"];
+}

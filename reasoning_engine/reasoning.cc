@@ -1,5 +1,18 @@
 #include "Rete_Network.hh"
 
+// 为 Token 追溯组成其自身的 Fact
+void trace_back(shared_ptr<Token> token){
+    // Token 本身需要由 Fact 组成，要在 reasoning_graph 中体现这一点
+    for(auto f:token->content){ // 每个 fact 都要指向 token
+        auto new_rule = make_shared<Rete_Rule>();
+        new_rule->description = "组合已知条件"; // 实际上并不是一条"规则"
+        shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
+        edge->fact_start = reasoning_graph->share_or_build_fact_node(f);
+        edge->token_end = reasoning_graph->share_or_build_token_node(token);
+        reasoning_graph->edges.push_back(edge);
+    }
+}
+
 // 判断题目是否已解出
 bool has_been_solved(shared_ptr<Rete_Question> question){
     // 只要有未知的待求项，解题就尚未结束
@@ -21,17 +34,74 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
         if(alt->val_is_known)
             return true;
         else{
-            auto old_alt_name = alt->get_output_str();
-            auto ret = eval(alt,*question);
+            string old_alt_name = alt->get_output_str();
+            auto conditions = make_shared<vector<shared_ptr<Fact>>>(); // b=c 的前提条件
+            auto ret = action_eval(alt,*question, conditions); // (a = b,b = c => a = c)
+            // 只有在该函数中，reasoning_edge 的终点才可能是 Token
             if(ret){
-                alt = ret;
+                // // 找到求值 fact (即 b = c 部分)
+                // shared_ptr<Fact> part_2; // (b = c)
+                // string eval_fact_name = "{"+alt->get_output_str()+"="+ret->get_output_str()+"}";
+                // part_2 = *(question->fact_list.end()-1); // 刚刚 action_eval 求值结束，所以已知条件的最后一个 fact 即为 b = c 部分
+                // assert(part_2 && part_2->get_output_str()==eval_fact_name);
+                
+                // 构造新 fact (即 b = c 部分)
+                auto part_2 = make_shared<Fact>(Assertion(*alt,*ret));
+                question->normalize_individual(ret);
+                part_2->assertion->propagate_var_decl(question->var_decl);
+                part_2->var_decl = part_2->assertion->var_decl;
+                question->fact_list.push_back(part_2);
+                assert(part_2);
 
-                string new_rule_name = "相等性传递 => " + unknown->get_output_str() + "=" + old_alt_name + "=" + ret->get_output_str();
-                cout<<new_rule_name<<endl;
+                // b = c 部分计算结果的得出本身需要一定的前提条件
+                {
+                    auto new_rule = make_shared<Rete_Rule>();
+                    new_rule->description = "等量代换后的计算";
+                    shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
+                    edge->fact_end = reasoning_graph->share_or_build_fact_node(part_2);
+                    if(conditions->size()==1)
+                        edge->fact_start = reasoning_graph->share_or_build_fact_node(*conditions->begin());
+                    else{
+                        auto token_start = make_shared<Token>(*conditions);
+                        edge->token_start = reasoning_graph->share_or_build_token_node(token_start);
+                        trace_back(token_start); // 而 Token 本身需要由 Fact 组成，要在 reasoning_graph 中体现这一点
+                    }
+                    reasoning_graph->edges.push_back(edge);
+                }
+
+                // 构造新 fact (即 a = c 部分)
+                auto new_fact = make_shared<Fact>(Assertion(*unknown,*ret)); // a = c 部分
+                new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
+                // question->normalize_individual(new_fact); // 这里不必进行统一 Individual, assertion 左右两边都已经是实例化后的结果
+                // 传播变量声明
+                new_fact->assertion->propagate_var_decl(question->var_decl);
+                new_fact->var_decl = new_fact->assertion->var_decl;
+                question->fact_list.push_back(new_fact);
+                
+                // 找到 fact (即 a = b 部分)
+                string part_1_name = "{"+unknown->get_output_str()+"="+old_alt_name+"}";
+                shared_ptr<Fact> part_1; // a = b 部分本来就在已知 fact 中
+                for(auto f:question->fact_list){
+                    if(f->get_output_str().find(old_alt_name)!=string::npos){
+                        part_1 = f;
+                        break;
+                    }
+                }
+                assert(part_1);
+                
+                // 新的 fact 的 lhs 由 part_1 和 part_2 组成
+                vector<shared_ptr<Fact>> token_args = {part_1,part_2};
+                auto new_lhs = make_shared<Token>(token_args);
+                new_lhs = reasoning_graph->share_or_build_token_node(new_lhs);
+                trace_back(new_lhs); // 而 Token 本身需要由 Fact 组成，要在 reasoning_graph 中体现这一点
                 auto new_rule = make_shared<Rete_Rule>();
-                new_rule->description = new_rule_name;
+                new_rule->description = "显然";
+                // 构造新的 Reasoning_Edge (a = b,b = c => a = c)
                 shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
+                edge->token_start = new_lhs;
+                edge->fact_end = new_fact;
                 reasoning_graph->edges.push_back(edge);
+                alt = ret;
                 return true;
             }
         }
@@ -128,27 +198,26 @@ void reasoning(shared_ptr<Rete_Question> question, shared_ptr<Rete_Network> rete
                 cout<<"此次执行导致新增 fact 的数量为: "<<add_fact_num<<endl;
                 // 把当前的实例化规则产生新的 fact 的信息加入 Reasoning_Graph
                 shared_ptr<Reasoning_Edge> edge;
+                size_t first_edge_pos=0; // 记录实例化规则相关的 edge 在 Reasoning_Graph 中的位置
                 for(auto e: reasoning_graph->edges){
                     if(e->instantiated_rule->get_output_str()==instantiated_rule->get_output_str()){
                         edge = e;
                         break;
                     }
+                    first_edge_pos++;
                 }
                 assert(edge);
                 if(add_fact_num==1){ // 如果只导致新增了一条 fact，只需找到 rule 对应的边，并把终点设置为该 fact
-                    edge->end = question->fact_list.at(origin_fact_num);
+                    edge->fact_end = reasoning_graph->share_or_build_fact_node(question->fact_list.at(origin_fact_num));
                 }
-                else{ // 否则，需要创建多条这样的边，它们的终点各不相同
-                    edge->end = question->fact_list.at(origin_fact_num);
+                else{ // 否则，需要创建多条这样的边，它们的终点各不相同（注意同一条 rhs 生成的这多条边必须相邻）
+                    edge->fact_end = reasoning_graph->share_or_build_fact_node(question->fact_list.at(origin_fact_num));
                     for(size_t i=origin_fact_num+1; i!=new_fact_num; ++i){
                         auto new_edge = make_shared<Reasoning_Edge>(*edge);
-                        new_edge->end = question->fact_list.at(i);
-                        reasoning_graph->edges.push_back(new_edge);
+                        new_edge->fact_end = reasoning_graph->share_or_build_fact_node(question->fact_list.at(i));
+                        auto next_edge_pos = reasoning_graph->edges.begin()+(++first_edge_pos);
+                        reasoning_graph->edges.insert(next_edge_pos,new_edge); // 这些边必须相邻
                     }
-                }
-                for(size_t i=origin_fact_num; i!=new_fact_num; ++i){ // 记录这些新的 fact
-                    auto this_fact = question->fact_list.at(i);
-                    reasoning_graph->fact_nodes_hash_table.insert(pair<string,shared_ptr<Fact>>(this_fact->get_output_str(),this_fact));
                 }
             }
         }
@@ -160,17 +229,10 @@ void reasoning(shared_ptr<Rete_Question> question, shared_ptr<Rete_Network> rete
     if(has_been_solved(question)){
         cout << endl << "解题完毕!" << endl;
         question->print_result();
-        cout<<"解:"<<endl;
-        for(auto e:reasoning_graph->edges){
-            if(!e->fact_start && !e->end)
-                cout<<e->instantiated_rule->description<<endl;
-            else{
-                cout<<*e->fact_start<< " => "<<*e->end;
-                // cout<<"\t("<<e->instantiated_rule->description<<")";
-                cout<<endl;
-            }
-        }
+        reasoning_graph->print_solving_process();
     }
-    else
+    else{
         cout << endl << "解题失败!" << endl;
+        reasoning_graph->print_all_progress();
+    }
 }

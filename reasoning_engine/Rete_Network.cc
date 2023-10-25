@@ -1,6 +1,210 @@
 #include "Rete_Network.hh"
+#include <graphviz/cgraph.h>
+#include <graphviz/gvc.h>
 
 // Rete 网络数据结构的部分成员函数及相关函数的实现
+
+// 判断是否存在一条从起点到终点的路径
+bool find_path(shared_ptr<Reasoning_Node> &start, shared_ptr<Reasoning_Node> &end, map<string,shared_ptr<Reasoning_Node>> &node_hash_table, set<shared_ptr<Reasoning_Node>> &reachable_node_set){
+    // cout<<"起点为: "<<start->get_output_str()<<endl;
+    // cout<<"终点为: "<<end->get_output_str()<<endl;
+    if(start==end || reachable_node_set.find(start)!=reachable_node_set.end())
+        return true;
+    start->visited = true;
+    for(auto out_edge:start->out_edges){
+        string neighbor_str = out_edge->fact_end ? out_edge->fact_end->get_output_str() : out_edge->token_end->get_output_str();
+        auto it = node_hash_table.find(neighbor_str);
+        assert(it!=node_hash_table.end());
+        auto &neighbor = it->second;
+        // cout<<"当前邻居为: "<<neighbor->get_output_str()<<endl;
+        if(neighbor->visited && reachable_node_set.find(neighbor)!=reachable_node_set.end()){
+            reachable_node_set.insert(start);
+            return true;
+        }
+        if(!neighbor->visited && find_path(neighbor,end,node_hash_table,reachable_node_set)){
+            reachable_node_set.insert(start);
+            return true;
+        }
+    }
+    return false;
+}
+
+void Reasoning_Graph::print_solving_process(){ // 输出求解过程
+    // cout<<"边的数量为:"<<this->edges.size()<<endl;
+    // cout<<"Fact 点的数量为:"<<this->fact_nodes_hash_table.size()<<endl;
+    // cout<<"Token 点的数量为:"<<this->token_nodes_hash_table.size()<<endl;
+
+    // 构建一个由点主导的图
+    // 先把所有的 fact_nodes 和 token_nodes 统一为 Reasoning_Node
+    map<string,shared_ptr<Reasoning_Node>> node_hash_table;
+    for(auto it:fact_nodes_hash_table){
+        auto fact_node = it.second;
+        auto node = make_shared<Reasoning_Node>(fact_node);
+        node_hash_table.insert(pair<string,shared_ptr<Reasoning_Node>>(node->get_output_str(),node));
+    }
+    for(auto it:token_nodes_hash_table){
+        auto token_fact = it.second;
+        auto node = make_shared<Reasoning_Node>(token_fact);
+        node_hash_table.insert(pair<string,shared_ptr<Reasoning_Node>>(node->get_output_str(),node));
+    }
+    // 再遍历边来补充 Reasoning_Node 的入边和出边信息
+    shared_ptr<Reasoning_Node> start, end;
+    string start_str, end_str;
+    for(const auto &edge:edges){
+        start_str = edge->fact_start ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
+        end_str = edge->fact_end ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
+        auto it_start = node_hash_table.find(start_str);
+        auto it_end = node_hash_table.find(end_str);
+        assert(it_start!=node_hash_table.end() && it_end!=node_hash_table.end());
+        start = it_start->second;
+        end = it_end->second;
+        start->out_edges.push_back(edge);
+        end->in_edges.push_back(edge);
+    }
+    this->nodes = node_hash_table;
+    #ifndef NDEBUG
+        for(auto p:nodes){
+            auto node = p.second;
+            cout<<node->get_output_str()<<"  (入度: "<< node->in_edges.size() <<")  (出度: "<< node->out_edges.size() <<")"<<endl;
+        }
+    #endif
+
+    auto to_solve = (*--edges.end())->fact_end; // 最后一条边的终点就是答案，也就是全图的终点
+    assert(to_solve); // 目前的 to_solve 只有一个个体
+    auto it = node_hash_table.find(to_solve->get_output_str());
+    assert(it!=node_hash_table.end());
+    shared_ptr<Reasoning_Node> end_node = it->second; // 全图的终点
+    set<shared_ptr<Reasoning_Node>> reachable_node_set; // 存在到终点路径的所有节点
+    set<shared_ptr<Reasoning_Node>> unreachable_node_set; // 不存在到终点路径的所有节点
+    for(auto p:node_hash_table){
+        auto &node = p.second;
+        if(!find_path(node,end_node,node_hash_table,reachable_node_set))
+            unreachable_node_set.insert(node);
+    }
+    // 对于所有的不存在到终点路径的节点，删除其入边
+    vector<shared_ptr<Reasoning_Edge>> new_edges; // 保留所有有用的边
+    for(auto &edge:edges){
+        end_str = edge->fact_end ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
+        auto it_end = node_hash_table.find(end_str);
+        assert(it_end!=node_hash_table.end());
+        end = it_end->second;
+        if(unreachable_node_set.find(end)==unreachable_node_set.end()) // 如果边的 end 不存在到终点的路径，则该边无用
+            new_edges.push_back(edge);
+    }
+    this->edges = new_edges; // 保存到 Reasoning_Graph
+
+    // 下面输出所有有用的边（这些边本身就是按照解题顺序生成的，直接顺序输出即可）
+    size_t cnt = 0;
+    cout<<"解:"<<endl;
+    for(auto e:edges){
+        if(e->instantiated_rule->description=="组合已知条件") // 这种边实际上并不是 "蕴含" 关系，只是为了保留 "Token 和 组成其的Fact 之间存在连接" 这一信息
+            continue;
+        cout<<"\t"<<++cnt<<". ";
+        cout<< ((e->fact_start) ? e->fact_start->get_output_str() : e->token_start->get_output_str());
+        cout<< " => ";
+        cout<< ((e->fact_end) ? e->fact_end->get_output_str() : e->token_end->get_output_str())<<endl;
+        cout<<"\t("<<e->instantiated_rule->description<<")"<<endl;
+        // cout<<"\t"<<*e->instantiated_rule<<endl;
+        cout<<endl;
+    }
+    draw_solving_process();
+}
+
+void Reasoning_Graph::print_all_progress(){ // 输出所有求解进展
+    size_t cnt = 0;
+    cout<<"所有的求解尝试:"<<endl;
+    for(auto e:edges){
+        if(e->instantiated_rule->description=="组合已知条件") // 这种边实际上并不是 "蕴含" 关系，只是为了保留 "Token 和 组成其的Fact 之间存在连接" 这一信息
+            continue;
+        cout<<"\t"<<++cnt<<". ";
+        cout<< ((e->fact_start) ? e->fact_start->get_output_str() : e->token_start->get_output_str());
+        cout<< " => ";
+        cout<< ((e->fact_end) ? e->fact_end->get_output_str() : e->token_end->get_output_str())<<endl;
+        // cout<<"\t("<<e->instantiated_rule->description<<")"<<endl;
+        cout<<"\t"<<*e->instantiated_rule<<endl;
+        cout<<endl;
+    }
+    draw_all_progress();
+}
+
+void Reasoning_Graph::draw_all_progress(){ // 可视化所有求解进展
+    cout<<"开始绘制所有求解进展..."<<endl;
+    GVC_t *gvc = gvContext();
+    Agraph_t *g = agopen((char *)"all_progress", Agdirected, nullptr); // 创建新图
+    Agnode_t *start = nullptr;
+    Agnode_t *end = nullptr;
+    Agedge_t *e = nullptr;
+    string start_name, end_name, edge_name;
+    
+    for(auto edge:edges){
+        start_name = (edge->fact_start) ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
+        end_name = (edge->fact_end) ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
+        edge_name = edge->instantiated_rule->description;
+        start = agnode(g, (char *)start_name.c_str(), 1);
+        end = agnode(g, (char *)end_name.c_str(), 1);
+        e = agedge(g, start, end, (char *)"", 1);
+    }
+
+    // layout + render
+    gvLayout(gvc, g, "dot");
+    // 输出结果放在当前目录下
+    FILE *dotf = fopen("all_progress.dot", "w");
+    FILE *pngf = fopen("all_progress.png", "w");
+    gvRender(gvc, g, "dot", dotf);
+    gvRender(gvc, g, "png", pngf);
+    // 回收资源
+    gvFreeLayout(gvc, g);
+    agclose(g);
+    std::cout<<"所有求解进展绘制完成, 详见 all_progress.png 文件!"<<endl;
+}
+
+void Reasoning_Graph::draw_solving_process(){ // 可视化所有求解进展
+    cout<<"开始绘制求解过程..."<<endl;
+    GVC_t *gvc = gvContext();
+    Agraph_t *g = agopen((char *)"solving_process", Agdirected, nullptr); // 创建新图
+    Agnode_t *start = nullptr;
+    Agnode_t *end = nullptr;
+    Agedge_t *e = nullptr;
+    string start_name, end_name, edge_name;
+    
+    for(auto edge:edges){
+        start_name = (edge->fact_start) ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
+        end_name = (edge->fact_end) ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
+        edge_name = edge->instantiated_rule->description;
+        start = agnode(g, (char *)start_name.c_str(), 1);
+        end = agnode(g, (char *)end_name.c_str(), 1);
+        e = agedge(g, start, end, (char *)"", 1);
+
+        auto it_start = nodes.find(start_name);
+        auto it_end = nodes.find(end_name);
+        auto start_node = it_start->second;
+        auto end_node = it_end->second;
+
+        // cout<<start_node->get_output_str()<<"  (入度: "<< start_node->in_edges.size() <<")  (出度: "<< start_node->out_edges.size() <<")"<<endl;
+        // cout<<end_node->get_output_str()<<"  (入度: "<< end_node->in_edges.size() <<")  (出度: "<< end_node->out_edges.size() <<")"<<endl;
+
+        if(start_node->in_edges.empty()){ // 初始已知条件的入度为 0
+            agsafeset(start, (char *)"style", (char *)"filled", (char *)"");
+            agsafeset(start, (char *)"fillcolor", (char *)"cornsilk", (char *)"");
+        }
+        if(end_node->out_edges.empty()){ // to_solve 的出度为 0
+            agsafeset(end, (char *)"style", (char *)"filled", (char *)"");
+            agsafeset(end, (char *)"fillcolor", (char *)"#ee7b67", (char *)"");
+        }
+    }
+
+    // layout + render
+    gvLayout(gvc, g, "dot");
+    // 输出结果放在当前目录下
+    FILE *dotf = fopen("solving_process.dot", "w");
+    FILE *pngf = fopen("solving_process.png", "w");
+    gvRender(gvc, g, "dot", dotf);
+    gvRender(gvc, g, "png", pngf);
+    // 回收资源
+    gvFreeLayout(gvc, g);
+    agclose(g);
+    std::cout<<"求解过程绘制完成, 详见 solving_process.png 文件!"<<endl;
+}
 
 ostream& operator<<(ostream &os, const Token &e){
     string sep = "";
@@ -8,7 +212,6 @@ ostream& operator<<(ostream &os, const Token &e){
         os<<sep<<*fact;
         sep = "; ";
     }
-    os<<endl;
     return os;
 }
 
@@ -190,66 +393,28 @@ void Concept_Memory::mem_side_activation(shared_ptr<Fact> fact){ // 来自共同
     }
 }
 
-// 求出抽象的个体在给定已知 fact 时的实例化结果
-shared_ptr<Individual> get_con_indi(shared_ptr<Individual> abs_indi,shared_ptr<Fact> fact){
-    cout<<endl<<"get_con_indi 要求抽象的个体在给定已知 fact 时的实例化结果"<<endl;
-    cout<<"当前的 抽象个体为: "<<*abs_indi<<endl;
-    cout<<"当前的 fact 为: "<<*fact<<endl;
-    shared_ptr<Individual> ret;
-    assert(abs_indi->is_term); // 只处理 Term
-    auto t = abs_indi->term;
-    if(t->is_oprt_apply){ // 这里的 Term 只会是 sugar_for_oprt_apply 或 标准形式
-        string abs_caller_name = t->oprt_apply_val->indi; // sugar_for_oprt_apply 的调用者
-        // 找到调用者对应的实例个体
-        string con_caller_name; // 在当前 fact 下的实际调用者
-        for(auto abs_to_con:fact->abstract_to_concrete){
-            if(abs_to_con.first == abs_caller_name){
-                con_caller_name = abs_to_con.second;
-                break;
-            }
-            assert(false);
-        }
-        shared_ptr<Individual> con_caller; // 实际调用(定义)个体的定义值
-        // 在当前的定义个体中寻找实际调用者个体
-        assert(fact->where_is && fact->where_is->def_indi_hash_table.size());
-        for(auto p:fact->where_is->def_indi_hash_table){
-            auto def_indi = p.second;
-            if(def_indi->symbol==con_caller_name){
-                con_caller = def_indi->indi;
-                break;
-            }
-            assert(false);
-        }
-        // 查询(定义)个体的某个属性值
-        string uni_oprt = t->oprt_apply_val->uni_oprt; // 调用的一元算子
-        assert(con_caller && con_caller->is_term && con_caller->term->is_ctor);
-        for(auto assignment:con_caller->term->ctor_val->content){
-            if(assignment->symbol==uni_oprt)
-                ret = assignment->val;
-        }
-    }
-    else{
-        assert(t->is_std);
-        // TODO:实现
-    }
-    assert(ret);
-    cout<<"实例化结果为: "<<*ret<<endl;
-    return ret;
+bool Intra_Node::perform_existence_test(shared_ptr<Individual> constraint,shared_ptr<Fact> fact){ // 存在性测试
+    // 直接检查当前的 fact 是不是目标事实
+    return fact->get_output_str()==constraint->get_output_str();
 }
 
-bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constraint, shared_ptr<Fact> fact){ // 涉及 Sugar_For_Pred 的测试
+bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constraint, shared_ptr<Fact> fact){ // 涉及 Sugar_For_Pred 的执行性测试
     // 谓词只会是: ">"、"<"、">="、"<="、"!="
     // 目前支持这些比较的值只会是 Number
     #ifndef NDEBUG
         cout<<"进入到 predicate_test: "<<*test_constraint<<endl;
     #endif
     // 把要测试的左右对象求出来
-    auto con_left = get_con_indi(test_constraint->left,fact);
-    auto con_right = get_con_indi(test_constraint->right,fact);
-    assert(con_left->is_math_indi && con_left->math_indi->is_math_expr && con_left->math_indi->expr_val->is_num);
-    assert(con_right->is_math_indi && con_right->math_indi->is_math_expr && con_right->math_indi->expr_val->is_num);
-    auto left_val = *con_left->math_indi->expr_val->number_val;
-    auto right_val = *con_right->math_indi->expr_val->number_val;
+    auto left = test_constraint->left->find_specific_indi("Math_Expr", *fact->where_is);
+    if(!left)
+        left = action_eval(test_constraint->left,*fact->where_is);
+    auto right = test_constraint->right->find_specific_indi("Math_Expr", *fact->where_is);
+    if(!right)
+        right = action_eval(test_constraint->right,*fact->where_is);
+    assert(left->math_indi->expr_val->is_num);
+    assert(right->math_indi->expr_val->is_num);
+    auto left_val = *left->math_indi->expr_val->number_val;
+    auto right_val = *right->math_indi->expr_val->number_val;
     bool ret = false;
     auto predicate = test_constraint->predicate;
     if(predicate == ">")
@@ -266,30 +431,32 @@ bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constrai
     return ret;
 }
 
-bool Intra_Node::perform_assertion_test(shared_ptr<Assertion> test_constraint, shared_ptr<Fact> fact){ // 涉及 Assertion 的测试
+bool Intra_Node::perform_assertion_test(shared_ptr<Assertion> test_constraint, shared_ptr<Fact> fact){ // 涉及 Assertion 的执行性测试
     #ifndef NDEBUG
         cout<<"进入到 assertion_test: "<<*test_constraint<<endl;
     #endif
-    // TODO:待实现 is_std 的情况
     bool pass = false;
     if(test_constraint->is_sugar_for_true){ // 如果是 Individual = true 的语法糖
-        // lonely_left 是一个标准形式的 term
-        auto lonely_term = test_constraint->lonely_left->term;
-        assert(test_constraint->lonely_left->is_term && lonely_term->is_std);
-        auto oprt = lonely_term->oprt;
-        auto args = lonely_term->args;
-        if(*eval(lonely_term, fact) == *make_shared<Individual>(true))
+        if(*intra_node_eval(test_constraint->lonely_left, fact) == *make_shared<Individual>(true))
             pass = true;
+    }
+    else{
+        assert(test_constraint->is_std);
+        pass = *intra_node_eval(test_constraint->left, fact) == *intra_node_eval(test_constraint->right, fact);
+        assert(false);
     }
     return pass;
 }
-
 
 bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact 是否满足某个约束条件
     #ifndef NDEBUG
         cout<<"当前测试 "<<get_figure_info()<<endl;
     #endif
     /*
+     * Intra_Node 测试可以分为两种:
+     *    1. 存在性判断: 只需判断当前已知 fact 中是否存在这样的一条 fact，而由于在题目未解出的情况下所有的 fact 都会被先后送入 Rete 网络，所以检查当前的 fact 是不是目标事实也是等价的。这里我们使用的是后者
+     *    2. 执行性判断: 根据对当前已知信息中的相关个体进行求值来判断条件是否成立
+     * 
      * Intra_Node 是由 AM 衍生出来的，负责执行某个条件的测试，可以根据 AM 的构造过程来分析出所需要进行的测试 (可参考函数 construct_rete）
      * 
      * 1. 当 LHS 为空时，AM 直接根据 CM 创造（由于 CM 的约束是变量声明，所以会经历一个从 map<string,shared<Concept>> 到 shared_ptr<Individual> 的转变）
@@ -304,16 +471,16 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
      * 而这可以递归到情况(2)
      * 
      * 综上，Intra_Node 的 constraint 要分析4种情况: (a)、(b)、(c)、(d)
+     * 其中 (a)、(b) 分支直接通过测试，而(c)、(d) 分支先要进行存在性测试，如若未通过再进行执行性测试
      */
-    
-    // TODO:重构
-    // 处理 (c)、(d) 分支都需要先根据当前的 abstract_to_concrete 实例化 constraint
-    // auto origin_constraint = make_shared<Individual>(*constraint);
-    // constraint = constraint->instantiate(fact->abstract_to_concrete);
-    // #ifndef NDEBUG
-    //     cout<<"实例化之后的当前测试 "<<get_figure_info()<<endl;
-    // #endif
 
+    // 处理 (c)、(d) 分支都需要先根据当前的 abstract_to_concrete 实例化 constraint
+    auto origin_constraint = make_shared<Individual>(*constraint);
+    constraint = constraint->instantiate(fact->abstract_to_concrete);
+    #ifndef NDEBUG
+        cout<<"实例化之后的当前测试 "<<get_figure_info()<<endl;
+    #endif
+    
     bool pass = false;
     // assert(constraint->is_var + constraint->is_term + constraint->is_assertion == 1);
     if(constraint->is_var){ // 分支 a
@@ -333,19 +500,23 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
         }
         else{ // 分支 d
             assert(constraint->term->is_pred);
-            pass = perform_predicate_test(constraint->term->pred_val, fact);
+            pass = perform_existence_test(constraint,fact);
+            if(!pass)
+                pass = perform_predicate_test(constraint->term->pred_val, fact);
         }
     }
     else{ // 分支 c
         assert(constraint->is_assertion);
-        pass = perform_assertion_test(constraint->assertion, fact);
+        pass = perform_existence_test(constraint,fact);
+        if(!pass)
+            pass = perform_assertion_test(constraint->assertion, fact);
     }
 
     #ifndef NDEBUG
         cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
     #endif
 
-    // constraint = origin_constraint;
+    constraint = origin_constraint; // 复原 constraint
     return pass;
 }
 
@@ -436,12 +607,10 @@ void Terminal_Node::activation(shared_ptr<Token> token){ // Terminal_Node 激活
     edge->abstract_rule = match_rule;
     if(token->content.size()==1){
         auto fact = *token->content.begin(); // 唯一的 fact
-        edge->fact_start = fact;
-        reasoning_graph->fact_nodes_hash_table.insert(pair<string,shared_ptr<Fact>>(fact->get_output_str(),fact));
+        edge->fact_start = reasoning_graph->share_or_build_fact_node(fact);
     }
     else{
-        edge->token_start = token;
-        reasoning_graph->token_nodes_hash_table.insert(pair<string,shared_ptr<Token>>(token->get_output_str(),token));
+        edge->token_start = reasoning_graph->share_or_build_token_node(token);
     }
     reasoning_graph->edges.push_back(edge);
 }

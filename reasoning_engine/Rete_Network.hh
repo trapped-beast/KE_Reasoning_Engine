@@ -64,8 +64,9 @@ public:
     shared_ptr<Concept_Memory> parent = nullptr; // 父 CM
 
 private:
-    bool perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constraint, shared_ptr<Fact> fact); // 涉及 Sugar_For_Pred 的测试
-    bool perform_assertion_test(shared_ptr<Assertion> test_constraint, shared_ptr<Fact> fact); // 涉及 Assertion 的测试
+    bool perform_existence_test(shared_ptr<Individual> constraint,shared_ptr<Fact> fact); // 存在性测试
+    bool perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constraint, shared_ptr<Fact> fact); // 涉及 Sugar_For_Pred 的执行性测试
+    bool perform_assertion_test(shared_ptr<Assertion> test_constraint, shared_ptr<Fact> fact); // 涉及 Assertion 的执行性测试
 };
 
 
@@ -128,6 +129,10 @@ inline Intra_Node::Intra_Node(shared_ptr<Alpha_Memory> child_am):constraint(chil
 
 class Token{ // Fact 的组合
 public:
+    // 用 vector<shared_ptr<Fact>> 初始化
+    Token(vector<shared_ptr<Fact>> facts):content(facts){}
+    Token(){}
+
     void extend(shared_ptr<Fact> fact); // 扩充 Token
 
     string get_output_str() const; // 获取输出字符串
@@ -244,15 +249,62 @@ public:
     shared_ptr<Rete_Rule> instantiated_rule; // 实例化之后的规则
     shared_ptr<Fact> fact_start; // 起点可能是 Fact
     shared_ptr<Token> token_start; // 起点可能是 Token
-    shared_ptr<Fact> end; // 终点
+    shared_ptr<Fact> fact_end; // 终点可能是 Fact
+    shared_ptr<Token> token_end; // 终点可能是 Token
+};
+
+class Reasoning_Node{ // 推理图的节点
+public:
+    // 用 shared_ptr<Fact> 初始化
+    Reasoning_Node(shared_ptr<Fact> node):fact_node(node){}
+    // 用 shared_ptr<Token> 初始化
+    Reasoning_Node(shared_ptr<Token> node):token_node(node){}
+
+    string get_output_str(){return fact_node ? fact_node->get_output_str() : token_node->get_output_str();}
+
+    shared_ptr<Fact> fact_node; // 节点可能是 Fact
+    shared_ptr<Token> token_node; // 节点可能是 Token
+    vector<shared_ptr<Reasoning_Edge>> in_edges; // 入边
+    vector<shared_ptr<Reasoning_Edge>> out_edges; // 出边
+    bool visited = false; // 是否已经访问过
 };
 
 class Reasoning_Graph{ // 推理图
 public:
+    void print_solving_process(); // 输出求解过程
+    void print_all_progress(); // 输出所有求解进展
+
+    // Reasoning_Graph 中的节点不可重复
+
+    shared_ptr<Fact> share_or_build_fact_node(shared_ptr<Fact> fact); // 添加或共享 Fact Node
+    shared_ptr<Token> share_or_build_token_node(shared_ptr<Token> token); // 添加或共享 Token Node
+
     map<string,shared_ptr<Fact>> fact_nodes_hash_table; // 节点可能是 Fact
     map<string,shared_ptr<Token>> token_nodes_hash_table; // 节点可能是 Token
     vector<shared_ptr<Reasoning_Edge>> edges; // 边为 Rete_Rule
+
+    map<string,shared_ptr<Reasoning_Node>> nodes; // 统一 fact_node 和 token_node
+
+private:
+    void draw_all_progress(); // 可视化所有求解进展
+    void draw_solving_process(); // 可视化求解过程
 };
+
+inline shared_ptr<Fact> Reasoning_Graph::share_or_build_fact_node(shared_ptr<Fact> fact){ // 添加或共享 Fact Node
+    auto it = fact_nodes_hash_table.find(fact->get_output_str());
+    if(it!=fact_nodes_hash_table.end())
+        return it->second;
+    fact_nodes_hash_table.insert(pair<string,shared_ptr<Fact>>(fact->get_output_str(),fact));
+    return fact;
+}
+
+inline shared_ptr<Token> Reasoning_Graph::share_or_build_token_node(shared_ptr<Token> token){ // 添加或共享 Token Node
+    auto it = token_nodes_hash_table.find(token->get_output_str());
+    if(it!=token_nodes_hash_table.end())
+        return it->second;
+    token_nodes_hash_table.insert(pair<string,shared_ptr<Token>>(token->get_output_str(),token));
+    return token;
+}
 
 
 shared_ptr<Concept_Memory> build_or_share_cm(shared_ptr<Rete_Network> rete_network, shared_ptr<Concept_Node> node, shared_ptr<Concept_Memory> mem);
@@ -270,8 +322,8 @@ shared_ptr<Join_Node> build_or_share_join_node(shared_ptr<Rete_Network> rete_net
 void add_rule(shared_ptr<Rete_Network> rete_network, shared_ptr<Rete_Rule> rule);
 shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> kb);
 void find_cm_for_intra_node(shared_ptr<Rete_Network> rete_network, shared_ptr<Intra_Node> intra_node);
-shared_ptr<Individual> eval(shared_ptr<Term> term, shared_ptr<Fact> fact);
-shared_ptr<Individual> get_con_indi(shared_ptr<Individual> abs_indi,shared_ptr<Fact> fact);
-
+shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<Fact> fact);
+void trace_back(shared_ptr<Token> token);
+bool find_path(shared_ptr<Reasoning_Node> &start, shared_ptr<Reasoning_Node> &end, map<string,shared_ptr<Reasoning_Node>> &node_hash_table, set<shared_ptr<Reasoning_Node>> &reachable_node_set);
 
 #endif

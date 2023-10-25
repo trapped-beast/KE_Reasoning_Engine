@@ -1,6 +1,6 @@
 #ifndef AL_STRUCT_HH
 #define AL_STRUCT_HH
-// #define NDEBUG
+#define NDEBUG
 
 // AL抽象语法树相关的数据结构
 
@@ -265,7 +265,7 @@ public:
     shared_ptr<Concept> concept; // 对应概念
 };
 
-class Cud; class Term; class Assertion; class Sugar_For_And; class Sugar_For_Pred;class Rete_Question;
+class Cud; class Term; class Assertion; class Sugar_For_And; class Sugar_For_Pred;class Rete_Question;class Fact;
 class Individual{
 public:
     // 用变量初始化
@@ -293,7 +293,7 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Sugar_For_And &parent); // 传播变量声明 (Individual 的上层可能是 Sugar_For_And)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Sugar_For_Pred &parent); // 传播变量声明 (Individual 的上层可能是 Sugar_For_Pred)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Assertion &parent); // 传播变量声明 (Individual 的上层可能是 Assertion)
-    shared_ptr<Individual> find_specific_indi(const string &type_name, const Rete_Question &question); // 找到个体的某个特定类型的值
+    shared_ptr<Individual> find_specific_indi(const string &type_name, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp = nullptr); // 找到个体的某个特定类型的值
     shared_ptr<Individual> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     bool is_var = false; // 是否是变量
@@ -561,7 +561,6 @@ public:
     string get_output_str() const; // 获取输出字符串
     void take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb); // 执行动作
     void print_result(); // 输出求解结果
-    void print_solving_precess(); // 输出求解过程
 
     void normalize_individual(shared_ptr<Assertion> &assertion); // 统一 assertion 中的 individual（要保存）
     void normalize_individual(shared_ptr<Term> &term); // 统一 term 中的 individual（要保存）
@@ -718,10 +717,10 @@ string str_of_var_decl(const map<string, shared_ptr<Concept>> &var_decl); // 变
 string str_of_abs_to_con(const map<string, string> &abstrct_to_concrete); // 约束变元的实例对应的字符串输出
 shared_ptr<Individual> var_decl_to_indi(const map<string, shared_ptr<Concept>> &var_decl); // 把变量声明改造为 Individual(具体地说是Variable)
 map<string, shared_ptr<Concept>> instantiate_var_decl(const map<string, shared_ptr<Concept>> &var_decl, const map<string, string> &abstract_to_concrete); // 实例化变量声明
-shared_ptr<Individual> eval(shared_ptr<Individual> indi, const Rete_Question &question); // 个体求值
+shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions = nullptr); // 个体求值
 void specify_the_question(shared_ptr<Rete_Question> question,shared_ptr<Fact> fact); // 指明 fact 所在的 Question
-void try_to_simplify(shared_ptr<Assertion> &assertion, const Rete_Question &question);
-void try_to_simplify(shared_ptr<Individual> &indi, const Rete_Question &question);
+void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question);
+void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question);
 
 inline string Number::get_output_str() const{
     std::ostringstream oss;
