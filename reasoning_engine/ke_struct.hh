@@ -1,6 +1,6 @@
 #ifndef AL_STRUCT_HH
 #define AL_STRUCT_HH
-#define NDEBUG
+// #define NDEBUG
 
 // AL抽象语法树相关的数据结构
 
@@ -36,13 +36,21 @@ public:
     Number(){} // 默认构造
     
     string get_output_str() const; // 获取输出字符串
-    bool operator==(const Number &rhs) const; // 重载 ==
+    bool operator==(const Number &rhs) const;
     bool operator>(const Number &rhs) const;
     bool operator<(const Number &rhs) const;
     bool operator>=(const Number &rhs) const;
     bool operator<=(const Number &rhs) const;
     bool operator!=(const Number &rhs) const;
     Number operator*(const Number &rhs) const;
+    Number operator/(const Number &rhs) const;
+
+    void trans_to_opposite(){ // 变为相反数
+        if(is_int)
+            i_val *= -1;
+        else
+            f_val *= -1;
+    }
 
     bool is_int = false; // 是否是整数
     bool is_float = false; // 是否是浮点数
@@ -85,11 +93,25 @@ inline bool Number::operator!=(const Number &rhs) const{
     r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
     return l_val != r_val;
 }
+
 inline Number Number::operator*(const Number &rhs) const{
     double l_val, r_val;
     l_val = is_int ? i_val : f_val;
     r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
     double ret = l_val * r_val;
+    double int_part;
+    double frac_part = std::modf(ret, &int_part); // 将 ret 拆分为整数和小数部分
+    if(frac_part == 0.0) // 如果是整数
+        return Number((int)ret);
+    else
+        return Number(ret);
+}
+
+inline Number Number::operator/(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    double ret = l_val / r_val;
     double int_part;
     double frac_part = std::modf(ret, &int_part); // 将 ret 拆分为整数和小数部分
     if(frac_part == 0.0) // 如果是整数
@@ -460,7 +482,9 @@ class Assertion{
 public:
     // 用 左右两个个体 初始化
     Assertion(const Individual &l,const Individual &r):is_std(true),left(make_shared<Individual>(l)),right(make_shared<Individual>(r)){
-        left->alt_vals.push_back(right); // 保存 Assertion 蕴含的 equality 信息
+        // 保存 Assertion 蕴含的 equality 信息
+        left->alt_vals.push_back(right);
+        // right->alt_vals.push_back(left);
     }
     // 用 单个个体 初始化
     Assertion(const Individual &i):is_sugar_for_true(true),lonely_left(make_shared<Individual>(i)){}
@@ -644,7 +668,7 @@ public:
     // 用 定义概念、定义个体、定义算子、知识的列表 初始化
     Knowledge_Base(const vector<shared_ptr<Def_Concept>> &c,const vector<shared_ptr<Def_Individual>> &i,const vector<shared_ptr<Def_Operator>> &o,const vector<shared_ptr<Rule>> &r):def_concepts(c),def_individuals(i),def_operators(o),rules(r){
         init_def_part();
-        print_def_part();
+        // print_def_part();
     }
     Knowledge_Base(){} // 默认构造
     

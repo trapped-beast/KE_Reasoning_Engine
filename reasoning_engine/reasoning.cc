@@ -30,7 +30,9 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
 
     assert(question->to_solve.size()==1); // 目前只处理有一个待求解项的情况
     auto unknown = *question->to_solve.begin();
+    // 先从 to_solve 的 alt_vals 入手
     for(auto &alt:unknown->alt_vals){
+        // 如果 alt_vals 中的某个已知或可解，则已解出
         if(alt->val_is_known)
             return true;
         else{
@@ -106,6 +108,7 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
             }
         }
     }
+
     return false;
 }
 
@@ -189,6 +192,52 @@ void reasoning(shared_ptr<Rete_Question> question, shared_ptr<Rete_Network> rete
         
         // 执行规则的 RHS
         for(auto instantiated_rule:instantiated_rules){
+            cout<<*instantiated_rule<<endl;
+            // 对于同一批激活的规则，在执行规则的 RHS 过程中个体在进行更新，可能会导致还未执行的规则中的某些个体变成 "过时的", 所以要重新进行 normalization
+            question->normalize_individual(instantiated_rule);
+            #ifndef NDEBUG
+                cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<question->indi_hash_map.size()<<"个)"<<endl;
+                for(auto p:question->indi_hash_map){
+                    cout<<"\t"<<p.first<<"  对应 alt_val: ";
+                    for(auto alt:p.second->alt_vals)
+                        cout<<*alt<<"  ";
+                    cout<<"("<<p.second->alt_vals.size()<<"个)";
+                    cout<<endl;
+                }
+
+                // 测试 TODO:delete
+                auto indi_hash_map = question->indi_hash_map;
+                auto param_p_name = "Param_P(p_std)";
+                auto it = indi_hash_map.find(param_p_name);
+                if(it!=indi_hash_map.end())
+                    cout<<endl<<it->second->get_output_str()<<" 的 alt_val 为: "<<it->second->alt_vals[0]->get_output_str()<<" \t地址为: "<<it->second->alt_vals[0]<<endl;
+                auto long_name = "Div(Param_P(p_std), 2)";
+                auto it_1 = indi_hash_map.find(long_name);
+                if(it_1!=indi_hash_map.end()){
+                    auto temp = it_1->second->term->args[0];
+                    cout<<endl<<long_name<<" 中的 "<<temp->get_output_str()<<" 的 alt_val 为: "<<temp->alt_vals[0]->get_output_str()<<" \t地址为: "<<temp->alt_vals[0]<<endl;
+                }
+                long_name = "Generate_Line_Eq(1, 0, Div(Param_P(p_std), 2))";
+                it_1 = indi_hash_map.find(long_name);
+                if(it_1!=indi_hash_map.end()){
+                    auto temp = it_1->second->term->args[2]->term->args[0];
+                    cout<<endl<<long_name<<" 中的 "<<temp->get_output_str()<<" 的 alt_val 为: "<<temp->alt_vals[0]->get_output_str()<<" \t地址为: "<<temp->alt_vals[0]<<endl;
+                }
+                long_name = "{Line_Equation(Directrix(p_std))=Generate_Line_Eq(1, 0, Div(Param_P(p_std), 2))}";
+                it_1 = indi_hash_map.find(long_name);
+                if(it_1!=indi_hash_map.end()){
+                    auto temp = it_1->second->assertion->right->term->args[2]->term->args[0];
+                    cout<<endl<<long_name<<" 中的 "<<temp->get_output_str()<<" 的 alt_val 为: "<<temp->alt_vals[0]->get_output_str()<<" \t地址为: "<<temp->alt_vals[0]<<endl;
+                    cout<<endl;
+                }
+
+                cout<<*instantiated_rule<<endl;
+                if(instantiated_rule->lhs)
+                    auto lhs = *instantiated_rule->lhs;
+                auto rhs = *instantiated_rule->rhs;
+                cout<<rhs<<endl;
+            #endif
+
             size_t origin_fact_num = question->fact_list.size();
             question->take_action(instantiated_rule->rhs, rete_network->underlying_kb);
 

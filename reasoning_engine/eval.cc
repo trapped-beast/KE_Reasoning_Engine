@@ -66,6 +66,8 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
             auto test_right = *test_eq->right;
             cout<<"目标方程左部为: "<<target_left<<endl;
             cout<<"测试方程左部为: "<<test_left<<endl;
+            cout<<"目标方程右部为: "<<target_right<<endl;
+            cout<<"测试方程右部为: "<<test_right<<endl;
             /*
              * 能判断的方程形式有:
              *     1. x^2/a^2 + y^2/b^2 = 1 (Ellipse)
@@ -79,6 +81,9 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
              */
             Math_Expr x = Math_Expr("x");
             Math_Expr y = Math_Expr("y");
+            Math_Expr x_2 = Math_Expr(x, '^', Math_Expr(2));
+            Math_Expr y_2 = Math_Expr(y, '^', Math_Expr(2));
+            Number zero = Number(0);
             if(target_right==Math_Expr(1) && target_right==test_right){ // 前 4 种形式
                 if(target_left.op_val == test_left.op_val){ // 最外层的 +- 号要一致
                     if(target_eq->get_output_str()=="x^2/a^2+y^2/b^2==1"){ // 形式 1、2 都满足
@@ -103,14 +108,34 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
                             bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^';
                             bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^';
                             // 其次，两个参数分别是 x、y 或是 y、x
-                            bool var_conform;
+                            bool var_conform = false;
                             if(target_eq->get_output_str()=="x^2/a^2-y^2/b^2==1") // 形式 3
                                 var_conform = *left.left->left==x && *right.left->left==y;
-                            else // 形式 4
+                            else if(target_eq->get_output_str()=="y^2/a^2-x^2/b^2==1") // 形式 4
                                 var_conform = *left.left->left==y && *right.left->left==x;
                             ret = make_shared<Individual>(left_conform && right_conform && var_conform);
                         }
                     }
+                }
+            }
+            else if(target_left==y_2 && target_left==test_left){
+                if(target_eq->get_output_str()=="y^2==2*p*x"){ // 形式 5
+                    if(test_right.is_mathe && test_right.op_val=='*' && *test_right.right==x && test_right.left->is_num)
+                        ret = make_shared<Individual>(*test_right.left->number_val > zero);
+                }
+                else if(target_eq->get_output_str()=="y^2==-2*p*x"){
+                    if(test_right.is_mathe && test_right.op_val=='*' && *test_right.right==x && test_right.left->is_num)
+                        ret = make_shared<Individual>(*test_right.left->number_val < zero);
+                }
+            }
+            else if(target_left==x_2 && target_left==test_left){
+                if(target_eq->get_output_str()=="x^2==2*p*y"){ // 形式 7
+                    if(test_right.is_mathe && test_right.op_val=='*' && *test_right.right==y && test_right.left->is_num)
+                        ret = make_shared<Individual>(*test_right.left->number_val > zero);
+                }
+                else if(target_eq->get_output_str()=="x^2==-2*p*y"){ // 形式 8
+                    if(test_right.is_mathe && test_right.op_val=='*' && *test_right.right==y && test_right.left->is_num)
+                        ret = make_shared<Individual>(*test_right.left->number_val < zero);
                 }
             }
         }
@@ -272,6 +297,96 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                     ret = Math_Expr(Number(*val_1->number_val * *val_2->number_val));
                 else
                     ret = Math_Expr(val_1,'*',val_2);
+                eval_ret = make_shared<Individual>(Math_Individual(ret));
+            }
+        }
+        else if(oprt=="Div"){ // 对若干个数学表达式进行相除 (参数是: 若干个数学表达式 Math_Expr)
+            // 暂时处理两个参数
+            assert(args.size()==2);
+            auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_1)
+                num_1 = action_eval(args[0],question);
+            auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_2)
+                num_2 = action_eval(args[1],question);
+            if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
+                auto val_1 = num_1->math_indi->expr_val;
+                auto val_2 = num_2->math_indi->expr_val;
+                Math_Expr ret;
+                Number div_val = *val_1->number_val / *val_2->number_val;
+                if(val_1->is_num && val_2->is_num && div_val.is_int)
+                    ret = Math_Expr(div_val);
+                else
+                    ret = Math_Expr(val_1,'/',val_2);
+                eval_ret = make_shared<Individual>(Math_Individual(ret));
+            }
+        }
+        else if(oprt=="Generate_Line_Eq"){ // 根据系数 a、b、c 生成直线方程 ax+by+c=0 (参数: 三个 Math_Expr)
+            assert(args.size()==3);
+            auto a = args[0]->find_specific_indi("Math_Expr", question);
+            if(!a)
+                a = action_eval(args[0],question);
+            auto b = args[1]->find_specific_indi("Math_Expr", question);
+            if(!b)
+                b = action_eval(args[1],question);
+            auto c = args[2]->find_specific_indi("Math_Expr", question);
+            if(!c)
+                c = action_eval(args[2],question);
+            if(a && a->is_math_indi && a->math_indi->is_math_expr && b && b->is_math_indi && b->math_indi->is_math_expr && c && c->is_math_indi && c->math_indi->is_math_expr){
+                Number zero = Number(0);
+                Math_Expr x = Math_Expr("x");
+                Math_Expr y = Math_Expr("y");
+                auto expr_a = *a->math_indi->expr_val;
+                auto expr_b = *b->math_indi->expr_val;
+                auto expr_c = *c->math_indi->expr_val;
+                assert(expr_a.is_num && expr_b.is_num && expr_c.is_num);
+                bool a_eq_0 = *expr_a.number_val == zero;
+                bool b_eq_0 = *expr_b.number_val == zero;
+                bool c_eq_0 = *expr_c.number_val == zero;
+                assert(!(a_eq_0 && b_eq_0)); // a、b 不能同时为 0
+
+                Math_Expr part_a, part_b, part_c; // a、b、c 都不为 0 时, 方程为: a*x +- |b|*y +- |c| = 0
+                if(!(a_eq_0)) // x 的系数可正可负
+                    part_a = Math_Expr(expr_a,'*',x); // part_a 即 a*x
+                if(*expr_b.number_val > zero)
+                    part_b = Math_Expr(expr_b,'*',y);
+                else if(*expr_b.number_val < zero){  // y 的系数不能为负
+                    Number temp = Number(*expr_b.number_val);
+                    temp.trans_to_opposite();
+                    part_b = Math_Expr(temp,'*',y); // part_b 即 |b|*y
+                }
+                if(*expr_c.number_val > zero) // 常数项不能为负
+                    part_c = expr_c;
+                else if(*expr_c.number_val < zero){
+                    Number temp = Number(*expr_c.number_val);
+                    temp.trans_to_opposite();
+                    part_c = Math_Expr(temp); // part_c 即 |c|
+                }
+                
+                Math_Expr eq_left; // 直线方程的左部
+                Math_Expr eq_right = Math_Expr(zero); // 直线方程的右部
+                // 先处理 a*x +- |b|*y 部分
+                Math_Expr part_a_b;
+                if(a_eq_0 && !b_eq_0)
+                    part_a_b = expr_b;
+                else if(!a_eq_0 && b_eq_0)
+                    part_a_b = part_a;
+                else{
+                    assert(!a_eq_0 && !b_eq_0);
+                    if(*expr_b.number_val > zero)
+                        part_a_b = Math_Expr(part_a, '+', part_b);
+                    else
+                        part_a_b = Math_Expr(part_a, '-', part_b);
+                }
+                // 补充上 +- |c| 部分
+                if(*expr_c.number_val > zero)
+                    eq_left = Math_Expr(part_a_b,'+',part_c);
+                else if(*expr_c.number_val < zero)
+                    eq_left = Math_Expr(part_a_b,'-',part_c);
+                else if(*expr_c.number_val == zero)
+                    eq_left = part_a_b;
+                
+                auto ret = Math_Equation(eq_left,eq_right);
                 eval_ret = make_shared<Individual>(Math_Individual(ret));
             }
         }

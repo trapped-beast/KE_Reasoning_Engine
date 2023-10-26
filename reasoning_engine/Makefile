@@ -54,4 +54,4 @@ solver.o : solver.cc
 .PHONY : clean
 
 clean :
-	rm solver scanner.cc $(objects)
+	rm solver scanner.cc $(objects) all_progress.* solving_process.*

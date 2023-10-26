@@ -313,9 +313,7 @@ void Rete_Node::activation(shared_ptr<Fact> fact){ // 根节点激活
 }
 
 bool Concept_Node::perform_concept_test(shared_ptr<Fact> fact){ // 测试fact是否包含指定概念
-    #ifndef NDEBUG
-        cout<<"当前测试 "<<get_figure_info()<<endl;
-    #endif
+    cout<<endl<<"当前测试 "<<get_figure_info()<<endl;
     // Concept_Node 是用一对变量声明初始化的
 
     // fact 的变量声明中要存在一个指定的概念
@@ -327,9 +325,7 @@ bool Concept_Node::perform_concept_test(shared_ptr<Fact> fact){ // 测试fact是
             break;
         }
     }
-    #ifndef NDEBUG
-        cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
-    #endif
+    cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
     return pass;
 }
 
@@ -349,9 +345,7 @@ void Concept_Node::activation(shared_ptr<Fact> fact){ // Concept_Node 激活
 void Concept_Memory::immediate_activation(shared_ptr<Fact> fact){ // 来自直接 Concept_Node 前驱的激活
     // 先保存该 fact 到 CM
     this->facts.push_back(fact);
-    #ifndef NDEBUG
-        cout<<"Fact: "<<*fact<<"保存在 "<<get_figure_info()<<endl;
-    #endif
+    cout<<"Fact: "<<*fact<<"保存在 "<<get_figure_info()<<endl;
     propagate_downward(fact);
 }
 
@@ -401,9 +395,7 @@ bool Intra_Node::perform_existence_test(shared_ptr<Individual> constraint,shared
 bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constraint, shared_ptr<Fact> fact){ // 涉及 Sugar_For_Pred 的执行性测试
     // 谓词只会是: ">"、"<"、">="、"<="、"!="
     // 目前支持这些比较的值只会是 Number
-    #ifndef NDEBUG
-        cout<<"进入到 predicate_test: "<<*test_constraint<<endl;
-    #endif
+    cout<<"进入到 predicate_test: "<<*test_constraint<<endl;
     // 把要测试的左右对象求出来
     auto left = test_constraint->left->find_specific_indi("Math_Expr", *fact->where_is);
     if(!left)
@@ -432,9 +424,7 @@ bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constrai
 }
 
 bool Intra_Node::perform_assertion_test(shared_ptr<Assertion> test_constraint, shared_ptr<Fact> fact){ // 涉及 Assertion 的执行性测试
-    #ifndef NDEBUG
-        cout<<"进入到 assertion_test: "<<*test_constraint<<endl;
-    #endif
+    cout<<"进入到 assertion_test: "<<*test_constraint<<endl;
     bool pass = false;
     if(test_constraint->is_sugar_for_true){ // 如果是 Individual = true 的语法糖
         if(*intra_node_eval(test_constraint->lonely_left, fact) == *make_shared<Individual>(true))
@@ -449,9 +439,7 @@ bool Intra_Node::perform_assertion_test(shared_ptr<Assertion> test_constraint, s
 }
 
 bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact 是否满足某个约束条件
-    #ifndef NDEBUG
-        cout<<"当前测试 "<<get_figure_info()<<endl;
-    #endif
+    cout<<endl<<"当前测试 "<<get_figure_info()<<endl;
     /*
      * Intra_Node 测试可以分为两种:
      *    1. 存在性判断: 只需判断当前已知 fact 中是否存在这样的一条 fact，而由于在题目未解出的情况下所有的 fact 都会被先后送入 Rete 网络，所以检查当前的 fact 是不是目标事实也是等价的。这里我们使用的是后者
@@ -477,9 +465,7 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
     // 处理 (c)、(d) 分支都需要先根据当前的 abstract_to_concrete 实例化 constraint
     auto origin_constraint = make_shared<Individual>(*constraint);
     constraint = constraint->instantiate(fact->abstract_to_concrete);
-    #ifndef NDEBUG
-        cout<<"实例化之后的当前测试 "<<get_figure_info()<<endl;
-    #endif
+    cout<<"实例化之后的当前测试 "<<get_figure_info()<<endl;
     
     bool pass = false;
     // assert(constraint->is_var + constraint->is_term + constraint->is_assertion == 1);
@@ -512,10 +498,8 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
             pass = perform_assertion_test(constraint->assertion, fact);
     }
 
-    #ifndef NDEBUG
-        cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
-    #endif
-
+    cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
+    
     constraint = origin_constraint; // 复原 constraint
     return pass;
 }

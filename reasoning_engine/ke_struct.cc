@@ -1632,7 +1632,7 @@ void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question){
         try_to_simplify(assertion->right, question);
         for(auto &alt:assertion->left->alt_vals){
             if(alt->get_output_str()==old_alt_name){
-                alt = assertion->right;
+                *alt = *assertion->right; // 修改的是 alt 指向的值，而不是指针本身
                 break;
             }
         }
@@ -1642,7 +1642,9 @@ void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question){
     if(indi->is_term){ // 目前只处理 Term
         auto &term = indi->term;
         if(term->is_oprt_apply || (term->is_std && std::find(built_in_oprts.begin(),built_in_oprts.end(),term->oprt)!=built_in_oprts.end())){
-            indi = action_eval(indi, question);
+            auto ret = action_eval(indi, question);
+            if(ret)
+                *indi = *ret;
         }
     }
 }
@@ -1651,8 +1653,8 @@ void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question){
 void Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb){ // 执行动作
     #ifndef NDEBUG
         cout<<"当前 Question:"<<endl<<*this<<endl;
-        cout<<"当前要执行的 RHS: "<<*rhs<<endl;
     #endif
+    cout<<"当前要执行的 RHS: "<<*rhs<<endl;
     // RHS 要考虑的情况有: Cud、Term、Assertion
     if(rhs->is_cud){
         take_action(rhs->cud, kb);
