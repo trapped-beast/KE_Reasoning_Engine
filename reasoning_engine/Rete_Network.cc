@@ -30,9 +30,10 @@ bool find_path(shared_ptr<Reasoning_Node> &start, shared_ptr<Reasoning_Node> &en
 }
 
 void Reasoning_Graph::print_solving_process(){ // 输出求解过程
-    // cout<<"边的数量为:"<<this->edges.size()<<endl;
-    // cout<<"Fact 点的数量为:"<<this->fact_nodes_hash_table.size()<<endl;
-    // cout<<"Token 点的数量为:"<<this->token_nodes_hash_table.size()<<endl;
+    reasoning_graph->draw_all_progress();
+    cout<<"边的数量为:"<<this->edges.size()<<endl;
+    cout<<"Fact 点的数量为:"<<this->fact_nodes_hash_table.size()<<endl;
+    cout<<"Token 点的数量为:"<<this->token_nodes_hash_table.size()<<endl;
 
     // 构建一个由点主导的图
     // 先把所有的 fact_nodes 和 token_nodes 统一为 Reasoning_Node
@@ -78,8 +79,10 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
     set<shared_ptr<Reasoning_Node>> unreachable_node_set; // 不存在到终点路径的所有节点
     for(auto p:node_hash_table){
         auto &node = p.second;
-        if(!find_path(node,end_node,node_hash_table,reachable_node_set))
+        if(!find_path(node,end_node,node_hash_table,reachable_node_set)){
             unreachable_node_set.insert(node);
+            cout<<"不存在到终点的路径: "<<node->get_output_str()<<endl;
+        }
     }
     // 对于所有的不存在到终点路径的节点，删除其入边
     vector<shared_ptr<Reasoning_Edge>> new_edges; // 保留所有有用的边
@@ -499,7 +502,7 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
     }
 
     cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
-    
+
     constraint = origin_constraint; // 复原 constraint
     return pass;
 }

@@ -1,27 +1,44 @@
 digraph all_progress {
-	graph [bb="0,0,788.88,180"];
+	graph [bb="0,0,1548.6,324"];
 	node [label="\N"];
 	"{Equation(c)=y^2==12*x}"	[height=0.5,
-		pos="424.44,162",
+		pos="616.44,306",
 		width=2.997];
 	"def_indi p_std:Parabola_Std_r={coeff_x:=12}"	[height=0.5,
-		pos="303.44,90",
+		pos="457.44,234",
 		width=4.8746];
-	"{Equation(c)=y^2==12*x}" -> "def_indi p_std:Parabola_Std_r={coeff_x:=12}"	[pos="e,333.03,108.12 395.46,144.23 379.68,135.1 359.93,123.68 342.78,113.76"];
+	"{Equation(c)=y^2==12*x}" -> "def_indi p_std:Parabola_Std_r={coeff_x:=12}"	[pos="e,496.06,252 579.56,288.76 557.85,279.2 530.1,266.99 506.55,256.62"];
 	"{c=p_std}"	[height=0.5,
-		pos="545.44,90",
+		pos="929.44,234",
 		width=1.336];
-	"{Equation(c)=y^2==12*x}" -> "{c=p_std}"	[pos="e,519.98,105.73 453.42,144.23 470.45,134.38 492.1,121.86 510.12,111.43"];
+	"{Equation(c)=y^2==12*x}" -> "{c=p_std}"	[pos="e,888.85,244.08 679.03,291 737.32,277.97 823.2,258.76 877.72,246.57"];
 	"{Param_P(p_std)=6}"	[height=0.5,
-		pos="86.442,18",
+		pos="86.442,162",
 		width=2.4012];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=12}" -> "{Param_P(p_std)=6}"	[pos="e,131.86,33.65 251.74,72.322 218.82,61.704 176.19,47.952 142.47,37.074"];
+	"def_indi p_std:Parabola_Std_r={coeff_x:=12}" -> "{Param_P(p_std)=6}"	[pos="e,148.98,174.8 376.02,217.64 311.67,205.5 222.6,188.69 160.29,176.93"];
 	"{Focus_On_X_Axis(p_std)}"	[height=0.5,
-		pos="303.44,18",
+		pos="303.44,162",
 		width=3.1233];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=12}" -> "{Focus_On_X_Axis(p_std)}"	[pos="e,303.44,36.104 303.44,71.697 303.44,64.407 303.44,55.726 303.44,47.536"];
+	"def_indi p_std:Parabola_Std_r={coeff_x:=12}" -> "{Focus_On_X_Axis(p_std)}"	[pos="e,339.58,179.43 420.16,216.05 399.03,206.45 372.4,194.34 349.92,184.12"];
 	"{Line_Equation(Directrix(p_std))=1*x+3==0}"	[height=0.5,
-		pos="611.44,18",
+		pos="611.44,162",
 		width=4.9287];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=12}" -> "{Line_Equation(Directrix(p_std))=1*x+3==0}"	[pos="e,541.3,34.942 373.33,73.116 419.93,62.525 481.35,48.566 530.14,37.478"];
+	"def_indi p_std:Parabola_Std_r={coeff_x:=12}" -> "{Line_Equation(Directrix(p_std))=1*x+3==0}"	[pos="e,573.97,180.03 494.72,216.05 515.47,206.62 541.52,194.78 563.74,184.68"];
+	"{Directrix(c)=Directrix(p_std)}"	[height=0.5,
+		pos="929.44,162",
+		width=3.4122];
+	"{c=p_std}" -> "{Directrix(c)=Directrix(p_std)}"	[pos="e,929.44,180.1 929.44,215.7 929.44,208.41 929.44,199.73 929.44,191.54"];
+	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}"	[height=0.5,
+		pos="1309.4,162",
+		width=6.6439];
+	"{c=p_std}" -> "{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}"	[pos="e,1221.7,179.16 971.93,225.17 1029.2,214.62 1133.1,195.49 1210.5,181.23"];
+	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}"	[height=0.5,
+		pos="960.44,90",
+		width=11.41];
+	"{Line_Equation(Directrix(p_std))=1*x+3==0}" -> "{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}"	[pos="e,875.46,108.04 689.33,145.38 741.02,135.01 809.21,121.33 864.28,110.29"];
+	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}" -> "{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}"	[pos="e,1045.6,108.08 1228.1,144.68 1176.9,134.42 1110.7,121.13 1056.9,110.34"];
+	"{Line_Equation(Directrix(c))=1*x+3==0}"	[height=0.5,
+		pos="960.44,18",
+		width=4.5135];
+	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}" -> "{Line_Equation(Directrix(c))=1*x+3==0}"	[pos="e,960.44,36.104 960.44,71.697 960.44,64.407 960.44,55.726 960.44,47.536"];
 }

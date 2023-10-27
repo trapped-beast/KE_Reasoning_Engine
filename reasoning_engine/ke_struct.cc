@@ -1144,17 +1144,6 @@ void Rete_Question::normalize_individual(shared_ptr<Assertion> &assertion){ // �
         assert(assertion->is_sugar_for_true);
         normalize_individual(assertion->lonely_left);
     }
-
-    #ifndef NDEBUG
-        cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
-        for(auto p:indi_hash_map){
-            cout<<"\t"<<p.first<<"  对应 alt_val: ";
-            for(auto alt:p.second->alt_vals)
-                cout<<*alt<<"  ";
-            cout<<"("<<p.second->alt_vals.size()<<"个)";
-            cout<<endl;
-        }
-    #endif
 }
 
 void Rete_Question::normalize_individual(shared_ptr<Assignment> &assignment){ // 统一 assignment 中的 individual（要保存）
@@ -1192,26 +1181,26 @@ void Rete_Question::normalize_individual(shared_ptr<Cud> &cud){ // 统一 cud �
 }
 
 void Rete_Question::normalize_individual(shared_ptr<Individual> &indi){ // 统一 individual（要保存）
-    #ifndef NDEBUG
-        cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
-        for(auto p:indi_hash_map){
-            cout<<"\t"<<p.first<<"  对应 alt_val: ";
-            for(auto alt:p.second->alt_vals)
-                cout<<*alt<<"  ";
-            cout<<"("<<p.second->alt_vals.size()<<"个)";
-            cout<<endl;
-        }
-        cout<<endl<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
-        cout<<"当前要统一的 Individual: "<<*indi<<endl;
-        cout<<"统一前的 Individual 个数为: "<<indi_hash_map.size()<<endl;
-        if(indi_hash_map.size()){
-            cout<<"分别为: ";
-            for(auto p:indi_hash_map){
-                cout<<p.first<<"  ";
-            }
-            cout<<endl<<endl;
-        }
-    #endif
+    // #ifndef NDEBUG
+    //     cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
+    //     for(auto p:indi_hash_map){
+    //         cout<<"\t"<<p.first<<"  对应 alt_val: ";
+    //         for(auto alt:p.second->alt_vals)
+    //             cout<<*alt<<"  ";
+    //         cout<<"("<<p.second->alt_vals.size()<<"个)";
+    //         cout<<endl;
+    //     }
+    //     cout<<endl<<"++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"<<endl;
+    //     cout<<"当前要统一的 Individual: "<<*indi<<endl;
+    //     cout<<"统一前的 Individual 个数为: "<<indi_hash_map.size()<<endl;
+    //     if(indi_hash_map.size()){
+    //         cout<<"分别为: ";
+    //         for(auto p:indi_hash_map){
+    //             cout<<p.first<<"  ";
+    //         }
+    //         cout<<endl<<endl;
+    //     }
+    // #endif
     // 先迭代处理 alt_vals 部分
     for(auto alt:indi->alt_vals){
         normalize_individual(alt);
@@ -1221,12 +1210,6 @@ void Rete_Question::normalize_individual(shared_ptr<Individual> &indi){ // 统�
         cout<<"找到同名的 Individual: "<<*it->second<<endl;
         // 后来的 Individual 可能 (由于新的 Assertion) 保存更新的 alt_vals 信息
         auto new_indi = make_shared<Individual>(*it->second); // 先复制一份已经存在的 Individual
-        if(new_indi->alt_vals.size()){
-            cout<<"\t原来的 alt_vals: ";
-            for(auto alt:new_indi->alt_vals)
-                cout<<*alt<<"  ";
-            cout<<"("<<new_indi->alt_vals.size()<<"个)"<<endl;
-        }
         // 要在原来的 alt_vals 的基础上进行追加
         if(indi->alt_vals.size()){ // 新出现的 Individual 可能会携带一个 alt_val
             assert(indi->alt_vals.size()==1);
@@ -1242,15 +1225,8 @@ void Rete_Question::normalize_individual(shared_ptr<Individual> &indi){ // 统�
             if(!existed)
                 new_indi->alt_vals.push_back(new_alt_val);
         }
-
-        *indi = *new_indi;
-        if(new_indi->alt_vals.size()>it->second->alt_vals.size()){
-            cout<<"\t现在的 alt_vals: ";
-            for(auto alt:new_indi->alt_vals)
-                cout<<*alt<<"  ";
-            cout<<"("<<new_indi->alt_vals.size()<<"个)"<<endl;
-        }
-        *it->second = *indi; // 更新 indi_hash_map 中的 Individual
+        *it->second = *new_indi; // 更新 indi_hash_map 中的 Individual
+        indi = it->second; // Individual 自身要和 indi_hash_map 同步
     }
     else{ // 如果不存在则保存自身
         // Term 和 Assertion 要迭代处理，其它情况则不需要
@@ -1262,27 +1238,27 @@ void Rete_Question::normalize_individual(shared_ptr<Individual> &indi){ // 统�
             normalize_individual(indi->cud);
         else // TODO: 考虑是否有必要在更细的粒度上进行 normalization
             ;
-        indi_hash_map.insert(pair<string,shared_ptr<Individual>>(indi->get_output_str(),indi));
+        auto p = indi_hash_map.insert(pair<string,shared_ptr<Individual>>(indi->get_output_str(),indi));
     }
-    #ifndef NDEBUG
-        cout<<endl<<"统一后的 Individual 个数为: "<<indi_hash_map.size()<<endl;
-        if(indi_hash_map.size()){
-            cout<<"分别为: ";
-            for(auto p:indi_hash_map){
-                cout<<p.first<<"  ";
-            }
-            cout<<endl;
-        }
-        cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
-        for(auto p:indi_hash_map){
-            cout<<"\t"<<p.first<<"  对应 alt_val: ";
-            for(auto alt:p.second->alt_vals)
-                cout<<*alt<<"  ";
-            cout<<"("<<p.second->alt_vals.size()<<"个)";
-            cout<<endl;
-        }
-        cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl<<endl;
-    #endif
+    // #ifndef NDEBUG
+    //     cout<<endl<<"统一后的 Individual 个数为: "<<indi_hash_map.size()<<endl;
+    //     if(indi_hash_map.size()){
+    //         cout<<"分别为: ";
+    //         for(auto p:indi_hash_map){
+    //             cout<<p.first<<"  ";
+    //         }
+    //         cout<<endl;
+    //     }
+    //     cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<indi_hash_map.size()<<"个)"<<endl;
+    //     for(auto p:indi_hash_map){
+    //         cout<<"\t"<<p.first<<"  对应 alt_val: ";
+    //         for(auto alt:p.second->alt_vals)
+    //             cout<<*alt<<"  ";
+    //         cout<<"("<<p.second->alt_vals.size()<<"个)";
+    //         cout<<endl;
+    //     }
+    //     cout<<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<endl<<endl;
+    // #endif
 }
 
 void Rete_Question::normalize_individual(shared_ptr<Fact> &fact){ // 统一 fact 中的 individual（要保存）
@@ -1419,7 +1395,7 @@ shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, R
         }
     }
     // 除此之外，考虑个体的相等性传递
-    if(is_term && term->is_std && term->args.size()==1){ // 目前只考虑一元算子替换参数的情况 ({a=b} => {P(a)=p(b)})
+    if(is_term && term->is_std && term->args.size()==1){ // 目前只考虑一元算子替换参数的情况 ({a=b} => {P(a)=P(b)})
         string oprt = term->oprt;
         auto old_body = term->args[0]; // 原来的参数即 a
         for(auto alt:old_body->alt_vals){ // alt 即 b
@@ -1428,7 +1404,7 @@ shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, R
             auto it = question.indi_hash_map.find(new_obj_name);
             if(it!=question.indi_hash_map.end()){
                 auto new_obj = it->second; // 即 P(b)
-                // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=b} => {P(a)=p(b)})
+                // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=b} => {P(a)=P(b)})
                 string lhs_name = "{"+old_body->get_output_str()+"="+alt->get_output_str()+"}"; // 用于替换的参数之间的相等关系，也就是就是引起该 suffice to 关系的 assertion
                 string new_rule_desc = "等量代换";
                 // 用这里的 suffice to 关系创建新的规则加入 reasoning_graph
@@ -1442,7 +1418,7 @@ shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, R
                     }
                 }
                 assert(edge->fact_start);
-                // 创建新的 rhs (即 P(a)=p(b)) 作为终点，补充到 edge 上
+                // 创建新的 rhs (即 P(a)=P(b)) 作为终点，补充到 edge 上
                 auto it_l = question.indi_hash_map.find(old_obj_name);
                 auto it_r = question.indi_hash_map.find(new_obj_name);
                 assert(it_l!=question.indi_hash_map.end() && it_r!=question.indi_hash_map.end());
@@ -1456,7 +1432,7 @@ shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, R
                 question.fact_list.push_back(new_fact);
                 edge->fact_end = new_fact;
                 reasoning_graph->edges.push_back(edge);
-                if(conditions_sp) // 把 {P(a)=p(b)} 这一依据传回给调用方 (如果需要的话)
+                if(conditions_sp) // 把 {P(a)=P(b)} 这一依据传回给调用方 (如果需要的话)
                     conditions_sp->push_back(new_fact);
 
                 return new_obj->find_specific_indi(type_name, question, conditions_sp);

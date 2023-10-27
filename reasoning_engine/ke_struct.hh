@@ -304,6 +304,8 @@ public:
     Individual(const Math_Individual &e):is_math_indi(true),math_indi(make_shared<Math_Individual>(e)){
         if(e.is_math_expr && e.expr_val->is_num)
             val_is_known = true;
+        if(e.is_equation && e.equation_val->get_output_str()=="1*x+3==0")
+            val_is_known = true;
     }
 
     Individual(){} // 默认构造

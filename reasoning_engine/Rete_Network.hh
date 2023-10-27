@@ -325,5 +325,6 @@ void find_cm_for_intra_node(shared_ptr<Rete_Network> rete_network, shared_ptr<In
 shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<Fact> fact);
 void trace_back(shared_ptr<Token> token);
 bool find_path(shared_ptr<Reasoning_Node> &start, shared_ptr<Reasoning_Node> &end, map<string,shared_ptr<Reasoning_Node>> &node_hash_table, set<shared_ptr<Reasoning_Node>> &reachable_node_set);
+void sup_possible_alt(Individual &indi, Rete_Question &question);
 
 #endif
