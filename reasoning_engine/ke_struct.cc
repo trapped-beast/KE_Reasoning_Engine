@@ -293,7 +293,7 @@ ostream& operator<<(ostream &os, const vector<shared_ptr<Def_Individual>> &e){
 }
 
 ostream& operator<<(ostream &os, const Fact &e){ // 输出事实
-    assert(e.is_assert+e.is_var+e.is_def_indi==1);
+    assert(e.is_assert+e.is_pred+e.is_var+e.is_def_indi==1);
     if(e.is_assert)
         os<<*e.assertion;
     else if(e.is_pred)
@@ -1123,7 +1123,7 @@ shared_ptr<Rete_Rule> Rete_Rule::instantiate(const map<string, string> &abstract
     // 处理 rule 自身的变量声明
     ret->var_decl = instantiate_var_decl(var_decl, abstract_to_concrete);
     ret->description = description;
-    cout<<"实例化后得到新的 Rule: "<<*ret<<endl;
+    cout<<"实例化后得到新的 Rule: "<<*ret<<endl<<endl;
     return ret;
 }
 

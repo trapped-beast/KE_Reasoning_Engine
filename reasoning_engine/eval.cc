@@ -89,8 +89,8 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
                     if(target_eq->get_output_str()=="x^2/a^2+y^2/b^2==1"){ // 形式 1、2 都满足
                         if(target_left.op_val=='+'){
                             // 左边是 x^2/Math_Expr，右边是 y^2/Math_Expr，或者对调
-                            auto left = *target_left.left;
-                            auto right = *target_left.right;
+                            auto left = *test_left.left;
+                            auto right = *test_left.right;
                             // 首先，左右两边都必须是 未知数^2/Math_Expr
                             bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^';
                             bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^';
@@ -102,8 +102,8 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
                     else if(target_eq->get_output_str()=="x^2/a^2-y^2/b^2==1" || target_eq->get_output_str()=="y^2/a^2-x^2/b^2==1"){
                         if(target_left.op_val=='-'){
                             // 左边是 x^2/Math_Expr，右边是 y^2/Math_Expr
-                            auto left = *target_left.left;
-                            auto right = *target_left.right;
+                            auto left = *test_left.left;
+                            auto right = *test_left.right;
                             // 首先，左右两边都必须是 未知数^2/Math_Expr
                             bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^';
                             bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^';
@@ -254,6 +254,30 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 }
             }
         }
+        else if(oprt=="Neg"){ // 对数学表达式进行取相反数 (参数是: 数学表达式 Math_Expr)
+            assert(args.size()==1);
+            auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!target)
+                target = action_eval(args[0], question);
+            assert(target->is_math_indi && target->math_indi->is_math_expr);
+            auto target_val = target->math_indi->expr_val;
+            if(target_val->is_num){
+                Number temp = Number(*target_val->number_val);
+                temp.trans_to_opposite();
+                eval_ret = make_shared<Individual>(Math_Individual(temp));
+            }
+            else if(target_val->is_mathe && target_val->left->is_num){ // 只处理 left 为 Number 的情况
+                // +-*/^ 式的相反数只需对其左部去相反数
+                Number temp_left = Number(*target_val->left->number_val);
+                temp_left.trans_to_opposite();
+                Math_Expr temp;
+                if(target_val->right->is_num)
+                    temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,Math_Expr(*target_val->right->number_val));
+                else
+                    temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,target_val->right);
+                eval_ret = make_shared<Individual>(Math_Individual(temp));
+            }
+        }
         else if(oprt=="Sqrt"){ // 对数学表达式进行开方 (参数是: 数学表达式 Math_Expr)
             assert(args.size()==1);
             auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
@@ -314,8 +338,16 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 auto val_2 = num_2->math_indi->expr_val;
                 Math_Expr ret;
                 Number div_val = *val_1->number_val / *val_2->number_val;
-                if(val_1->is_num && val_2->is_num && div_val.is_int)
-                    ret = Math_Expr(div_val);
+                if(val_1->is_num && val_2->is_num){
+                    if(div_val.is_int)
+                        ret = Math_Expr(div_val);
+                    else
+                        ret = Math_Expr(Math_Expr(Number(*val_1->number_val)),'/',Math_Expr(Number(*val_2->number_val)));
+                }
+                else if(val_1->is_num && !val_2->is_num)
+                    ret = Math_Expr(val_1,'/',Math_Expr(Number(*val_2->number_val)));
+                else if(!val_1->is_num && val_2->is_num)
+                    ret = Math_Expr(Math_Expr(Number(*val_1->number_val)),'/',val_2);
                 else
                     ret = Math_Expr(val_1,'/',val_2);
                 eval_ret = make_shared<Individual>(Math_Individual(ret));
@@ -334,27 +366,60 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 c = action_eval(args[2],question);
             if(a && a->is_math_indi && a->math_indi->is_math_expr && b && b->is_math_indi && b->math_indi->is_math_expr && c && c->is_math_indi && c->math_indi->is_math_expr){
                 Number zero = Number(0);
+                Number one = Number(1);
                 Math_Expr x = Math_Expr("x");
                 Math_Expr y = Math_Expr("y");
                 auto expr_a = *a->math_indi->expr_val;
                 auto expr_b = *b->math_indi->expr_val;
                 auto expr_c = *c->math_indi->expr_val;
-                assert(expr_a.is_num && expr_b.is_num && expr_c.is_num);
-                bool a_eq_0 = *expr_a.number_val == zero;
-                bool b_eq_0 = *expr_b.number_val == zero;
-                bool c_eq_0 = *expr_c.number_val == zero;
+                // assert(expr_a.is_num && expr_b.is_num && expr_c.is_num);
+                bool a_eq_0 =false, b_eq_0=false, c_eq_0=false;
+                if(expr_a.is_num)
+                    a_eq_0 = *expr_a.number_val == zero;
+                if(expr_b.is_num)
+                    b_eq_0 = *expr_b.number_val == zero;
+                if(expr_b.is_num)
+                    c_eq_0 = *expr_c.number_val == zero;
                 assert(!(a_eq_0 && b_eq_0)); // a、b 不能同时为 0
 
                 Math_Expr part_a, part_b, part_c; // a、b、c 都不为 0 时, 方程为: a*x +- |b|*y +- |c| = 0
-                if(!(a_eq_0)) // x 的系数可正可负
-                    part_a = Math_Expr(expr_a,'*',x); // part_a 即 a*x
-                if(*expr_b.number_val > zero)
-                    part_b = Math_Expr(expr_b,'*',y);
-                else if(*expr_b.number_val < zero){  // y 的系数不能为负
-                    Number temp = Number(*expr_b.number_val);
-                    temp.trans_to_opposite();
-                    part_b = Math_Expr(temp,'*',y); // part_b 即 |b|*y
+                if(!(a_eq_0)){ // x 的系数可正可负
+                    if(expr_a.is_num)
+                        part_a = expr_a==one ? x : Math_Expr(expr_a,'*',x); // part_a 即 a*x
+                    else if(expr_a.is_mathe)
+                        part_a = Math_Expr(Math_Expr(make_shared<Math_Expr>(expr_a)),'*',x);
+                    else
+                        assert(false);
                 }
+                if(*expr_b.number_val > zero || (expr_b.is_mathe && *expr_b.get_num_val()>zero)){
+                    if(expr_b.is_num)
+                        part_b = expr_b==one ? y : Math_Expr(expr_b,'*',y);
+                    else if(expr_b.is_mathe)
+                        part_b = Math_Expr(Math_Expr(make_shared<Math_Expr>(expr_b)),'*',y);
+                    else
+                        assert(false);
+                }
+                else if(*expr_b.number_val < zero || (expr_b.is_mathe && *expr_b.get_num_val()<zero)){  // y 的系数不能为负
+                    if(expr_b.is_num){
+                        Number temp = Number(*expr_b.number_val);
+                        temp.trans_to_opposite();
+                        part_b = temp==one ? y : Math_Expr(temp,'*',y); // part_b 即 |b|*y
+                    }
+                    else if(expr_b.is_mathe && expr_b.left->is_num){ // 只处理 left 为 Number 的情况
+                        // +-*/^ 式的相反数只需对其左部去相反数
+                        Number temp_left = Number(*expr_b.left->number_val);
+                        temp_left.trans_to_opposite();
+                        Math_Expr temp;
+                        if(expr_b.is_num)
+                            temp = Math_Expr(Math_Expr(temp_left),expr_b.op_val,Math_Expr(*expr_b.right->number_val));
+                        else
+                            Math_Expr(Math_Expr(temp_left),expr_b.op_val,expr_b.right);
+                        part_b = Math_Expr(Math_Expr(make_shared<Math_Expr>(temp)),'*',y);
+                    }
+                    else
+                        assert(false);
+                }
+                assert(expr_c.is_num); // 简单处理
                 if(*expr_c.number_val > zero) // 常数项不能为负
                     part_c = expr_c;
                 else if(*expr_c.number_val < zero){
@@ -368,7 +433,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 // 先处理 a*x +- |b|*y 部分
                 Math_Expr part_a_b;
                 if(a_eq_0 && !b_eq_0)
-                    part_a_b = expr_b;
+                    part_a_b = part_b;
                 else if(!a_eq_0 && b_eq_0)
                     part_a_b = part_a;
                 else{
@@ -389,6 +454,14 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 auto ret = Math_Equation(eq_left,eq_right);
                 eval_ret = make_shared<Individual>(Math_Individual(ret));
             }
+        }
+        else if(oprt=="Ex_Or"){ // 对多个个体进行求值, 结果保存在 Exclusive_Or 容器
+            vector<shared_ptr<Individual>> new_args;
+            for(auto arg:args){
+                new_args.push_back(action_eval(arg,question));
+            }
+            eval_ret = make_shared<Individual>(Term(oprt,new_args));
+            eval_ret->val_is_known = true;
         }
     }
     if(eval_ret){

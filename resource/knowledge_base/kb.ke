@@ -88,6 +88,7 @@ h:Hyperbola_Std_2 => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Par
 h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 双曲线的离心率=参数c/参数a #
 
 
+
 {pa:Parabola; {Is_In_Form(Equation(pa),y^2==2*p*x)}} => {assert p_std:Parabola_Std_r = {coeff_x:=Extract_Coeff(Equation(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_r概念的个体 #
 
 {pa:Parabola; {Is_In_Form(Equation(pa),y^2==-2*p*x)}} => {assert p_std:Parabola_Std_l = {coeff_x:=Extract_Coeff(Equation(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_l概念的个体 #

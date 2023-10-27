@@ -167,7 +167,7 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Func &parent); // 传播变量声明 (Math_Expr 的上层可能是 Math_Func)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Expr &parent); // 传播变量声明 (Math_Expr 的上层可能是 Math_Expr)
     shared_ptr<Math_Expr> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
-
+    shared_ptr<Number> get_num_val(); // 获取对应的 Number 值
 
     bool is_num = false; // 是否是数
     bool is_sy = false; // 是否是符号
@@ -185,6 +185,13 @@ public:
 
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
 };
+
+inline shared_ptr<Number> Math_Expr::get_num_val(){ // 获取对应的 Number 值
+    // 该函数一般用于 / 式获取临时的 Number 值
+    shared_ptr<Number> ret;
+    assert(is_mathe && op_val=='/' && left->is_num && right->is_num);
+    return make_shared<Number>(*left->number_val / *right->number_val);
+}
 
 class Math_Individual;
 class Math_Equation{ // 数学方程
@@ -304,7 +311,8 @@ public:
     Individual(const Math_Individual &e):is_math_indi(true),math_indi(make_shared<Math_Individual>(e)){
         if(e.is_math_expr && e.expr_val->is_num)
             val_is_known = true;
-        if(e.is_equation && e.equation_val->get_output_str()=="1*x+3==0")
+        vector<string> std_eq = {"x+3==0", "y+3==0", "(3/4)*x-y==0", "(-3/4)*x-y==0)"};
+        if(e.is_equation && (std::find(std_eq.begin(),std_eq.end(),get_output_str())!=std_eq.end()) )// TODO:implement
             val_is_known = true;
     }
 

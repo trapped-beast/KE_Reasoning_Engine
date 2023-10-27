@@ -57,6 +57,30 @@ e:Ellipse => {Length(Minor_Axis(e)) = Mul(2,Param_B(e))} # 椭圆的短轴长等
 
 
 
+h:Hyperbola => {{Param_A(h)>0}; {Param_B(h)>0}; {Param_C(h)>0}}  # 双曲线的参数a、b、c均大于0 #
+
+h:Hyperbola => {Add(Pow(Param_A(h),2),Pow(Param_B(h),2))=Pow(Param_C(h),2)} # 双曲线的参数a、b、c满足：a^2+b^2=c^2 #
+
+{h:Hyperbola; {Is_In_Form(Equation(h),x^2/a^2-y^2/b^2==1)}} => {assert h_std:Hyperbola_Std_1 = {recip_coeff_sq_x:=Recip(Extract_Coeff(Equation(h),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h),y^2))}; {h=h_std}} # 如果双曲线方程（可）满足标准形式 x^2/a^2-y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_1概念的个体 #
+
+{h:Hyperbola; {Is_In_Form(Equation(h),y^2/a^2-x^2/b^2==1)}} => {assert h_std:Hyperbola_Std_2 = {recip_coeff_sq_x:=Recip(Extract_Coeff(Equation(h),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h),y^2))}; {h=h_std}} # 如果双曲线方程（可）满足标准形式 y^2/a^2-x^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_2概念的个体 #
+
+h:Hyperbola_Std_1 => {{Param_A(h) = Sqrt(h.recip_coeff_sq_x)};{Param_B(h) = Sqrt(h.recip_coeff_sq_y)}} # 标准双曲线Hyperbola_Std_1的参数a等于其x^2系数的倒数的开方,参数b等于其y^2系数的倒数的开方 #
+
+h:Hyperbola_Std_2 => {{Param_A(h) = Sqrt(h.recip_coeff_sq_y)};{Param_B(h) = Sqrt(h.recip_coeff_sq_x)}} # 标准双曲线Hyperbola_Std_2的参数a等于其y^2系数的倒数的开方,参数b等于其x^2系数的倒数的开方 #
+
+h:Hyperbola_Std_1 => {Focus_On_X_Axis(h)} # 标准双曲线Hyperbola_Std_1的焦点在其X轴上 #
+
+h:Hyperbola_Std_2 => {Focus_On_X_Axis(h)} # 标准双曲线Hyperbola_Std_2的焦点在其Y轴上 #
+
+h:Hyperbola_Std_1 => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h),Param_A(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_B(h),Param_A(h))),-1,0))} # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #
+
+h:Hyperbola_Std_2 => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h),Param_B(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_A(h),Param_B(h))),-1,0))} # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #
+
+h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 双曲线的离心率=参数c/参数a #
+
+
+
 {pa:Parabola; {Is_In_Form(Equation(pa),y^2==2*p*x)}} => {assert p_std:Parabola_Std_r = {coeff_x:=Extract_Coeff(Equation(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_r概念的个体 #
 
 {pa:Parabola; {Is_In_Form(Equation(pa),y^2==-2*p*x)}} => {assert p_std:Parabola_Std_l = {coeff_x:=Extract_Coeff(Equation(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_l概念的个体 #

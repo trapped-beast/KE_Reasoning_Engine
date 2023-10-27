@@ -18,13 +18,13 @@ c:Parabola; {Equation(c) = x^2==12*y}
 To_Solve(Line_Equation(Directrix(c)))
 
 
-# 5. 已知双曲线c的曲线方程为 x^2/4-y^2=1, 求c的渐近线方程。 #
-c:Hyperbola; {Equation(c) = x^2/4-y^2==1}
+# 5. 已知双曲线c的曲线方程为 x^2/16-y^2/9=1, 求c的渐近线方程。 #
+c:Hyperbola; {Equation(c) = x^2/16-y^2/9==1}
 To_Solve(Line_Equation(Asymptote(c)))
 
 
-# 6. 已知双曲线c的曲线方程为 y^2/4-x^2=1, 求c的渐近线方程。 #
-c:Hyperbola; {Equation(c) = y^2/4-x^2==1}
+# 6. 已知双曲线c的曲线方程为 y^2/16-x^2/9=1, 求c的渐近线方程。 #
+c:Hyperbola; {Equation(c) = y^2/16-x^2/9==1}
 To_Solve(Line_Equation(Asymptote(c)))
 
 

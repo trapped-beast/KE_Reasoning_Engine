@@ -1,36 +1,40 @@
 digraph solving_process {
-	graph [bb="0,0,867.94,324"];
+	graph [bb="0,0,1085.6,324"];
 	node [label="\N"];
-	"{Equation(c)=y^2==12*x}"	[fillcolor=cornsilk,
+	"{Equation(c)=y^2/16-x^2/9==1}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="410.76,306",
+		pos="556.13,306",
 		style=filled,
-		width=2.997];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=12}"	[height=0.5,
-		pos="289.76,234",
-		width=4.8746];
-	"{Equation(c)=y^2==12*x}" -> "def_indi p_std:Parabola_Std_r={coeff_x:=12}"	[pos="e,319.35,252.12 381.78,288.23 366,279.1 346.25,267.68 329.1,257.76"];
-	"{c=p_std}"	[height=0.5,
-		pos="579.76,234",
+		width=3.5747];
+	"def_indi h_std:Hyperbola_Std_2={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[height=0.5,
+		pos="375.13,234",
+		width=8.2145];
+	"{Equation(c)=y^2/16-x^2/9==1}" -> "def_indi h_std:Hyperbola_Std_2={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[pos="e,419.82,252.29 513.69,288.59 488.78,278.96 457.04,266.68 430.21,256.31"];
+	"{c=h_std}"	[height=0.5,
+		pos="784.13,234",
 		width=1.336];
-	"{Equation(c)=y^2==12*x}" -> "{c=p_std}"	[pos="e,548.4,247.99 449.96,288.76 476.27,277.87 510.9,263.52 537.77,252.39"];
-	"{Line_Equation(Directrix(p_std))=1*x+3==0}"	[height=0.5,
-		pos="193.76,162",
-		width=4.9287];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=12}" -> "{Line_Equation(Directrix(p_std))=1*x+3==0}"	[pos="e,217.22,180.1 266.03,215.7 254.06,206.97 239.35,196.24 226.34,186.75"];
-	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}"	[height=0.5,
-		pos="628.76,162",
-		width=6.6439];
-	"{c=p_std}" -> "{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}"	[pos="e,616.55,180.45 591.38,216.41 596.95,208.45 603.76,198.72 610.03,189.76"];
-	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}"	[height=0.5,
-		pos="410.76,90",
-		width=11.41];
-	"{Line_Equation(Directrix(p_std))=1*x+3==0}" -> "{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}"	[pos="e,357.19,108.28 245.46,144.32 275.76,134.55 314.29,122.12 346.52,111.72"];
-	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}" -> "{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}"	[pos="e,464.43,108.23 575.71,143.97 545.37,134.22 507.08,121.93 475.04,111.64"];
-	"{Line_Equation(Directrix(c))=1*x+3==0}"	[fillcolor="#ee7b67",
+	"{Equation(c)=y^2/16-x^2/9==1}" -> "{c=h_std}"	[pos="e,747.85,246.14 607.86,289.12 646.73,277.18 699.52,260.98 737.17,249.42"];
+	"{Line_Equation(Asymptote(h_std))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==0)}"	[height=0.5,
+		pos="280.13,162",
+		width=7.7813];
+	"def_indi h_std:Hyperbola_Std_2={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}" -> "{Line_Equation(Asymptote(h_std))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==0)}"	[pos="e,303.67,180.35 351.64,215.7 339.88,207.03 325.45,196.4 312.65,186.96"];
+	"{Line_Equation(Asymptote(c))=Line_Equation(Asymptote(h_std))}"	[height=0.5,
+		pos="832.13,162",
+		width=7.041];
+	"{c=h_std}" -> "{Line_Equation(Asymptote(c))=Line_Equation(Asymptote(h_std))}"	[pos="e,820.28,180.28 795.74,216.05 801.21,208.09 807.84,198.41 813.95,189.51"];
+	"{Line_Equation(Asymptote(c))=Line_Equation(Asymptote(h_std))}; {Line_Equation(Asymptote(h_std))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==\
+0)}"	[height=0.5,
+		pos="556.13,90",
+		width=14.66];
+	"{Line_Equation(Asymptote(h_std))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==0)}" -> "{Line_Equation(Asymptote(c))=Line_Equation(Asymptote(h_std))}; {Line_Equation(Asymptote(h_std))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==\
+0)}"	[pos="e,488.01,108.28 346.94,144.05 386.1,134.12 435.8,121.52 476.93,111.09"];
+	"{Line_Equation(Asymptote(c))=Line_Equation(Asymptote(h_std))}" -> "{Line_Equation(Asymptote(c))=Line_Equation(Asymptote(h_std))}; {Line_Equation(Asymptote(h_std))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==\
+0)}"	[pos="e,624.09,108.24 766.02,144.23 726.72,134.27 676.63,121.56 635.24,111.07"];
+	"{Line_Equation(Asymptote(c))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==0)}"	[fillcolor="#ee7b67",
 		height=0.5,
-		pos="410.76,18",
+		pos="556.13,18",
 		style=filled,
-		width=4.5135];
-	"{Line_Equation(Directrix(c))=Line_Equation(Directrix(p_std))}; {Line_Equation(Directrix(p_std))=1*x+3==0}" -> "{Line_Equation(Directrix(c))=1*x+3==0}"	[pos="e,410.76,36.104 410.76,71.697 410.76,64.407 410.76,55.726 410.76,47.536"];
+		width=7.366];
+	"{Line_Equation(Asymptote(c))=Line_Equation(Asymptote(h_std))}; {Line_Equation(Asymptote(h_std))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==\
+0)}" -> "{Line_Equation(Asymptote(c))=Ex_Or((4/3)*x-y==0, (-4/3)*x-y==0)}"	[pos="e,556.13,36.104 556.13,71.697 556.13,64.407 556.13,55.726 556.13,47.536"];
 }
