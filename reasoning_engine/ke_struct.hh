@@ -42,8 +42,11 @@ public:
     bool operator>=(const Number &rhs) const;
     bool operator<=(const Number &rhs) const;
     bool operator!=(const Number &rhs) const;
+    Number operator+(const Number &rhs) const;
+    Number operator-(const Number &rhs) const;
     Number operator*(const Number &rhs) const;
     Number operator/(const Number &rhs) const;
+    Number operator^(const Number &rhs) const;
 
     void trans_to_opposite(){ // 变为相反数
         if(is_int)
@@ -94,6 +97,32 @@ inline bool Number::operator!=(const Number &rhs) const{
     return l_val != r_val;
 }
 
+inline Number Number::operator+(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    double ret = l_val + r_val;
+    double int_part;
+    double frac_part = std::modf(ret, &int_part); // 将 ret 拆分为整数和小数部分
+    if(frac_part == 0.0) // 如果是整数
+        return Number((int)ret);
+    else
+        return Number(ret);
+}
+
+inline Number Number::operator-(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    double ret = l_val - r_val;
+    double int_part;
+    double frac_part = std::modf(ret, &int_part); // 将 ret 拆分为整数和小数部分
+    if(frac_part == 0.0) // 如果是整数
+        return Number((int)ret);
+    else
+        return Number(ret);
+}
+
 inline Number Number::operator*(const Number &rhs) const{
     double l_val, r_val;
     l_val = is_int ? i_val : f_val;
@@ -112,6 +141,19 @@ inline Number Number::operator/(const Number &rhs) const{
     l_val = is_int ? i_val : f_val;
     r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
     double ret = l_val / r_val;
+    double int_part;
+    double frac_part = std::modf(ret, &int_part); // 将 ret 拆分为整数和小数部分
+    if(frac_part == 0.0) // 如果是整数
+        return Number((int)ret);
+    else
+        return Number(ret);
+}
+
+inline Number Number::operator^(const Number &rhs) const{
+    double l_val, r_val;
+    l_val = is_int ? i_val : f_val;
+    r_val = rhs.is_int ? rhs.i_val : rhs.f_val;
+    double ret = pow(l_val, r_val);
     double int_part;
     double frac_part = std::modf(ret, &int_part); // 将 ret 拆分为整数和小数部分
     if(frac_part == 0.0) // 如果是整数
@@ -311,9 +353,6 @@ public:
     Individual(const Math_Individual &e):is_math_indi(true),math_indi(make_shared<Math_Individual>(e)){
         if(e.is_math_expr && e.expr_val->is_num)
             val_is_known = true;
-        vector<string> std_eq = {"x+3==0", "y+3==0", "(3/4)*x-y==0", "(-3/4)*x-y==0)"};
-        if(e.is_equation && (std::find(std_eq.begin(),std_eq.end(),get_output_str())!=std_eq.end()) )// TODO:implement
-            val_is_known = true;
     }
 
     Individual(){} // 默认构造
@@ -349,7 +388,7 @@ public:
     vector<shared_ptr<Individual>> alt_vals; // 备用值
 
 private:
-    string get_self_type(); // 查询自身类型
+    string get_self_type(Rete_Question &question); // 查询自身类型
 };
 
 class Assignment{ // 赋值式 symbol := individual
@@ -593,7 +632,8 @@ public:
     Rete_Question(){} // 默认构造
     
     string get_output_str() const; // 获取输出字符串
-    void take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb); // 执行动作
+    bool take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb); // 执行动作
+    bool take_action(shared_ptr<Rete_Rule> rule, shared_ptr<Knowledge_Base> kb); // 执行规则的 RHS
     void print_result(); // 输出求解结果
 
     void normalize_individual(shared_ptr<Assertion> &assertion); // 统一 assertion 中的 individual（要保存）
@@ -607,6 +647,8 @@ public:
     map<string,shared_ptr<Individual>> indi_hash_map; // 存放所有的 Individual
     map<string,shared_ptr<Def_Individual>> def_indi_hash_table; // 存放所有的 Def_Individual
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
+
+    shared_ptr<Knowledge_Base> kb; // 当前的 KB
 
 private:
     void take_action(shared_ptr<Cud> cud, shared_ptr<Knowledge_Base> kb); // 执行 Cud
@@ -671,6 +713,7 @@ public:
     shared_ptr<Rete_Rule> instantiate(const map<string, string> &abstract_to_concrete); // 实例化规则
     
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
+    bool worked = false; // 是否发挥了作用
 };
 
 class Knowledge_Base{ // 定义知识库
@@ -755,6 +798,8 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
 void specify_the_question(shared_ptr<Rete_Question> question,shared_ptr<Fact> fact); // 指明 fact 所在的 Question
 void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question);
 void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question);
+void construct_fact_in_graph(shared_ptr<Fact> new_fact, string cond_1, string cond_2, Rete_Question &question);
+bool is_potentially_solvable_eq(shared_ptr<Fact> fact);
 
 inline string Number::get_output_str() const{
     std::ostringstream oss;

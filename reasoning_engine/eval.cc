@@ -57,7 +57,7 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
         assert(args[0]->is_term);
         assert(args[1]->is_math_indi && args[1]->math_indi->is_equation);
         // 可能通过的 fact 必须具有以下形式: Equation(x) = 某个形式的方程
-        if(fact->is_assert && fact->assertion->left->get_output_str()==args[0]->get_output_str() && fact->assertion->right->is_math_indi && fact->assertion->right->math_indi->is_equation){
+        if(fact->is_assert && fact->assertion->is_std && fact->assertion->left->get_output_str()==args[0]->get_output_str() && fact->assertion->right->is_math_indi && fact->assertion->right->math_indi->is_equation){
             auto target_eq = args[1]->math_indi->equation_val; // 目标方程
             auto test_eq = fact->assertion->right->math_indi->equation_val; // 测试方程
             auto target_left = *target_eq->left;
@@ -161,8 +161,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     #ifndef NDEBUG
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
     #endif
-    shared_ptr<Individual> eval_ret; // 最终的求值结果
-    assert(indi->is_term);
+    shared_ptr<Individual> eval_ret; // 最终的求值结果    assert(indi->is_term);
     // 要进行求值操作的是标准形式的 Term 或 Sugar_For_Oprt_Apply
     if(indi->term->is_oprt_apply){
         auto oprt_apply_val = indi->term->oprt_apply_val;
@@ -293,15 +292,60 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                     eval_ret = make_shared<Individual>(Math_Individual(Math_Expr(Number(int(sqrt_val)))));
                 }
                 else{ // 否则等于 sqrt(target_val)
-                    vector<shared_ptr<Math_Expr>> new_args;
-                    new_args.push_back(target_val);
-                    eval_ret = make_shared<Individual>(Math_Individual(Math_Expr(Math_Func("sqrt",new_args))));
+                    vector<shared_ptr<Individual>> new_args;
+                    new_args.push_back(make_shared<Individual>(Math_Individual(Math_Expr(*target_val))));
+                    eval_ret = make_shared<Individual>(Term("Sqrt",new_args));
+                    eval_ret->val_is_known = true;
                 }
             }
             else{ // 否则等于 sqrt(target_val)
-                vector<shared_ptr<Math_Expr>> new_args;
-                new_args.push_back(target_val);
-                eval_ret = make_shared<Individual>(Math_Individual(Math_Expr(Math_Func("sqrt",new_args))));
+                vector<shared_ptr<Individual>> new_args;
+                new_args.push_back(make_shared<Individual>(Math_Individual(Math_Expr(*target_val))));
+                eval_ret = make_shared<Individual>(Term("Sqrt",new_args));
+                eval_ret->val_is_known = true;
+                // vector<shared_ptr<Math_Expr>> new_args;
+                // new_args.push_back(target_val);
+                // eval_ret = make_shared<Individual>(Math_Individual(Math_Expr(Math_Func("sqrt",new_args))));
+            }
+        }
+        else if(oprt=="Mul"){ // 对若干个数学表达式进行相加 (参数是: 两个数学表达式 Math_Expr)
+            // 暂时处理两个参数
+            assert(args.size()==2);
+            auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_1)
+                num_1 = action_eval(args[0],question);
+            auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_2)
+                num_2 = action_eval(args[1],question);
+            if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
+                auto val_1 = num_1->math_indi->expr_val;
+                auto val_2 = num_2->math_indi->expr_val;
+                Math_Expr ret;
+                if(val_1->is_num && val_2->is_num)
+                    ret = Math_Expr(Number(*val_1->number_val + *val_2->number_val));
+                else
+                    ret = Math_Expr(val_1,'+',val_2);
+                eval_ret = make_shared<Individual>(Math_Individual(ret));
+            }
+        }
+        else if(oprt=="Sub"){ // 对若干个数学表达式进行相减 (参数是: 两个数学表达式 Math_Expr)
+            // 暂时处理两个参数
+            assert(args.size()==2);
+            auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_1)
+                num_1 = action_eval(args[0],question);
+            auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_2)
+                num_2 = action_eval(args[1],question);
+            if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
+                auto val_1 = num_1->math_indi->expr_val;
+                auto val_2 = num_2->math_indi->expr_val;
+                Math_Expr ret;
+                if(val_1->is_num && val_2->is_num)
+                    ret = Math_Expr(Number(*val_1->number_val - *val_2->number_val));
+                else
+                    ret = Math_Expr(val_1,'-',val_2);
+                eval_ret = make_shared<Individual>(Math_Individual(ret));
             }
         }
         else if(oprt=="Mul"){ // 对若干个数学表达式进行相乘 (参数是: 若干个数学表达式 Math_Expr)
@@ -351,6 +395,25 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 else
                     ret = Math_Expr(val_1,'/',val_2);
                 eval_ret = make_shared<Individual>(Math_Individual(ret));
+            }
+        }
+        else if(oprt=="Pow"){ // 对两个数进行幂运算 (参数是: 若干个数学表达式 Number)
+            // 暂时处理两个参数
+            assert(args.size()==2);
+            auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_1)
+                num_1 = action_eval(args[0],question);
+            auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_2)
+                num_2 = action_eval(args[1],question);
+            if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
+                auto val_1 = num_1->math_indi->expr_val;
+                auto val_2 = num_2->math_indi->expr_val;
+                Math_Expr ret;
+                if(val_1->is_num && val_2->is_num){
+                    ret = Math_Expr(Number(*val_1->number_val ^ *val_2->number_val));
+                    eval_ret = make_shared<Individual>(Math_Individual(ret));
+                }
             }
         }
         else if(oprt=="Generate_Line_Eq"){ // 根据系数 a、b、c 生成直线方程 ax+by+c=0 (参数: 三个 Math_Expr)
@@ -453,6 +516,49 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 
                 auto ret = Math_Equation(eq_left,eq_right);
                 eval_ret = make_shared<Individual>(Math_Individual(ret));
+                eval_ret->val_is_known = true;
+            }
+        }
+        else if(oprt=="Generate_Ellipse_Eq"){ // 根据 椭圆参数 a、b、椭圆中心 生成标准椭圆方程 x^2/a^2+y^2/b^2=1 或 x^2/b^2+y^2/a^2=1 (参数: 椭圆参数 a、b Math_Expr、椭圆中心 Point)
+            // TODO: 开D
+            assert(args.size()==3);
+            auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_1)
+                num_1 = action_eval(args[0],question);
+            auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
+            if(!num_2)
+                num_2 = action_eval(args[1],question);
+            auto p = args[2]->find_specific_indi("Point", question, conditions_sp);
+            if(!p)
+                p = action_eval(args[1],question);
+            if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr && p && p->is_term && p->term->is_ctor){
+                auto val_1 = num_1->math_indi->expr_val; // x^2 的 分母
+                auto val_2 = num_2->math_indi->expr_val; // y^2 的 分母
+                auto center = p->term->ctor_val;
+                shared_ptr<Individual> center_x,center_y;
+                for(auto assignment:center->content){
+                    if(assignment->symbol=="x")
+                        center_x = assignment->val;
+                    else if(assignment->symbol=="y")
+                        center_y = assignment->val;
+                }
+                auto center_x_num = *center_x->math_indi->expr_val->number_val;
+                auto center_y_num = *center_y->math_indi->expr_val->number_val;
+                Number zero = Number(0);
+                Number two = Number(2);
+                Math_Expr sq_x = Math_Expr(Math_Expr("x"),'^',two);
+                Math_Expr sq_y = Math_Expr(Math_Expr("y"),'^',two);
+                Math_Expr part_x,part_y;
+                if(center_x_num==zero && center_y_num==zero){
+                    if(val_1->is_num && val_2->is_num){
+                        part_x = Math_Expr(sq_x,'/',Math_Expr(*val_1->number_val * *val_1->number_val));
+                        part_y = Math_Expr(sq_y,'/',Math_Expr(*val_2->number_val * *val_2->number_val));
+                        auto left = Math_Expr(part_x,'+',part_y);
+                        auto ellipse_eq = Math_Equation(left,Math_Expr(Number(1)));
+                        eval_ret = make_shared<Individual>(Math_Individual(ellipse_eq));
+                        eval_ret->val_is_known = true;
+                    }
+                }
             }
         }
         else if(oprt=="Ex_Or"){ // 对多个个体进行求值, 结果保存在 Exclusive_Or 容器

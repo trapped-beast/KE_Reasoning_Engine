@@ -1211,9 +1211,9 @@ void Rete_Question::normalize_individual(shared_ptr<Individual> &indi){ // 统�
         // 后来的 Individual 可能 (由于新的 Assertion) 保存更新的 alt_vals 信息
         auto new_indi = make_shared<Individual>(*it->second); // 先复制一份已经存在的 Individual
         // 要在原来的 alt_vals 的基础上进行追加
-        if(indi->alt_vals.size()){ // 新出现的 Individual 可能会携带一个 alt_val
-            assert(indi->alt_vals.size()==1);
-            auto new_alt_val = *indi->alt_vals.begin(); // 携带的那个 alt_val
+        if(indi->alt_vals.size()){ // 新出现的 Individual 可能会携带一个原来没有的 alt_val
+            // assert(indi->alt_vals.size()==1);
+            auto new_alt_val = *(--indi->alt_vals.end()); // 携带的那个 alt_val
             // 如果已经在原来的 alt_vals 中, 则不必添加
             bool existed = false;
             for(auto alt:new_indi->alt_vals){
@@ -1276,7 +1276,7 @@ void Rete_Question::normalize_individual(shared_ptr<Rete_Rule> &rule){ // 统一
 
 // 下面是各个类自身特殊的成员函数:
 
-string Individual::get_self_type(){ // 查询自身类型
+string Individual::get_self_type(Rete_Question &question){ // 查询自身类型
     string ret;
     if(is_var)
         ret = "Var";
@@ -1374,11 +1374,12 @@ string Individual::get_self_type(){ // 查询自身类型
 
 
 shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp){ // 找到个体的某个特定类型的值
+    auto this_question = make_shared<Rete_Question>(question);
     // 每个 Individual 可能有若干个替代值，如果该 Individual 本身不属于指定类型，那么要从其替代值中找到属于该类型的值
-    if(get_self_type()==type_name) // 自身是否就是指定类型
+    if(get_self_type(question)==type_name) // 自身是否就是指定类型
         return make_shared<Individual>(*this);
     for(auto alt_val:alt_vals){ // alt_vals 中是否有指定类型
-        if(alt_val->get_self_type()==type_name){
+        if(alt_val->get_self_type(question)==type_name){
             if(conditions_sp){ // 把 individual = alt 的 fact 依据传回调用方 (如果需要的话)
                 auto condition_name = "{"+ get_output_str() + "=" + alt_val->get_output_str() +"}";
                 shared_ptr<Fact> condition_fact;
@@ -1392,6 +1393,17 @@ shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, R
                 conditions_sp->push_back(condition_fact);
             }
             return alt_val;
+        }
+        // 考虑定义个体
+        if(alt_val->is_math_indi && alt_val->math_indi->is_math_expr && alt_val->math_indi->expr_val->is_sy){
+            string sy = alt_val->math_indi->expr_val->sy_val;
+            for(auto p:question.kb->def_indi_hash_table){
+                auto def_indi = p.second;
+                if(def_indi->symbol==alt_val->get_output_str()){
+                    return def_indi->indi;
+                }
+                assert(false);
+            }
         }
     }
     // 除此之外，考虑个体的相等性传递
@@ -1625,22 +1637,36 @@ void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question){
     }
 }
 
+bool Rete_Question::take_action(shared_ptr<Rete_Rule> rule, shared_ptr<Knowledge_Base> kb){ // 执行动作
+    cout<<"当前要执行的 Rule: "<<*rule<<endl;
+    bool worked = take_action(rule->rhs, kb);
+    if(worked){
+        rule->worked = true;
+        cout<<*rule<<"发挥了作用!"<<endl;
+    }
+    else
+        cout<<*rule<<"未发挥作用!"<<endl;
+    return worked;
+}
 
-void Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb){ // 执行动作
+bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge_Base> kb){ // 执行动作
     #ifndef NDEBUG
         cout<<"当前 Question:"<<endl<<*this<<endl;
     #endif
     cout<<"当前要执行的 RHS: "<<*rhs<<endl;
+    bool worked = false; // 该 RHS 是否发挥了作用
     // RHS 要考虑的情况有: Cud、Term、Assertion
     if(rhs->is_cud){
         take_action(rhs->cud, kb);
+        worked = true;
     }
     else if(rhs->is_term){
         // RHS 为 Term 时要考虑的情况有: sugar_for_and、sugar_for_pred
         auto t = rhs->term;
         if(t->is_and){
             for(auto indi:t->and_val->content){
-                take_action(indi, kb);
+                if(take_action(indi, kb))
+                    worked = true;
             }
         }
         else{
@@ -1651,6 +1677,7 @@ void Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
             new_fact->pred_val->propagate_var_decl(var_decl);
             new_fact->var_decl = new_fact->pred_val->var_decl;
             fact_list.push_back(new_fact);
+            worked = true;
         }
     }
     else{
@@ -1662,8 +1689,12 @@ void Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
         new_fact->assertion->propagate_var_decl(var_decl);
         new_fact->var_decl = new_fact->assertion->var_decl;
         fact_list.push_back(new_fact);
+        if(new_fact->assertion->is_std && !new_fact->assertion->right->val_is_known){
+            worked = is_potentially_solvable_eq(new_fact); // 右部如果不可知，则该 rhs 未发挥作用（唯一的例外是生成的fact是潜在可解的方程）
+        }
     }
     #ifndef NDEBUG
         cout<<"RHS 执行结束后的 Question:"<<endl<<*this<<endl;
     #endif
+    return worked;
 }

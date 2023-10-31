@@ -143,6 +143,7 @@ void Reasoning_Graph::draw_all_progress(){ // 可视化所有求解进展
         start_name = (edge->fact_start) ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
         end_name = (edge->fact_end) ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
         edge_name = edge->instantiated_rule->description;
+        // cout<<start_name<<" => "<<end_name<<endl;
         start = agnode(g, (char *)start_name.c_str(), 1);
         end = agnode(g, (char *)end_name.c_str(), 1);
         e = agedge(g, start, end, (char *)"", 1);

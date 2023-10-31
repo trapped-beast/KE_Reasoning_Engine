@@ -59,9 +59,13 @@ e:Ellipse => {Length(Major_Axis(e)) = Mul(2,Param_A(e))} # 椭圆的长轴长等
 
 e:Ellipse => {Length(Minor_Axis(e)) = Mul(2,Param_B(e))} # 椭圆的短轴长等于两倍的参数b #
 
-e:Ellipse => {Focal_Length(e) = Mul(2,Param_c(e))} # 椭圆的焦距长等于两倍的参数c #
+e:Ellipse => {Focal_Length(e) = Mul(2,Param_C(e))} # 椭圆的焦距长等于两倍的参数c #
 
 e:Ellipse => {Eccentricity(e) = Div(Param_C(e),Param_A(e))} # 椭圆的离心率=参数c/参数a #
+
+{e:Ellipse; {Focus_On_X_Axis(e)}} => {Equation(e) = Generate_Ellipse_Eq(Param_A(e),Param_B(e),Center(e))} # 已知椭圆e的焦点在x轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: x^2/a^2+y^2/b^2=1 #
+
+{e:Ellipse; {Focus_On_Y_Axis(e)}} => {Equation(e) = Generate_Ellipse_Eq(Param_B(e),Param_A(e),Center(e))} # 已知椭圆e的焦点在y轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: x^2/b^2+y^2/a^2=1 #
 
 
 
