@@ -1129,6 +1129,93 @@ shared_ptr<Rete_Rule> Rete_Rule::instantiate(const map<string, string> &abstract
 
 
 
+// 下面是 获取拷贝 相关 (尚不完整)
+
+Individual Individual::get_copy(){
+    Individual ret = Individual(*this);
+    if(is_term)
+        ret.term = make_shared<Term>(term->get_copy());
+    else if(is_assertion)
+        ret.assertion = make_shared<Assertion>(assertion->get_copy());
+    else if(is_math_indi)
+        ret.math_indi = make_shared<Math_Individual>(math_indi->get_copy());
+    return ret;
+}
+
+Assertion Assertion::get_copy(){
+    Assertion ret = Assertion(*this);
+    if(is_std){
+        ret.left = make_shared<Individual>(left->get_copy());
+        ret.right = make_shared<Individual>(right->get_copy());
+    }
+    else{
+        ret.lonely_left = make_shared<Individual>(lonely_left->get_copy());
+    }
+    return ret;
+}
+
+Term Term::get_copy(){
+    Term ret = Term(*this);
+    if(is_std){
+        for(size_t i=0; i!=args.size(); ++i){
+            ret.args[i] = make_shared<Individual>(args[i]->get_copy());
+        }
+    }
+    else
+        assert(false);
+    return ret;
+}
+
+Math_Individual Math_Individual::get_copy(){
+    Math_Individual ret = Math_Individual(*this);
+    if(is_equation)
+        ret.equation_val = make_shared<Math_Equation>(equation_val->get_copy());
+    else if(is_coordinate)
+        ret.coordinate_val = make_shared<Coordinate>(coordinate_val->get_copy());
+    else
+        ret.expr_val = make_shared<Math_Expr>(expr_val->get_copy());
+    return ret;
+}
+
+Math_Equation Math_Equation::get_copy(){
+    Math_Equation ret = Math_Equation(*this);
+    ret.left = make_shared<Math_Expr>(left->get_copy());
+    ret.right = make_shared<Math_Expr>(right->get_copy());
+    return ret;
+}
+
+Coordinate Coordinate::get_copy(){
+    Coordinate ret = Coordinate(*this);
+    ret.abscissa = make_shared<Math_Expr>(abscissa->get_copy());
+    ret.ordinate = make_shared<Math_Expr>(ordinate->get_copy());
+    return ret;
+}
+
+Math_Expr Math_Expr::get_copy(){
+    Math_Expr ret = Math_Expr(*this);
+    if(is_num)
+        ret.number_val = make_shared<Number>(number_val->get_copy());
+    else if(is_sy)
+        ;
+    else
+        assert(false);
+    return ret;
+}
+
+Number Number::get_copy(){
+    Number ret = Number(*this);
+    return ret;
+}
+
+Fact Fact::get_copy(){
+    Fact ret = Fact(*this);
+    if(is_assert)
+        ret.assertion = make_shared<Assertion>(assertion->get_copy());
+    else
+        assert(false);
+    return ret;
+}
+
 
 
 

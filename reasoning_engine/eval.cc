@@ -161,6 +161,11 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     #ifndef NDEBUG
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
     #endif
+
+    // 测试 TODO:delete
+    if(indi->get_output_str()=="Mul(2, Param_A(c))")
+        cout<<"find"<<endl;
+
     shared_ptr<Individual> eval_ret; // 最终的求值结果    assert(indi->is_term);
     // 要进行求值操作的是标准形式的 Term 或 Sugar_For_Oprt_Apply
     if(indi->term->is_oprt_apply){
@@ -193,7 +198,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(args.size()==1);
             auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target) // 如果没有找到指定类型的个体值，需要迭代求值
-                target = action_eval(args[0], question);
+                target = action_eval(args[0], question, conditions_sp);
             assert(target->is_math_indi && target->math_indi->is_math_expr);
             auto expr_val = target->math_indi->expr_val;
             auto one = Math_Expr((Number(1)));
@@ -226,11 +231,11 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             if(!target_1){
                 target_1 = args[0]->find_specific_indi("Equation", question, conditions_sp);
                 if(!target_1)
-                    target_1 = action_eval(args[0], question);
+                    target_1 = action_eval(args[0], question, conditions_sp);
             }
             auto target_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target_2)
-                target_2 = action_eval(args[1], question);
+                target_2 = action_eval(args[1], question, conditions_sp);
             assert(target_1 && target_2);
             assert(target_1->is_math_indi);
             assert(target_2->is_math_indi && target_2->math_indi->is_math_expr);
@@ -257,7 +262,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(args.size()==1);
             auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target)
-                target = action_eval(args[0], question);
+                target = action_eval(args[0], question, conditions_sp);
             assert(target->is_math_indi && target->math_indi->is_math_expr);
             auto target_val = target->math_indi->expr_val;
             if(target_val->is_num){
@@ -281,7 +286,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(args.size()==1);
             auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target)
-                target = action_eval(args[0], question);
+                target = action_eval(args[0], question, conditions_sp);
             assert(target->is_math_indi && target->math_indi->is_math_expr);
             auto target_val = target->math_indi->expr_val;
             if(target_val->is_num){
@@ -308,15 +313,15 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 // eval_ret = make_shared<Individual>(Math_Individual(Math_Expr(Math_Func("sqrt",new_args))));
             }
         }
-        else if(oprt=="Mul"){ // 对若干个数学表达式进行相加 (参数是: 两个数学表达式 Math_Expr)
+        else if(oprt=="Add"){ // 对若干个数学表达式进行相加 (参数是: 两个数学表达式 Math_Expr)
             // 暂时处理两个参数
             assert(args.size()==2);
             auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)
-                num_1 = action_eval(args[0],question);
+                num_1 = action_eval(args[0],question, conditions_sp);
             auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_2)
-                num_2 = action_eval(args[1],question);
+                num_2 = action_eval(args[1],question, conditions_sp);
             if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
@@ -333,10 +338,10 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(args.size()==2);
             auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)
-                num_1 = action_eval(args[0],question);
+                num_1 = action_eval(args[0],question, conditions_sp);
             auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_2)
-                num_2 = action_eval(args[1],question);
+                num_2 = action_eval(args[1],question, conditions_sp);
             if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
@@ -353,10 +358,10 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(args.size()==2);
             auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)
-                num_1 = action_eval(args[0],question);
+                num_1 = action_eval(args[0],question, conditions_sp);
             auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_2)
-                num_2 = action_eval(args[1],question);
+                num_2 = action_eval(args[1],question, conditions_sp);
             if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
@@ -373,10 +378,10 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(args.size()==2);
             auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)
-                num_1 = action_eval(args[0],question);
+                num_1 = action_eval(args[0],question, conditions_sp);
             auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_2)
-                num_2 = action_eval(args[1],question);
+                num_2 = action_eval(args[1],question, conditions_sp);
             if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
@@ -402,10 +407,10 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(args.size()==2);
             auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)
-                num_1 = action_eval(args[0],question);
+                num_1 = action_eval(args[0],question, conditions_sp);
             auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_2)
-                num_2 = action_eval(args[1],question);
+                num_2 = action_eval(args[1],question, conditions_sp);
             if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr){
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
@@ -520,17 +525,16 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             }
         }
         else if(oprt=="Generate_Ellipse_Eq"){ // 根据 椭圆参数 a、b、椭圆中心 生成标准椭圆方程 x^2/a^2+y^2/b^2=1 或 x^2/b^2+y^2/a^2=1 (参数: 椭圆参数 a、b Math_Expr、椭圆中心 Point)
-            // TODO: 开D
             assert(args.size()==3);
             auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)
-                num_1 = action_eval(args[0],question);
+                num_1 = action_eval(args[0],question, conditions_sp);
             auto num_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_2)
-                num_2 = action_eval(args[1],question);
+                num_2 = action_eval(args[1],question, conditions_sp);
             auto p = args[2]->find_specific_indi("Point", question, conditions_sp);
             if(!p)
-                p = action_eval(args[1],question);
+                p = action_eval(args[1],question, conditions_sp);
             if(num_1 && num_1->is_math_indi && num_1->math_indi->is_math_expr && num_2 && num_2->is_math_indi && num_2->math_indi->is_math_expr && p && p->is_term && p->term->is_ctor){
                 auto val_1 = num_1->math_indi->expr_val; // x^2 的 分母
                 auto val_2 = num_2->math_indi->expr_val; // y^2 的 分母
@@ -564,7 +568,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
         else if(oprt=="Ex_Or"){ // 对多个个体进行求值, 结果保存在 Exclusive_Or 容器
             vector<shared_ptr<Individual>> new_args;
             for(auto arg:args){
-                new_args.push_back(action_eval(arg,question));
+                new_args.push_back(action_eval(arg,question, conditions_sp));
             }
             eval_ret = make_shared<Individual>(Term(oprt,new_args));
             eval_ret->val_is_known = true;
@@ -572,6 +576,8 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     }
     if(eval_ret){
         cout<<"求值 "<<*indi<<" 得到的结果为: "<<*eval_ret<<endl;
+        if(indi->get_output_str()=="Mul(2, Param_A(c))")
+            cout<<"find"<<endl;
         // // 构造新的 fact // 不是所有的求值细节都要展示
         // if(indi->term->is_std){
         //     auto new_fact = make_shared<Fact>(Assertion(*indi,*eval_ret));

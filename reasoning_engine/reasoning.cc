@@ -14,29 +14,32 @@ void trace_back(shared_ptr<Token> token){
 }
 
 
+shared_ptr<Fact> find_fact_by_name(const string &name, Rete_Question &question){
+    shared_ptr<Fact> ret;
+    for(auto f:question.fact_list){
+        if(f->get_output_str().find(name)!=string::npos){
+            ret = f;
+            return ret;
+        }
+    }
+    cout<<"找不到fact: "<<name<<endl;
+    assert(false);
+}
+
 // 把 fact 加入 Reasoning_Graph 中并为其溯源 (接收的参数为新 fact、其作为前提的fact的名称、所在 Question)
-void construct_fact_in_graph(shared_ptr<Fact> new_fact, string cond_1, string cond_2, Rete_Question &question){
+void construct_fact_in_graph(shared_ptr<Fact> new_fact, vector<string> dependence, Rete_Question &question){
     // 在 Reasoning_Graph 中体现该 fact
     new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
 
-    shared_ptr<Fact> part_1, part_2; // 处理新 fact 有两个前提 fact 的情况
-    for(auto f:question.fact_list){
-        if(f->get_output_str()==cond_1)
-            part_1 = f;
-        else if(f->get_output_str()==cond_2)
-            part_2 = f;
-        if(part_1 && part_2)
-            break;
-    }
-    assert(part_1 && part_2);
-    // 新的 fact 的 lhs 由 part_1 和 part_2 组成
-    vector<shared_ptr<Fact>> token_args = {part_1,part_2};
+    vector<shared_ptr<Fact>> token_args; // 组成新 fact 的依赖的 token
+    for(auto dep_name:dependence)
+        token_args.push_back(find_fact_by_name(dep_name,question));
+
     auto new_lhs = make_shared<Token>(token_args);
     new_lhs = reasoning_graph->share_or_build_token_node(new_lhs);
     trace_back(new_lhs); // 而 Token 本身需要由 Fact 组成，要在 reasoning_graph 中体现这一点
     auto new_rule = make_shared<Rete_Rule>();
     new_rule->description = "显然";
-    // 构造新的 Reasoning_Edge (cond_1, cond_2 => new_fact)
     shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
     edge->token_start = new_lhs;
     edge->fact_end = new_fact;
@@ -191,7 +194,8 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
                     question->fact_list.push_back(new_fact);
 
                     // 把 fact 加入 Reasoning_Graph 中并为其溯源
-                    construct_fact_in_graph(new_fact, part_1_name, part_2_name, *question);
+                    vector<string> dependence = {part_1_name, part_2_name};
+                    construct_fact_in_graph(new_fact, dependence, *question);
                     return true;
                 }
             }
@@ -244,7 +248,8 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
                 question->fact_list.push_back(new_fact);
 
                 // 把 fact 加入 Reasoning_Graph 中并为其溯源
-                construct_fact_in_graph(new_fact,part_1_name, part_2_name, *question);
+                vector<string> dependence = {part_1_name, part_2_name};
+                construct_fact_in_graph(new_fact, dependence, *question);
                 return true;
             }
         }
@@ -428,6 +433,34 @@ bool is_potentially_solvable_eq(shared_ptr<Fact> fact){
     return ret;
 }
 
+// 根据 fact 及其依赖创建 Reasoning_Edge
+void find_dependence(shared_ptr<Fact> fact, shared_ptr<vector<shared_ptr<Fact>>> conditions){
+    cout<<"conditions->size()="<<conditions->size()<<endl;
+    for(auto c:*conditions){
+        cout<<"\t"<<*c<<endl;
+    }
+    if(conditions->size()>1){
+        if(conditions->size()==1){
+            auto new_rule = make_shared<Rete_Rule>();
+            new_rule->description = "显然";
+            auto edge = make_shared<Reasoning_Edge>(new_rule);
+            edge->fact_end = reasoning_graph->share_or_build_fact_node(fact);
+            auto self_dep = conditions->at(0);
+            edge->fact_start = self_dep;
+            reasoning_graph->edges.push_back(edge);
+        }
+        else{
+            vector<string> dependence;
+            for(auto c:*conditions)
+                dependence.push_back(c->get_output_str());
+            construct_fact_in_graph(fact, dependence, *fact->where_is);
+        }
+    }
+    else
+        ;// TODO:考虑多个 condition 的情况
+    conditions->clear();
+}
+
 void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> &rules_not_worked){ // 尝试解方程
     // 先考虑有多个 alt 的个体
     // TODO: 过滤重复的求解
@@ -446,7 +479,8 @@ void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> 
             // 把 fact 加入 Reasoning_Graph 中并为其溯源
             string cond_1 = "{"+indi.get_output_str()+"="+alt_1->get_output_str()+"}";
             string cond_2 = "{"+indi.get_output_str()+"="+alt_2->get_output_str()+"}";
-            construct_fact_in_graph(new_fact,cond_1, cond_2, *question);
+            vector<string> dependence = {cond_1, cond_2};
+            construct_fact_in_graph(new_fact, dependence, *question);
             // 尝试简单的移项求解
             if(transpose(new_fact)){
                 // 考虑 rules_not_worked 中的规则是否在此发挥了作用
@@ -464,43 +498,102 @@ void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> 
     // 再考虑 fact 中的方程
     auto origin_fact_num = question->fact_list.size();
     for(size_t i=0; i!=origin_fact_num; ++i){
-        auto &fact = question->fact_list[i];
-        if(is_potentially_solvable_eq(fact)){
-            cout<<"考虑解方程: "<<*fact<<endl;
+        auto origin_eq = question->fact_list[i];
+        if(is_potentially_solvable_eq(origin_eq)){
+            auto new_eq = make_shared<Fact>(origin_eq->get_copy());
+            cout<<"考虑解方程: "<<*new_eq<<endl;
             // 先对可求解的部分进行计算，而后尝试移项求解
-            auto &left = fact->assertion->left;
-            auto &right = fact->assertion->right;
+            auto &left = new_eq->assertion->left;
+            auto &right = new_eq->assertion->right;
             assert(left->is_term && left->term->is_std && right->is_term && right->term->is_std);
             // 对于方程，尝试直接对左右两边进行计算，如果失败，则对其参数进行尽可能的计算
             shared_ptr<Individual> temp;
-            temp = action_eval(left,*question);
-            if(temp)
+            // 求值本身的 dependence 要记录
+            auto conditions = make_shared<vector<shared_ptr<Fact>>>();
+            auto total_conditions = make_shared<vector<shared_ptr<Fact>>>();
+            temp = action_eval(left,*question,conditions);
+            total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+            vector<string> inner_conditions; // 记录该过程中的 dependence
+            if(temp){
+                auto new_fact = make_shared<Fact>(Assertion(*left,*temp));
                 left = temp;
+                cout<<"加入: "<<*new_fact<<endl;
+                question->fact_list.push_back(new_fact);
+                inner_conditions.push_back(new_fact->get_output_str());
+                new_fact->where_is = question;
+                find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+            }
             else{
+                size_t i = 0;
                 for(auto &arg:left->term->args){
                     if(arg->is_term){
-                        temp = action_eval(arg,*question);
-                        if(temp)
+                        temp = action_eval(arg,*question,conditions);
+                        total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+                        if(temp){
+                            auto new_fact = make_shared<Fact>(Assertion(*arg,*temp));
                             arg = temp;
+                            cout<<"加入: "<<*new_fact<<endl;
+                            question->fact_list.push_back(new_fact);
+                            inner_conditions.push_back(new_fact->get_output_str());
+                            new_fact->where_is = question;
+                            find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+                        }
                     }
+                    ++i;
                 }
             }
-            temp = action_eval(right,*question);
-            if(temp)
+            temp = action_eval(right,*question,conditions);
+            total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+            if(temp){
+                auto new_fact = make_shared<Fact>(Assertion(*right,*temp));
                 right = temp;
+                cout<<"加入: "<<*new_fact<<endl;
+                question->fact_list.push_back(new_fact);
+                inner_conditions.push_back(new_fact->get_output_str());
+                new_fact->where_is = question;
+                find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+            }
             else{
+                size_t i = 0;
                 for(auto &arg:right->term->args){
                     if(arg->is_term){
-                        temp = action_eval(arg,*question);
-                        if(temp)
+                        temp = action_eval(arg,*question,conditions);
+                        total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+                        if(temp){
+                            auto new_fact = make_shared<Fact>(Assertion(*arg,*temp));
                             arg = temp;
+                            cout<<"加入: "<<*new_fact<<endl;
+                            question->fact_list.push_back(new_fact);
+                            inner_conditions.push_back(new_fact->get_output_str());
+                            new_fact->where_is = question;
+                            find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+                        }
                     }
+                    ++i;
                 }
             }
-            cout<<"处理后的方程为: "<<*fact<<endl;
-            fact->where_is = question;
+            new_eq->where_is = question;
+            question->fact_list.push_back(new_eq);
+
+            // "处理方程" 这一过程需要在 Reasoning_Graph 中体现
+            cout<<"原方程: "<<*origin_eq<<endl;
+            cout<<"新方程: "<<*new_eq<<endl;
+            conditions->push_back(origin_eq);
+            new_eq->where_is = question;
+            find_dependence(new_eq,conditions);
+            total_conditions->push_back(origin_eq);
+            cout<<total_conditions->size()<<endl;
+
+            // 把 fact 加入 Reasoning_Graph 中并为其溯源
+            cout<<"total_conditions.size() = "<<total_conditions->size()<<endl;
+            vector<string> dependence;
+            for(auto c:*total_conditions){
+                dependence.push_back(c->get_output_str());
+                cout<<"\t"<<*c<<endl;
+            }
+            construct_fact_in_graph(new_eq, dependence, *question);
             // 尝试简单的移项求解
-            transpose(fact);
+            transpose(new_eq);
         }
     }
     cout<<endl;
@@ -608,7 +701,7 @@ void reasoning(shared_ptr<Rete_Question> question, shared_ptr<Rete_Network> rete
 
     vector<shared_ptr<Rete_Rule>> rules_not_worked; // 记录未发挥作用的规则
     do{
-        // 先尝试执行之前未发挥作用的规则 // TODO:
+        // 先尝试执行之前未发挥作用的规则
         for(size_t i =0; i!= rules_not_worked.size(); ++i){
             auto &r = rules_not_worked[i];
             if(!r->worked){

@@ -35,6 +35,7 @@ public:
     Number(double d):is_float(true),f_val(d){}
     Number(){} // 默认构造
     
+    Number get_copy();
     string get_output_str() const; // 获取输出字符串
     bool operator==(const Number &rhs) const;
     bool operator>(const Number &rhs) const;
@@ -210,6 +211,7 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Expr &parent); // 传播变量声明 (Math_Expr 的上层可能是 Math_Expr)
     shared_ptr<Math_Expr> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
     shared_ptr<Number> get_num_val(); // 获取对应的 Number 值
+    Math_Expr get_copy();
 
     bool is_num = false; // 是否是数
     bool is_sy = false; // 是否是符号
@@ -247,6 +249,7 @@ public:
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Individual &parent); // 传播变量声明
     shared_ptr<Math_Equation> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+    Math_Equation get_copy();
 
     shared_ptr<Math_Expr> left; // 方程左部
     shared_ptr<Math_Expr> right; // 方程右部
@@ -265,7 +268,8 @@ public:
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Individual &parent); // 传播变量声明
     shared_ptr<Coordinate> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
-    
+    Coordinate get_copy();
+
     shared_ptr<Math_Expr> abscissa; // 横坐标
     shared_ptr<Math_Expr> ordinate; // 纵坐标
 
@@ -288,6 +292,7 @@ public:
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Individual &parent); // 传播变量声明
     shared_ptr<Math_Individual> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+    Math_Individual get_copy();
 
     bool is_equation = false; // 是否是方程
     bool is_coordinate = false; // 是否是坐标
@@ -366,6 +371,7 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Assertion &parent); // 传播变量声明 (Individual 的上层可能是 Assertion)
     shared_ptr<Individual> find_specific_indi(const string &type_name, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp = nullptr); // 找到个体的某个特定类型的值
     shared_ptr<Individual> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+    Individual get_copy();
 
     bool is_var = false; // 是否是变量
     bool is_bool = false; // 是否是布尔值
@@ -509,7 +515,7 @@ public:
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Individual &parent); // 传播变量声明
     shared_ptr<Term> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
-
+    Term get_copy();
 
     bool is_and = false; // 是否是sugar_for_and
     bool is_pred = false; // 是否是sugar_for_pred
@@ -544,8 +550,8 @@ public:
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v); // 传播变量声明
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Individual &parent); // 传播变量声明
-
     shared_ptr<Assertion> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+    Assertion get_copy();
 
     bool is_std = false; // 是否是标准形式
     bool is_sugar_for_true = false; // 是否是 Individual=true 的语法糖
@@ -587,6 +593,7 @@ public:
 
     bool operator==(const Fact &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
+    Fact get_copy();
 
     bool is_assert = false; // 是否是断言
     bool is_pred = false; // 是否是 Sugar_For_Pred
@@ -798,7 +805,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
 void specify_the_question(shared_ptr<Rete_Question> question,shared_ptr<Fact> fact); // 指明 fact 所在的 Question
 void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question);
 void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question);
-void construct_fact_in_graph(shared_ptr<Fact> new_fact, string cond_1, string cond_2, Rete_Question &question);
+void construct_fact_in_graph(shared_ptr<Fact> new_fact, vector<string> dependence, Rete_Question &question);
 bool is_potentially_solvable_eq(shared_ptr<Fact> fact);
 
 inline string Number::get_output_str() const{
