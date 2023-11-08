@@ -278,7 +278,7 @@ vector<shared_ptr<Rete_Rule>> get_instantiated_rules(shared_ptr<Rete_Question> q
     // 把 (未使用过的) 已知的 fact 逐条送入 Rete 网络
     shared_ptr<Fact> next_fact;
     while(get_next_fact(question, next_fact)){
-        specify_the_question(question, next_fact); // 对于(在 take_action 中产生的) 新 fact, 要指明其所在的 Rete_Question
+        next_fact->where_is = question; // 对于(在 take_action 中产生的) 新 fact, 要指明其所在的 Rete_Question
         rete_network->add_fact(next_fact);
     }
     size_t end = rete_network->conflict_set->content.size(); // 本轮匹配到的 rule 的终点

@@ -1,185 +1,347 @@
 digraph rete_network {
-	graph [bb="0,0,12396,1961",
+	graph [bb="0,0,18552,4839",
 		ordering=in,
 		rankdir=LR,
 		ranksep="5 equally"
 	];
 	node [label="\N"];
 	subgraph cluster_alpha_network {
-		graph [bb="1571.5,1186,6709,1940",
+		graph [bb="1658,8,8611.5,1356",
 			bgcolor=lightblue,
 			style=dashed
 		];
 		subgraph concept_node {
 			"Concept_Node: e:Ellipse"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1683,1758",
+				pos="3406,992",
 				shape=rect,
 				style=filled,
 				width=2.1111];
 			"Concept_Node: e:Ellipse_Std"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1683,1603",
+				pos="3406,817",
 				shape=rect,
 				style=filled,
 				width=2.4583];
+			"Concept_Node: h:Hyperbola"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3406,682",
+				shape=rect,
+				style=filled,
+				width=2.4028];
+			"Concept_Node: h:Hyperbola_Std_1"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3406,628",
+				shape=rect,
+				style=filled,
+				width=2.9306];
+			"Concept_Node: h:Hyperbola_Std_2"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3406,574",
+				shape=rect,
+				style=filled,
+				width=2.9306];
 			"Concept_Node: pa:Parabola"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1683,1455",
+				pos="3406,520",
 				shape=rect,
 				style=filled,
 				width=2.3472];
 			"Concept_Node: pa:Parabola_Std_r"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1683,1374",
+				pos="3406,466",
 				shape=rect,
 				style=filled,
 				width=2.8472];
 			"Concept_Node: pa:Parabola_Std_l"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1683,1320",
+				pos="3406,412",
 				shape=rect,
 				style=filled,
 				width=2.8333];
 			"Concept_Node: pa:Parabola_Std_u"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1683,1266",
+				pos="3406,1191",
 				shape=rect,
 				style=filled,
 				width=2.875];
 			"Concept_Node: pa:Parabola_Std_d"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1683,1212",
+				pos="3406,1107",
 				shape=rect,
 				style=filled,
 				width=2.875];
+			"Concept_Node: c:Curve"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="1740,411",
+				shape=rect,
+				style=filled,
+				width=2.0556];
+			"Concept_Node: p:Point"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3406,304",
+				shape=rect,
+				style=filled,
+				width=2];
+			"Concept_Node: a:Num"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="1740,355",
+				shape=rect,
+				style=filled,
+				width=1.9861];
+			"Concept_Node: b:Num"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3406,88",
+				shape=rect,
+				style=filled,
+				width=1.9861];
 		}
 		subgraph concept_memory {
 			"CM: e:Ellipse"	[fillcolor="#bbd0c0",
 				height=0.5,
-				pos="3292,1860",
+				pos="5072,1114",
 				shape=cylinder,
 				style=filled,
 				width=1.2917];
 			"CM: e:Ellipse_Std"	[fillcolor="#bbd0c0",
 				height=0.5,
-				pos="3292,1698",
+				pos="5072,898",
 				shape=cylinder,
 				style=filled,
 				width=1.6389];
+			"CM: h:Hyperbola"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5072,709",
+				shape=cylinder,
+				style=filled,
+				width=1.5694];
+			"CM: h:Hyperbola_Std_1"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5072,628",
+				shape=cylinder,
+				style=filled,
+				width=2.1111];
+			"CM: h:Hyperbola_Std_2"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5072,574",
+				shape=cylinder,
+				style=filled,
+				width=2.1111];
 			"CM: pa:Parabola"	[fillcolor="#bbd0c0",
 				height=0.5,
-				pos="3292,1482",
+				pos="5072,466",
 				shape=cylinder,
 				style=filled,
 				width=1.5278];
 			"CM: pa:Parabola_Std_r"	[fillcolor="#bbd0c0",
 				height=0.5,
-				pos="3292,1374",
+				pos="5072,412",
 				shape=cylinder,
 				style=filled,
 				width=2.0278];
 			"CM: pa:Parabola_Std_l"	[fillcolor="#bbd0c0",
 				height=0.5,
-				pos="3292,1320",
+				pos="5072,358",
 				shape=cylinder,
 				style=filled,
 				width=2.0139];
 			"CM: pa:Parabola_Std_u"	[fillcolor="#bbd0c0",
 				height=0.5,
-				pos="3292,1266",
+				pos="5072,1303",
 				shape=cylinder,
 				style=filled,
 				width=2.0556];
 			"CM: pa:Parabola_Std_d"	[fillcolor="#bbd0c0",
 				height=0.5,
-				pos="3292,1212",
+				pos="5072,1222",
 				shape=cylinder,
 				style=filled,
 				width=2.0556];
+			"CM: c:Curve"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="3406,358",
+				shape=cylinder,
+				style=filled,
+				width=1.2361];
+			"CM: p:Point"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5072,250",
+				shape=cylinder,
+				style=filled,
+				width=1.1806];
+			"CM: c:Curve; p:Point"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5072,304",
+				shape=cylinder,
+				style=filled,
+				width=1.875];
+			"CM: a:Num"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="3406,142",
+				shape=cylinder,
+				style=filled,
+				width=1.1528];
+			"CM: b:Num"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5072,88",
+				shape=cylinder,
+				style=filled,
+				width=1.1667];
+			"CM: a:Num; b:Num"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5072,34",
+				shape=cylinder,
+				style=filled,
+				width=1.7917];
 		}
 		subgraph intra_node {
 			"Intra_Node: e:Ellipse | e:Ellipse"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1860",
+				pos="6738,1060",
 				shape=rect,
 				style=filled,
 				width=2.6528];
+			"Intra_Node: h:Hyperbola | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,682",
+				shape=rect,
+				style=filled,
+				width=3.2083];
+			"Intra_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,628",
+				shape=rect,
+				style=filled,
+				width=4.2778];
+			"Intra_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,574",
+				shape=rect,
+				style=filled,
+				width=4.2778];
 			"Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1212",
+				pos="6738,1276",
 				shape=rect,
 				style=filled,
 				width=4.1667];
 			"Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1320",
+				pos="6738,250",
 				shape=rect,
 				style=filled,
 				width=4.0833];
 			"Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1374",
+				pos="6738,304",
 				shape=rect,
 				style=filled,
 				width=4.1111];
 			"Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1266",
+				pos="6738,1330",
 				shape=rect,
 				style=filled,
 				width=4.1667];
 			"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1752",
+				pos="6738,844",
 				shape=rect,
 				style=filled,
 				width=4.1806];
+			"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,1114",
+				shape=rect,
+				style=filled,
+				width=3.8333];
 			"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1806",
+				pos="6738,898",
 				shape=rect,
 				style=filled,
 				width=4.1806];
+			"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,1168",
+				shape=rect,
+				style=filled,
+				width=3.8333];
 			"Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1914",
+				pos="6738,1222",
 				shape=rect,
 				style=filled,
 				width=5.8472];
+			"Intra_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,736",
+				shape=rect,
+				style=filled,
+				width=6.0833];
+			"Intra_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,790",
+				shape=rect,
+				style=filled,
+				width=6.0833];
 			"Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1536",
+				pos="6738,412",
 				shape=rect,
 				style=filled,
 				width=5.5556];
 			"Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1590",
+				pos="6738,466",
 				shape=rect,
 				style=filled,
 				width=5.4861];
 			"Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1428",
+				pos="6738,520",
 				shape=rect,
 				style=filled,
 				width=5.5556];
 			"Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1482",
+				pos="6738,358",
 				shape=rect,
 				style=filled,
 				width=5.4861];
+			"Intra_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,196",
+				shape=rect,
+				style=filled,
+				width=4.4444];
+			"Intra_Node: {a>0} | a:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="5072,142",
+				shape=rect,
+				style=filled,
+				width=2.3333];
+			"Intra_Node: {a>b} | a:Num; b:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,34",
+				shape=rect,
+				style=filled,
+				width=2.9722];
+			"Intra_Node: {b>0} | b:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6738,88",
+				shape=rect,
+				style=filled,
+				width=2.3611];
 			"Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1644",
+				pos="6738,952",
 				shape=rect,
 				style=filled,
 				width=5.5139];
 			"Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="4901,1698",
+				pos="6738,1006",
 				shape=rect,
 				style=filled,
 				width=5.5139];
@@ -188,127 +350,226 @@ digraph rete_network {
 			graph [rank=same];
 			"AM: e:Ellipse | e:Ellipse"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1860",
+				pos="8404,1060",
 				shape=cylinder,
 				style=filled,
 				width=2.1111];
+			"AM: h:Hyperbola | h:Hyperbola"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,682",
+				shape=cylinder,
+				style=filled,
+				width=2.6667];
+			"AM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,628",
+				shape=cylinder,
+				style=filled,
+				width=3.7361];
+			"AM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,574",
+				shape=cylinder,
+				style=filled,
+				width=3.7361];
 			"AM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1212",
+				pos="8404,1276",
 				shape=cylinder,
 				style=filled,
 				width=3.625];
 			"AM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1320",
+				pos="8404,250",
 				shape=cylinder,
 				style=filled,
 				width=3.5417];
 			"AM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1374",
+				pos="8404,304",
 				shape=cylinder,
 				style=filled,
 				width=3.5694];
 			"AM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1266",
+				pos="8404,1330",
 				shape=cylinder,
 				style=filled,
 				width=3.625];
 			"AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1752",
+				pos="8404,844",
 				shape=cylinder,
 				style=filled,
 				width=3.6389];
+			"AM: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,1114",
+				shape=cylinder,
+				style=filled,
+				width=3.2917];
 			"AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1806",
+				pos="8404,898",
 				shape=cylinder,
 				style=filled,
 				width=3.6389];
+			"AM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,1168",
+				shape=cylinder,
+				style=filled,
+				width=3.2917];
 			"AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1914",
+				pos="8404,1222",
 				shape=cylinder,
 				style=filled,
 				width=5.3056];
+			"AM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,736",
+				shape=cylinder,
+				style=filled,
+				width=5.5417];
+			"AM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,790",
+				shape=cylinder,
+				style=filled,
+				width=5.5417];
 			"AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1536",
+				pos="8404,412",
 				shape=cylinder,
 				style=filled,
 				width=5.0139];
 			"AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1590",
+				pos="8404,466",
 				shape=cylinder,
 				style=filled,
 				width=4.9444];
 			"AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1428",
+				pos="8404,520",
 				shape=cylinder,
 				style=filled,
 				width=5.0139];
 			"AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1482",
+				pos="8404,358",
 				shape=cylinder,
 				style=filled,
 				width=4.9444];
+			"AM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,196",
+				shape=cylinder,
+				style=filled,
+				width=3.9028];
+			"AM: {a>0} | a:Num"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,142",
+				shape=cylinder,
+				style=filled,
+				width=1.7917];
+			"AM: {a>b} | a:Num; b:Num"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,34",
+				shape=cylinder,
+				style=filled,
+				width=2.4306];
+			"AM: {b>0} | b:Num"	[fillcolor=aquamarine,
+				height=0.5,
+				pos="8404,88",
+				shape=cylinder,
+				style=filled,
+				width=1.8194];
 			"AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1644",
+				pos="8404,952",
 				shape=cylinder,
 				style=filled,
 				width=4.9722];
 			"AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="6510,1698",
+				pos="8404,1006",
 				shape=cylinder,
 				style=filled,
 				width=4.9722];
 		}
-		"Concept_Node: e:Ellipse" -> "CM: e:Ellipse"	[pos="e,3245.1,1857.1 1759.4,1762.8 2035.6,1780.3 2989.5,1840.9 3233.7,1856.4"];
-		"CM: e:Ellipse" -> "Intra_Node: e:Ellipse | e:Ellipse"	[pos="e,4805.2,1860 3338.9,1860 3555.6,1860 4478.3,1860 4793.8,1860"];
-		"CM: e:Ellipse" -> "Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,4690,1906.9 3338.9,1861.5 3533.3,1868.1 4295.9,1893.7 4678.6,1906.6"];
-		"Concept_Node: e:Ellipse_Std" -> "CM: e:Ellipse_Std"	[pos="e,3232.7,1694.6 1771.8,1608.2 2058.4,1625.1 2962.6,1678.6 3221.3,1693.9"];
-		"CM: e:Ellipse_Std" -> "Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,4750.1,1747 3351.1,1700 3575.4,1707.5 4389.1,1734.8 4738.7,1746.6"];
-		"CM: e:Ellipse_Std" -> "Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,4750.1,1795.9 3351.1,1701.9 3575.4,1717 4389.1,1771.7 4738.7,1795.2"];
-		"CM: e:Ellipse_Std" -> "Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,4702.1,1650.7 3351.1,1696 3565.7,1688.8 4319.7,1663.5 4690.7,1651"];
-		"CM: e:Ellipse_Std" -> "Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,4702.1,1698 3351.1,1698 3565.7,1698 4319.7,1698 4690.7,1698"];
-		"Concept_Node: pa:Parabola" -> "CM: pa:Parabola"	[pos="e,3236.7,1481.1 1767.9,1456.4 2051.5,1461.2 2971.5,1476.6 3225.5,1480.9"];
-		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,4700.8,1529.3 3347.4,1483.8 3556.5,1490.9 4315.7,1516.4 4689.4,1528.9"];
-		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,4703,1576.8 3347.4,1485.7 3556.9,1499.7 4318.7,1550.9 4691.5,1576"];
-		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,4700.8,1434.7 3347.4,1480.2 3556.5,1473.1 4315.7,1447.6 4689.4,1435.1"];
-		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,4703,1482 3347.4,1482 3556.9,1482 4318.7,1482 4691.5,1482"];
-		"Concept_Node: pa:Parabola_Std_r" -> "CM: pa:Parabola_Std_r"	[pos="e,3218.6,1374 1785.7,1374 2081.3,1374 2935.9,1374 3207.3,1374"];
-		"CM: pa:Parabola_Std_r" -> "Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,4752.6,1374 3365.4,1374 3608.7,1374 4400,1374 4741.2,1374"];
-		"Concept_Node: pa:Parabola_Std_l" -> "CM: pa:Parabola_Std_l"	[pos="e,3219.4,1320 1785.4,1320 2081,1320 2937.7,1320 3208.1,1320"];
-		"CM: pa:Parabola_Std_l" -> "Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,4753.7,1320 3364.9,1320 3607.8,1320 4401.5,1320 4742.3,1320"];
-		"Concept_Node: pa:Parabola_Std_u" -> "CM: pa:Parabola_Std_u"	[pos="e,3217.8,1266 1787,1266 2083.4,1266 2934.7,1266 3206.5,1266"];
-		"CM: pa:Parabola_Std_u" -> "Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,4750.7,1266 3366.5,1266 3610.5,1266 4397.6,1266 4739.3,1266"];
-		"Concept_Node: pa:Parabola_Std_d" -> "CM: pa:Parabola_Std_d"	[pos="e,3217.8,1212 1787,1212 2083.4,1212 2934.7,1212 3206.5,1212"];
-		"CM: pa:Parabola_Std_d" -> "Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,4750.7,1212 3366.5,1212 3610.5,1212 4397.6,1212 4739.3,1212"];
-		"Intra_Node: e:Ellipse | e:Ellipse" -> "AM: e:Ellipse | e:Ellipse"	[pos="e,6433.8,1860 4996.8,1860 5284.8,1860 6146.4,1860 6422.7,1860"];
-		"Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "AM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,6379.1,1212 5051.4,1212 5360.3,1212 6065.8,1212 6367.7,1212"];
-		"Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "AM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,6382.1,1320 5048.2,1320 5356.4,1320 6069.4,1320 6370.6,1320"];
-		"Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "AM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,6381.2,1374 5049.2,1374 5357.7,1374 6068.3,1374 6369.8,1374"];
-		"Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "AM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,6379.1,1266 5051.4,1266 5360.3,1266 6065.8,1266 6367.7,1266"];
-		"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,6378.7,1752 5051.7,1752 5360.7,1752 6065.2,1752 6367.2,1752"];
-		"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,6378.7,1806 5051.7,1806 5360.7,1806 6065.2,1806 6367.2,1806"];
-		"Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,6318.8,1914 5111.7,1914 5422.5,1914 6001.6,1914 6307.6,1914"];
-		"Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,6329.2,1536 5101.5,1536 5413.1,1536 6011.6,1536 6318,1536"];
-		"Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,6331.5,1590 5098.6,1590 5410.3,1590 6013.7,1590 6320.3,1590"];
-		"Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,6329.2,1428 5101.5,1428 5413.1,1428 6011.6,1428 6318,1428"];
-		"Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,6331.5,1482 5098.6,1482 5410.3,1482 6013.7,1482 6320.3,1482"];
-		"Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,6330.6,1644 5099.9,1644 5411.5,1644 6012.9,1644 6319.4,1644"];
-		"Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,6330.6,1698 5099.9,1698 5411.5,1698 6012.9,1698 6319.4,1698"];
+		"Concept_Node: e:Ellipse" -> "CM: e:Ellipse"	[pos="e,5025.2,1110.6 3482.3,997.52 3765.5,1018.3 4763.7,1091.5 5013.8,1109.8"];
+		"CM: e:Ellipse" -> "Intra_Node: e:Ellipse | e:Ellipse"	[pos="e,6642.3,1063.1 5118.8,1112.5 5340.8,1105.3 6307.4,1073.9 6631,1063.4"];
+		"CM: e:Ellipse" -> "Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,6599.6,1114 5118.8,1114 5331.7,1114 6229.5,1114 6588.1,1114"];
+		"CM: e:Ellipse" -> "Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,6599.6,1163.5 5118.8,1115.5 5331.7,1122.4 6229.5,1151.5 6588.1,1163.2"];
+		"CM: e:Ellipse" -> "Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,6527.1,1208.4 5118.8,1117 5318.6,1129.9 6121.3,1182 6515.9,1207.6"];
+		"Concept_Node: e:Ellipse_Std" -> "CM: e:Ellipse_Std"	[pos="e,5012.9,895.17 3495,821.28 3789.4,835.62 4736.5,881.72 5001.5,894.62"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,6587.1,848.86 5131.2,896.11 5361.9,888.62 6216.2,860.9 6575.8,849.23"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,6587.1,898 5131.2,898 5361.9,898 6216.2,898 6575.8,898"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,6539.3,945.59 5131.2,899.89 5352.2,907.06 6145.4,932.8 6527.9,945.21"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,6539.3,993.17 5131.2,901.78 5352.2,916.12 6145.4,967.6 6527.9,992.43"];
+		"Concept_Node: h:Hyperbola" -> "CM: h:Hyperbola"	[pos="e,5015.1,708.09 3493,683.39 3785.9,688.15 4741.6,703.66 5003.9,707.91"];
+		"CM: h:Hyperbola" -> "Intra_Node: h:Hyperbola | h:Hyperbola"	[pos="e,6622,683.87 5128.8,708.09 5363.6,704.28 6274,689.51 6610.8,684.05"];
+		"CM: h:Hyperbola" -> "Intra_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,6518.5,732.46 5128.8,709.91 5342.5,713.37 6115.9,725.92 6507.1,732.27"];
+		"CM: h:Hyperbola" -> "Intra_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,6518.5,779.37 5128.8,711.72 5342.5,722.12 6115.9,759.77 6507.1,778.81"];
+		"Concept_Node: h:Hyperbola_Std_1" -> "CM: h:Hyperbola_Std_1"	[pos="e,4995.9,628 3511.7,628 3817.3,628 4703.8,628 4984.6,628"];
+		"CM: h:Hyperbola_Std_1" -> "Intra_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,6583.8,628 5148.3,628 5400.4,628 6219.4,628 6572.5,628"];
+		"Concept_Node: h:Hyperbola_Std_2" -> "CM: h:Hyperbola_Std_2"	[pos="e,4995.9,574 3511.7,574 3817.3,574 4703.8,574 4984.6,574"];
+		"CM: h:Hyperbola_Std_2" -> "Intra_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,6583.8,574 5148.3,574 5400.4,574 6219.4,574 6572.5,574"];
+		"Concept_Node: pa:Parabola" -> "CM: pa:Parabola"	[pos="e,5016.6,467.77 3490.9,517.28 3782.1,507.83 4744.7,476.59 5005.4,468.13"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,6537.7,418.47 5127.4,464.23 5342.6,457.25 6141.2,431.33 6526.5,418.83"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,6540.3,466 5127.4,466 5343.1,466 6144.8,466 6529.1,466"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,6537.7,513.53 5127.4,467.77 5342.6,474.75 6141.2,500.67 6526.5,513.17"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,6540.3,370.77 5127.4,462.47 5343.1,448.47 6144.8,396.43 6529.1,371.5"];
+		"Concept_Node: pa:Parabola_Std_r" -> "CM: pa:Parabola_Std_r"	[pos="e,4998.8,414.34 3508.9,462.69 3812.8,452.83 4709.2,423.74 4987.6,414.71"];
+		"CM: pa:Parabola_Std_r" -> "Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,6589.7,313.56 5145.3,407.31 5395.3,391.08 6227.3,337.08 6578.4,314.29"];
+		"Concept_Node: pa:Parabola_Std_l" -> "CM: pa:Parabola_Std_l"	[pos="e,4999.1,360.33 3508.3,408.71 3811.7,398.87 4709.8,369.72 4987.9,360.7"];
+		"CM: pa:Parabola_Std_l" -> "Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,6590.5,259.51 5144.8,353.34 5394.3,337.14 6228.3,283.02 6579.2,260.24"];
+		"Concept_Node: pa:Parabola_Std_u" -> "CM: pa:Parabola_Std_u"	[pos="e,4997.5,1298.1 3509.8,1197.9 3814.2,1218.4 4706.7,1278.5 4986.3,1297.3"];
+		"CM: pa:Parabola_Std_u" -> "Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,6587.8,1327.6 5146.4,1304.2 5397.3,1308.3 6224.7,1321.7 6576.5,1327.4"];
+		"Concept_Node: pa:Parabola_Std_d" -> "CM: pa:Parabola_Std_d"	[pos="e,4997.5,1216.9 3509.8,1114.1 3814.2,1135.1 4706.7,1196.8 4986.3,1216.1"];
+		"CM: pa:Parabola_Std_d" -> "Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,6587.8,1271.2 5146.4,1224.4 5397.3,1232.5 6224.7,1259.4 6576.5,1270.8"];
+		"Concept_Node: c:Curve" -> "CM: c:Curve"	[pos="e,3361.2,359.39 1814.4,408.66 2095.9,399.7 3103.2,367.61 3350.1,359.75"];
+		"CM: c:Curve" -> "CM: c:Curve; p:Point"	[pos="e,5004.4,306.16 3450.7,356.58 3675.2,349.3 4700.9,316.01 4993.1,306.53"];
+		"Concept_Node: p:Point" -> "CM: p:Point"	[pos="e,5029.3,251.35 3478.5,301.68 3758.1,292.61 4773.7,259.65 5017.9,251.72"];
+		"Concept_Node: p:Point" -> "CM: c:Curve; p:Point"	[pos="e,5004.4,304 3478.5,304 3749.4,304 4711.5,304 4993,304"];
+		"CM: c:Curve; p:Point" -> "Intra_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,6577.6,206.34 5139.8,299.67 5380.1,284.07 6205.8,230.48 6566.3,207.08"];
+		"Concept_Node: a:Num" -> "CM: a:Num"	[pos="e,3364.3,147.2 1812,345.92 2091.2,310.17 3110.7,179.67 3353.1,148.65"];
+		"CM: a:Num" -> "CM: a:Num; b:Num"	[pos="e,5007.2,38.141 3447.7,139.36 3666.8,125.14 4706.5,57.66 4996,38.868"];
+		"CM: a:Num" -> "Intra_Node: {a>0} | a:Num"	[pos="e,4987.6,142 3447.7,142 3662.1,142 4662.2,142 4976.3,142"];
+		"Concept_Node: b:Num" -> "CM: b:Num"	[pos="e,5029.6,88 3478,88 3756.9,88 4774.5,88 5018.3,88"];
+		"Concept_Node: b:Num" -> "CM: a:Num; b:Num"	[pos="e,5007.4,36.063 3478,85.697 3749.2,76.896 4718.7,45.432 4996.3,36.425"];
+		"CM: b:Num" -> "Intra_Node: {b>0} | b:Num"	[pos="e,6652.7,88 5114.1,88 5329.2,88 6326.3,88 6641.3,88"];
+		"CM: a:Num; b:Num" -> "Intra_Node: {a>b} | a:Num; b:Num"	[pos="e,6630.5,34 5137,34 5386,34 6293,34 6619.2,34"];
+		"Intra_Node: e:Ellipse | e:Ellipse" -> "AM: e:Ellipse | e:Ellipse"	[pos="e,8327.5,1060 6833.8,1060 7129.5,1060 8031.5,1060 8316.1,1060"];
+		"Intra_Node: h:Hyperbola | h:Hyperbola" -> "AM: h:Hyperbola | h:Hyperbola"	[pos="e,8307.5,682 6853.7,682 7160.8,682 7998.6,682 8296.3,682"];
+		"Intra_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "AM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,8269.1,628 6892.2,628 7211.7,628 7945.2,628 8257.7,628"];
+		"Intra_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "AM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,8269.1,574 6892.2,574 7211.7,574 7945.2,574 8257.7,574"];
+		"Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "AM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,8273.1,1276 6888.1,1276 7206.8,1276 7950.2,1276 8261.7,1276"];
+		"Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "AM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,8276.2,250 6885.2,250 7203.3,250 7954.3,250 8264.9,250"];
+		"Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "AM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,8275.3,304 6886.3,304 7204.7,304 7953.2,304 8263.9,304"];
+		"Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "AM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,8273.1,1330 6888.1,1330 7206.8,1330 7950.2,1330 8261.7,1330"];
+		"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,8272.7,844 6888.9,844 7207.8,844 7949.8,844 8261.3,844"];
+		"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse" -> "AM: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,8285.3,1114 6876.2,1114 7192,1114 7966.5,1114 8274.1,1114"];
+		"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,8272.7,898 6888.9,898 7207.8,898 7949.8,898 8261.3,898"];
+		"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "AM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,8285.3,1168 6876.2,1168 7192,1168 7966.5,1168 8274.1,1168"];
+		"Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,8212.7,1222 6948.9,1222 7271.3,1222 7884.3,1222 8201.5,1222"];
+		"Intra_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "AM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,8204.1,736 6957.4,736 7279.1,736 7876.2,736 8193,736"];
+		"Intra_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "AM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,8204.1,790 6957.4,790 7279.1,790 7876.2,790 8193,790"];
+		"Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,8223.2,412 6938.5,412 7261.4,412 7894.6,412 8212,412"];
+		"Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,8225.5,466 6935.6,466 7258.5,466 7896.8,466 8214.4,466"];
+		"Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,8223.2,520 6938.5,520 7261.4,520 7894.6,520 8212,520"];
+		"Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,8225.5,358 6935.6,358 7258.5,358 7896.8,358 8214.4,358"];
+		"Intra_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "AM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,8263.1,196 6898.2,196 7218.7,196 7937.9,196 8251.7,196"];
+		"Intra_Node: {a>0} | a:Num" -> "AM: {a>0} | a:Num"	[pos="e,8339.1,142 5156.1,142 5620.2,142 7884.8,142 8327.8,142"];
+		"Intra_Node: {a>b} | a:Num; b:Num" -> "AM: {a>b} | a:Num; b:Num"	[pos="e,8316.2,34 6845.3,34 7148.1,34 8012.3,34 8304.8,34"];
+		"Intra_Node: {b>0} | b:Num" -> "AM: {b>0} | b:Num"	[pos="e,8338.4,88 6823.2,88 7110.9,88 8052.1,88 8327,88"];
+		"Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,8224.6,952 6936.8,952 7259.8,952 7896,952 8213.5,952"];
+		"Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,8224.6,1006 6936.8,1006 7259.8,1006 7896,1006 8213.5,1006"];
 	}
 	subgraph cluster_beta_network {
-		graph [bb="6429,424,9926.5,1178",
+		graph [bb="8323,1364,18544,2604",
 			bgcolor=lightyellow,
 			style=dashed
 		];
@@ -318,523 +579,894 @@ digraph rete_network {
 		subgraph beta_memory {
 			"BM: dummy_top_node"	[fillcolor="#4a9759",
 				height=0.5,
-				pos="6510,801",
+				pos="8404,1984",
 				shape=cylinder,
 				style=filled,
 				width=2.0278];
+			"BM: e:Ellipse | e:Ellipse"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,2308",
+				shape=cylinder,
+				style=filled,
+				width=2.0972];
 			"BM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,1152",
+				pos="11736,2470",
 				shape=cylinder,
 				style=filled,
 				width=5.2917];
 			"BM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,936",
+				pos="11736,2254",
 				shape=cylinder,
 				style=filled,
 				width=4.9583];
 			"BM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,882",
+				pos="11736,2200",
 				shape=cylinder,
 				style=filled,
 				width=4.9583];
 			"BM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,990",
+				pos="11736,2092",
 				shape=cylinder,
 				style=filled,
 				width=3.625];
 			"BM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,1044",
+				pos="11736,2146",
 				shape=cylinder,
 				style=filled,
 				width=3.625];
-			"BM: e:Ellipse | e:Ellipse"	[fillcolor=burlywood,
+			"BM: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,1098",
+				pos="11736,2362",
 				shape=cylinder,
 				style=filled,
-				width=2.0972];
+				width=3.2778];
+			"BM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,2416",
+				shape=cylinder,
+				style=filled,
+				width=3.2778];
+			"BM: h:Hyperbola | h:Hyperbola"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,1930",
+				shape=cylinder,
+				style=filled,
+				width=2.6528];
+			"BM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,1984",
+				shape=cylinder,
+				style=filled,
+				width=5.5278];
+			"BM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,2038",
+				shape=cylinder,
+				style=filled,
+				width=5.5278];
+			"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,1876",
+				shape=cylinder,
+				style=filled,
+				width=3.7222];
+			"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,1822",
+				shape=cylinder,
+				style=filled,
+				width=3.7222];
 			"BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,720",
+				pos="11736,1606",
 				shape=cylinder,
 				style=filled,
 				width=4.9444];
 			"BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,666",
+				pos="11736,1768",
 				shape=cylinder,
 				style=filled,
 				width=5];
 			"BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,828",
+				pos="11736,1714",
 				shape=cylinder,
 				style=filled,
 				width=4.9444];
 			"BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,774",
+				pos="11736,1660",
 				shape=cylinder,
 				style=filled,
 				width=5];
 			"BM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,612",
+				pos="11736,1552",
 				shape=cylinder,
 				style=filled,
 				width=3.5556];
 			"BM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,558",
+				pos="11736,1498",
 				shape=cylinder,
 				style=filled,
 				width=3.5278];
 			"BM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,504",
+				pos="11736,2578",
 				shape=cylinder,
 				style=filled,
 				width=3.6111];
 			"BM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor=burlywood,
 				height=0.5,
-				pos="9728,450",
+				pos="11736,2524",
 				shape=cylinder,
 				style=filled,
 				width=3.6111];
+			"BM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,1444",
+				shape=cylinder,
+				style=filled,
+				width=3.8889];
+			"BM: {a>0} | a:Num"	[fillcolor=burlywood,
+				height=0.5,
+				pos="11736,1390",
+				shape=cylinder,
+				style=filled,
+				width=1.7778];
+			"BM: {{a>0}; {b>0}} | a:Num; b:Num"	[fillcolor=burlywood,
+				height=0.5,
+				pos="15068,1390",
+				shape=cylinder,
+				style=filled,
+				width=3.1944];
+			"BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[fillcolor=burlywood,
+				height=0.5,
+				pos="18400,1390",
+				shape=cylinder,
+				style=filled,
+				width=3.7778];
 		}
 		subgraph join_node {
+			"Join_Node: e:Ellipse | e:Ellipse"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,2308",
+				shape=rect,
+				style=filled,
+				width=2.6111];
 			"Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,1152",
+				pos="10070,2470",
 				shape=rect,
 				style=filled,
 				width=5.8056];
 			"Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,936",
+				pos="10070,2254",
 				shape=rect,
 				style=filled,
 				width=5.4722];
 			"Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,882",
+				pos="10070,2200",
 				shape=rect,
 				style=filled,
 				width=5.4722];
 			"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,990",
+				pos="10070,2092",
 				shape=rect,
 				style=filled,
 				width=4.1389];
 			"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,1044",
+				pos="10070,2146",
 				shape=rect,
 				style=filled,
 				width=4.1389];
-			"Join_Node: e:Ellipse | e:Ellipse"	[fillcolor=cornsilk,
+			"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,1098",
+				pos="10070,2362",
 				shape=rect,
 				style=filled,
-				width=2.6111];
+				width=3.7917];
+			"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,2416",
+				shape=rect,
+				style=filled,
+				width=3.7917];
+			"Join_Node: h:Hyperbola | h:Hyperbola"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,1930",
+				shape=rect,
+				style=filled,
+				width=3.1667];
+			"Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,1984",
+				shape=rect,
+				style=filled,
+				width=6.0417];
+			"Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,2038",
+				shape=rect,
+				style=filled,
+				width=6.0417];
+			"Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,1876",
+				shape=rect,
+				style=filled,
+				width=4.2361];
+			"Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,1822",
+				shape=rect,
+				style=filled,
+				width=4.2361];
 			"Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,720",
+				pos="10070,1606",
 				shape=rect,
 				style=filled,
 				width=5.4444];
 			"Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,666",
+				pos="10070,1768",
 				shape=rect,
 				style=filled,
 				width=5.5139];
 			"Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,828",
+				pos="10070,1714",
 				shape=rect,
 				style=filled,
 				width=5.4444];
 			"Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,774",
+				pos="10070,1660",
 				shape=rect,
 				style=filled,
 				width=5.5139];
 			"Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,612",
+				pos="10070,1552",
 				shape=rect,
 				style=filled,
 				width=4.0694];
 			"Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,558",
+				pos="10070,1498",
 				shape=rect,
 				style=filled,
 				width=4.0417];
 			"Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,504",
+				pos="10070,2578",
 				shape=rect,
 				style=filled,
 				width=4.125];
 			"Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="8119,450",
+				pos="10070,2524",
 				shape=rect,
 				style=filled,
 				width=4.125];
+			"Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,1444",
+				shape=rect,
+				style=filled,
+				width=4.4028];
+			"Join_Node: {a>0} | a:Num"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="10070,1390",
+				shape=rect,
+				style=filled,
+				width=2.2917];
+			"Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="13402,1390",
+				shape=rect,
+				style=filled,
+				width=3.7083];
+			"Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[fillcolor=cornsilk,
+				height=0.5,
+				pos="16734,1390",
+				shape=rect,
+				style=filled,
+				width=4.2917];
 		}
-		"Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "BM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,9537.1,1152 8328.4,1152 8639,1152 9219.5,1152 9525.8,1152"];
-		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,7962.4,1133.5 6563.7,815.18 6747.7,864.3 7379.7,1029.4 7910,1125 7923.4,1127.4 7937.2,1129.7 7951.2,1131.8"];
-		"BM: dummy_top_node" -> "Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,7921.6,919.5 6583.4,807.09 6815.7,826.59 7547.5,888.07 7910.1,918.54"];
-		"BM: dummy_top_node" -> "Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,7921.6,872.1 6583.4,804.65 6815.7,816.36 7547.5,853.24 7910.1,871.52"];
-		"BM: dummy_top_node" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,7969.7,972.55 6583.4,809.52 6826.5,838.11 7617,931.07 7958.5,971.24"];
-		"BM: dummy_top_node" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,7972.2,1025.5 6583.4,812.8 6790.1,846.38 7401.2,944.7 7910,1017 7926.5,1019.3 7943.7,1021.7 7960.9,1024"];
-		"BM: dummy_top_node" -> "Join_Node: e:Ellipse | e:Ellipse"	[pos="e,8024.6,1087.1 6576.7,815.17 6776.3,857.91 7393.8,987.77 7910,1071 7943.6,1076.4 7980.4,1081.5 8013.5,1085.7"];
-		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,7922.6,729.85 6583.4,797.35 6815.9,785.63 7548.9,748.68 7911.2,730.42"];
-		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,7920.2,682.62 6583.4,794.91 6815.4,775.43 7545.6,714.09 7908.7,683.58"];
-		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,7922.6,824.72 6583.4,802.22 6815.9,806.12 7548.9,818.44 7911.2,824.53"];
-		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,7920.2,777.32 6583.4,799.78 6815.4,795.89 7545.6,783.62 7908.7,777.52"];
-		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,7972.2,629.15 6583.4,792.48 6827,763.83 7620.5,670.51 7960.7,630.49"];
-		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,7973,576.36 6583.4,789.2 6790.1,755.62 7401.2,657.3 7910,585 7926.9,582.6 7944.5,580.18 7962.1,577.82"];
-		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,7970.1,522.06 6583.2,785.44 6789.4,741.33 7399.3,613.35 7910,531 7925.8,528.46 7942.2,525.99 7958.7,523.65"];
-		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,7970,467.39 6575.4,783.7 6773.2,731.05 7390.5,570.65 7910,477 7925.7,474.17 7942.2,471.51 7958.6,469.05"];
-		"Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "BM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9549.1,936 8316.2,936 8627.6,936 9231,936 9537.9,936"];
-		"Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "BM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9549.1,882 8316.2,882 8627.6,882 9231,882 9537.9,882"];
-		"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "BM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,9597.2,990 8268.3,990 8576.7,990 9283.5,990 9585.7,990"];
-		"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "BM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,9597.2,1044 8268.3,1044 8576.7,1044 9283.5,1044 9585.7,1044"];
-		"Join_Node: e:Ellipse | e:Ellipse" -> "BM: e:Ellipse | e:Ellipse"	[pos="e,9652.1,1098 8213.3,1098 8499.9,1098 9364.4,1098 9640.9,1098"];
-		"Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,9549.5,720 8315.4,720 8626.7,720 9231.3,720 9538.3,720"];
-		"Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,9547.7,666 8317.9,666 8629.2,666 9229.7,666 9536.5,666"];
-		"Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,9549.5,828 8315.4,828 8626.7,828 9231.3,828 9538.3,828"];
-		"Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,9547.7,774 8317.9,774 8629.2,774 9229.7,774 9536.5,774"];
-		"Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "BM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,9599.7,612 8265.8,612 8573.7,612 9286.7,612 9588.3,612"];
-		"Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "BM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,9600.6,558 8264.7,558 8572.4,558 9287.7,558 9589.2,558"];
-		"Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "BM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,9597.7,504 8267.9,504 8576.3,504 9284.2,504 9586.2,504"];
-		"Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "BM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,9597.7,450 8267.9,450 8576.3,450 9284.2,450 9586.2,450"];
+		"Join_Node: e:Ellipse | e:Ellipse" -> "BM: e:Ellipse | e:Ellipse"	[pos="e,11660,2308 10164,2308 10459,2308 11365,2308 11649,2308"];
+		"BM: dummy_top_node" -> "Join_Node: e:Ellipse | e:Ellipse"	[pos="e,9975.5,2298 8477.3,2000.9 8688.2,2049.9 9321.2,2193.5 9852.5,2281 9888.8,2287 9928.6,2292.3 9964.2,2296.6"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,9897.1,2451.5 8441.2,1998.2 8603.1,2061.1 9276.9,2317 9852.5,2443 9863.3,2445.4 9874.5,2447.6 9885.8,2449.6"];
+		"BM: dummy_top_node" -> "Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9914.3,2235.5 8477.1,1997.2 8688.2,2035.7 9323,2149.6 9852.5,2227 9868.9,2229.4 9886,2231.8 9903,2234"];
+		"BM: dummy_top_node" -> "Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9919.9,2181.5 8477.3,1993.6 8688.7,2021.6 9324.6,2105.6 9852.5,2173 9870.6,2175.3 9889.6,2177.7 9908.5,2180.1"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.7,2082.4 8477.3,1988.7 8727.1,2004.9 9557.7,2058.8 9909.5,2081.6"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.7,2131.6 8477.3,1991 8727.1,2015.4 9557.7,2096.2 9909.5,2130.5"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,9933.2,2347.5 8466.2,2001.5 8664.7,2057.7 9309.1,2235.6 9852.5,2335 9874.8,2339.1 9898.6,2342.7 9921.8,2345.9"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,9933.1,2402.2 8457.9,2001.9 8645.6,2064.7 9298.3,2277.6 9852.5,2389 9874.8,2393.5 9898.5,2397.3 9921.7,2400.6"];
+		"BM: dummy_top_node" -> "Join_Node: h:Hyperbola | h:Hyperbola"	[pos="e,9955.6,1933.7 8477.3,1981.7 8735.7,1973.3 9615.8,1944.7 9944.1,1934.1"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,9852,1984 8477.3,1984 8712,1984 9459.3,1984 9840.6,1984"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,9852,2031 8477.3,1986.3 8712,1994 9459.3,2018.2 9840.6,2030.6"];
+		"BM: dummy_top_node" -> "Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,9917.2,1885.9 8477.3,1979.3 8726.3,1963.1 9552.1,1909.5 9905.8,1886.6"];
+		"BM: dummy_top_node" -> "Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,9917.2,1836.8 8477.3,1977 8726.3,1952.7 9552.1,1872.3 9905.8,1837.9"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,9904.7,1624.5 8466.2,1966.5 8664.7,1910.3 9309.1,1732.4 9852.5,1633 9865.8,1630.6 9879.6,1628.3 9893.5,1626.2"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,9919.9,1786.5 8477.3,1974.4 8688.7,1946.4 9324.6,1862.4 9852.5,1795 9870.6,1792.7 9889.6,1790.3 9908.5,1787.9"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,9914.3,1732.5 8477.1,1970.8 8688.2,1932.3 9323,1818.4 9852.5,1741 9868.9,1738.6 9886,1736.2 9903,1734"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,9909.2,1678.5 8477.3,1967.1 8688.2,1918.1 9321.2,1774.5 9852.5,1687 9867.2,1684.6 9882.6,1682.3 9898,1680.1"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,9923.2,1567.2 8457.9,1966.1 8645.6,1903.3 9298.3,1690.4 9852.5,1579 9871.7,1575.1 9892,1571.7 9912.1,1568.8"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,9924.3,1512.3 8451.3,1965.9 8629.4,1896.9 9288.2,1648.6 9852.5,1525 9871.9,1520.7 9892.5,1517.1 9912.9,1514"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,9921,2564.5 8433.2,1998.1 8578.3,2070.3 9258,2400 9852.5,2551 9870.9,2555.7 9890.4,2559.6 9909.9,2562.8"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,9921.2,2509.9 8436.8,1998.2 8590,2066 9267.4,2358.6 9852.5,2497 9871,2501.4 9890.6,2505.1 9910.1,2508.2"];
+		"BM: dummy_top_node" -> "Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,9911,1459.7 8446,1965.7 8615.5,1891.1 9278.5,1606.8 9852.5,1471 9867.8,1467.4 9883.8,1464.2 9899.9,1461.5"];
+		"BM: dummy_top_node" -> "Join_Node: {a>0} | a:Num"	[pos="e,9987.1,1395.4 8441.9,1965.5 8603.7,1885.4 9269.2,1565.1 9852.5,1417 9892.3,1406.9 9937.3,1400.5 9975.9,1396.5"];
+		"Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "BM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,11545,2470 10279,2470 10601,2470 11216,2470 11534,2470"];
+		"Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "BM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,11557,2254 10267,2254 10590,2254 11228,2254 11546,2254"];
+		"Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "BM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,11557,2200 10267,2200 10590,2200 11228,2200 11546,2200"];
+		"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "BM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,11605,2092 10219,2092 10538,2092 11282,2092 11594,2092"];
+		"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "BM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,11605,2146 10219,2146 10538,2146 11282,2146 11594,2146"];
+		"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse" -> "BM: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,11618,2362 10207,2362 10522,2362 11299,2362 11606,2362"];
+		"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "BM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,11618,2416 10207,2416 10522,2416 11299,2416 11606,2416"];
+		"Join_Node: h:Hyperbola | h:Hyperbola" -> "BM: h:Hyperbola | h:Hyperbola"	[pos="e,11640,1930 10184,1930 10491,1930 11331,1930 11629,1930"];
+		"Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "BM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,11537,1984 10288,1984 10609,1984 11208,1984 11525,1984"];
+		"Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "BM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,11537,2038 10288,2038 10609,2038 11208,2038 11525,2038"];
+		"Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,11602,1876 10223,1876 10542,1876 11278,1876 11590,1876"];
+		"Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,11602,1822 10223,1822 10542,1822 11278,1822 11590,1822"];
+		"Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,11558,1606 10266,1606 10589,1606 11228,1606 11546,1606"];
+		"Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,11556,1768 10269,1768 10591,1768 11227,1768 11545,1768"];
+		"Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,11558,1714 10266,1714 10589,1714 11228,1714 11546,1714"];
+		"Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,11556,1660 10269,1660 10591,1660 11227,1660 11545,1660"];
+		"Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "BM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,11608,1552 10217,1552 10534,1552 11285,1552 11596,1552"];
+		"Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "BM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,11609,1498 10216,1498 10533,1498 11287,1498 11597,1498"];
+		"Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "BM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,11606,2578 10219,2578 10537,2578 11283,2578 11594,2578"];
+		"Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "BM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,11606,2524 10219,2524 10537,2524 11283,2524 11594,2524"];
+		"Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "BM: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,11596,1444 10229,1444 10549,1444 11270,1444 11584,1444"];
+		"Join_Node: {a>0} | a:Num" -> "BM: {a>0} | a:Num"	[pos="e,11672,1390 10153,1390 10438,1390 11387,1390 11661,1390"];
+		"BM: {a>0} | a:Num" -> "Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,13268,1390 11800,1390 12042,1390 12910,1390 13257,1390"];
+		"Join_Node: {{a>0}; {b>0}} | a:Num; b:Num" -> "BM: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,14953,1390 13536,1390 13850,1390 14635,1390 14941,1390"];
+		"BM: {{a>0}; {b>0}} | a:Num; b:Num" -> "Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,16579,1390 15183,1390 15472,1390 16231,1390 16568,1390"];
+		"Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num" -> "BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,18264,1390 16889,1390 17208,1390 17939,1390 18252,1390"];
 	}
 	subgraph root {
 		root	[fillcolor=lightcyan,
 			height=0.79716,
-			pos="74,1374",
+			pos="74,554",
 			shape=doublecircle,
 			style=filled,
 			width=0.79716];
 	}
 	subgraph terminal_node {
 		graph [rank=same];
+		"Terminal: (e:Ellipse)    ∅ => {{Param_A(e)>0}; {Param_B(e)>0}; {Param_C(e)>0}}  # 椭圆的参数a、b、c均大于0 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,4196",
+			shape=cylinder,
+			style=filled,
+			width=9.5833];
+		"Terminal: (e:Ellipse)    ∅ => {Sub(Pow(Param_A(e), 2), Pow(Param_B(e), 2))=Pow(Param_C(e), 2)}  # 椭圆的参数a、b、c满足：a^\
+2-b^2=c^2 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,4142",
+			shape=cylinder,
+			style=filled,
+			width=11.694];
 		"Terminal: (e:Ellipse)    ∅ => {Length(Major_Axis(e))=Mul(2, Param_A(e))}  # 椭圆的长轴长等于两倍的参数a #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,1098",
+			pos="13402,4088",
 			shape=cylinder,
 			style=filled,
 			width=9.2222];
 		"Terminal: (e:Ellipse)    ∅ => {Length(Minor_Axis(e))=Mul(2, Param_B(e))}  # 椭圆的短轴长等于两倍的参数b #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,1152",
+			pos="13402,4034",
 			shape=cylinder,
 			style=filled,
 			width=9.2361];
-		"Terminal: (pa:Parabola_Std_d)    ∅ => {Param_P(pa)=Neg(Div(pa.cooef_y, 2))}  # 标准抛物线Parabola_Std_d的参数P等于其y系数的一半的相反数 #"	[fillcolor="#ee7b67",
+		"Terminal: (e:Ellipse)    ∅ => {Focal_Length(e)=Mul(2, Param_C(e))}  # 椭圆的焦距长等于两倍的参数c #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,126",
+			pos="13402,4304",
 			shape=cylinder,
 			style=filled,
-			width=12.167];
+			width=8.6806];
+		"Terminal: (e:Ellipse)    ∅ => {Eccentricity(e)=Div(Param_C(e), Param_A(e))}  # 椭圆的离心率=参数c/参数a #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,4250",
+			shape=cylinder,
+			style=filled,
+			width=8.9861];
+		"Terminal: (h:Hyperbola)    ∅ => {{Param_A(h)>0}; {Param_B(h)>0}; {Param_C(h)>0}}  # 双曲线的参数a、b、c均大于0 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3548",
+			shape=cylinder,
+			style=filled,
+			width=10.097];
+		"Terminal: (h:Hyperbola)    ∅ => {Add(Pow(Param_A(h), 2), Pow(Param_B(h), 2))=Pow(Param_C(h), 2)}  # 双曲线的参数a、b、c满足：a^\
+2+b^2=c^2 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3656",
+			shape=cylinder,
+			style=filled,
+			width=12.292];
+		"Terminal: (h:Hyperbola)    ∅ => {Eccentricity(h)=Div(Param_C(h), Param_A(h))}  # 双曲线的离心率=参数c/参数a #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3602",
+			shape=cylinder,
+			style=filled,
+			width=9.5];
+		"Terminal: (h:Hyperbola_Std_1)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_x)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_y)}}  # 标准双曲线Hyperbola_\
+Std_1的参数a等于其x^2系数的倒数的开方,参数b等于其y^2系数的倒数的开方 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3440",
+			shape=cylinder,
+			style=filled,
+			width=18.694];
+		"Terminal: (h:Hyperbola_Std_1)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_1的焦点在其X轴上 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3386",
+			shape=cylinder,
+			style=filled,
+			width=9.4028];
+		"Terminal: (h:Hyperbola_Std_1)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h), Param_A(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_B(h), Param_A(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3494",
+			shape=cylinder,
+			style=filled,
+			width=21.014];
+		"Terminal: (h:Hyperbola_Std_2)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_y)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_x)}}  # 标准双曲线Hyperbola_\
+Std_2的参数a等于其y^2系数的倒数的开方,参数b等于其x^2系数的倒数的开方 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3278",
+			shape=cylinder,
+			style=filled,
+			width=18.694];
+		"Terminal: (h:Hyperbola_Std_2)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_2的焦点在其Y轴上 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3224",
+			shape=cylinder,
+			style=filled,
+			width=9.4028];
+		"Terminal: (h:Hyperbola_Std_2)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h), Param_B(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_A(h), Param_B(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3332",
+			shape=cylinder,
+			style=filled,
+			width=21.014];
+		"Terminal: (pa:Parabola_Std_d)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_y, 2))}  # 标准抛物线Parabola_Std_d的参数P等于其y系数的一半的相反数 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,4520",
+			shape=cylinder,
+			style=filled,
+			width=12.139];
 		"Terminal: (pa:Parabola_Std_d)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_d的焦点在其Y轴上 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,72",
+			pos="13402,4628",
 			shape=cylinder,
 			style=filled,
 			width=9.3056];
 		"Terminal: (pa:Parabola_Std_d)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
 Std_d生成准线方程:y=p/2 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,18",
+			pos="13402,4574",
 			shape=cylinder,
 			style=filled,
 			width=14.222];
-		"Terminal: (pa:Parabola_Std_l)    ∅ => {Param_P(pa)=Neg(Div(pa.cooef_x, 2))}  # 标准抛物线Parabola_Std_l的参数P等于其x系数的一半的相反数 #"	[fillcolor="#ee7b67",
+		"Terminal: (pa:Parabola_Std_l)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_x, 2))}  # 标准抛物线Parabola_Std_l的参数P等于其x系数的一半的相反数 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,450",
+			pos="13402,2684",
 			shape=cylinder,
 			style=filled,
-			width=12.097];
+			width=12.069];
 		"Terminal: (pa:Parabola_Std_l)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_l的焦点在其X轴上 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,396",
+			pos="13402,2792",
 			shape=cylinder,
 			style=filled,
 			width=9.2222];
 		"Terminal: (pa:Parabola_Std_l)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
 Std_l生成准线方程:x=p/2 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,342",
+			pos="13402,2738",
 			shape=cylinder,
 			style=filled,
 			width=14.139];
-		"Terminal: (pa:Parabola_Std_r)    ∅ => {Param_P(pa)=Div(pa.cooef_x, 2)}  # 标准抛物线Parabola_Std_r的参数P等于其x系数的一半 #"	[fillcolor="#ee7b67",
+		"Terminal: (pa:Parabola_Std_r)    ∅ => {Param_P(pa)=Div(pa.coeff_x, 2)}  # 标准抛物线Parabola_Std_r的参数P等于其x系数的一半 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,612",
+			pos="13402,2846",
 			shape=cylinder,
 			style=filled,
-			width=10.889];
+			width=10.861];
 		"Terminal: (pa:Parabola_Std_r)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_r的焦点在其X轴上 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,558",
+			pos="13402,2954",
 			shape=cylinder,
 			style=filled,
 			width=9.2361];
 		"Terminal: (pa:Parabola_Std_r)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
 Std_r生成准线方程:x=-p/2 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,504",
+			pos="13402,2900",
 			shape=cylinder,
 			style=filled,
 			width=13.778];
-		"Terminal: (pa:Parabola_Std_u)    ∅ => {Param_P(pa)=Div(pa.cooef_y, 2)}  # 标准抛物线Parabola_Std_u的参数P等于其y系数的一半 #"	[fillcolor="#ee7b67",
+		"Terminal: (pa:Parabola_Std_u)    ∅ => {Param_P(pa)=Div(pa.coeff_y, 2)}  # 标准抛物线Parabola_Std_u的参数P等于其y系数的一半 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,288",
+			pos="13402,4790",
 			shape=cylinder,
 			style=filled,
-			width=10.944];
+			width=10.903];
 		"Terminal: (pa:Parabola_Std_u)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_u的焦点在其Y轴上 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,234",
+			pos="13402,4736",
 			shape=cylinder,
 			style=filled,
 			width=9.3056];
 		"Terminal: (pa:Parabola_Std_u)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
 Std_u生成准线方程:y=-p/2 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,180",
+			pos="13402,4682",
 			shape=cylinder,
 			style=filled,
 			width=13.847];
 		"Terminal: (e:Ellipse_Std)    {Focus_On_X_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_x)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_y)}}  # \
 已知标准椭圆e的焦点在x轴上，可得:e的参数a等于其x^2系数的倒数的开方、e的参数b等于其y^2系数的倒数的开方  #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,990",
+			pos="13402,3818",
 			shape=cylinder,
 			style=filled,
 			width=21.319];
+		"Terminal: (e:Ellipse)    {Focus_On_X_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_A(e), Param_B(e), Center(e))}  # 已知椭圆e的焦点在x轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/a^2+y^2/b^2=1 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,4358",
+			shape=cylinder,
+			style=filled,
+			width=18.194];
 		"Terminal: (e:Ellipse_Std)    {Focus_On_Y_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_y)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_x)}}  # \
 已知标准椭圆e的焦点在y轴上，可得:e的参数a等于其y^2系数的倒数的开方、e的参数b等于其x^2系数的倒数的开方  #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,1044",
+			pos="13402,3872",
 			shape=cylinder,
 			style=filled,
 			width=21.319];
+		"Terminal: (e:Ellipse)    {Focus_On_Y_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_B(e), Param_A(e), Center(e))}  # 已知椭圆e的焦点在y轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/b^2+y^2/a^2=1 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,4412",
+			shape=cylinder,
+			style=filled,
+			width=18.194];
 		"Terminal: (e:Ellipse)    {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} => {assert e_std:Ellipse_Std={recip_coeff_sq_x:=Recip(Extract_\
 Coeff(Equation(e), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(e), y^2))}; {e=e_std}}  # 如果椭圆方程（可）满足标准形式 \
 x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,1206",
+			pos="13402,4466",
 			shape=cylinder,
 			style=filled,
 			width=29.403];
-		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==-2*p*y)} => {assert p_std:Parabola_Std_d={coeef_y:=Extract_Coeff(Equation(\
+		"Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} => {assert h_std:Hyperbola_Std_1={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+x^2/a^2-y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_1概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3710",
+			shape=cylinder,
+			style=filled,
+			width=30.75];
+		"Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} => {assert h_std:Hyperbola_Std_2={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+y^2/a^2-x^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_2概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,3764",
+			shape=cylinder,
+			style=filled,
+			width=30.75];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==-2*p*y)} => {assert p_std:Parabola_Std_d={coeff_y:=Extract_Coeff(Equation(\
 pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=-2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
 Std_d概念的个体 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,774",
+			pos="13402,3062",
 			shape=cylinder,
 			style=filled,
-			width=22.819];
-		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==2*p*y)} => {assert p_std:Parabola_Std_u={coeef_y:=Extract_Coeff(Equation(\
+			width=22.806];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==2*p*y)} => {assert p_std:Parabola_Std_u={coeff_y:=Extract_Coeff(Equation(\
 pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
 Std_u概念的个体 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,828",
+			pos="13402,3116",
 			shape=cylinder,
 			style=filled,
-			width=22.694];
-		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==-2*p*x)} => {assert p_std:Parabola_Std_l={coeef_x:=Extract_Coeff(Equation(\
+			width=22.681];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==-2*p*x)} => {assert p_std:Parabola_Std_l={coeff_x:=Extract_Coeff(Equation(\
 pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
 Std_l概念的个体 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,666",
+			pos="13402,3170",
 			shape=cylinder,
 			style=filled,
-			width=22.736];
-		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==2*p*x)} => {assert p_std:Parabola_Std_r={coeef_x:=Extract_Coeff(Equation(\
+			width=22.722];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==2*p*x)} => {assert p_std:Parabola_Std_r={coeff_x:=Extract_Coeff(Equation(\
 pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
 Std_r概念的个体 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,720",
+			pos="13402,3008",
 			shape=cylinder,
 			style=filled,
-			width=22.639];
+			width=22.611];
+		"Terminal: (c:Curve; p:Point)    {Point_On_Curve(p, c)} => {Subst_Point_Into_Curve(p, c)}  # 如果点在曲线上，就把点代入曲线方程 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,2630",
+			shape=cylinder,
+			style=filled,
+			width=11.014];
 		"Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x<e.recip_coeff_sq_y} => {Focus_On_Y_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数小于y^\
 2系数的倒数，可得到椭圆的焦点在y轴上 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,882",
+			pos="13402,3926",
 			shape=cylinder,
 			style=filled,
 			width=15.306];
 		"Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x>e.recip_coeff_sq_y} => {Focus_On_X_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数大于y^\
 2系数的倒数，可得到椭圆的焦点在x轴上 #"	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="11337,936",
+			pos="13402,3980",
 			shape=cylinder,
 			style=filled,
 			width=15.306];
+		"Terminal: (a:Num; b:Num)    {{a>0}; {b>0}; {a>b}} => {a^2>b^2}  # 如果a>0,b>0,a>b,那么a^2>b^2 #"	[fillcolor="#ee7b67",
+			height=0.5,
+			pos="13402,1260",
+			shape=cylinder,
+			style=filled,
+			width=8.4444];
 	}
 	subgraph cluster_legend {
-		graph [bb="8,1411,140,1953",
+		graph [bb="8,1340,140,1882",
 			fontname="Times-BoldItalic",
 			fontsize=20,
 			label=legend,
 			labelloc=b,
 			lheight=0.31,
-			lp="74,1426",
+			lp="74,1355",
 			lwidth=0.76,
 			style=dashed
 		];
 		Root	[fillcolor=lightcyan,
 			height=0.88743,
-			pos="74,1913",
+			pos="74,1842",
 			shape=doublecircle,
 			style=filled,
 			width=0.88743];
 		Concept_Node	[fillcolor=cadetblue,
 			height=0.5,
-			pos="74,1845",
+			pos="74,1774",
 			shape=rect,
 			style=filled,
 			width=1.3611];
 		Concept_Memory	[fillcolor="#bbd0c0",
 			height=0.5,
-			pos="74,1791",
+			pos="74,1720",
 			shape=cylinder,
 			style=filled,
 			width=1.6111];
 		Intra_Node	[fillcolor="#948ed6",
 			height=0.5,
-			pos="74,1737",
+			pos="74,1666",
 			shape=rect,
 			style=filled,
 			width=1.0833];
 		Alpha_Memory	[fillcolor=aquamarine,
 			height=0.5,
-			pos="74,1683",
+			pos="74,1612",
 			shape=cylinder,
 			style=filled,
 			width=1.4444];
 		dummy_top_node	[fillcolor="#4a9759",
 			height=0.5,
-			pos="74,1629",
+			pos="74,1558",
 			shape=cylinder,
 			style=filled,
 			width=1.6111];
 		Beta_Memory	[fillcolor=burlywood,
 			height=0.5,
-			pos="74,1575",
+			pos="74,1504",
 			shape=cylinder,
 			style=filled,
 			width=1.3333];
 		Join_Node	[fillcolor=cornsilk,
 			height=0.5,
-			pos="74,1521",
+			pos="74,1450",
 			shape=rect,
 			style=filled,
 			width=1.0417];
 		Terminal_Node	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="74,1467",
+			pos="74,1396",
 			shape=cylinder,
 			style=filled,
 			width=1.4306];
 	}
-	root -> "Concept_Node: e:Ellipse"	[pos="e,1606.9,1740.1 102.55,1380.6 282.55,1423.6 1292.9,1665 1596,1737.5"];
-	root -> "Concept_Node: e:Ellipse_Std"	[pos="e,1594.2,1590.5 102.89,1378 281.35,1403.4 1265.7,1543.7 1583.2,1588.9"];
-	root -> "Concept_Node: pa:Parabola"	[pos="e,1598.2,1450.8 103.23,1375.4 283.3,1384.5 1273.6,1434.4 1586.9,1450.2"];
-	root -> "Concept_Node: pa:Parabola_Std_r"	[pos="e,1580.1,1374 103.23,1374 280.01,1374 1237.7,1374 1569.1,1374"];
-	root -> "Concept_Node: pa:Parabola_Std_l"	[pos="e,1580.7,1323.4 103.23,1373.1 280.11,1367.1 1238.8,1334.9 1569.7,1323.8"];
-	root -> "Concept_Node: pa:Parabola_Std_u"	[pos="e,1579,1272.9 103.23,1372.1 279.8,1360.2 1235.5,1296 1567.9,1273.7"];
-	root -> "Concept_Node: pa:Parabola_Std_d"	[pos="e,1579,1222.4 103.23,1371.2 279.8,1353.4 1235.5,1257 1567.9,1223.5"];
-	"AM: e:Ellipse | e:Ellipse" -> "Join_Node: e:Ellipse | e:Ellipse"	[pos="e,8024.5,1102.1 6586.4,1856.8 6624.1,1853.4 6669.8,1846.6 6709,1833 7294.4,1629.8 7324,1326.3 7910,1125 7942.6,1113.8 7979.6,1107.2 \
-8013.3,1103.3"];
-	"AM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,7970.3,461.69 6640.8,1199.6 6663.9,1195.3 6687.5,1189.6 6709,1182 7292.4,975.24 7324.4,677.54 7910,477 7925.7,471.63 7942.4,467.31 \
-7959.2,463.85"];
-	"AM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,7973,569.16 6637.9,1310.3 6661.9,1306.3 6686.5,1300.8 6709,1293 7294.4,1089.8 7324,786.3 7910,585 7926.5,579.32 7944.2,574.82 \
-7962,571.26"];
-	"AM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,7972.2,623.31 6639,1364.1 6662.7,1360.2 6686.9,1354.7 6709,1347 7294.4,1143.8 7324,840.3 7910,639 7926.3,633.39 7943.7,628.93 \
-7961.3,625.39"];
-	"AM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,7970.3,515.66 6640.8,1255.8 6663.9,1251.9 6687.5,1246.5 6709,1239 7294.4,1035.8 7324,732.3 7910,531 7925.7,525.61 7942.4,521.29 \
-7959.2,517.82"];
-	"AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,7969.7,1001.8 6641.3,1741.7 6664.3,1737.8 6687.6,1732.4 6709,1725 7294.4,1521.8 7324,1218.3 7910,1017 7925.5,1011.7 7942.1,1007.4 \
-7958.7,1003.9"];
-	"AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,7969.7,1055.8 6641.3,1795.7 6664.3,1791.8 6687.6,1786.4 6709,1779 7294.4,1575.8 7324,1272.3 7910,1071 7925.5,1065.7 7942.1,1061.4 \
-7958.7,1057.9"];
-	"AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,8091.7,1170.2 6673.3,1896.6 6685.5,1893.8 6697.5,1890.7 6709,1887 7294.8,1700.5 7928.4,1281.8 8082.7,1176.4"];
-	"AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,7938.8,792.49 6675.6,1518.7 6687,1515.9 6698.3,1512.7 6709,1509 7294.4,1305.8 7324,1002.3 7910,801 7915.8,799 7921.8,797.15 7927.8,\
-795.44"];
-	"AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,7938.8,846.49 6675.4,1572.8 6686.9,1570 6698.2,1566.8 6709,1563 7294.4,1359.8 7324,1056.3 7910,855 7915.8,853 7921.8,851.15 7927.8,\
-849.44"];
-	"AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,7938.8,684.49 6675.6,1410.7 6687,1407.9 6698.3,1404.7 6709,1401 7294.4,1197.8 7324,894.3 7910,693 7915.8,691 7921.8,689.15 7927.8,\
-687.44"];
-	"AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,7938.8,738.49 6675.4,1464.8 6686.9,1462 6698.2,1458.8 6709,1455 7294.4,1251.8 7324,948.3 7910,747 7915.8,745 7921.8,743.15 7927.8,\
-741.44"];
-	"AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,7938.8,900.49 6675.4,1626.8 6686.9,1624 6698.2,1620.8 6709,1617 7294.4,1413.8 7324,1110.3 7910,909 7915.8,907 7921.8,905.15 7927.8,\
-903.44"];
-	"AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,7938.8,954.49 6675.4,1680.8 6686.9,1678 6698.2,1674.8 6709,1671 7294.4,1467.8 7324,1164.3 7910,963 7915.8,961 7921.8,959.15 7927.8,\
-957.44"];
+	root -> "Concept_Node: e:Ellipse"	[pos="e,3329.5,982.07 102.79,557.65 390.5,595.5 2825.5,915.77 3318.2,980.59"];
+	root -> "Concept_Node: e:Ellipse_Std"	[pos="e,3317.1,810.06 103.29,556.23 390.95,578.95 2786.6,768.16 3305.9,809.18"];
+	root -> "Concept_Node: h:Hyperbola"	[pos="e,3319.1,678.7 103.29,555.09 391.27,566.16 2791.9,658.43 3307.7,678.26"];
+	root -> "Concept_Node: h:Hyperbola_Std_1"	[pos="e,3300.3,625.67 103.29,554.63 387.96,560.95 2737,613.16 3289.1,625.43"];
+	root -> "Concept_Node: h:Hyperbola_Std_2"	[pos="e,3300.3,573.37 103.29,554.17 387.96,555.88 2737,569.99 3289.1,573.3"];
+	root -> "Concept_Node: pa:Parabola"	[pos="e,3321.1,520.86 103.29,553.71 391.66,550.77 2798.4,526.19 3309.7,520.97"];
+	root -> "Concept_Node: pa:Parabola_Std_r"	[pos="e,3303.3,468.69 103.29,553.25 388.44,545.72 2744.9,483.44 3291.9,468.99"];
+	root -> "Concept_Node: pa:Parabola_Std_l"	[pos="e,3303.7,416.32 103.29,552.79 388.52,540.63 2746.2,440.09 3292.3,416.8"];
+	root -> "Concept_Node: pa:Parabola_Std_u"	[pos="e,3308.3,1172.5 102.79,559.32 386.6,613.61 2759.8,1067.6 3297.1,1170.4"];
+	root -> "Concept_Node: pa:Parabola_Std_d"	[pos="e,3302.3,1090 102.79,558.61 385.58,605.58 2742.8,997.03 3291.3,1088.1"];
+	root -> "Concept_Node: c:Curve"	[pos="e,1665.7,417.3 103.18,551.58 289.54,535.56 1346.4,444.74 1654.6,418.25"];
+	root -> "Concept_Node: p:Point"	[pos="e,3333.7,301.71 102.46,548.73 255.94,519.57 1023.5,377.45 1658,328 2297.2,278.19 3071.9,294.27 3322.5,301.39"];
+	root -> "Concept_Node: a:Num"	[pos="e,1668.2,363.47 103.18,550.63 289.98,528.29 1351.4,401.36 1656.8,364.83"];
+	root -> "Concept_Node: b:Num"	[pos="e,3334.2,96.596 102.82,549.55 257.5,524.86 1027.3,402.59 1658,314 2298.5,224.02 3073.1,128.46 3323.1,97.957"];
+	"AM: e:Ellipse | e:Ellipse" -> "Join_Node: e:Ellipse | e:Ellipse"	[pos="e,9975.6,2309.2 8480.4,1058.6 8521,1060.6 8570.9,1067.5 8611.5,1087 9301.3,1418.6 9161.7,1951.5 9852.5,2281 9886.8,2297.4 9927.5,\
+2305.1 9964.3,2308.3"];
+	"AM: h:Hyperbola | h:Hyperbola" -> "Join_Node: h:Hyperbola | h:Hyperbola"	[pos="e,9955.6,1929.5 8500.3,681.96 8536.6,685.09 8577.4,692.59 8611.5,709 9301.3,1040.6 9161.7,1573.5 9852.5,1903 9880.7,1916.4 9913.1,\
+1924 9944.2,1928.1"];
+	"AM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,9917.2,1869.7 8538.9,632.92 8563.8,637.3 8589.1,644.23 8611.5,655 9301.3,986.58 9161.7,1519.5 9852.5,1849 9869.3,1857 9887.6,1862.9 \
+9906.2,1867.3"];
+	"AM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,9917.2,1815.7 8538.9,578.92 8563.8,583.3 8589.1,590.23 8611.5,601 9301.3,932.58 9161.7,1465.5 9852.5,1795 9869.3,1803 9887.6,1808.9 \
+9906.2,1813.3"];
+	"AM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,9921.2,2518.5 8534.8,1280.2 8561.1,1284.6 8587.9,1291.6 8611.5,1303 9301.3,1634.6 9161.7,2167.5 9852.5,2497 9870.5,2505.6 9890.2,\
+2511.8 9910.1,2516.2"];
+	"AM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,9924.1,1493 8531.8,253.75 8559,258.02 8587,265.21 8611.5,277 9301.3,608.58 9161.7,1141.5 9852.5,1471 9871.3,1480 9891.9,1486.3 \
+9912.8,1490.8"];
+	"AM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,9923.3,1546.8 8532.9,307.92 8559.8,312.22 8587.3,319.37 8611.5,331 9301.3,662.58 9161.7,1195.5 9852.5,1525 9871,1533.8 9891.5,\
+1540.2 9912.1,1544.6"];
+	"AM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,9921.3,2572.4 8534.8,1336.4 8561.1,1341.1 8587.9,1348.5 8611.5,1360 9298.3,1695.6 9162.3,2222.3 9852.5,2551 9870.5,2559.6 9890.2,\
+2565.7 9910.1,2570.2"];
+	"AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.7,2086.3 8535.3,848.32 8561.4,852.65 8588,859.72 8611.5,871 9301.3,1202.6 9161.7,1735.5 9852.5,2065 9870.3,2073.5 9889.8,\
+2079.7 9909.7,2084.1"];
+	"AM: {Focus_On_X_Axis(e)} | e:Ellipse" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,9933.2,2358.5 8522.9,1116.4 8552.9,1120.5 8584.3,1127.9 8611.5,1141 9301.3,1472.6 9161.7,2005.5 9852.5,2335 9874.1,2345.3 9898.2,\
+2352.1 9922.2,2356.6"];
+	"AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.7,2140.3 8535.3,902.32 8561.4,906.65 8588,913.72 8611.5,925 9301.3,1256.6 9161.7,1789.5 9852.5,2119 9870.3,2127.5 9889.8,\
+2133.7 9909.7,2138.1"];
+	"AM: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,9933.2,2412.5 8522.9,1170.4 8552.9,1174.5 8584.3,1181.9 8611.5,1195 9301.3,1526.6 9161.7,2059.5 9852.5,2389 9874.1,2399.3 9898.2,\
+2406.1 9922.2,2410.6"];
+	"AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,9873.1,2451.6 8578.1,1236.2 8589.7,1239.7 8600.9,1243.9 8611.5,1249 9301.3,1580.6 9161.7,2113.5 9852.5,2443 9855.8,2444.6 9859.2,\
+2446.1 9862.7,2447.5"];
+	"AM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,9873.1,1965.6 8578.4,750.25 8589.9,753.74 8601,757.95 8611.5,763 9301.3,1094.6 9161.7,1627.5 9852.5,1957 9855.8,1958.6 9859.2,\
+1960.1 9862.7,1961.5"];
+	"AM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,9873.1,2019.6 8578.7,804.33 8590,807.81 8601.1,811.99 8611.5,817 9301.3,1148.6 9161.7,1681.5 9852.5,2011 9855.8,2012.6 9859.2,\
+2014.1 9862.7,2015.5"];
+	"AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,9873.1,1641.6 8578.4,426.25 8589.9,429.74 8601,433.95 8611.5,439 9301.3,770.58 9161.7,1303.5 9852.5,1633 9855.8,1634.6 9859.2,\
+1636.1 9862.7,1637.5"];
+	"AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,9873.7,1695.8 8582.4,481.49 8592.4,484.73 8602.2,488.54 8611.5,493 9301.3,824.58 9161.7,1357.5 9852.5,1687 9856,1688.7 9859.6,\
+1690.3 9863.3,1691.8"];
+	"AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,9873.1,1749.6 8578.4,534.25 8589.9,537.74 8601,541.95 8611.5,547 9301.3,878.58 9161.7,1411.5 9852.5,1741 9855.8,1742.6 9859.2,\
+1744.1 9862.7,1745.5"];
+	"AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,9873.7,1587.8 8578.1,372.16 8589.7,375.68 8600.9,379.91 8611.5,385 9301.3,716.58 9161.7,1249.5 9852.5,1579 9856,1580.7 9859.6,\
+1582.3 9863.3,1583.8"];
+	"AM: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "Join_Node: {Point_On_Curve(p, c)} | c:Curve; p:Point"	[pos="e,9911.2,1436.4 8544.9,202.02 8567.9,206.43 8590.9,213.09 8611.5,223 9301.3,554.58 9161.7,1087.5 9852.5,1417 9867.5,1424.2 9883.7,\
+1429.7 9900.3,1433.8"];
+	"AM: {a>0} | a:Num" -> "Join_Node: {a>0} | a:Num"	[pos="e,9987.1,1389.6 8468.9,140.21 8511.2,141.41 8567,147.67 8611.5,169 9300.3,499.19 9166.5,1022.1 9852.5,1358 9890.4,1376.6 9936.2,\
+1385 9975.8,1388.7"];
+	"AM: {a>b} | a:Num; b:Num" -> "Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,16579,1383.4 8491.8,40.498 8529.1,44.529 8572.8,50.936 8611.5,61 10058,437.46 10241,1306 11735,1306 11735,1306 11735,1306 13403,\
+1306 14618,1306 16082,1362.6 16568,1382.9"];
+	"AM: {b>0} | b:Num" -> "Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,13268,1387.5 8469.9,86.141 8512.1,87.361 8567.4,93.675 8611.5,115 9303.6,449.64 9143,1024 9852.5,1320 9862.5,1324.2 12594,1375 \
+13257,1387.3"];
+	"AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9873.1,2181.6 8578.4,966.25 8589.9,969.74 8601,973.95 8611.5,979 9301.3,1310.6 9161.7,1843.5 9852.5,2173 9855.8,2174.6 9859.2,\
+2176.1 9862.7,2177.5"];
+	"AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9873.1,2235.6 8583.4,1021.8 8593.1,1025 8602.5,1028.7 8611.5,1033 9301.3,1364.6 9161.7,1897.5 9852.5,2227 9855.8,2228.6 9859.2,\
+2230.1 9862.7,2231.5"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {{Param_A(e)>0}; {Param_B(e)>0}; {Param_C(e)>0}}  # 椭圆的参数a、b、c均大于0 #"	[pos="e,13057,4208.9 11812,2298.6 11853,2297.8 11903,2304.5 11935,2335 12539,2905 11660,3633.4 12295,4169 12352,4216.9 12744,4216.8 13046,\
+4209.1"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Sub(Pow(Param_A(e), 2), Pow(Param_B(e), 2))=Pow(Param_C(e), 2)}  # 椭圆的参数a、b、c满足：a^\
+2-b^2=c^2 #"	[pos="e,12996,4156.2 11812,2298.7 11853,2297.9 11903,2304.6 11935,2335 12524,2887.2 11677,3596.4 12295,4115 12348,4159.6 12694,4162.4 \
+12985,4156.5"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Length(Major_Axis(e))=Mul(2, Param_A(e))}  # 椭圆的长轴长等于两倍的参数a #"	[pos="e,13070,4100.4 11812,2298.8 11853,2298 11903,2304.7 11935,2335 12508,2869.3 11693,3559.3 12295,4061 12353,4109.2 12755,4108.5 13058,\
+4100.7"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Length(Minor_Axis(e))=Mul(2, Param_B(e))}  # 椭圆的短轴长等于两倍的参数b #"	[pos="e,13069,4046.3 11812,2298.9 11853,2298.1 11902,2304.8 11935,2335 12493,2851.5 11710,3522.2 12295,4007 12353,4055 12755,4054.3 13058,\
+4046.6"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Focal_Length(e)=Mul(2, Param_C(e))}  # 椭圆的焦距长等于两倍的参数c #"	[pos="e,13089,4316.1 11812,2298.5 11853,2297.6 11903,2304.4 11935,2335 12570,2940.7 11627,3707.5 12295,4277 12354,4327 12773,4324.9 13078,\
+4316.4"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Eccentricity(e)=Div(Param_C(e), Param_A(e))}  # 椭圆的离心率=参数c/参数a #"	[pos="e,13078,4262.4 11812,2298.6 11853,2297.7 11903,2304.4 11935,2335 12555,2922.8 11644,3670.5 12295,4223 12353,4272.2 12763,4270.8 \
+13067,4262.7"];
 	"BM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "Terminal: (e:Ellipse)    {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} => {assert e_std:Ellipse_Std={recip_coeff_sq_x:=Recip(Extract_\
 Coeff(Equation(e), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(e), y^2))}; {e=e_std}}  # 如果椭圆方程（可）满足标准形式 \
-x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #"	[pos="e,10554,1188.1 9918.7,1162.4 10025,1168 10159,1174.5 10278,1179 10364,1182.2 10454,1185.1 10543,1187.8"];
+x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #"	[pos="e,13007,4480.2 11922,2486.3 11926,2489.5 11931,2493.1 11935,2497 12570,3102.7 11627,3869.5 12295,4439 12348,4484.6 12702,4486.9 \
+12996,4480.5"];
 	"BM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x>e.recip_coeff_sq_y} => {Focus_On_X_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数大于y^\
-2系数的倒数，可得到椭圆的焦点在x轴上 #"	[pos="e,10786,936 9906.7,936 10115,936 10470,936 10775,936"];
+2系数的倒数，可得到椭圆的焦点在x轴上 #"	[pos="e,12987,3994.2 11915,2266.1 11922,2270.3 11929,2275.2 11935,2281 12493,2797.5 11710,3468.2 12295,3953 12348,3996.8 12687,4000.1 \
+12976,3994.4"];
 	"BM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x<e.recip_coeff_sq_y} => {Focus_On_Y_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数小于y^\
-2系数的倒数，可得到椭圆的焦点在y轴上 #"	[pos="e,10786,882 9906.7,882 10115,882 10470,882 10775,882"];
+2系数的倒数，可得到椭圆的焦点在y轴上 #"	[pos="e,12987,3940.2 11915,2212.1 11922,2216.3 11929,2221.2 11935,2227 12493,2743.5 11710,3414.2 12295,3899 12348,3942.8 12687,3946.1 \
+12976,3940.4"];
 	"BM: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {Focus_On_X_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_x)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_y)}}  # \
-已知标准椭圆e的焦点在x轴上，可得:e的参数a等于其x^2系数的倒数的开方、e的参数b等于其y^2系数的倒数的开方  #"	[pos="e,10569,990 9858.8,990 10014,990 10288,990 10558,990"];
+已知标准椭圆e的焦点在x轴上，可得:e的参数a等于其x^2系数的倒数的开方、e的参数b等于其y^2系数的倒数的开方  #"	[pos="e,12987,3832.2 11867,2087.2 11892,2092.1 11916,2101.7 11935,2119 12493,2635.5 11710,3306.2 12295,3791 12348,3834.8 12687,3838.1 \
+12976,3832.4"];
 	"BM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {Focus_On_Y_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_y)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_x)}}  # \
-已知标准椭圆e的焦点在y轴上，可得:e的参数a等于其y^2系数的倒数的开方、e的参数b等于其x^2系数的倒数的开方  #"	[pos="e,10569,1044 9858.8,1044 10014,1044 10288,1044 10558,1044"];
-	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Length(Major_Axis(e))=Mul(2, Param_A(e))}  # 椭圆的长轴长等于两倍的参数a #"	[pos="e,11005,1098 9803.8,1098 10012,1098 10609,1098 10993,1098"];
-	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Length(Minor_Axis(e))=Mul(2, Param_B(e))}  # 椭圆的短轴长等于两倍的参数b #"	[pos="e,11004,1145.5 9803.6,1102.2 9909.3,1108.1 10109,1118.7 10278,1125 10517,1133.9 10786,1140.7 10993,1145.3"];
-	"BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==2*p*x)} => {assert p_std:Parabola_Std_r={coeef_x:=Extract_Coeff(Equation(\
+已知标准椭圆e的焦点在y轴上，可得:e的参数a等于其y^2系数的倒数的开方、e的参数b等于其x^2系数的倒数的开方  #"	[pos="e,12987,3886.2 11867,2141.2 11892,2146.1 11916,2155.7 11935,2173 12493,2689.5 11710,3360.2 12295,3845 12348,3888.8 12687,3892.1 \
+12976,3886.4"];
+	"BM: {Focus_On_X_Axis(e)} | e:Ellipse" -> "Terminal: (e:Ellipse)    {Focus_On_X_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_A(e), Param_B(e), Center(e))}  # 已知椭圆e的焦点在x轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/a^2+y^2/b^2=1 #"	[pos="e,13007,4372.2 11854,2354.7 11884,2358.6 11913,2368.4 11935,2389 12570,2994.7 11627,3761.5 12295,4331 12348,4376.6 12702,4378.9 \
+12996,4372.5"];
+	"BM: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "Terminal: (e:Ellipse)    {Focus_On_Y_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_B(e), Param_A(e), Center(e))}  # 已知椭圆e的焦点在y轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/b^2+y^2/a^2=1 #"	[pos="e,13007,4426.2 11854,2408.7 11884,2412.6 11913,2422.4 11935,2443 12570,3048.7 11627,3815.5 12295,4385 12348,4430.6 12702,4432.9 \
+12996,4426.5"];
+	"BM: h:Hyperbola | h:Hyperbola" -> "Terminal: (h:Hyperbola)    ∅ => {{Param_A(h)>0}; {Param_B(h)>0}; {Param_C(h)>0}}  # 双曲线的参数a、b、c均大于0 #"	[pos="e,13038,3560.9 11832,1921.3 11868,1923.1 11907,1931.9 11935,1957 12462,2438 11742,3070 12295,3521 12351,3567 12728,3568 13027,3561.2"];
+	"BM: h:Hyperbola | h:Hyperbola" -> "Terminal: (h:Hyperbola)    ∅ => {Add(Pow(Param_A(h), 2), Pow(Param_B(h), 2))=Pow(Param_C(h), 2)}  # 双曲线的参数a、b、c满足：a^\
+2+b^2=c^2 #"	[pos="e,12987,3670.2 11832,1921.1 11868,1922.8 11908,1931.7 11935,1957 12493,2473.5 11710,3144.2 12295,3629 12348,3672.8 12687,3676.1 \
+12976,3670.4"];
+	"BM: h:Hyperbola | h:Hyperbola" -> "Terminal: (h:Hyperbola)    ∅ => {Eccentricity(h)=Div(Param_C(h), Param_A(h))}  # 双曲线的离心率=参数c/参数a #"	[pos="e,13060,3614.5 11832,1921.2 11868,1922.9 11908,1931.8 11935,1957 12477,2455.8 11726,3107.1 12295,3575 12353,3622.3 12747,3622.2 \
+13048,3614.8"];
+	"BM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} => {assert h_std:Hyperbola_Std_1={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+x^2/a^2-y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_1概念的个体 #"	[pos="e,12987,3724.2 11920,1999.6 11926,2003 11930,2006.8 11935,2011 12493,2527.5 11710,3198.2 12295,3683 12348,3726.8 12687,3730.1 12976,\
+3724.4"];
+	"BM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} => {assert h_std:Hyperbola_Std_2={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+y^2/a^2-x^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_2概念的个体 #"	[pos="e,12987,3778.2 11920,2053.6 11926,2057 11930,2060.8 11935,2065 12493,2581.5 11710,3252.2 12295,3737 12348,3780.8 12687,3784.1 12976,\
+3778.4"];
+	"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Terminal: (h:Hyperbola_Std_1)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_x)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_y)}}  # 标准双曲线Hyperbola_\
+Std_1的参数a等于其x^2系数的倒数的开方,参数b等于其y^2系数的倒数的开方 #"	[pos="e,12970,3454.2 11870,1872.3 11894,1877.4 11917,1886.8 11935,1903 12446,2366.2 11759,2978.9 12295,3413 12347,3455.4 12674,3459.4 \
+12959,3454.4"];
+	"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Terminal: (h:Hyperbola_Std_1)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_1的焦点在其X轴上 #"	[pos="e,13063,3398.1 11870,1872.4 11894,1877.5 11917,1886.8 11935,1903 12431,2348.5 11775,2941.7 12295,3359 12353,3405.8 12750,3405.7 \
+13052,3398.4"];
+	"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Terminal: (h:Hyperbola_Std_1)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h), Param_A(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_B(h), Param_A(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #"	[pos="e,12977,3508.2 11870,1872.1 11894,1877.2 11917,1886.6 11935,1903 12462,2384 11742,3016 12295,3467 12348,3509.9 12679,3513.7 12965,\
+3508.4"];
+	"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Terminal: (h:Hyperbola_Std_2)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_y)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_x)}}  # 标准双曲线Hyperbola_\
+Std_2的参数a等于其y^2系数的倒数的开方,参数b等于其x^2系数的倒数的开方 #"	[pos="e,12955,3292.2 11870,1818.6 11894,1823.6 11917,1833 11935,1849 12415,2276.8 11792,2850.5 12295,3251 12347,3292.1 12662,3296.8 12943,\
+3292.4"];
+	"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Terminal: (h:Hyperbola_Std_2)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_2的焦点在其Y轴上 #"	[pos="e,13063,3235.8 11870,1818.7 11894,1823.8 11917,1833.1 11935,1849 12400,2259.1 11808,2813.3 12295,3197 12354,3243.3 12750,3243.2 \
+13052,3236.1"];
+	"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Terminal: (h:Hyperbola_Std_2)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h), Param_B(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_A(h), Param_B(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #"	[pos="e,12963,3346.2 11870,1818.4 11894,1823.5 11917,1832.8 11935,1849 12431,2294.5 11775,2887.7 12295,3305 12347,3346.8 12669,3351.2 \
+12952,3346.4"];
+	"BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==2*p*x)} => {assert p_std:Parabola_Std_r={coeff_x:=Extract_Coeff(Equation(\
 pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
-Std_r概念的个体 #"	[pos="e,10522,720 9906.3,720 10056,720 10282,720 10511,720"];
-	"BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==-2*p*x)} => {assert p_std:Parabola_Std_l={coeef_x:=Extract_Coeff(Equation(\
+Std_r概念的个体 #"	[pos="e,12945,3022.2 11914,1618.5 11922,1622.6 11929,1627.4 11935,1633 12400,2043.1 11808,2597.3 12295,2981 12346,3021.4 12656,3026.5 \
+12934,3022.4"];
+	"BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==-2*p*x)} => {assert p_std:Parabola_Std_l={coeff_x:=Extract_Coeff(Equation(\
 pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
-Std_l概念的个体 #"	[pos="e,10518,666 9908.3,666 10057,666 10281,666 10507,666"];
-	"BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==2*p*y)} => {assert p_std:Parabola_Std_u={coeef_y:=Extract_Coeff(Equation(\
+Std_l概念的个体 #"	[pos="e,12945,3184.2 11916,1781.5 11923,1785.4 11929,1789.8 11935,1795 12400,2205.1 11808,2759.3 12295,3143 12346,3183.4 12656,3188.5 \
+12934,3184.4"];
+	"BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==2*p*y)} => {assert p_std:Parabola_Std_u={coeff_y:=Extract_Coeff(Equation(\
 pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
-Std_u概念的个体 #"	[pos="e,10520,828 9906.3,828 10056,828 10281,828 10509,828"];
-	"BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==-2*p*y)} => {assert p_std:Parabola_Std_d={coeef_y:=Extract_Coeff(Equation(\
+Std_u概念的个体 #"	[pos="e,12945,3130.2 11914,1726.5 11922,1730.6 11929,1735.4 11935,1741 12400,2151.1 11808,2705.3 12295,3089 12346,3129.4 12656,3134.5 \
+12934,3130.4"];
+	"BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==-2*p*y)} => {assert p_std:Parabola_Std_d={coeff_y:=Extract_Coeff(Equation(\
 pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=-2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
-Std_d概念的个体 #"	[pos="e,10515,774 9908.3,774 10057,774 10279,774 10504,774"];
-	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Param_P(pa)=Div(pa.cooef_x, 2)}  # 标准抛物线Parabola_Std_r的参数P等于其x系数的一半 #"	[pos="e,10945,612 9856.4,612 10086,612 10579,612 10933,612"];
-	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_r的焦点在其X轴上 #"	[pos="e,11004,564.47 9856.4,604.89 9967.7,598.88 10134,590.4 10278,585 10517,576.1 10786,569.28 10993,564.72"];
+Std_d概念的个体 #"	[pos="e,12945,3076.2 11916,1673.5 11923,1677.4 11929,1681.8 11935,1687 12400,2097.1 11808,2651.3 12295,3035 12346,3075.4 12656,3080.5 \
+12934,3076.4"];
+	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Param_P(pa)=Div(pa.coeff_x, 2)}  # 标准抛物线Parabola_Std_r的参数P等于其x系数的一半 #"	[pos="e,13011,2858.7 11864,1547.9 11890,1552.6 11915,1562 11935,1579 12369,1953.9 11840,2468.8 12295,2819 12351,2862 12706,2864.6 12999,\
+2858.9"];
+	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_r的焦点在其X轴上 #"	[pos="e,13069,2965.7 11864,1547.5 11890,1552.3 11915,1561.7 11935,1579 12400,1989.1 11808,2543.3 12295,2927 12354,2973.6 12756,2973.2 \
+13058,2966"];
 	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
-Std_r生成准线方程:x=-p/2 #"	[pos="e,10841,503.69 9855.7,594.99 9879.3,591.74 9903.6,588.32 9926.5,585 10083,562.28 10121,545.05 10278,531 10458,515.04 10654,507.34 \
-10829,503.91"];
-	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Param_P(pa)=Neg(Div(pa.cooef_x, 2))}  # 标准抛物线Parabola_Std_l的参数P等于其x系数的一半的相反数 #"	[pos="e,10901,448.71 9855.5,541.02 9879.1,537.76 9903.6,534.33 9926.5,531 10083,508.28 10121,491.05 10278,477 10479,459.16 10701,451.64 \
-10890,448.87"];
-	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_l的焦点在其X轴上 #"	[pos="e,11005,381.48 9855.4,543.81 9879.2,540.28 9903.7,536.02 9926.5,531 10086,495.8 10117,449.33 10278,423 10515,384.44 10785,378.17 \
-10993,381.3"];
+Std_r生成准线方程:x=-p/2 #"	[pos="e,12934,2914.2 11864,1547.7 11890,1552.4 11915,1561.8 11935,1579 12385,1971.5 11824,2506.1 12295,2873 12346,2912.6 12647,2918.1 \
+12922,2914.4"];
+	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_x, 2))}  # 标准抛物线Parabola_Std_l的参数P等于其x系数的一半的相反数 #"	[pos="e,12967,2697.1 11863,1494.2 11889,1498.8 11915,1508.1 11935,1525 12339,1864.8 11873,2340.2 12295,2657 12349,2697.2 12672,2701.6 \
+12956,2697.3"];
+	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_l的焦点在其X轴上 #"	[pos="e,13070,2803.4 11863,1493.7 11889,1498.4 11915,1507.8 11935,1525 12369,1899.9 11840,2414.8 12295,2765 12355,2810.9 12756,2810.7 \
+13058,2803.7"];
 	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
-Std_l生成准线方程:x=p/2 #"	[pos="e,10828,335.74 9855.3,546.4 9879.2,542.61 9903.8,537.61 9926.5,531 10092,482.81 10111,408 10278,369 10381,345.25 10602,337.32 10816,\
-335.82"];
-	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Param_P(pa)=Div(pa.cooef_y, 2)}  # 标准抛物线Parabola_Std_u的参数P等于其y系数的一半 #"	[pos="e,10943,281.61 9858.4,491.89 9881.4,488.17 9904.8,483.32 9926.5,477 10092,428.81 10111,354 10278,315 10399,286.93 10687,280.96 10931,\
-281.58"];
-	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_u的焦点在其Y轴上 #"	[pos="e,11002,223.79 9858.3,494.16 9881.4,490.2 9905,484.68 9926.5,477 10099,415.25 10103,313.13 10278,261 10407,222.87 10734,219.49 10990,\
-223.6"];
+Std_l生成准线方程:x=p/2 #"	[pos="e,12902,2752.2 11863,1493.9 11889,1498.6 11915,1507.9 11935,1525 12354,1882.3 11857,2377.5 12295,2711 12344,2748.5 12625,2755.1 \
+12891,2752.3"];
+	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Param_P(pa)=Div(pa.coeff_y, 2)}  # 标准抛物线Parabola_Std_u的参数P等于其y系数的一半 #"	[pos="e,13284,4804.2 11738,2592 11754,2764.2 11923,4466.6 12295,4763 12442,4880.5 13014,4833.6 13273,4805.4"];
+	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_u的焦点在其Y轴上 #"	[pos="e,13067,4747.8 11738,2592.2 11756,2763.1 11931,4420.9 12295,4709 12354,4755.6 12754,4755.3 13056,4748.1"];
 	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
-Std_u生成准线方程:y=-p/2 #"	[pos="e,10838,163.61 9858.3,496.13 9881.5,491.98 9905.2,485.89 9926.5,477 10108,401.11 10093,272.74 10278,207 10379,171.28 10608,162.51 \
-10827,163.54"];
-	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Param_P(pa)=Neg(Div(pa.cooef_y, 2))}  # 标准抛物线Parabola_Std_d的参数P等于其y系数的一半的相反数 #"	[pos="e,10899,116.82 9752.9,431.55 9826.4,376.26 10057,212.08 10278,153 10391,122.95 10653,116.08 10887,116.78"];
-	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_d的焦点在其Y轴上 #"	[pos="e,11002,61.163 9748.4,431.78 9815.3,370.31 10045,170.39 10278,99 10407,59.713 10734,56.494 10990,60.959"];
+Std_u生成准线方程:y=-p/2 #"	[pos="e,12944,4696.2 11738,2592.1 11757,2760.1 11939,4375 12295,4655 12346,4695.3 12654,4700.4 12932,4696.4"];
+	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_y, 2))}  # 标准抛物线Parabola_Std_d的参数P等于其y系数的一半的相反数 #"	[pos="e,13007,4534.2 11866,2518.6 11892,2523.5 11916,2533.2 11935,2551 12570,3156.7 11627,3923.5 12295,4493 12348,4538.6 12702,4540.9 \
+12996,4534.5"];
+	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_d的焦点在其Y轴上 #"	[pos="e,13067,4640.8 11866,2518.4 11892,2523.3 11916,2533.1 11935,2551 12602,3192.5 11594,3997.5 12295,4601 12352,4650 12753,4649.2 13055,\
+4641.2"];
 	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
-Std_d生成准线方程:y=p/2 #"	[pos="e,10825,2.3968 9745.2,431.88 9806.4,364.65 10034,128.99 10278,45 10378,11.002 10599,1.9537 10813,2.3657"];
+Std_d生成准线方程:y=p/2 #"	[pos="e,13010,4588.2 11866,2518.5 11892,2523.4 11916,2533.1 11935,2551 12586,3174.6 11610,3960.5 12295,4547 12349,4592.9 12705,4595 12999,\
+4588.5"];
+	"BM: {Point_On_Curve(p, c)} | c:Curve; p:Point" -> "Terminal: (c:Curve; p:Point)    {Point_On_Curve(p, c)} => {Subst_Point_Into_Curve(p, c)}  # 如果点在曲线上，就把点代入曲线方程 #"	[pos="e,13009,2644.2 11876,1442.9 11898,1448.1 11918,1456.9 11935,1471 12340,1812.4 11870,2290.6 12295,2608 12351,2650.1 12705,2651.2 \
+12998,2644.5"];
+	"BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num" -> "Terminal: (a:Num; b:Num)    {{a>0}; {b>0}; {a>b}} => {a^2>b^2}  # 如果a>0,b>0,a>b,那么a^2>b^2 #"	[pos="e,13706,1264.3 18264,1385.3 17822,1370 16378,1320.9 15183,1292 14670,1279.6 14073,1269.8 13718,1264.5"];
 }

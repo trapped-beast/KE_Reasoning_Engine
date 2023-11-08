@@ -3,11 +3,6 @@
 
 // AL抽象语法树相关的数据结构 的相关操作实现
 
-// 指明 fact 所在的 Question
-void specify_the_question(shared_ptr<Rete_Question> question,shared_ptr<Fact> fact){
-    fact->where_is = question;
-}
-
 
 // 变量声明的字符串输出
 string str_of_var_decl(const map<string, shared_ptr<Concept>> &var_decl){

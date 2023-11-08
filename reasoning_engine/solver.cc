@@ -17,7 +17,7 @@ void test(){
 
 int main (int argc, char *argv[]){
   test();
-  const string kb_name = "kb_q5.ke"; // 知识库文件
+  const string kb_name = "kb.ke"; // 知识库文件
   const string question_name = "question.ke"; // 题目信息文件
   shared_ptr<Knowledge_Base> kb;
   vector<shared_ptr<Question>> questions;
@@ -77,7 +77,7 @@ bool ke_parse(const string &kb_name,const string &question_name,shared_ptr<Knowl
     question->rete_question->kb = kb;
     question->propagate_var_decl(); // 传播变量声明到改造后的问题
     for(auto &fact:question->fact_list){
-      specify_the_question(question->rete_question,fact);
+      fact->where_is = question->rete_question;
     }
   }
   // for(auto question:questions){
