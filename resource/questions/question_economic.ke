@@ -1,0 +1,3 @@
+# 1. 动力煤业务的成本下降，公司company_01有经营动力煤业务，求发展变化 #
+steam_coal:Business; company_01:Company; {Decrease(Cost(steam_coal))}; {Business_Include(company_01, steam_coal)}
+To_Solve(nothing)

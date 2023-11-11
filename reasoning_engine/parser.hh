@@ -2525,7 +2525,7 @@ switch (yykind)
     /// \param yyvalue   the value to check
     static bool yy_table_value_is_error_ (int yyvalue) YY_NOEXCEPT;
 
-    static const signed char yypact_ninf_;
+    static const short yypact_ninf_;
     static const signed char yytable_ninf_;
 
     /// Convert a scanner token kind \a t to a symbol kind.
@@ -2556,7 +2556,7 @@ switch (yykind)
     // number is the opposite.  If YYTABLE_NINF, syntax error.
     static const unsigned char yytable_[];
 
-    static const unsigned char yycheck_[];
+    static const short yycheck_[];
 
     // YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
     // state STATE-NUM.
@@ -2807,9 +2807,9 @@ switch (yykind)
     /// Constants.
     enum
     {
-      yylast_ = 197,     ///< Last index in yytable_.
+      yylast_ = 199,     ///< Last index in yytable_.
       yynnts_ = 39,  ///< Number of nonterminal symbols.
-      yyfinal_ = 20 ///< Termination state number.
+      yyfinal_ = 21 ///< Termination state number.
     };
 
 

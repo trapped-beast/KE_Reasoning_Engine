@@ -348,7 +348,7 @@ void Concept_Node::activation(shared_ptr<Fact> fact){ // Concept_Node 激活
 
 void Concept_Memory::immediate_activation(shared_ptr<Fact> fact){ // 来自直接 Concept_Node 前驱的激活
     // 先保存该 fact 到 CM
-    this->facts.push_back(fact);
+    this->facts.push_back(make_shared<Fact>(fact->get_copy()));
     cout<<"Fact: "<<*fact<<"保存在 "<<get_figure_info()<<endl;
     propagate_downward(fact);
 }
@@ -359,14 +359,15 @@ void Concept_Memory::node_side_activation(shared_ptr<Fact> fact){ // 来自共�
     #ifndef NDEBUG
         cout<<mem_side_parent->get_figure_info() <<" 中保存着以下 fact: "<<endl;
     #endif
-    for(auto targer:mem_side_parent->facts){
+    for(auto target:mem_side_parent->facts){
         #ifndef NDEBUG
-            cout<< "\t"<<*targer<<endl;
+            cout<< "\t"<<*target<<endl;
         #endif
-        if(*targer==*fact){
+        if(target->get_output_str()==fact->get_output_str()){
             #ifndef NDEBUG
                 cout<< "该fact和"<<*fact<<"相同, 向下传播" <<endl;
             #endif
+            fact->abstract_to_concrete.insert(target->abstract_to_concrete.begin(),target->abstract_to_concrete.end());
             propagate_downward(fact);
         }
     }
@@ -378,14 +379,15 @@ void Concept_Memory::mem_side_activation(shared_ptr<Fact> fact){ // 来自共同
     #ifndef NDEBUG
         cout<<node_side_parent->cm_child->get_figure_info()<<" 中保存着以下 fact: "<<endl;
     #endif
-    for(auto targer:node_side_parent->cm_child->facts){
+    for(auto target:node_side_parent->cm_child->facts){
         #ifndef NDEBUG
-            cout<< "\t"<<*targer<<endl;
+            cout<< "\t"<<*target<<endl;
         #endif
-        if(*targer==*fact){
+        if(*target==*fact){
             #ifndef NDEBUG
                 cout<< "该fact和"<<*fact<<"相同, 向下传播" <<endl;
             #endif
+            fact->abstract_to_concrete.insert(target->abstract_to_concrete.begin(),target->abstract_to_concrete.end());
             propagate_downward(fact);
         }
     }
@@ -407,22 +409,24 @@ bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constrai
     auto right = test_constraint->right->find_specific_indi("Math_Expr", *fact->where_is);
     if(!right)
         right = action_eval(test_constraint->right,*fact->where_is);
-    assert(left->math_indi->expr_val->is_num);
-    assert(right->math_indi->expr_val->is_num);
-    auto left_val = *left->math_indi->expr_val->number_val;
-    auto right_val = *right->math_indi->expr_val->number_val;
     bool ret = false;
-    auto predicate = test_constraint->predicate;
-    if(predicate == ">")
-        ret = left_val > right_val;
-    else if(predicate == "<")
-        ret = left_val < right_val;
-    else if(predicate == ">=")
-        ret = left_val >= right_val;
-    else if(predicate == "<=")
-        ret = left_val <= right_val;
-    else if(predicate == "!=")
-        ret = left_val != right_val;
+    if(left && right){
+        assert(left->math_indi->expr_val->is_num);
+        assert(right->math_indi->expr_val->is_num);
+        auto left_val = *left->math_indi->expr_val->number_val;
+        auto right_val = *right->math_indi->expr_val->number_val;
+        auto predicate = test_constraint->predicate;
+        if(predicate == ">")
+            ret = left_val > right_val;
+        else if(predicate == "<")
+            ret = left_val < right_val;
+        else if(predicate == ">=")
+            ret = left_val >= right_val;
+        else if(predicate == "<=")
+            ret = left_val <= right_val;
+        else if(predicate == "!=")
+            ret = left_val != right_val;
+    }
 
     return ret;
 }
@@ -467,6 +471,13 @@ bool Intra_Node::perform_intra_test(shared_ptr<Fact> fact){ // 测试单个 fact
      */
 
     // 处理 (c)、(d) 分支都需要先根据当前的 abstract_to_concrete 实例化 constraint
+    
+    // 先检查 abstract_to_concrete 是否就是实例化所需要的
+    for(auto p:var_decl){
+        if(fact->abstract_to_concrete.find(p.first)==fact->abstract_to_concrete.end())
+            return false;
+    }
+
     auto origin_constraint = make_shared<Individual>(*constraint);
     constraint = constraint->instantiate(fact->abstract_to_concrete);
     cout<<"实例化之后的当前测试 "<<get_figure_info()<<endl;
@@ -517,15 +528,32 @@ void Intra_Node::activation(shared_ptr<Fact> fact){ // Intra_Node 激活
 }
 
 void Alpha_Memory::activation(shared_ptr<Fact> fact){ // AM 激活
-    facts.push_back(fact); // 先保存该 fact 到 AM
+    facts.push_back(make_shared<Fact>(fact->get_copy())); // 先保存该 fact 到 AM
     cout<<"保存 fact:"<<*fact<<" 到 "<<this->get_figure_info()<<endl;
+    cout<<get_figure_info()<<" : "<<children.size()<<endl;
     for(auto join_node:children){
         join_node->alpha_side_activation(fact); // 再传递 fact 到后继 Join_Node
     }
 }
 
 bool Join_Node::perform_join_test(shared_ptr<Token> token, shared_ptr<Fact> fact){ // Join_Node 测试
-    // TODO: implement
+    // cout<<"fact: "<<*fact<<endl;
+    // cout<<"token: "<<*token<<endl;
+    /*
+     * fact中的abstract_to_concrete 和 token中的abstract_to_concrete不能冲突
+     * 不能冲突有两方面的含义:
+     * 1.对于fact中的每一个abstract，token中要么不存在同名的abstract，要么对应的concrete相同
+     * 2.对于fact中的每一个concrete，token中要么不存在同名的concrete，要么对应的abstract相同
+     */
+    for(auto t_abs_to_con:token->abstract_to_concrete){
+        for(auto f_abs_to_con:fact->abstract_to_concrete){
+            bool abs_is_eq = t_abs_to_con.first==f_abs_to_con.first;
+            bool con_is_eq = t_abs_to_con.second==f_abs_to_con.second;
+            if(abs_is_eq + con_is_eq == 1)
+                return false;
+        }
+    }
+    cout<<"token: "<<*token<<" 和 fact: "<<*fact<<" 通过 join test!"<<endl;
     return true;
 }
 
@@ -559,15 +587,23 @@ void Join_Node::beta_side_activation(shared_ptr<Token> token){ // BM 传递 Toke
 }
 
 void Token::extend(shared_ptr<Fact> fact){ // 扩充 Token
-    content.push_back(fact); // 增加 fact
+    cout<<"原来的 token: "<<*this<<endl;
+    cout<<"添加的 fact: "<<*fact<<endl;
+    for(auto f:this->content){ // 已有 fact 不必重复添加
+        if(f->get_output_str()==fact->get_output_str())
+            return;
+    }
+    content.push_back(make_shared<Fact>(fact->get_copy())); // 增加 fact
     for(auto abs_to_con:fact->abstract_to_concrete){ // 更新 abstract_to_concrete
         this->abstract_to_concrete.insert(abs_to_con);
     }
+    cout<<"新的 token: "<<*this<<endl;
+    cout<<endl;
 }
 
 void Beta_Memory::activation(shared_ptr<Token> token, shared_ptr<Fact> fact){ // BM 激活
-    token->extend(fact);
-    this->tokens.push_back(token); // 先保存新的 token 到 BM
+    token->extend(make_shared<Fact>(fact->get_copy()));
+    this->tokens.push_back(token); // 先保存新的 token 到 BM // TODO: token->get_copy()
     for(auto join_node:children){
         join_node->beta_side_activation(token); // 再传递新 token 到后继 Join_Node
     }
@@ -599,6 +635,7 @@ void Terminal_Node::activation(shared_ptr<Token> token){ // Terminal_Node 激活
     }
     else{
         edge->token_start = reasoning_graph->share_or_build_token_node(token);
+        trace_back(token);
     }
     reasoning_graph->edges.push_back(edge);
 }

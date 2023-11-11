@@ -456,8 +456,6 @@ void find_dependence(shared_ptr<Fact> fact, shared_ptr<vector<shared_ptr<Fact>>>
             construct_fact_in_graph(fact, dependence, *fact->where_is);
         }
     }
-    else
-        ;// TODO:考虑多个 condition 的情况
     conditions->clear();
 }
 

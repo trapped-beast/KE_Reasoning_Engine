@@ -245,6 +245,7 @@ fact_list : fact {vector<shared_ptr<Fact>> v; v.push_back(make_shared<Fact>($1))
           ;
 
 fact : assertion {$$=Fact($1);}
+     | sugar_for_pred {$$=Fact($1);}
      | variable  {$$=Fact($1);}
      | def_individual {$$=Fact($1);}
      ;

@@ -11,13 +11,50 @@ public:
     Hash_Input(const string &s, const map<string, shared_ptr<Concept>> &var_info):val(pair<string, map<string, shared_ptr<Concept>>>(s,var_info)){}
     Hash_Input(){} // 默认构造
     
-    // 重载 <
-    bool operator<(const Hash_Input &rhs) const{return val<rhs.val;}
-    // 重载 ==
-    bool operator==(const Hash_Input &rhs) const{return val==rhs.val;}
+    
+    bool operator<(const Hash_Input &rhs) const; // 重载 <
+    bool operator==(const Hash_Input &rhs) const; // 重载 ==
 
     pair<string, map<string, shared_ptr<Concept>>> val; // 哈希对象值
 };
+
+
+inline bool Hash_Input::operator==(const Hash_Input &rhs) const{
+    bool ret = true;
+    if(val.first==rhs.val.first && val.second.size()==rhs.val.second.size()){
+        for(auto it=val.second.begin(); it!=val.second.end(); ++it){
+            auto it_r = rhs.val.second.find(it->first);
+            if(it_r == rhs.val.second.end() || !(*it_r->second == *it->second)){
+                ret = false;
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
+inline bool Hash_Input::operator<(const Hash_Input &rhs) const {
+    if (val.first != rhs.val.first)
+        return val.first < rhs.val.first;
+    if (val.second.size() != rhs.val.second.size())
+        return val.second.size() < rhs.val.second.size();
+
+    // 按照字典顺序比较 map 中的元素
+    auto it1 = val.second.begin();
+    auto it2 = rhs.val.second.begin();
+
+    while (it1 != val.second.end() && it2 != rhs.val.second.end()) {
+        if (it1->first != it2->first) 
+            return it1->first < it2->first;
+        if (!(*(it1->second) == *(it2->second))) 
+            return *(it1->second) < *(it2->second);
+        ++it1;
+        ++it2;
+    }
+    return false;
+}
+
+
 
 class Concept_Node;
 class Rete_Node{ // 根节点

@@ -58,12 +58,16 @@ shared_ptr<Concept_Memory> build_or_share_cm(shared_ptr<Rete_Network> rete_netwo
 
 //为 Intra_Node 找到对应的 CM ，并接在其后
 void find_cm_for_intra_node(shared_ptr<Rete_Network> rete_network, shared_ptr<Intra_Node> intra_node){
-    // 根据 Intra_Node 的变量声明做哈希可以找到对应的 CM
+    // 根据 Intra_Node 的变量声明做哈希一般可以找到对应的 CM
     auto it = rete_network->cm_hash_table.find(str_of_var_decl(intra_node->var_decl));
-    assert(it!=rete_network->cm_hash_table.end());
-    it->second->intra_node_children.push_back(intra_node);
+    shared_ptr<Concept_Memory> ret;
+    if(it!=rete_network->cm_hash_table.end())
+        ret = it->second;
+    else // 找不到的话就要为该 Intra_Node 构造新的 CM
+        ret = build_or_share_cm(rete_network, intra_node->var_decl);
+    ret->intra_node_children.push_back(intra_node);
     // 还要处理 Intra_Node 的父 CM
-    intra_node->parent = it->second;
+    intra_node->parent = ret;
 }
 
 // 根据 Assertion 创建 AM
@@ -141,6 +145,7 @@ shared_ptr<Alpha_Memory> build_or_share_am(shared_ptr<Rete_Network> rete_network
     auto it = rete_network->am_hash_table.find(hash_input);
     if(it!=rete_network->am_hash_table.end())
         return it->second;
+
     // 如果没有可共享的 AM，为该 individual 构造 AM
     assert(indi->is_assertion+indi->is_term==1); // LHS 中的 Individual 只会是 Assertion 或 Term (更具体地说是 sugar_for_pred)
     // 直观上理解就是: 要测试的条件总能写成 assertion 的形式，只不过一些二元谓词可以简写为 sugar_for_pred
@@ -309,7 +314,7 @@ shared_ptr<Rete_Network> construct_rete(const shared_ptr<Knowledge_Base> kb){
     cout<<"开始构建 Rete 网络..."<<endl;
     shared_ptr<Rete_Network> rete_network = make_shared<Rete_Network>();
     for(auto rule:kb->rete_rules){ // 处理每一条规则
-        // cout<<"添加规则: "<<rule->get_output_str()<<endl;
+        cout<<"添加规则: "<<rule->get_output_str()<<endl;
         add_rule(rete_network, rule);
     }
     rete_network->underlying_kb = kb;

@@ -1,0 +1,72 @@
+-- Concept 定义部分
+
+-- 点
+def_cpt Point = {x:Num; y:Num}
+
+-- Individual 定义部分
+
+-- 坐标原点
+def_indi origin:Point = {x:=0; y:=0}
+
+
+-- Operator 定义部分
+
+-- 生成直线方程: ax+by+c=0
+def_op Generate_Line_Eq(l:Num; m:Num; n:Num) = {assert l_std:Line_Std = {a:=l; b:=m; c:=n}}
+
+
+
+-- 知识部分
+
+
+{b:Business; g:Good; r:Raw_Material; {Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} => {Increase(Cost(b))} # 业务对应商品的原料价格上涨，则该业务的业务成本上涨 #
+
+{b:Business; g:Good; r:Raw_Material; {Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} => {Decrease(Cost(b))} # 业务对应商品的原料价格下降，则该业务的业务成本下降 #
+
+{b:Business; {Increase(Cost(b))}} => {Decrease(Profit(b))} # 业务成本增加，则该业务的业务利润下降 #
+
+{b:Business; {Decrease(Cost(b))}} => {Increase(Profit(b))} # 业务成本下降，则该业务的业务利润增加 #
+
+{b:Business; {Increase(Revenue(b))}} => {Increase(Profit(b))} # 业务收入增加，则该业务的业务利润增加 #
+
+{b:Business; {Decrease(Revenue(b))}} => {Decrease(Profit(b))} # 业务收入减少，则该业务的业务利润减少 #
+
+{c:Company; b:Business; {Increase(Profit(b))}; {Business_Include(c, b)}} => {Increase(Net_Profit(c))} # 业务利润增加，则经营该项业务的公司的净利润增加 #
+
+{c:Company; b:Business; {Decrease(Profit(b))}; {Business_Include(c, b)}} => {Decrease(Net_Profit(c))} # 业务利润减少，则经营该项业务的公司的净利润减少 #
+
+{c:Company; {Increase(Net_Profit(c))}} => {Increase(Net_Profit_Margin(c))} # 公司的净利润增加，则该公司的净利率增加 #
+
+{c:Company; {Decrease(Net_Profit(c))}} => {Decrease(Net_Profit_Margin(c))} # 公司的净利润减少，则该公司的净利率减少 #
+
+{c:Company; {Increase(Net_Profit_Attributable_To_Owners(c))}} => {Increase(EPS(c))} # 公司的归母净利润增加，则该公司的EPS增加 #
+
+{c:Company; {Decrease(Net_Profit_Attributable_To_Owners(c))}} => {Decrease(EPS(c))} # 公司的归母净利润减少，则该公司的EPS减少 #
+
+{c:Company; {Increase(EPS(c))}} => {Decrease(PE(c))} # 公司的EPS增加，则该公司的PE减少 #
+
+{c:Company; {Decrease(EPS(c))}} => {Increase(PE(c))} # 公司的EPS减少，则该公司的PE增加 #
+
+{c:Company; {Increase(Number_of_Shares(c))}} => {Decrease(EPS(c))} # 若公司的股数增多，则该公司的EPS减少 #
+
+{c:Company; {Decrease(Number_of_Shares(c))}} => {Increase(EPS(c))} # 若公司的股数减少，则该公司的EPS增多 #
+
+{a:Company; b:Company; {Holds(a, b)}; {Ownership_Percentage(a, b) > 0.5}} => {Subsidiary_Of(b, a)} # 若某公司A控股公司B，且控股比超过50%，则 B公司是A公司的子公司 #
+
+{a:Company; b:Company; {Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} => {Increase(Net_Profit_Attributable_To_Owners(a))} # 若B公司是A公司的子公司，B公司净利润增加，则A公司归母净利润增加 #
+
+{a:Company; b:Company; {Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} => {Decrease(Net_Profit_Attributable_To_Owners(a))} # 若B公司是A公司的子公司，B公司净利润减少，则A公司归母净利润减少 #
+
+{a:Company; b:Company; {Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} => {Increase(Net_Profit(a))} # 若B公司是A公司的子公司，B公司净利润增加，则A公司净利润增加 #
+
+{a:Company; b:Company; {Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} => {Decrease(Net_Profit(a))} # 若B公司是A公司的子公司，B公司净利润减少，则A公司净利润减少 #
+
+{c:Company; b:Business; g:Good; {Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} => {Increase(Capital_Expenditure(c, b))} # 如果公司某业务商品的储量减少，且该行业有复苏态势，则公司加大对该项业务的资本开支 #
+
+{c:Company; b:Business; {Increase(Capital_Expenditure(c, b))}} => {Increase(Workload(c, b))} # 公司加大某项业务的资本开支，则该公司该业务的作业量增大 #
+
+{c:Company; b:Business; {Increase(Workload(c, b))}} => {Increase(Revenue(c, b))} # 公司加大某项业务的作业量，则该公司该业务的收入增加 #
+
+{c:Company; b:Business; g:Good; {Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} => {Increase(Revenue(c, b))} # 某种商品的需求增加，且某业务对应该商品，则经营该业务的公司的对应业务收入增加 #
+
+{c:Company; b:Business; g:Good; {Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} => {Decrease(Revenue(c, b))} # 某种商品的需求减少，且某业务对应该商品，则经营该业务的公司的对应业务收入减少 #

@@ -140,13 +140,14 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
             }
         }
     }
-    else if(oprt=="Focus_On_Y_Axis" || oprt=="Focus_On_X_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
-        ; // 暂未定义执行性测试求值的算子, 默认返回 false
-    }
-    else{
-        cerr<<"未定义算子: "<<oprt<<" !"<<endl;
-        assert(false);
-    }
+    // 对于未定义执行性测试求值的算子, 默认返回 false
+    // else if(oprt=="Focus_On_Y_Axis" || oprt=="Focus_On_X_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
+    //     ; // 暂未定义执行性测试求值的算子, 默认返回 false
+    // }
+    // else{
+    //     cerr<<"未定义算子: "<<oprt<<" !"<<endl;
+    //     assert(false);
+    // }
     
     return ret;
 }
@@ -161,10 +162,6 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     #ifndef NDEBUG
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
     #endif
-
-    // 测试 TODO:delete
-    if(indi->get_output_str()=="Mul(2, Param_A(c))")
-        cout<<"find"<<endl;
 
     shared_ptr<Individual> eval_ret; // 最终的求值结果    assert(indi->is_term);
     // 要进行求值操作的是标准形式的 Term 或 Sugar_For_Oprt_Apply
@@ -572,6 +569,9 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             }
             eval_ret = make_shared<Individual>(Term(oprt,new_args));
             eval_ret->val_is_known = true;
+        }
+        else{
+            cout<<oprt<<" 算子未定义!"<<endl;
         }
     }
     if(eval_ret){

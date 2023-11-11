@@ -1161,6 +1161,13 @@ Term Term::get_copy(){
     return ret;
 }
 
+Sugar_For_Pred Sugar_For_Pred::get_copy(){
+    Sugar_For_Pred ret = Sugar_For_Pred(*this);
+    left = make_shared<Individual>(left->get_copy());
+    right = make_shared<Individual>(right->get_copy());
+    return ret;
+}
+
 Math_Individual Math_Individual::get_copy(){
     Math_Individual ret = Math_Individual(*this);
     if(is_equation)
@@ -1187,11 +1194,16 @@ Coordinate Coordinate::get_copy(){
 }
 
 Math_Expr Math_Expr::get_copy(){
+    cout<<"获取 copy: "<<*this<<endl;
     Math_Expr ret = Math_Expr(*this);
     if(is_num)
         ret.number_val = make_shared<Number>(number_val->get_copy());
     else if(is_sy)
         ;
+    else if(is_mathe){
+        ret.left = make_shared<Math_Expr>(left->get_copy());
+        ret.right = make_shared<Math_Expr>(right->get_copy());
+    }
     else
         assert(false);
     return ret;
@@ -1203,9 +1215,14 @@ Number Number::get_copy(){
 }
 
 Fact Fact::get_copy(){
+    cout<<"Fact 获取 copy: "<<*this<<endl;
     Fact ret = Fact(*this);
     if(is_assert)
         ret.assertion = make_shared<Assertion>(assertion->get_copy());
+    else if(is_pred)
+        ret.pred_val = make_shared<Sugar_For_Pred>(pred_val->get_copy());
+    else if(is_def_indi)
+        ;
     else
         assert(false);
     return ret;

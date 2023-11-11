@@ -453,6 +453,7 @@ public:
     
     bool operator==(const Sugar_For_Pred &rhs) const; // 重载 ==
     string get_output_str() const; // 获取输出字符串
+    Sugar_For_Pred get_copy();
 
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v); // 传播变量声明
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Term &parent); // 传播变量声明
