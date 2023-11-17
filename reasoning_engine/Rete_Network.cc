@@ -316,25 +316,30 @@ void Rete_Node::activation(shared_ptr<Fact> fact){ // 根节点激活
     }
 }
 
-bool Concept_Node::perform_concept_test(shared_ptr<Fact> fact){ // 测试fact是否包含指定概念
+vector<shared_ptr<Fact>> Concept_Node::perform_concept_test(shared_ptr<Fact> fact){ // 测试fact是否包含指定概念
     cout<<endl<<"当前测试 "<<get_figure_info()<<endl;
     // Concept_Node 是用一对变量声明初始化的
-
+    
     // fact 的变量声明中要存在一个指定的概念
-    bool pass = false;
-    for(auto var_info:fact->var_decl){
+    vector<shared_ptr<Fact>> ret; 
+    for(auto var_info:fact->var_decl){ // fact 中可能存在多个该概念
         if(*var_info.second==*constraint.second){
-            fact->abstract_to_concrete.insert(pair<string,string>(constraint.first,var_info.first)); // 补充 abstract_to_concrete
-            pass = true;
-            break;
+            auto new_fact = make_shared<Fact>(fact->get_copy());
+            new_fact->abstract_to_concrete.insert(pair<string,string>(constraint.first,var_info.first)); // 补充 abstract_to_concrete
+            ret.push_back(new_fact);
         }
     }
-    cout<<"Fact: "<<*fact<<(pass?"通过":"未通过")<<"当前测试"<<endl;
-    return pass;
+    cout<<"Fact: "<<*fact<<(ret.size()?"通过":"未通过")<<"当前测试"<<endl;
+    if(ret.size())
+        cout<<"\t通过个数: "<<ret.size()<<endl;
+    return ret;
 }
 
 void Concept_Node::activation(shared_ptr<Fact> fact){ // Concept_Node 激活
-    if(perform_concept_test(fact)){
+    auto passed_facts = perform_concept_test(fact);
+    if(passed_facts.size()==0)
+        return;
+    for(auto fact:passed_facts){
         // 把通过了 Concept_Node 测试的 fact 向后传递到 CM 后继
         // 对于直接后继，直接激活
         assert(cm_child);
@@ -364,10 +369,14 @@ void Concept_Memory::node_side_activation(shared_ptr<Fact> fact){ // 来自共�
             cout<< "\t"<<*target<<endl;
         #endif
         if(target->get_output_str()==fact->get_output_str()){
+            bool conflict = binding_conflict(fact->abstract_to_concrete, target->abstract_to_concrete);
+            if(conflict) // 还要保证 abstract_to_concrete 不冲突
+                continue;
             #ifndef NDEBUG
                 cout<< "该fact和"<<*fact<<"相同, 向下传播" <<endl;
             #endif
             fact->abstract_to_concrete.insert(target->abstract_to_concrete.begin(),target->abstract_to_concrete.end());
+            cout<<"保存 fact:"<<*fact<<"到 "<<this->get_figure_info()<<endl;
             propagate_downward(fact);
         }
     }
@@ -384,10 +393,14 @@ void Concept_Memory::mem_side_activation(shared_ptr<Fact> fact){ // 来自共同
             cout<< "\t"<<*target<<endl;
         #endif
         if(*target==*fact){
+            bool conflict = binding_conflict(fact->abstract_to_concrete, target->abstract_to_concrete);
+            if(conflict) // 还要保证 abstract_to_concrete 不冲突
+                continue;
             #ifndef NDEBUG
                 cout<< "该fact和"<<*fact<<"相同, 向下传播" <<endl;
             #endif
             fact->abstract_to_concrete.insert(target->abstract_to_concrete.begin(),target->abstract_to_concrete.end());
+            cout<<"保存 fact:"<<*fact<<"到 "<<this->get_figure_info()<<endl;
             propagate_downward(fact);
         }
     }
@@ -536,23 +549,29 @@ void Alpha_Memory::activation(shared_ptr<Fact> fact){ // AM 激活
     }
 }
 
-bool Join_Node::perform_join_test(shared_ptr<Token> token, shared_ptr<Fact> fact){ // Join_Node 测试
-    // cout<<"fact: "<<*fact<<endl;
-    // cout<<"token: "<<*token<<endl;
+// 判断两个 abs_to_con 是否存在变量绑定上的冲突
+bool binding_conflict(const map<string,string> &abs_to_con_1, const map<string,string> &abs_to_con_2){
     /*
      * fact中的abstract_to_concrete 和 token中的abstract_to_concrete不能冲突
      * 不能冲突有两方面的含义:
      * 1.对于fact中的每一个abstract，token中要么不存在同名的abstract，要么对应的concrete相同
      * 2.对于fact中的每一个concrete，token中要么不存在同名的concrete，要么对应的abstract相同
      */
-    for(auto t_abs_to_con:token->abstract_to_concrete){
-        for(auto f_abs_to_con:fact->abstract_to_concrete){
+    for(auto t_abs_to_con:abs_to_con_1){
+        for(auto f_abs_to_con:abs_to_con_2){
             bool abs_is_eq = t_abs_to_con.first==f_abs_to_con.first;
             bool con_is_eq = t_abs_to_con.second==f_abs_to_con.second;
             if(abs_is_eq + con_is_eq == 1)
-                return false;
+                return true;
         }
     }
+    return false;
+}
+
+bool Join_Node::perform_join_test(shared_ptr<Token> token, shared_ptr<Fact> fact){ // Join_Node 测试
+    // cout<<"fact: "<<*fact<<endl;
+    // cout<<"token: "<<*token<<endl;
+    auto ret = !binding_conflict(token->abstract_to_concrete, fact->abstract_to_concrete);
     cout<<"token: "<<*token<<" 和 fact: "<<*fact<<" 通过 join test!"<<endl;
     return true;
 }
@@ -604,6 +623,7 @@ void Token::extend(shared_ptr<Fact> fact){ // 扩充 Token
 void Beta_Memory::activation(shared_ptr<Token> token, shared_ptr<Fact> fact){ // BM 激活
     token->extend(make_shared<Fact>(fact->get_copy()));
     this->tokens.push_back(token); // 先保存新的 token 到 BM // TODO: token->get_copy()
+    cout<<"保存 token:"<<*token<<"到"<<this->get_figure_info()<<endl;
     for(auto join_node:children){
         join_node->beta_side_activation(token); // 再传递新 token 到后继 Join_Node
     }

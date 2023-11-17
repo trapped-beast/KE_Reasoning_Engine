@@ -1,3 +1,19 @@
 # 1. 动力煤业务的成本下降，公司company_01有经营动力煤业务，求发展变化 #
-steam_coal:Business; company_01:Company; {Decrease(Cost(steam_coal))}; {Business_Include(company_01, steam_coal)}
+steam_coal: Business; company_01: Company; {Decrease(Cost(steam_coal))}; {Business_Include(company_01, steam_coal)}
+To_Solve(nothing)
+
+# 2. 动力煤价格下降，公司company_02有经营发电业务，发电业务的商品是电力，电力的原料包括动力煤，求发展变化 #
+steam_coal: Raw_Material; company_02: Company; power_generation: Business; electricity: Good; {Decrease(Price(steam_coal))}; {Business_Include(company_02, power_generation)}; {Product_Include(power_generation, electricity)}; {Composed_Of(electricity, steam_coal)}
+To_Solve(nothing)
+
+# 3. 钢铁行业中铁矿石的价格上涨，公司company_03经营钢铁业务，钢铁业务的商品是钢铁，该业务的原材料包括铁矿石，求发展变化 #
+steel: Good; iron_ore: Raw_Material; company_03: Company; steel_industry: Business; {Increase(Price(iron_ore))}; {Business_Include(company_03, steel_industry)}; {Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)}
+To_Solve(nothing)
+
+# 4. 公司company_03是公司company_04的子公司，钢铁行业中铁矿石的价格上涨，公司company_03经营钢铁业务，钢铁业务的商品是钢铁，该业务的原材料包括铁矿石，求发展变化 #
+company_03: Company; company_04: Company; iron_ore: Raw_Material; steel_industry: Business; steel: Good; {Subsidiary_Of(company_03, company_04)}; {Increase(Price(iron_ore))}; {Business_Include(company_03, steel_industry)}; {Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)}
+To_Solve(nothing)
+
+# 5. 公司company_04是公司company_05的子公司，钢铁行业中铁矿石的价格上涨，公司company_04经营钢铁业务，钢铁业务的商品是钢铁，该业务的原材料包括铁矿石，公司company_04的钢铁储量减少，而钢铁行业有复苏态势，求发展变化 #
+company_04: Company; company_05: Company; iron_ore: Raw_Material;steel_industry: Business; steel: Good; {Subsidiary_Of(company_04, company_05)};{Increase(Price(iron_ore))};{Business_Include(company_04, steel_industry)}; {Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)};{Decrease(Reserve(company_04, steel))}; {Industry_Recovery(steel_industry)}
 To_Solve(nothing)

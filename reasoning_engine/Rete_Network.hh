@@ -74,7 +74,7 @@ public:
     // 要在 Rete 网络图输出的信息
     string get_figure_info(){return "Concept_Node: " + constraint.first + ':' + constraint.second->get_output_str();}
     
-    bool perform_concept_test(shared_ptr<Fact> fact); // 测试fact是否包含指定概念
+    vector<shared_ptr<Fact>> perform_concept_test(shared_ptr<Fact> fact); // 测试 fact 是否包含指定概念，返回通过测试的 fact
     void activation(shared_ptr<Fact> fact); // Concept_Node 激活
 
     pair<string, shared_ptr<Concept>> constraint; // 约束条件: 存在某概念的个体
@@ -363,5 +363,6 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
 void trace_back(shared_ptr<Token> token);
 bool find_path(shared_ptr<Reasoning_Node> &start, shared_ptr<Reasoning_Node> &end, map<string,shared_ptr<Reasoning_Node>> &node_hash_table, set<shared_ptr<Reasoning_Node>> &reachable_node_set);
 void sup_possible_alt(Individual &indi, Rete_Question &question);
+bool binding_conflict(const map<string,string> &abs_to_con_1, const map<string,string> &abs_to_con_2);
 
 #endif

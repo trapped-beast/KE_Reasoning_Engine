@@ -493,7 +493,7 @@ bool Individual::operator==(const Individual &rhs) const{
         return false;
 
     if(is_var)
-        return rhs.is_var && var_val==rhs.var_val;
+        return rhs.is_var && *var_val==*rhs.var_val;
     else if(is_bool)
         return rhs.is_bool && bool_val==rhs.bool_val;
     else if(is_cud)
@@ -522,7 +522,7 @@ bool Sugar_For_And::operator==(const Sugar_For_And &rhs) const{
 
 // Sugar_For_Pred 重载 ==
 bool Sugar_For_Pred::operator==(const Sugar_For_Pred &rhs) const{
-    return left==rhs.left && right==rhs.right && predicate==rhs.predicate;
+    return *left==*rhs.left && *right==*rhs.right && predicate==rhs.predicate;
 }
 
 // Sugar_For_Ctor 重载 ==
@@ -542,13 +542,13 @@ bool Sugar_For_Oprt_Apply::operator==(const Sugar_For_Oprt_Apply &rhs) const{
 // Term 重载 ==
 bool Term::operator==(const Term &rhs) const{
     if(is_and)
-        return rhs.is_and && and_val == rhs.and_val;
+        return rhs.is_and && *and_val == *rhs.and_val;
     else if(is_pred)
-        return rhs.is_pred && pred_val == rhs.pred_val;
+        return rhs.is_pred && *pred_val == *rhs.pred_val;
     else if(is_ctor)
-        return rhs.is_ctor && ctor_val == rhs.ctor_val;
+        return rhs.is_ctor && *ctor_val == *rhs.ctor_val;
     else if(is_oprt_apply)
-        return rhs.is_oprt_apply && oprt_apply_val == rhs.oprt_apply_val;
+        return rhs.is_oprt_apply && *oprt_apply_val == *rhs.oprt_apply_val;
     else{ // is_std
         if(!rhs.is_std)
             return false;
@@ -567,26 +567,26 @@ bool Term::operator==(const Term &rhs) const{
 // Assertion 重载 ==
 bool Assertion::operator==(const Assertion &rhs) const{
     if(is_std)
-        return left==rhs.left && right==rhs.right;
+        return *left==*rhs.left && *right==*rhs.right;
     else // is_sugar_for_true
-        return lonely_left==rhs.lonely_left;
+        return *lonely_left == *rhs.lonely_left;
 }
 
 // Def_Individual 重载 ==
 bool Def_Individual::operator==(const Def_Individual &rhs) const{
-    return symbol==rhs.symbol && concept==rhs.concept && indi==rhs.indi;
+    return symbol==rhs.symbol && *concept==*rhs.concept && *indi==*rhs.indi;
 }
 
 // Fact 重载 ==
 bool Fact::operator==(const Fact &rhs) const{
     if(rhs.is_assert)
-        return assertion==rhs.assertion;
+        return *assertion == *rhs.assertion;
     else if(rhs.is_pred)
-        return pred_val==rhs.pred_val;
+        return *pred_val == *rhs.pred_val;
     else if(rhs.is_var)
-        return variable==rhs.variable;
+        return *variable == *rhs.variable;
     else // is_def_indi
-        return def_indi==rhs.def_indi;
+        return *def_indi == *rhs.def_indi;
 }
 
 
