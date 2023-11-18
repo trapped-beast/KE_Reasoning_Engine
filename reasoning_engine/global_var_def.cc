@@ -3,4 +3,3 @@
 
 bool print_var_info = false;
 shared_ptr<Reasoning_Graph> reasoning_graph = make_shared<Reasoning_Graph>();
-vector<string> built_in_oprts = {"Recip", "Extract_Coeff", "Sqrt", "Sub", "Mul", "Div", "Pow", "Ex_Or", "Generate_Line_Eq", "Generate_Ellipse_Eq"};

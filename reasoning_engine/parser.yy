@@ -113,6 +113,7 @@ def_concept_list : def_concept {vector<shared_ptr<Def_Concept>> v; v.push_back(m
 
 def_concept : DEF_CPT concept "=" "{" variable_list "}" {$$=Def_Concept($2,$5);}
             | DEF_CPT concept "<-" concept "=" "{" variable_list "}" {$$=Def_Concept($2,$4,$7);}
+            | DEF_CPT concept "<-" concept {$$=Def_Concept($2,$4);}
             ;
 
 def_individual_list : def_individual {vector<shared_ptr<Def_Individual>> v; v.push_back(make_shared<Def_Individual>($1)); $$=v;}

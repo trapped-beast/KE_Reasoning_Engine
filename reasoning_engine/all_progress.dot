@@ -1,134 +1,102 @@
 digraph all_progress {
-	graph [bb="0,0,2307,972"];
+	graph [bb="0,0,2057.9,684"];
 	node [label="\N"];
-	"{Center(c)=origin}"	[height=0.5,
-		pos="603,954",
-		width=2.2026];
-	"{Param_A(c)>0}"	[height=0.5,
-		pos="1075,882",
-		width=2.022];
-	"{Center(c)=origin}" -> "{Param_A(c)>0}"	[pos="e,1021.7,894.6 672.26,945.06 750.41,935.76 881.2,919.16 993,900 998.68,899.03 1004.6,897.95 1010.4,896.82"];
-	"{Param_B(c)>0}"	[height=0.5,
-		pos="227,450",
-		width=2.004];
-	"{Center(c)=origin}" -> "{Param_B(c)>0}"	[pos="e,169.13,461.14 525.74,949.73 382.08,943.06 84.858,926.26 46,900 9.1082,875.07 0,855.53 0,811 0,811 0,811 0,593 0,517.48 91.415,\
-480.63 158.22,463.77"];
-	"{Param_C(c)>0}"	[height=0.5,
-		pos="138,882",
-		width=2.004];
-	"{Center(c)=origin}" -> "{Param_C(c)>0}"	[pos="e,190.62,894.6 533.75,944.92 456.69,935.58 328.57,919.04 219,900 213.39,899.03 207.58,897.95 201.76,896.82"];
-	"{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[height=0.5,
-		pos="385,810",
-		width=7.5104];
-	"{Center(c)=origin}" -> "{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,183.57,822.29 524.57,951.1 381.01,946.8 87.803,933.94 57,900 46.247,888.15 46.628,876.18 57,864 73.932,844.11 119.93,831.66 172.31,\
-823.88"];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[height=0.5,
-		pos="2125,882",
-		width=5.0551];
-	"{Center(c)=origin}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[pos="e,1997.7,895.21 681.46,951.22 887.14,946.25 1458.9,930.59 1934,900 1951,898.91 1968.8,897.57 1986.4,896.14"];
-	"{Length(Minor_Axis(c))=Mul(2, Param_B(c))}"	[height=0.5,
-		pos="410,882",
-		width=5.0551];
-	"{Center(c)=origin}" -> "{Length(Minor_Axis(c))=Mul(2, Param_B(c))}"	[pos="e,456.29,899.79 562.07,938.15 534.36,928.1 497.36,914.69 466.8,903.6"];
-	"{Focal_Length(c)=Mul(2, Param_C(c))}"	[height=0.5,
-		pos="1516,882",
-		width=4.351];
-	"{Center(c)=origin}" -> "{Focal_Length(c)=Mul(2, Param_C(c))}"	[pos="e,1404.2,895.01 678.71,948.44 813.83,940.12 1105.4,921.35 1351,900 1364.6,898.82 1378.8,897.49 1392.9,896.12"];
-	"{Eccentricity(c)=Div(Param_C(c), Param_A(c))}"	[height=0.5,
-		pos="797,882",
+	"{Product_Include(steel_industry, steel)}"	[height=0.5,
+		pos="696.62,666",
+		width=4.2607];
+	"{Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)}; {Increase(Price(iron_ore))}"	[height=0.5,
+		pos="377.62,594",
+		width=10.489];
+	"{Product_Include(steel_industry, steel)}" -> "{Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)}; {Increase(Price(iron_ore))}"	[pos="e,455.29,612.04 626.61,649.64 579.45,639.29 516.86,625.55 466.23,614.44"];
+	"{Business_Include(company_04, steel_industry)}; {Product_Include(steel_industry, steel)}; {Decrease(Reserve(company_04, steel))}; {\
+Industry_Recovery(steel_industry)}"	[height=0.5,
+		pos="1434.6,594",
+		width=17.314];
+	"{Product_Include(steel_industry, steel)}" -> "{Business_Include(company_04, steel_industry)}; {Product_Include(steel_industry, steel)}; {Decrease(Reserve(company_04, steel))}; {\
+Industry_Recovery(steel_industry)}"	[pos="e,1253.9,611.68 810.87,653.62 830.14,651.73 849.95,649.8 868.62,648 993.16,636.01 1133.1,622.9 1242.7,612.72"];
+	"{Increase(Cost(steel_industry))}"	[height=0.5,
+		pos="439.62,522",
+		width=3.5025];
+	"{Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)}; {Increase(Price(iron_ore))}" -> "{Increase(Cost(steel_industry))}"	[pos="e,424.47,540.1 392.94,575.7 400.15,567.56 408.89,557.69 416.85,548.7"];
+	"{Composed_Of(steel, iron_ore)}"	[height=0.5,
+		pos="380.62,666",
+		width=3.5566];
+	"{Composed_Of(steel, iron_ore)}" -> "{Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)}; {Increase(Price(iron_ore))}"	[pos="e,378.35,612.1 379.87,647.7 379.56,640.41 379.19,631.73 378.84,623.54"];
+	"{Increase(Price(iron_ore))}"	[height=0.5,
+		pos="125.62,666",
+		width=3.015];
+	"{Increase(Price(iron_ore))}" -> "{Product_Include(steel_industry, steel)}; {Composed_Of(steel, iron_ore)}; {Increase(Price(iron_ore))}"	[pos="e,315.66,612.21 179.68,649.98 216.16,639.85 264.75,626.35 304.65,615.27"];
+	"{Decrease(Profit(steel_industry))}"	[height=0.5,
+		pos="561.62,450",
+		width=3.683];
+	"{Increase(Cost(steel_industry))}" -> "{Decrease(Profit(steel_industry))}"	[pos="e,531.93,468.03 469.15,504.05 485.07,494.92 504.92,483.53 522.14,473.65"];
+	"{Business_Include(company_04, steel_industry)}"	[height=0.5,
+		pos="1064.6,666",
 		width=5.1995];
-	"{Center(c)=origin}" -> "{Eccentricity(c)=Div(Param_C(c), Param_A(c))}"	[pos="e,750.25,899.87 643.67,938.33 671.5,928.28 708.79,914.83 739.63,903.7"];
-	"{Pow(Param_B(c), 2)=9}; {Param_B(c)>0}"	[height=0.5,
-		pos="646,378",
-		width=4.694];
-	"{Param_B(c)>0}" -> "{Pow(Param_B(c), 2)=9}; {Param_B(c)>0}"	[pos="e,557.75,393.74 285.7,439.19 353.24,427.91 465.28,409.19 546.51,395.62"];
-	"{Param_A(c)=5}; {Param_A(c)=5}; {Param_A(c)=5}; {Param_C(c)=4}; {Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[height=0.5,
-		pos="646,594",
-		width=14.931];
-	"{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}" -> "{Param_A(c)=5}; {Param_A(c)=5}; {Param_A(c)=5}; {Param_C(c)=4}; {Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,624.98,612.23 405.92,791.85 452.11,753.97 562.97,663.08 616.32,619.33"];
-	"{Length(Major_Axis(c))=10}; {Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[height=0.5,
-		pos="1808,810",
-		width=8.1423];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}" -> "{Length(Major_Axis(c))=10}; {Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[pos="e,1884.2,827.82 2052.7,865.03 2005.9,854.69 1944.7,841.18 1895.2,830.25"];
-	"{Focal_Length(c)=8}; {Focal_Length(c)=Mul(2, Param_C(c))}"	[height=0.5,
-		pos="1254,810",
-		width=6.6258];
-	"{Focal_Length(c)=Mul(2, Param_C(c))}" -> "{Focal_Length(c)=8}; {Focal_Length(c)=Mul(2, Param_C(c))}"	[pos="e,1317,827.84 1455.9,864.94 1417.8,854.77 1368.4,841.55 1327.9,830.75"];
-	"{Focus_On_Y_Axis(c)}"	[height=0.5,
-		pos="674,234",
-		width=2.69];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}"	[height=0.5,
-		pos="674,162",
-		width=7.6729];
-	"{Focus_On_Y_Axis(c)}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}"	[pos="e,674,180.1 674,215.7 674,208.41 674,199.73 674,191.54"];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}"	[height=0.5,
-		pos="971,90",
-		width=15.815];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}"	[pos="e,897.52,108.32 745.52,144.14 787.92,134.15 841.91,121.43 886.42,110.93"];
-	"{Focal_Length(c)=8}"	[height=0.5,
-		pos="1254,882",
-		width=2.4373];
-	"{Focal_Length(c)=8}" -> "{Focal_Length(c)=8}; {Focal_Length(c)=Mul(2, Param_C(c))}"	[pos="e,1254,828.1 1254,863.7 1254,856.41 1254,847.73 1254,839.54"];
-	"{8=Mul(2, Param_C(c))}"	[height=0.5,
-		pos="1148,738",
-		width=2.8525];
-	"{Focal_Length(c)=8}; {Focal_Length(c)=Mul(2, Param_C(c))}" -> "{8=Mul(2, Param_C(c))}"	[pos="e,1173.5,755.86 1227.8,791.7 1214.2,782.73 1197.5,771.66 1182.8,761.98"];
-	"{Param_C(c)=4}"	[height=0.5,
-		pos="1070,666",
-		width=2.004];
-	"{8=Mul(2, Param_C(c))}" -> "{Param_C(c)=4}"	[pos="e,1088.7,683.79 1129.1,720.05 1119.5,711.46 1107.7,700.86 1097.2,691.4"];
-	"{Param_C(c)=4}" -> "{Param_A(c)=5}; {Param_A(c)=5}; {Param_A(c)=5}; {Param_C(c)=4}; {Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,749.71,612.12 1011,655.27 946.61,644.63 841.78,627.32 760.95,613.98"];
-	"{Length(Major_Axis(c))=10}"	[height=0.5,
-		pos="1808,882",
-		width=3.2497];
-	"{Length(Major_Axis(c))=10}" -> "{Length(Major_Axis(c))=10}; {Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[pos="e,1808,828.1 1808,863.7 1808,856.41 1808,847.73 1808,839.54"];
-	"{10=Mul(2, Param_A(c))}"	[height=0.5,
-		pos="1617,738",
-		width=2.9789];
-	"{Length(Major_Axis(c))=10}; {Length(Major_Axis(c))=Mul(2, Param_A(c))}" -> "{10=Mul(2, Param_A(c))}"	[pos="e,1660.3,754.87 1761.3,791.88 1734,781.86 1699.4,769.18 1670.9,758.75"];
-	"{Param_A(c)=5}"	[height=0.5,
-		pos="1425,666",
-		width=2.022];
-	"{10=Mul(2, Param_A(c))}" -> "{Param_A(c)=5}"	[pos="e,1464.8,681.51 1573.4,721.12 1544.2,710.47 1505.7,696.42 1475.2,685.31"];
-	"{Param_A(c)=5}; {Param_A(c)=5}"	[height=0.5,
-		pos="1341,594",
-		width=3.8816];
-	"{Param_A(c)=5}" -> "{Param_A(c)=5}; {Param_A(c)=5}"	[pos="e,1361.6,612.2 1405.1,648.41 1394.8,639.8 1381.9,629.1 1370.5,619.55"];
-	"{Param_A(c)=5}" -> "{Param_A(c)=5}; {Param_A(c)=5}; {Param_A(c)=5}; {Param_C(c)=4}; {Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,828.45,611.39 1357.6,658.94 1243.5,648.69 1008.5,627.57 839.72,612.41"];
-	"{Param_B(c)=3}; {Param_A(c)=5}"	[height=0.5,
-		pos="1268,234",
-		width=3.8635];
-	"{Param_A(c)=5}" -> "{Param_B(c)=3}; {Param_A(c)=5}"	[pos="e,1351.3,248.8 1452.5,648.87 1465.8,639.7 1480.8,627.03 1490,612 1511.1,577.49 1509,563.45 1509,523 1509,523 1509,523 1509,377 1509,\
-305.81 1430,269.59 1362.4,251.63"];
-	"{Pow(Param_A(c), 2)=25}"	[height=0.5,
-		pos="1341,522",
-		width=2.997];
-	"{Param_A(c)=5}; {Param_A(c)=5}" -> "{Pow(Param_A(c), 2)=25}"	[pos="e,1341,540.1 1341,575.7 1341,568.41 1341,559.73 1341,551.54"];
-	"{Sub(25, Pow(Param_B(c), 2))=16}"	[height=0.5,
-		pos="646,522",
-		width=3.8997];
-	"{Param_A(c)=5}; {Param_A(c)=5}; {Param_A(c)=5}; {Param_C(c)=4}; {Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}" -> "{Sub(25, Pow(Param_B(c), 2))=16}"	[pos="e,646,540.1 646,575.7 646,568.41 646,559.73 646,551.54"];
-	"{Pow(Param_B(c), 2)=9}"	[height=0.5,
-		pos="646,450",
-		width=2.8525];
-	"{Sub(25, Pow(Param_B(c), 2))=16}" -> "{Pow(Param_B(c), 2)=9}"	[pos="e,646,468.1 646,503.7 646,496.41 646,487.73 646,479.54"];
-	"{Pow(Param_B(c), 2)=9}" -> "{Pow(Param_B(c), 2)=9}; {Param_B(c)>0}"	[pos="e,646,396.1 646,431.7 646,424.41 646,415.73 646,407.54"];
-	"{Param_B(c)=3}"	[height=0.5,
-		pos="1028,306",
-		width=2.004];
-	"{Pow(Param_B(c), 2)=9}; {Param_B(c)>0}" -> "{Param_B(c)=3}"	[pos="e,971.11,317.42 728.42,361.9 797.53,349.23 895.03,331.37 959.81,319.5"];
-	"{Param_B(c)=3}" -> "{Param_B(c)=3}; {Param_A(c)=5}"	[pos="e,1213.2,250.98 1073.7,291.67 1110.1,281.06 1161.5,266.07 1202.3,254.17"];
-	"{Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^2/9+y^2/25==1}"	[height=0.5,
-		pos="1268,162",
-		width=8.3229];
-	"{Param_B(c)=3}; {Param_A(c)=5}" -> "{Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^2/9+y^2/25==1}"	[pos="e,1268,180.1 1268,215.7 1268,208.41 1268,199.73 1268,191.54"];
-	"{Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^2/9+y^2/25==1}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}"	[pos="e,1044.6,108.34 1196.1,144.05 1153.8,134.08 1100,121.4 1055.6,110.94"];
-	"{Equation(c)=x^2/9+y^2/25==1}"	[height=0.5,
-		pos="971,18",
-		width=3.6469];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}" -> "{Equation(c)=x^2/9+y^2/25==1}"	[pos="e,971,36.104 971,71.697 971,64.407 971,55.726 971,47.536"];
+	"{Business_Include(company_04, steel_industry)}" -> "{Business_Include(company_04, steel_industry)}; {Product_Include(steel_industry, steel)}; {Decrease(Reserve(company_04, steel))}; {\
+Industry_Recovery(steel_industry)}"	[pos="e,1343.3,612.27 1146.7,649.46 1201.4,639.12 1273.7,625.44 1332.2,614.38"];
+	"{Decrease(Profit(steel_industry))}; {Business_Include(company_04, steel_industry)}"	[height=0.5,
+		pos="703.62,378",
+		width=8.7201];
+	"{Business_Include(company_04, steel_industry)}" -> "{Decrease(Profit(steel_industry))}; {Business_Include(company_04, steel_industry)}"	[pos="e,705.53,396.28 945.26,651.77 887.08,643.19 824.91,630.19 802.62,612 738.12,559.38 714.87,457.1 707.14,407.43"];
+	"{Increase(Capital_Expenditure(company_04, steel_industry))}"	[height=0.5,
+		pos="1434.6,522",
+		width=6.4814];
+	"{Business_Include(company_04, steel_industry)}; {Product_Include(steel_industry, steel)}; {Decrease(Reserve(company_04, steel))}; {\
+Industry_Recovery(steel_industry)}" -> "{Increase(Capital_Expenditure(company_04, steel_industry))}"	[pos="e,1434.6,540.1 1434.6,575.7 1434.6,568.41 1434.6,559.73 1434.6,551.54"];
+	"{Decrease(Reserve(company_04, steel))}"	[height=0.5,
+		pos="1432.6,666",
+		width=4.4052];
+	"{Decrease(Reserve(company_04, steel))}" -> "{Business_Include(company_04, steel_industry)}; {Product_Include(steel_industry, steel)}; {Decrease(Reserve(company_04, steel))}; {\
+Industry_Recovery(steel_industry)}"	[pos="e,1434.1,612.1 1433.1,647.7 1433.3,640.41 1433.6,631.73 1433.8,623.54"];
+	"{Industry_Recovery(steel_industry)}"	[height=0.5,
+		pos="1750.6,666",
+		width=3.9358];
+	"{Industry_Recovery(steel_industry)}" -> "{Business_Include(company_04, steel_industry)}; {Product_Include(steel_industry, steel)}; {Decrease(Reserve(company_04, steel))}; {\
+Industry_Recovery(steel_industry)}"	[pos="e,1512.8,612.31 1682,649.81 1635.7,639.55 1574.1,625.9 1524,614.79"];
+	"{Increase(Workload(company_04, steel_industry))}"	[height=0.5,
+		pos="1434.6,450",
+		width=5.4342];
+	"{Increase(Capital_Expenditure(company_04, steel_industry))}" -> "{Increase(Workload(company_04, steel_industry))}"	[pos="e,1434.6,468.1 1434.6,503.7 1434.6,496.41 1434.6,487.73 1434.6,479.54"];
+	"{Decrease(Profit(steel_industry))}" -> "{Decrease(Profit(steel_industry))}; {Business_Include(company_04, steel_industry)}"	[pos="e,668.4,396.36 595.63,432.23 614.35,423 637.84,411.42 658.13,401.43"];
+	"{Increase(Revenue(company_04, steel_industry))}"	[height=0.5,
+		pos="1434.6,378",
+		width=5.3079];
+	"{Increase(Workload(company_04, steel_industry))}" -> "{Increase(Revenue(company_04, steel_industry))}"	[pos="e,1434.6,396.1 1434.6,431.7 1434.6,424.41 1434.6,415.73 1434.6,407.54"];
+	"{Decrease(Net_Profit(company_04))}"	[height=0.5,
+		pos="703.62,306",
+		width=4.0621];
+	"{Decrease(Profit(steel_industry))}; {Business_Include(company_04, steel_industry)}" -> "{Decrease(Net_Profit(company_04))}"	[pos="e,703.62,324.1 703.62,359.7 703.62,352.41 703.62,343.73 703.62,335.54"];
+	"{Decrease(Net_Profit_Margin(company_04))}"	[height=0.5,
+		pos="547.62,234",
+		width=4.9107];
+	"{Decrease(Net_Profit(company_04))}" -> "{Decrease(Net_Profit_Margin(company_04))}"	[pos="e,585.49,251.99 666.25,288.23 645.16,278.77 618.58,266.84 595.92,256.67"];
+	"{Subsidiary_Of(company_04, company_05)}; {Decrease(Net_Profit(company_04))}; {Decrease(Net_Profit(company_05))}"	[height=0.5,
+		pos="1195.6,234",
+		width=12.602];
+	"{Decrease(Net_Profit(company_04))}" -> "{Subsidiary_Of(company_04, company_05)}; {Decrease(Net_Profit(company_04))}; {Decrease(Net_Profit(company_05))}"	[pos="e,1077.2,251.85 796.74,291.75 872.86,280.92 981.33,265.49 1065.9,253.45"];
+	"{Subsidiary_Of(company_04, company_05)}"	[height=0.5,
+		pos="1195.6,306",
+		width=4.8024];
+	"{Subsidiary_Of(company_04, company_05)}" -> "{Subsidiary_Of(company_04, company_05)}; {Decrease(Net_Profit(company_04))}; {Decrease(Net_Profit(company_05))}"	[pos="e,1195.6,252.1 1195.6,287.7 1195.6,280.41 1195.6,271.73 1195.6,263.54"];
+	"{Decrease(Net_Profit_Attributable_To_Owners(company_05))}"	[height=0.5,
+		pos="993.62,162",
+		width=6.6439];
+	"{Subsidiary_Of(company_04, company_05)}; {Decrease(Net_Profit(company_04))}; {Decrease(Net_Profit(company_05))}" -> "{Decrease(Net_Profit_Attributable_To_Owners(company_05))}"	[pos="e,1042.6,179.98 1145.7,215.7 1117.7,206 1082.6,193.84 1053.2,183.64"];
+	"{Decrease(Net_Profit(company_05))}"	[height=0.5,
+		pos="1396.6,162",
+		width=4.0621];
+	"{Subsidiary_Of(company_04, company_05)}; {Decrease(Net_Profit(company_04))}; {Decrease(Net_Profit(company_05))}" -> "{Decrease(Net_Profit(company_05))}"	[pos="e,1349.2,179.5 1245.3,215.7 1273.6,205.85 1309.1,193.47 1338.6,183.19"];
+	"{Decrease(EPS(company_05))}"	[height=0.5,
+		pos="993.62,90",
+		width=3.4483];
+	"{Decrease(Net_Profit_Attributable_To_Owners(company_05))}" -> "{Decrease(EPS(company_05))}"	[pos="e,993.62,108.1 993.62,143.7 993.62,136.41 993.62,127.73 993.62,119.54"];
+	"{Decrease(Net_Profit_Margin(company_05))}"	[height=0.5,
+		pos="1396.6,90",
+		width=4.9107];
+	"{Decrease(Net_Profit(company_05))}" -> "{Decrease(Net_Profit_Margin(company_05))}"	[pos="e,1396.6,108.1 1396.6,143.7 1396.6,136.41 1396.6,127.73 1396.6,119.54"];
+	"{Increase(PE(company_05))}"	[height=0.5,
+		pos="993.62,18",
+		width=3.2317];
+	"{Decrease(EPS(company_05))}" -> "{Increase(PE(company_05))}"	[pos="e,993.62,36.104 993.62,71.697 993.62,64.407 993.62,55.726 993.62,47.536"];
 }

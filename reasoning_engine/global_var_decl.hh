@@ -9,7 +9,6 @@ using std::vector;
 
 class Reasoning_Graph;
 extern bool print_var_info; // 是否在调试信息中打印变量声明的信息
-extern vector<string> built_in_oprts; // 内置的算子
 extern shared_ptr<Reasoning_Graph> reasoning_graph; // 推理图
 
 #endif

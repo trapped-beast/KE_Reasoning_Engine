@@ -669,6 +669,9 @@ public:
     Def_Concept(const Concept &c,const vector<shared_ptr<Variable>> &ls):without_parent(true),concept(make_shared<Concept>(c)),members(ls){}
     // 用 概念、父概念、变量列表 自定义
     Def_Concept(const Concept &c,const Concept &p,const vector<shared_ptr<Variable>> &ls):with_parent(true),concept(make_shared<Concept>(c)),parent_cpt(make_shared<Concept>(p)),members(ls){}
+    // 用 概念、父概念 自定义
+    Def_Concept(const Concept &c,const Concept &p):with_parent(true),concept(make_shared<Concept>(c)),parent_cpt(make_shared<Concept>(p)){}
+    
     Def_Concept(){} // 默认构造
     
     string get_output_str() const; // 获取输出字符串
@@ -729,7 +732,7 @@ public:
     // 用 定义概念、定义个体、定义算子、知识的列表 初始化
     Knowledge_Base(const vector<shared_ptr<Def_Concept>> &c,const vector<shared_ptr<Def_Individual>> &i,const vector<shared_ptr<Def_Operator>> &o,const vector<shared_ptr<Rule>> &r):def_concepts(c),def_individuals(i),def_operators(o),rules(r){
         init_def_part();
-        // print_def_part();
+        print_def_part();
     }
     Knowledge_Base(){} // 默认构造
     
@@ -750,6 +753,7 @@ public:
     map<string, shared_ptr<Def_Concept>> def_cpt_hash_table; // 存放所有已定义的 Concept
     map<string, shared_ptr<Def_Individual>> def_indi_hash_table; // 存放所有已定义的 Individual
     map<string, shared_ptr<Def_Operator>> def_oprt_hash_table; // 存放所有已定义的 Operator
+    map<string, set<Concept>> cpt_inh_map; // 存放概念之间的继承关系
 
     vector<shared_ptr<Rete_Rule>> rete_rules; // 用于推理系统的规则
 

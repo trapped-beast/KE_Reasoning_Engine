@@ -580,13 +580,13 @@ bool Def_Individual::operator==(const Def_Individual &rhs) const{
 // Fact 重载 ==
 bool Fact::operator==(const Fact &rhs) const{
     if(rhs.is_assert)
-        return *assertion == *rhs.assertion;
+        return this->is_assert && *assertion == *rhs.assertion;
     else if(rhs.is_pred)
-        return *pred_val == *rhs.pred_val;
+        return this->is_pred && *pred_val == *rhs.pred_val;
     else if(rhs.is_var)
-        return *variable == *rhs.variable;
+        return this->is_var && *variable == *rhs.variable;
     else // is_def_indi
-        return *def_indi == *rhs.def_indi;
+        return this->is_def_indi && *def_indi == *rhs.def_indi;
 }
 
 
@@ -1194,7 +1194,9 @@ Coordinate Coordinate::get_copy(){
 }
 
 Math_Expr Math_Expr::get_copy(){
-    cout<<"获取 copy: "<<*this<<endl;
+    #ifndef NDEBUG
+        cout<<"获取 copy: "<<*this<<endl;
+    #endif
     Math_Expr ret = Math_Expr(*this);
     if(is_num)
         ret.number_val = make_shared<Number>(number_val->get_copy());
@@ -1646,7 +1648,15 @@ void Rete_Question::print_result(){ // 输出求解结果
 void Knowledge_Base::init_def_part(){ // 初始化定义概念、个体、算子的部分
     // 加上知识库中的用户定义部分
     for(auto e:def_concepts){
-        def_cpt_hash_table.insert(pair<string, shared_ptr<Def_Concept>>(e->concept->get_output_str(), e)); // 用概念名称做哈希对象
+        string cpt_name = e->concept->get_output_str();
+        def_cpt_hash_table.insert(pair<string, shared_ptr<Def_Concept>>(cpt_name, e)); // 用概念名称做哈希对象
+        if(e->parent_cpt){
+            auto it = cpt_inh_map.find(cpt_name);
+            if(it!=cpt_inh_map.end())
+                it->second.insert(cpt_name);
+            else
+                cpt_inh_map.insert(pair<string, set<Concept>>(cpt_name, {*e->parent_cpt}));
+        }
     }
     for(auto e:def_individuals){
         def_indi_hash_table.insert(pair<string, shared_ptr<Def_Individual>>(e->symbol, e)); // 用个体名称做哈希对象
@@ -1668,6 +1678,13 @@ void Knowledge_Base::print_def_part(){ // 输出 定义概念、个体、算子 
     cout<<endl<<"定义了以下 Operator:"<<endl;
     for(auto e:def_oprt_hash_table){
         cout<<"\t"<<e.first<<" : "<<*e.second<<endl;
+    }
+    cout<<endl<<"概念继承关系如下:"<<endl;
+    for(auto e:cpt_inh_map){
+        cout<<e.first<<" <- ";
+        for(auto p:e.second)
+            cout<<p<<" ";
+        cout<<endl;
     }
     cout<<endl;
 }
@@ -1728,7 +1745,8 @@ void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question){
 void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question){
     if(indi->is_term){ // 目前只处理 Term
         auto &term = indi->term;
-        if(term->is_oprt_apply || (term->is_std && std::find(built_in_oprts.begin(),built_in_oprts.end(),term->oprt)!=built_in_oprts.end())){
+        // if(term->is_oprt_apply || (term->is_std && std::find(built_in_oprts.begin(),built_in_oprts.end(),term->oprt)!=built_in_oprts.end())){
+        if(term->is_oprt_apply || term->is_std){
             auto ret = action_eval(indi, question);
             if(ret)
                 *indi = *ret;
@@ -1737,7 +1755,7 @@ void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question){
 }
 
 bool Rete_Question::take_action(shared_ptr<Rete_Rule> rule, shared_ptr<Knowledge_Base> kb){ // 执行动作
-    cout<<"当前要执行的 Rule: "<<*rule<<endl;
+    cout<<"当前要执行的 Rule: "<<*rule<<endl; // TODO:写 subst_point_to_curve 和 subst 算子
     bool worked = take_action(rule->rhs, kb);
     if(worked){
         rule->worked = true;

@@ -328,6 +328,20 @@ vector<shared_ptr<Fact>> Concept_Node::perform_concept_test(shared_ptr<Fact> fac
             new_fact->abstract_to_concrete.insert(pair<string,string>(constraint.first,var_info.first)); // 补充 abstract_to_concrete
             ret.push_back(new_fact);
         }
+        else{
+            auto cpt_inh_map = fact->where_is->kb->cpt_inh_map;
+            auto it = cpt_inh_map.find(var_info.second->get_output_str());
+            if(it!=cpt_inh_map.end()){
+                for(auto parent_cpt:it->second){
+                    if(parent_cpt==constraint.second->get_output_str()){
+                        auto new_fact = make_shared<Fact>(fact->get_copy());
+                        new_fact->var_decl[var_info.first] = make_shared<Concept>(parent_cpt);
+                        new_fact->abstract_to_concrete.insert(pair<string,string>(constraint.first,var_info.first)); // 补充 abstract_to_concrete
+                        ret.push_back(new_fact);
+                    }
+                }
+            }
+        }
     }
     cout<<"Fact: "<<*fact<<(ret.size()?"通过":"未通过")<<"当前测试"<<endl;
     if(ret.size())
@@ -392,7 +406,7 @@ void Concept_Memory::mem_side_activation(shared_ptr<Fact> fact){ // 来自共同
         #ifndef NDEBUG
             cout<< "\t"<<*target<<endl;
         #endif
-        if(*target==*fact){
+        if(target->get_output_str()==fact->get_output_str() && *target==*fact){ // 先用 str 进行一轮检查
             bool conflict = binding_conflict(fact->abstract_to_concrete, target->abstract_to_concrete);
             if(conflict) // 还要保证 abstract_to_concrete 不冲突
                 continue;

@@ -576,8 +576,6 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     }
     if(eval_ret){
         cout<<"求值 "<<*indi<<" 得到的结果为: "<<*eval_ret<<endl;
-        if(indi->get_output_str()=="Mul(2, Param_A(c))")
-            cout<<"find"<<endl;
         // // 构造新的 fact // 不是所有的求值细节都要展示
         // if(indi->term->is_std){
         //     auto new_fact = make_shared<Fact>(Assertion(*indi,*eval_ret));

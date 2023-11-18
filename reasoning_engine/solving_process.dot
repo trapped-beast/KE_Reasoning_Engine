@@ -39,21 +39,21 @@ digraph solving_process {
 		pos="1402.1,810",
 		width=6.6258];
 	"{Focal_Length(c)=Mul(2, Param_C(c))}" -> "{Focal_Length(c)=8}; {Focal_Length(c)=Mul(2, Param_C(c))}"	[pos="e,1402.1,828.1 1402.1,863.7 1402.1,856.41 1402.1,847.73 1402.1,839.54"];
-	"{Focus_On_Y_Axis(c)}"	[fillcolor=cornsilk,
+	"{Focus_On_X_Axis(c)}"	[fillcolor=cornsilk,
 		height=0.5,
 		pos="1015.1,234",
 		style=filled,
 		width=2.69];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}"	[height=0.5,
+	"{Equation(c)=Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))}"	[height=0.5,
 		pos="1015.1,162",
 		width=7.6729];
-	"{Focus_On_Y_Axis(c)}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}"	[pos="e,1015.1,180.1 1015.1,215.7 1015.1,208.41 1015.1,199.73 1015.1,191.54"];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}"	[height=0.5,
+	"{Focus_On_X_Axis(c)}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))}"	[pos="e,1015.1,180.1 1015.1,215.7 1015.1,208.41 1015.1,199.73 1015.1,191.54"];
+	"{Equation(c)=Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))}; {Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))=x^\
+2/25+y^2/9==1}"	[height=0.5,
 		pos="718.12,90",
 		width=15.815];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}"	[pos="e,791.6,108.32 943.61,144.14 901.2,134.15 847.22,121.43 802.7,110.93"];
+	"{Equation(c)=Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))}; {Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))=x^\
+2/25+y^2/9==1}"	[pos="e,791.6,108.32 943.61,144.14 901.2,134.15 847.22,121.43 802.7,110.93"];
 	"{Focal_Length(c)=8}"	[fillcolor=cornsilk,
 		height=0.5,
 		pos="1140.1,882",
@@ -84,10 +84,10 @@ digraph solving_process {
 		width=2.022];
 	"{10=Mul(2, Param_A(c))}" -> "{Param_A(c)=5}"	[pos="e,369.17,684.1 365.1,719.7 365.93,712.41 366.93,703.73 367.86,695.54"];
 	"{Param_A(c)=5}" -> "{Param_A(c)=5}; {Param_A(c)=5}; {Param_A(c)=5}; {Param_C(c)=4}; {Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,800.77,611.86 434.95,657.11 520.36,646.54 674.38,627.49 789.41,613.27"];
-	"{Param_B(c)=3}; {Param_A(c)=5}"	[height=0.5,
+	"{Param_A(c)=5}; {Param_B(c)=3}"	[height=0.5,
 		pos="421.12,234",
 		width=3.8635];
-	"{Param_A(c)=5}" -> "{Param_B(c)=3}; {Param_A(c)=5}"	[pos="e,410.76,252.24 371.12,647.51 371.12,620.71 371.12,567.87 371.12,523 371.12,523 371.12,523 371.12,377 371.12,335.05 390.78,289.89 \
+	"{Param_A(c)=5}" -> "{Param_A(c)=5}; {Param_B(c)=3}"	[pos="e,410.76,252.24 371.12,647.51 371.12,620.71 371.12,567.87 371.12,523 371.12,523 371.12,523 371.12,377 371.12,335.05 390.78,289.89 \
 405.44,262.03"];
 	"{Sub(25, Pow(Param_B(c), 2))=16}"	[height=0.5,
 		pos="937.12,522",
@@ -102,18 +102,18 @@ digraph solving_process {
 		pos="704.12,306",
 		width=2.004];
 	"{Pow(Param_B(c), 2)=9}; {Param_B(c)>0}" -> "{Param_B(c)=3}"	[pos="e,748.92,320.46 882.2,360.5 845.22,349.39 796.62,334.79 759.54,323.65"];
-	"{Param_B(c)=3}" -> "{Param_B(c)=3}; {Param_A(c)=5}"	[pos="e,483.68,250.47 654.18,292.65 610,281.72 544.94,265.63 494.79,253.22"];
-	"{Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^2/9+y^2/25==1}"	[height=0.5,
+	"{Param_B(c)=3}" -> "{Param_A(c)=5}; {Param_B(c)=3}"	[pos="e,483.68,250.47 654.18,292.65 610,281.72 544.94,265.63 494.79,253.22"];
+	"{Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))=x^2/25+y^2/9==1}"	[height=0.5,
 		pos="421.12,162",
 		width=8.3229];
-	"{Param_B(c)=3}; {Param_A(c)=5}" -> "{Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^2/9+y^2/25==1}"	[pos="e,421.12,180.1 421.12,215.7 421.12,208.41 421.12,199.73 421.12,191.54"];
-	"{Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^2/9+y^2/25==1}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}"	[pos="e,644.57,108.34 493.02,144.05 535.35,134.08 589.13,121.4 633.5,110.94"];
-	"{Equation(c)=x^2/9+y^2/25==1}"	[fillcolor="#ee7b67",
+	"{Param_A(c)=5}; {Param_B(c)=3}" -> "{Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))=x^2/25+y^2/9==1}"	[pos="e,421.12,180.1 421.12,215.7 421.12,208.41 421.12,199.73 421.12,191.54"];
+	"{Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))=x^2/25+y^2/9==1}" -> "{Equation(c)=Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))}; {Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))=x^\
+2/25+y^2/9==1}"	[pos="e,644.57,108.34 493.02,144.05 535.35,134.08 589.13,121.4 633.5,110.94"];
+	"{Equation(c)=x^2/25+y^2/9==1}"	[fillcolor="#ee7b67",
 		height=0.5,
 		pos="718.12,18",
 		style=filled,
 		width=3.6469];
-	"{Equation(c)=Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))}; {Generate_Ellipse_Eq(Param_B(c), Param_A(c), Center(c))=x^\
-2/9+y^2/25==1}" -> "{Equation(c)=x^2/9+y^2/25==1}"	[pos="e,718.12,36.104 718.12,71.697 718.12,64.407 718.12,55.726 718.12,47.536"];
+	"{Equation(c)=Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))}; {Generate_Ellipse_Eq(Param_A(c), Param_B(c), Center(c))=x^\
+2/25+y^2/9==1}" -> "{Equation(c)=x^2/25+y^2/9==1}"	[pos="e,718.12,36.104 718.12,71.697 718.12,64.407 718.12,55.726 718.12,47.536"];
 }

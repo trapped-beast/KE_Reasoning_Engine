@@ -18,6 +18,11 @@ def_cpt Parabola_Std_l <- Curve = {coeff_x:Num}
 def_cpt Parabola_Std_u <- Curve = {coeff_y:Num}
 def_cpt Parabola_Std_d <- Curve = {coeff_y:Num}
 
+-- 椭圆、双曲线、抛物线都是曲线
+def_cpt Ellipse <- Curve
+def_cpt Hyperbola <- Curve
+def_cpt Parabola <- Curve
+
 -- 直线: ax+by+c=0
 def_cpt Line_Std = {a:Num; b:Num; c:Num}
 
@@ -127,7 +132,7 @@ pa:Parabola_Std_d => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0,1,Neg(Div(
 
 
 
-{p:Point; c:Curve; {Point_On_Curve(p,c)}} =>  {Subst_Point_Into_Curve(p,c)} # 如果点在曲线上，就把点代入曲线方程 #
+{p:Point; _c:Curve; {Point_On_Curve(p,_c)}} => {Subst_Point_Into_Curve(p,_c)} # 如果点在曲线上，就把点代入曲线方程 #
 
 
 {a:Num; b:Num; {a>0}; {b>0}; {a>b}} => {a^2>b^2} # 如果a>0,b>0,a>b,那么a^2>b^2 #

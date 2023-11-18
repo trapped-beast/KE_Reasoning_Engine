@@ -25,7 +25,7 @@ double   (\-)?[0-9]+(\.[0-9]+)?
 integer  (\-)?[0-9]+
 bool     "true"|"false"
 cap_id   [A-Z][a-zA-Z_0-9]*
-low_id   [a-z][a-zA-Z_0-9]*
+low_id   _?[a-z][a-zA-Z_0-9]*
 
 %{
   // 每当模式被匹配就会执行的代码
