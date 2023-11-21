@@ -142,8 +142,9 @@ void sup_possible_alt(Individual &indi, Rete_Question &question){
 
 // 判断题目是否已解出
 bool has_been_solved(shared_ptr<Rete_Question> question){
-    // for(auto unknown:question->to_solve)
-    //     question->normalize_individual(unknown);
+    cout<<"unknown.alt_val size = "<<question->to_solve[0]->alt_vals.size()<<endl;
+    for(auto unknown:question->to_solve)
+        question->normalize_individual(unknown);
 
     // 只要有未知的待求项，解题就尚未结束
     #ifndef NDEBUG
@@ -205,7 +206,7 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
             auto conditions = make_shared<vector<shared_ptr<Fact>>>(); // b=c 的前提条件
             auto ret = action_eval(alt,*question, conditions); // (a = b,b = c => a = c)
             // 只有在该函数中，reasoning_edge 的终点才可能是 Token
-            if(ret){
+            if(ret && alt->get_output_str().find("Subst")==string::npos){
                 // 找到 fact (即 a = b 部分)
                 string part_1_name = "{"+unknown->get_output_str()+"="+old_alt_name+"}";
 
@@ -465,7 +466,8 @@ void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> 
     for(auto p:question->indi_hash_map){
         auto indi = *p.second;
         if(indi.alt_vals.size()>1){
-            assert(indi.alt_vals.size()==2); // 目前只处理带2个 alt 的个体
+            if(indi.alt_vals.size()!=2) // 目前只处理带2个 alt 的个体
+                continue;
             auto alt_1 = indi.alt_vals[0];
             auto alt_2 = indi.alt_vals[1];
             auto new_fact = make_shared<Fact>(Assertion(*alt_1,*alt_2));
@@ -477,6 +479,8 @@ void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> 
             // 把 fact 加入 Reasoning_Graph 中并为其溯源
             string cond_1 = "{"+indi.get_output_str()+"="+alt_1->get_output_str()+"}";
             string cond_2 = "{"+indi.get_output_str()+"="+alt_2->get_output_str()+"}";
+            if(cond_2.find("Subst_Unknown")!=string::npos)
+                return;
             vector<string> dependence = {cond_1, cond_2};
             construct_fact_in_graph(new_fact, dependence, *question);
             // 尝试简单的移项求解
@@ -576,6 +580,8 @@ void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> 
             // "处理方程" 这一过程需要在 Reasoning_Graph 中体现
             cout<<"原方程: "<<*origin_eq<<endl;
             cout<<"新方程: "<<*new_eq<<endl;
+            if(origin_eq->get_output_str()==new_eq->get_output_str())
+                continue;
             conditions->push_back(origin_eq);
             new_eq->where_is = question;
             find_dependence(new_eq,conditions);
@@ -670,16 +676,19 @@ void take_action(shared_ptr<Rete_Rule> instantiated_rule, shared_ptr<Rete_Questi
 // 执行推理
 void reasoning(shared_ptr<Rete_Question> question, shared_ptr<Rete_Network> rete_network){
     cout<<"执行推理"<<endl;
-
+    cout<<"unknown.alt_val size = "<<question->to_solve[0]->alt_vals.size()<<endl;
     cout<<question->def_indi_hash_table.size()<<endl;
 
     // 统一 Rete_Question 中的 Individual
-    for(auto fact:question->fact_list){
+    for(auto &fact:question->fact_list){
         question->normalize_individual(fact);
     }
-    for(auto indi:question->to_solve){
+    for(auto &indi:question->to_solve){
         question->normalize_individual(indi);
+        cout<<indi->alt_vals.size()<<endl;
     }
+    cout<<"unknown.alt_val size = "<<question->to_solve[0]->alt_vals.size()<<endl;
+
 
     #ifndef NDEBUG
         cout<<endl<<"下面是当前 fact 中 assertion 的左部个体的 alt_vals 情况: "<<endl;

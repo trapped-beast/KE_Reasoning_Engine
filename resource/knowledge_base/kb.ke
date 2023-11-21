@@ -36,10 +36,10 @@ def_indi origin:Point = {x:=0; y:=0}
 -- Operator 定义部分
 
 -- 生成直线方程: ax+by+c=0
-def_op Generate_Line_Eq(l:Num; m:Num; n:Num) = {assert l_std:Line_Std = {a:=l; b:=m; c:=n}}
+def_op Generate_Line_Eq(l:Num; m:Num; n:Num) = assert l_std:Line_Std = {a:=l; b:=m; c:=n}
 
 -- 把点代入曲线方程，生成新的等式
-def_op Subst_Point_Into_Curve(p:Point; c:Curve) = {Subst(Subst(Left(Equation(c)),x,p.x),y,p.y) = Subst(Subst(Right(Equation(c)),x,p.x),y,p.y)}
+def_op Subst_Point_Into_Curve(_p:Point; _c:Curve) = {Equation(_c) = Subst_Unknown(Equation(_c), Solve_Unknown( {Subst(Subst(Left(Equation(_c)),x,_p.x),y,_p.y) = Subst(Subst(Right(Equation(_c)),x,_p.x),y,_p.y)} ))}
 
 
 

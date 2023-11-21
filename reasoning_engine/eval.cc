@@ -37,6 +37,24 @@ shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_p
     return ret;
 }
 
+// 把表达式中的某个符号替换为数字
+shared_ptr<Math_Expr> subst_sy_with_num(shared_ptr<Math_Expr> ori_expr, string var_sy, Number num){
+    shared_ptr<Math_Expr> ret = ori_expr;
+    // 只需要处理 is_enclosed、is_mathe、is_sy 的情况
+    if(ori_expr->is_enclosed)
+        ret = subst_sy_with_num(ori_expr->enclosed_expr, var_sy, num);
+    else if(ori_expr->is_mathe){
+        ori_expr->left = subst_sy_with_num(ori_expr->left, var_sy, num);
+        ori_expr->right = subst_sy_with_num(ori_expr->right, var_sy, num);
+    }
+    else if(ori_expr->is_sy && ori_expr->sy_val==var_sy){
+        ori_expr->is_sy = false;
+        ori_expr->is_num = true;
+        ori_expr->number_val = make_shared<Number>(num);
+    }
+    return ret;
+}
+
 
 // 对 Individual 进行求值，用于 Intra_Node 的执行性测试
 shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<Fact> fact){
@@ -164,8 +182,27 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     #endif
 
     shared_ptr<Individual> eval_ret; // 最终的求值结果    assert(indi->is_term);
-    // 要进行求值操作的是标准形式的 Term 或 Sugar_For_Oprt_Apply
-    if(indi->term->is_oprt_apply){
+    // 要进行求值操作的是标准形式的 Term 或 Sugar_For_Oprt_Apply 或 Assertion
+    if(indi->is_assertion){ // 使用到 KB 中定义的算子时会出现
+        assert(indi->assertion->is_std);
+        auto left = indi->assertion->left;
+        auto right = indi->assertion->right;
+        cout<<left->get_output_str()<<endl;
+        cout<<right->get_output_str()<<endl;
+        auto new_left = action_eval(left, question);
+        auto new_right = action_eval(right, question);
+        cout<<"right: "<<*new_right<<endl;
+        if(new_left)
+            eval_ret = make_shared<Individual>(Assertion(*new_left, *new_right));
+        else{
+            auto new_assertion = Assertion(*left, *new_right);
+            eval_ret = make_shared<Individual>(Assertion(new_assertion));
+            // auto new_fact = make_shared<Fact>(Assertion(new_assertion));
+            // question.fact_list.push_back(new_fact);
+            // question.normalize_individual(new_fact);
+        }
+    }
+    else if(indi->is_term && indi->term->is_oprt_apply){
         auto oprt_apply_val = indi->term->oprt_apply_val;
         string caller = oprt_apply_val->indi; // 调用个体
         string uni_oprt = oprt_apply_val->uni_oprt; // 调用的一元算子
@@ -180,10 +217,9 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 }
                 break;
             }
-            assert(false);
         }
     }
-    else{
+    else if(indi->is_term){
         assert(indi->term->is_std);
         auto t = indi->term;
         string oprt = t->oprt;
@@ -565,13 +601,108 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
         else if(oprt=="Ex_Or"){ // 对多个个体进行求值, 结果保存在 Exclusive_Or 容器
             vector<shared_ptr<Individual>> new_args;
             for(auto arg:args){
+                if(arg->val_is_known)
+                    return eval_ret;
                 new_args.push_back(action_eval(arg,question, conditions_sp));
             }
             eval_ret = make_shared<Individual>(Term(oprt,new_args));
             eval_ret->val_is_known = true;
         }
+        else if(oprt=="Left"){ //  求方程的左部 (参数: Equation)
+            assert(args.size()==1);
+            auto ori_eq = args[0]->find_specific_indi("Equation", question);
+            if(!ori_eq)
+                ori_eq = action_eval(args[0], question);
+            if(ori_eq){
+                auto ret = Math_Expr(*ori_eq->math_indi->equation_val->left);
+                eval_ret = make_shared<Individual>(Math_Individual(ret));
+            }
+        }
+        else if(oprt=="Right"){ //  求方程的右部 (参数: Equation)
+            assert(args.size()==1);
+            auto ori_eq = args[0]->find_specific_indi("Equation", question);
+            if(!ori_eq)
+                ori_eq = action_eval(args[0], question);
+            if(ori_eq){
+                auto ret = Math_Expr(*ori_eq->math_indi->equation_val->right);
+                eval_ret = make_shared<Individual>(Math_Individual(ret));
+            }
+        }
+        else if(oprt=="Subst"){ // 对数学表达式中进行符号替换 (参数: 三个 Math_Expr)
+            assert(args.size()==3);
+            auto ori_expr = args[0]->find_specific_indi("Math_Expr", question); // 最初的数学表达式
+            if(!ori_expr)
+                ori_expr = action_eval(args[0], question);
+            auto var = args[1]->find_specific_indi("Math_Expr", question); // 要替换的变量
+            if(!var)
+                var = action_eval(args[1], question);
+            auto val = args[2]->find_specific_indi("Math_Expr", question); // 用于替换的值
+            if(!val)
+                val = action_eval(args[2], question);
+            cout<<"即: 把 "<<*ori_expr<<" 中的 "<<*var<<" 替换为 "<<*val<<endl;
+            assert(ori_expr->is_math_indi && ori_expr->math_indi->is_math_expr);
+            assert(var->is_math_indi && var->math_indi->is_math_expr && var->math_indi->expr_val->is_sy);
+            assert(val->is_math_indi && val->math_indi->is_math_expr && val->math_indi->expr_val->is_num);
+            string var_sy = var->math_indi->expr_val->sy_val; // 要替换的变量的名称
+            auto val_num = *val->math_indi->expr_val->number_val; // 用于替换的 Number
+            auto ret = subst_sy_with_num(make_shared<Math_Expr>(ori_expr->math_indi->expr_val->get_copy()), var_sy, val_num);
+            cout<<"替换完之后的表达式为: "<<*ret<<endl;
+            eval_ret = make_shared<Individual>(Math_Individual(*ret));
+        }
+        else if(oprt=="Solve_Unknown"){ // 求解方程中的唯一的未知数
+            assert(args.size()==1);
+            auto ori_eq = args[0]->find_specific_indi("Equation", question); // 原方程
+            if(!ori_eq)
+                ori_eq = action_eval(args[0], question);
+            // 这里简单处理，只处理特定形式的方程
+            assert(ori_eq->is_assertion);
+            auto l = ori_eq->assertion->left;
+            auto r = ori_eq->assertion->right;
+            assert(l->is_math_indi && l->math_indi->is_math_expr && l->math_indi->expr_val->op_val=='^' && l->math_indi->expr_val->left->is_num);
+            auto l_l_num = l->math_indi->expr_val->left->number_val;
+            auto l_r_num = l->math_indi->expr_val->right->number_val;
+            auto l_num = Number(*l_l_num ^ 2);
+            assert(r->is_math_indi && r->math_indi->is_math_expr && r->math_indi->expr_val->op_val=='*' && r->math_indi->expr_val->left->op_val=='*' && r->math_indi->expr_val->right->is_num);
+            assert(r->math_indi->expr_val->left->left->is_num && r->math_indi->expr_val->right->is_num);
+            auto r_l_num = *r->math_indi->expr_val->left->left->number_val;
+            auto r_r_num = *r->math_indi->expr_val->right->number_val;
+            auto ret = l_num / r_l_num / r_r_num;
+            eval_ret = make_shared<Individual>(Math_Individual(Math_Expr(Number(ret))));
+        }
+        else if(oprt=="Subst_Unknown"){ // 替换方程中的未知数 (参数是: 原方程 Equation、未知数的值)
+            assert(args.size()==2);
+            auto ori_eq = args[0]->find_specific_indi("Equation", question); // 原方程
+            auto unknown_num = args[1]->find_specific_indi("Math_Expr", question); // 未知数的值
+            if(!unknown_num)
+                unknown_num = action_eval(args[1], question);
+            assert(unknown_num->is_math_indi && unknown_num->math_indi->is_math_expr && unknown_num->math_indi->expr_val->is_num);
+            // 这里简单处理，只处理特定形式的代入
+            auto ori_eq_l = ori_eq->math_indi->equation_val->left->get_copy();
+            auto ori_eq_r = ori_eq->math_indi->equation_val->right->get_copy();
+            assert(ori_eq_r.is_mathe && ori_eq_r.left->is_mathe && ori_eq_r.left->left->is_num && ori_eq_r.left->right->is_sy);
+            auto new_eq_r = Math_Expr(ori_eq_r); // 替换后的方程右部
+            *new_eq_r.left = *ori_eq_r.left->left->number_val * *unknown_num->math_indi->expr_val->number_val;
+            auto ret = Math_Equation(ori_eq_l, new_eq_r);
+            eval_ret = make_shared<Individual>(Math_Individual(Math_Equation(ret)));
+            eval_ret->val_is_known = true;
+        }
         else{
-            cout<<oprt<<" 算子未定义!"<<endl;
+            auto it = question.kb->def_oprt_hash_table.find(oprt); // KB 中定义的 Opearator
+            if(it != question.kb->def_oprt_hash_table.end()){
+                map<string,string> abs_to_con; // 结合定义时的 Opearator 来构建 abstract_to_concrete
+                assert(args.size()==it->second->input.size());
+                for(size_t i=0; i!=args.size(); ++i){
+                    abs_to_con.insert(pair<string,string>(it->second->input[i]->symbol, args[i]->get_output_str()));
+                }
+                auto def_val = *it->second; // 算子定义的值
+                auto ins_def_val = *def_val.instantiate(abs_to_con);
+                cout<<"实例化后的 Def_Operator 为: "<<ins_def_val.get_output_str()<<endl;
+                question.normalize_individual(ins_def_val.output);
+                ins_def_val.output->propagate_var_decl(indi->var_decl);
+                eval_ret = action_eval(ins_def_val.output, question);
+            }
+            else
+                cout<<oprt<<" 算子未定义!"<<endl;
         }
     }
     if(eval_ret){

@@ -691,6 +691,7 @@ public:
     Def_Operator(){} // 默认构造
     
     string get_output_str() const; // 获取输出字符串
+    shared_ptr<Def_Operator> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
 
     string oprt; // 新定义的算子
     vector<shared_ptr<Variable>> input; // 算子的输入

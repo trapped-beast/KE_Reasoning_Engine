@@ -1122,6 +1122,24 @@ shared_ptr<Rete_Rule> Rete_Rule::instantiate(const map<string, string> &abstract
     return ret;
 }
 
+shared_ptr<Def_Operator> Def_Operator::instantiate(const map<string, string> &abstract_to_concrete){ // 实例化算子定义
+    cout<<"原有 Def_Operator: "<<*this<<endl;
+    auto ret = make_shared<Def_Operator>(*this); // 先构造一个和原来相同的 Def_Operator
+    vector<shared_ptr<Variable>> new_input;
+    for(auto in:input){
+        // 先对原有的输出中的 Variable 进行实例化
+        for(auto abs_to_con:abstract_to_concrete){ // 找到对应自由变元的个体实例
+            if(in->symbol==abs_to_con.first){
+                new_input.push_back(make_shared<Variable>(abs_to_con.second, *in->concept));
+                break;
+            }
+        }
+    }
+    ret->input = new_input;
+    ret->output = ret->output->instantiate(abstract_to_concrete);
+    cout<<"实例化后得到新的 Def_Operator: "<<*ret<<endl<<endl;
+    return ret;
+}
 
 
 // 下面是 获取拷贝 相关 (尚不完整)
@@ -1206,6 +1224,8 @@ Math_Expr Math_Expr::get_copy(){
         ret.left = make_shared<Math_Expr>(left->get_copy());
         ret.right = make_shared<Math_Expr>(right->get_copy());
     }
+    else if(is_enclosed)
+        ret.enclosed_expr = make_shared<Math_Expr>(enclosed_expr->get_copy());
     else
         assert(false);
     return ret;
@@ -1614,6 +1634,7 @@ void Question::get_adapted_question(){ // 改造原始问题以得到易于进�
     map<string,shared_ptr<Concept>> var_decl; // 存放变量声明
     shared_ptr<Rete_Question> ret;
     vector<shared_ptr<Fact>> new_fact_lists;
+    map<string,shared_ptr<Def_Individual>> def_indi_table;
     // Fact 是变量或是定义个体时都需要提取变量声明
     for(size_t i=0;i!=fact_list.size();++i){
         if(fact_list[i]->is_var)
@@ -1621,6 +1642,7 @@ void Question::get_adapted_question(){ // 改造原始问题以得到易于进�
         else if(fact_list[i]->is_def_indi){
             var_decl.insert(pair<string,shared_ptr<Concept>>(fact_list[i]->def_indi->symbol,fact_list[i]->def_indi->concept));
             new_fact_lists.push_back(fact_list[i]);
+            def_indi_table.insert(pair<string,shared_ptr<Def_Individual>>(fact_list[i]->def_indi->symbol,fact_list[i]->def_indi));
         }
         else{ // is_assert
             new_fact_lists.push_back(fact_list[i]);
@@ -1628,6 +1650,7 @@ void Question::get_adapted_question(){ // 改造原始问题以得到易于进�
     }
     shared_ptr<Question> q = make_shared<Question>(description,new_fact_lists,to_solve);
     ret = make_shared<Rete_Question>(*q,var_decl);
+    ret->def_indi_hash_table = def_indi_table;
     rete_question = ret; // 填充自身的成员值
 }
 
@@ -1712,7 +1735,7 @@ void Rete_Question::take_action(shared_ptr<Cud> cud, shared_ptr<Knowledge_Base> 
         auto new_assignment_indi = Individual(Term(*new_assignment_val));
         auto new_def_indi = make_shared<Def_Individual>(new_indi_name,*new_indi_cpt,new_assignment_indi);
         cout<<"得到新的 个体定义: "<<*new_def_indi<<endl;
-        def_indi_hash_table.insert(pair<string,shared_ptr<Def_Individual>>(new_def_indi->get_output_str(),new_def_indi));
+        def_indi_hash_table.insert(pair<string,shared_ptr<Def_Individual>>(new_def_indi->symbol,new_def_indi));
         // 创建对应的新 fact 加入到 question
         auto new_fact = make_shared<Fact>(*new_def_indi);
         new_fact->var_decl.insert(pair<string,shared_ptr<Concept>>(new_indi_name,new_indi_cpt));
@@ -1727,8 +1750,15 @@ void Rete_Question::take_action(shared_ptr<Cud> cud, shared_ptr<Knowledge_Base> 
 
 // 对 assertion 进行可能的化简
 void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question){
-    if(assertion->is_sugar_for_true)
+    if(assertion->is_sugar_for_true){
         try_to_simplify(assertion->lonely_left, question);
+        if(assertion->lonely_left->is_assertion){
+            assertion->is_sugar_for_true = false;
+            assertion->is_std = true;
+            assertion->left = assertion->lonely_left->assertion->left;
+            assertion->right = assertion->lonely_left->assertion->right;
+        }
+    }
     else{
         // 化简完毕要把 left 原来的 alt 换成新的 right
         auto old_alt_name = assertion->right->get_output_str();
@@ -1755,7 +1785,7 @@ void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question){
 }
 
 bool Rete_Question::take_action(shared_ptr<Rete_Rule> rule, shared_ptr<Knowledge_Base> kb){ // 执行动作
-    cout<<"当前要执行的 Rule: "<<*rule<<endl; // TODO:写 subst_point_to_curve 和 subst 算子
+    cout<<"当前要执行的 Rule: "<<*rule<<endl;
     bool worked = take_action(rule->rhs, kb);
     if(worked){
         rule->worked = true;
@@ -1771,6 +1801,8 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
         cout<<"当前 Question:"<<endl<<*this<<endl;
     #endif
     cout<<"当前要执行的 RHS: "<<*rhs<<endl;
+    if(rhs->get_output_str()=="{Line_Equation(Asymptote(h_std))=Ex_Or((3/4)*x-y==0, (-3/4)*x-y==0)}")
+        cout<<endl;
     bool worked = false; // 该 RHS 是否发挥了作用
     // RHS 要考虑的情况有: Cud、Term、Assertion
     if(rhs->is_cud){
@@ -1799,14 +1831,18 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
     }
     else{
         assert(rhs->is_assertion);
+        string rhs_str = rhs->get_output_str();
         try_to_simplify(rhs->assertion,*this); // 对 assertion 进行可能的化简
-        auto new_fact = make_shared<Fact>(*rhs->assertion);
+        auto new_fact = make_shared<Fact>(Assertion(*rhs->assertion));
         normalize_individual(new_fact); // 保存之前先统一 Individual
+        cout<<*new_fact<<endl;
         // 传播变量声明
         new_fact->assertion->propagate_var_decl(var_decl);
         new_fact->var_decl = new_fact->assertion->var_decl;
         fact_list.push_back(new_fact);
-        if(new_fact->assertion->is_std && !new_fact->assertion->right->val_is_known){
+        if(rhs_str.find("Subst")!=string::npos)
+            worked = true;
+        else if(new_fact->assertion->is_std && !new_fact->assertion->right->val_is_known){
             worked = is_potentially_solvable_eq(new_fact); // 右部如果不可知，则该 rhs 未发挥作用（唯一的例外是生成的fact是潜在可解的方程）
         }
     }

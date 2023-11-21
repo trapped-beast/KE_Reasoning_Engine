@@ -54,6 +54,7 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
     for(const auto &edge:edges){
         start_str = edge->fact_start ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
         end_str = edge->fact_end ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
+        cout<<start_str<<" -> "<<end_str<<endl;
         auto it_start = node_hash_table.find(start_str);
         auto it_end = node_hash_table.find(end_str);
         assert(it_start!=node_hash_table.end() && it_end!=node_hash_table.end());

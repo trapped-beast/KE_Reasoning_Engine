@@ -17,16 +17,16 @@ void test(){
 
 int main (int argc, char *argv[]){
   test();
-  const string kb_name = "kb.ke"; // 知识库文件
-  const string question_name = "question.ke"; // 题目信息文件
-  // const string kb_name = "kb_economic.ke"; // 知识库文件
-  // const string question_name = "question_economic.ke"; // 题目信息文件
+  // const string kb_name = "kb.ke"; // 知识库文件
+  // const string question_name = "question.ke"; // 题目信息文件
+  const string kb_name = "kb_economic.ke"; // 知识库文件
+  const string question_name = "question_economic.ke"; // 题目信息文件
   shared_ptr<Knowledge_Base> kb;
   vector<shared_ptr<Question>> questions;
   if(!ke_parse(kb_name,question_name,kb,questions))
     return EXIT_FAILURE;
   cout<<"当前例题库中的题目数量为: "<<questions.size()<<endl;
-  size_t num = 9; // 当前要解的题目是第几题
+  size_t num = 5; // 当前要解的题目是第几题
   cout<<"当前要解的题目是 第"<<num<<"题:"<<endl<<*questions[num-1]->rete_question;
 
   shared_ptr<Rete_Network> rete_network = construct_rete(kb);
