@@ -463,16 +463,16 @@ namespace yy {
       // ke_rule
       char dummy18[sizeof (Rule)];
 
-      // sugar_for_and
+      // conjunction
       char dummy19[sizeof (Sugar_For_And)];
 
-      // sugar_for_ctor
+      // constructor
       char dummy20[sizeof (Sugar_For_Ctor)];
 
-      // sugar_for_oprt_apply
+      // oprt_apply
       char dummy21[sizeof (Sugar_For_Oprt_Apply)];
 
-      // sugar_for_pred
+      // binary_predicate
       char dummy22[sizeof (Sugar_For_Pred)];
 
       // term
@@ -696,10 +696,10 @@ namespace yy {
         S_individual = 51,                       // individual
         S_term = 52,                             // term
         S_assertion = 53,                        // assertion
-        S_sugar_for_and = 54,                    // sugar_for_and
-        S_sugar_for_pred = 55,                   // sugar_for_pred
-        S_sugar_for_ctor = 56,                   // sugar_for_ctor
-        S_sugar_for_oprt_apply = 57,             // sugar_for_oprt_apply
+        S_conjunction = 54,                      // conjunction
+        S_binary_predicate = 55,                 // binary_predicate
+        S_constructor = 56,                      // constructor
+        S_oprt_apply = 57,                       // oprt_apply
         S_cud = 58,                              // cud
         S_assignment_list = 59,                  // assignment_list
         S_assignment = 60,                       // assignment
@@ -829,19 +829,19 @@ namespace yy {
         value.move< Rule > (std::move (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.move< Sugar_For_And > (std::move (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.move< Sugar_For_Ctor > (std::move (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.move< Sugar_For_Oprt_Apply > (std::move (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.move< Sugar_For_Pred > (std::move (that.value));
         break;
 
@@ -1573,19 +1573,19 @@ switch (yykind)
         value.template destroy< Rule > ();
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.template destroy< Sugar_For_And > ();
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.template destroy< Sugar_For_Ctor > ();
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.template destroy< Sugar_For_Oprt_Apply > ();
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.template destroy< Sugar_For_Pred > ();
         break;
 
@@ -2906,19 +2906,19 @@ switch (yykind)
         value.copy< Rule > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.copy< Sugar_For_And > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.copy< Sugar_For_Ctor > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.copy< Sugar_For_Oprt_Apply > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.copy< Sugar_For_Pred > (YY_MOVE (that.value));
         break;
 
@@ -3102,19 +3102,19 @@ switch (yykind)
         value.move< Rule > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.move< Sugar_For_And > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.move< Sugar_For_Ctor > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.move< Sugar_For_Oprt_Apply > (YY_MOVE (s.value));
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.move< Sugar_For_Pred > (YY_MOVE (s.value));
         break;
 

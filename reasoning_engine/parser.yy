@@ -71,10 +71,10 @@
 %nterm <Individual> individual
 %nterm <Term> term
 %nterm <Assertion> assertion
-%nterm <Sugar_For_And> sugar_for_and
-%nterm <Sugar_For_Pred> sugar_for_pred
-%nterm <Sugar_For_Ctor> sugar_for_ctor
-%nterm <Sugar_For_Oprt_Apply> sugar_for_oprt_apply
+%nterm <Sugar_For_And> conjunction
+%nterm <Sugar_For_Pred> binary_predicate
+%nterm <Sugar_For_Ctor> constructor
+%nterm <Sugar_For_Oprt_Apply> oprt_apply
 %nterm <Cud> cud
 %nterm <Assignment> assignment
 %nterm <vector<shared_ptr<Assignment>>> assignment_list
@@ -145,23 +145,23 @@ individual : variable  {$$=Individual($1);}
            ;
 
 term : OPERATOR "(" individual_list ")" {$$=Term($1,$3);}
-     | sugar_for_and  {$$=Term($1);}
-     | sugar_for_pred {$$=Term($1);}
-     | sugar_for_ctor {$$=Term($1);}
-     | sugar_for_oprt_apply {$$=Term($1);}
+     | conjunction  {$$=Term($1);}
+     | binary_predicate {$$=Term($1);}
+     | constructor {$$=Term($1);}
+     | oprt_apply {$$=Term($1);}
      ;
 
 assertion : "{" individual "}" {$$=Assertion($2);}
           | "{" individual "=" individual "}" {$$=Assertion($2,$4);}
           ;
 
-sugar_for_and : "{" individual_and_list ";" individual "}" {$2.push_back(make_shared<Individual>($4)); $$=Sugar_For_And($2);};
+conjunction : "{" individual_and_list ";" individual "}" {$2.push_back(make_shared<Individual>($4)); $$=Sugar_For_And($2);};
 
-sugar_for_pred : "{" individual predicate_operator individual "}" {$$=Sugar_For_Pred($2,$3,$4);};
+binary_predicate : "{" individual predicate_operator individual "}" {$$=Sugar_For_Pred($2,$3,$4);};
 
-sugar_for_ctor : "{" assignment_list "}" {$$=Sugar_For_Ctor($2);};
+constructor : "{" assignment_list "}" {$$=Sugar_For_Ctor($2);};
 
-sugar_for_oprt_apply : SYMBOL "." SYMBOL {$$=Sugar_For_Oprt_Apply($1,$3);};
+oprt_apply : SYMBOL "." SYMBOL {$$=Sugar_For_Oprt_Apply($1,$3);};
 
 cud : KB_ASSERT individual "=" individual  {$$=Cud($1,$2,$4);}
     | KB_MODIFY individual "=" individual  {$$=Cud($1,$2,$4);}
@@ -190,11 +190,11 @@ predicate_operator : ">=" {$$=std::string(">=");}
 
 individual_list : individual {vector<shared_ptr<Individual>> v; v.push_back(make_shared<Individual>($1)); $$=v;}
                 | individual_list "," individual {$1.push_back(make_shared<Individual>($3));$$=$1;}
-                ;  
+                ;
 
 individual_and_list : individual {vector<shared_ptr<Individual>> v; v.push_back(make_shared<Individual>($1)); $$=v;}
-                    | individual_and_list ";" individual {$1.push_back(make_shared<Individual>($3));$$=$1;}
-                    ;  
+                | individual_and_list ";" individual {$1.push_back(make_shared<Individual>($3));$$=$1;}
+                ;
 
 concept : CONCEPT {$$=Concept($1);}
         | OPERATOR "(" concept ")" {$$=Concept($1,$3);}
@@ -246,7 +246,7 @@ fact_list : fact {vector<shared_ptr<Fact>> v; v.push_back(make_shared<Fact>($1))
           ;
 
 fact : assertion {$$=Fact($1);}
-     | sugar_for_pred {$$=Fact($1);}
+     | binary_predicate {$$=Fact($1);}
      | variable  {$$=Fact($1);}
      | def_individual {$$=Fact($1);}
      ;

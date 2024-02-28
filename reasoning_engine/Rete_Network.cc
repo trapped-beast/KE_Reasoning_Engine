@@ -31,9 +31,11 @@ bool find_path(shared_ptr<Reasoning_Node> &start, shared_ptr<Reasoning_Node> &en
 
 void Reasoning_Graph::print_solving_process(){ // 输出求解过程
     reasoning_graph->draw_all_progress();
-    cout<<"边的数量为:"<<this->edges.size()<<endl;
-    cout<<"Fact 点的数量为:"<<this->fact_nodes_hash_table.size()<<endl;
-    cout<<"Token 点的数量为:"<<this->token_nodes_hash_table.size()<<endl;
+    #ifndef NDEBUG
+        cout<<"边的数量为:"<<this->edges.size()<<endl;
+        cout<<"Fact 点的数量为:"<<this->fact_nodes_hash_table.size()<<endl;
+        cout<<"Token 点的数量为:"<<this->token_nodes_hash_table.size()<<endl;
+    #endif
 
     // 构建一个由点主导的图
     // 先把所有的 fact_nodes 和 token_nodes 统一为 Reasoning_Node
@@ -54,7 +56,7 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
     for(const auto &edge:edges){
         start_str = edge->fact_start ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
         end_str = edge->fact_end ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
-        cout<<start_str<<" -> "<<end_str<<endl;
+        // cout<<start_str<<" -> "<<end_str<<endl;
         auto it_start = node_hash_table.find(start_str);
         auto it_end = node_hash_table.find(end_str);
         assert(it_start!=node_hash_table.end() && it_end!=node_hash_table.end());
@@ -82,9 +84,12 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
         auto &node = p.second;
         if(!find_path(node,end_node,node_hash_table,reachable_node_set)){
             unreachable_node_set.insert(node);
-            cout<<"不存在到终点的路径: "<<node->get_output_str()<<endl;
+            #ifndef NDEBUG
+                cout<<"不存在到终点的路径: "<<node->get_output_str()<<endl;
+            #endif
         }
     }
+    
     // 对于所有的不存在到终点路径的节点，删除其入边
     vector<shared_ptr<Reasoning_Edge>> new_edges; // 保留所有有用的边
     for(auto &edge:edges){
@@ -391,6 +396,7 @@ void Concept_Memory::node_side_activation(shared_ptr<Fact> fact){ // 来自共�
                 cout<< "该fact和"<<*fact<<"相同, 向下传播" <<endl;
             #endif
             fact->abstract_to_concrete.insert(target->abstract_to_concrete.begin(),target->abstract_to_concrete.end());
+            facts.push_back(fact);
             cout<<"保存 fact:"<<*fact<<"到 "<<this->get_figure_info()<<endl;
             propagate_downward(fact);
         }
@@ -415,6 +421,7 @@ void Concept_Memory::mem_side_activation(shared_ptr<Fact> fact){ // 来自共同
                 cout<< "该fact和"<<*fact<<"相同, 向下传播" <<endl;
             #endif
             fact->abstract_to_concrete.insert(target->abstract_to_concrete.begin(),target->abstract_to_concrete.end());
+            this->facts.push_back(fact);
             cout<<"保存 fact:"<<*fact<<"到 "<<this->get_figure_info()<<endl;
             propagate_downward(fact);
         }

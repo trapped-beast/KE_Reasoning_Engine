@@ -1663,6 +1663,15 @@ void Rete_Question::print_result(){ // 输出求解结果
                 cout<<*indi<<" = "<<*alt<<endl;
                 break;
             }
+            else if(alt->alt_val_is_known){
+                for(auto alt_val: alt->alt_vals){
+                    if(alt_val->val_is_known){
+                        cout<<*indi<<" = "<<*alt_val<<endl;
+                        break;
+                    }
+                }
+                break;
+            }
         }
     }
     cout<<endl;

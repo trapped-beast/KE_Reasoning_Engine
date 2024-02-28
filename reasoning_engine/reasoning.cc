@@ -193,6 +193,8 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
                     new_fact->assertion->propagate_var_decl(question->var_decl);
                     new_fact->var_decl = new_fact->assertion->var_decl;
                     question->fact_list.push_back(new_fact);
+                    // 更新 alt_vals
+                    alt->alt_val_is_known = true;
 
                     // 把 fact 加入 Reasoning_Graph 中并为其溯源
                     vector<string> dependence = {part_1_name, part_2_name};
@@ -247,6 +249,9 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
                 new_fact->assertion->propagate_var_decl(question->var_decl);
                 new_fact->var_decl = new_fact->assertion->var_decl;
                 question->fact_list.push_back(new_fact);
+                // 更新 alt_vals
+                alt->alt_vals.push_back(ret);
+                alt->alt_val_is_known = true;
 
                 // 把 fact 加入 Reasoning_Graph 中并为其溯源
                 vector<string> dependence = {part_1_name, part_2_name};

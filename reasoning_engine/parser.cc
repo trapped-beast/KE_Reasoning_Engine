@@ -281,19 +281,19 @@ namespace yy {
         value.YY_MOVE_OR_COPY< Rule > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.YY_MOVE_OR_COPY< Sugar_For_And > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.YY_MOVE_OR_COPY< Sugar_For_Ctor > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.YY_MOVE_OR_COPY< Sugar_For_Oprt_Apply > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.YY_MOVE_OR_COPY< Sugar_For_Pred > (YY_MOVE (that.value));
         break;
 
@@ -461,19 +461,19 @@ namespace yy {
         value.move< Rule > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.move< Sugar_For_And > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.move< Sugar_For_Ctor > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.move< Sugar_For_Oprt_Apply > (YY_MOVE (that.value));
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.move< Sugar_For_Pred > (YY_MOVE (that.value));
         break;
 
@@ -641,19 +641,19 @@ namespace yy {
         value.copy< Rule > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.copy< Sugar_For_And > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.copy< Sugar_For_Ctor > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.copy< Sugar_For_Oprt_Apply > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.copy< Sugar_For_Pred > (that.value);
         break;
 
@@ -820,19 +820,19 @@ namespace yy {
         value.move< Rule > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         value.move< Sugar_For_And > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         value.move< Sugar_For_Ctor > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         value.move< Sugar_For_Oprt_Apply > (that.value);
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         value.move< Sugar_For_Pred > (that.value);
         break;
 
@@ -1105,25 +1105,25 @@ namespace yy {
 #line 1106 "parser.cc"
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
 #line 101 "parser.yy"
                  { yyo << yysym.value.template as < Sugar_For_And > (); }
 #line 1112 "parser.cc"
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
 #line 101 "parser.yy"
                  { yyo << yysym.value.template as < Sugar_For_Pred > (); }
 #line 1118 "parser.cc"
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
 #line 101 "parser.yy"
                  { yyo << yysym.value.template as < Sugar_For_Ctor > (); }
 #line 1124 "parser.cc"
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
 #line 101 "parser.yy"
                  { yyo << yysym.value.template as < Sugar_For_Oprt_Apply > (); }
 #line 1130 "parser.cc"
@@ -1564,19 +1564,19 @@ namespace yy {
         yylhs.value.emplace< Rule > ();
         break;
 
-      case symbol_kind::S_sugar_for_and: // sugar_for_and
+      case symbol_kind::S_conjunction: // conjunction
         yylhs.value.emplace< Sugar_For_And > ();
         break;
 
-      case symbol_kind::S_sugar_for_ctor: // sugar_for_ctor
+      case symbol_kind::S_constructor: // constructor
         yylhs.value.emplace< Sugar_For_Ctor > ();
         break;
 
-      case symbol_kind::S_sugar_for_oprt_apply: // sugar_for_oprt_apply
+      case symbol_kind::S_oprt_apply: // oprt_apply
         yylhs.value.emplace< Sugar_For_Oprt_Apply > ();
         break;
 
-      case symbol_kind::S_sugar_for_pred: // sugar_for_pred
+      case symbol_kind::S_binary_predicate: // binary_predicate
         yylhs.value.emplace< Sugar_For_Pred > ();
         break;
 
@@ -1821,27 +1821,27 @@ namespace yy {
 #line 1822 "parser.cc"
     break;
 
-  case 26: // term: sugar_for_and
+  case 26: // term: conjunction
 #line 148 "parser.yy"
-                      {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_And > ());}
+                    {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_And > ());}
 #line 1828 "parser.cc"
     break;
 
-  case 27: // term: sugar_for_pred
+  case 27: // term: binary_predicate
 #line 149 "parser.yy"
-                      {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Pred > ());}
+                        {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Pred > ());}
 #line 1834 "parser.cc"
     break;
 
-  case 28: // term: sugar_for_ctor
+  case 28: // term: constructor
 #line 150 "parser.yy"
-                      {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Ctor > ());}
+                   {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Ctor > ());}
 #line 1840 "parser.cc"
     break;
 
-  case 29: // term: sugar_for_oprt_apply
+  case 29: // term: oprt_apply
 #line 151 "parser.yy"
-                            {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Oprt_Apply > ());}
+                  {yylhs.value.as < Term > ()=Term(yystack_[0].value.as < Sugar_For_Oprt_Apply > ());}
 #line 1846 "parser.cc"
     break;
 
@@ -1857,27 +1857,27 @@ namespace yy {
 #line 1858 "parser.cc"
     break;
 
-  case 32: // sugar_for_and: "{" individual_and_list ";" individual "}"
+  case 32: // conjunction: "{" individual_and_list ";" individual "}"
 #line 158 "parser.yy"
-                                                           {yystack_[3].value.as < vector<shared_ptr<Individual>> > ().push_back(make_shared<Individual>(yystack_[1].value.as < Individual > ())); yylhs.value.as < Sugar_For_And > ()=Sugar_For_And(yystack_[3].value.as < vector<shared_ptr<Individual>> > ());}
+                                                         {yystack_[3].value.as < vector<shared_ptr<Individual>> > ().push_back(make_shared<Individual>(yystack_[1].value.as < Individual > ())); yylhs.value.as < Sugar_For_And > ()=Sugar_For_And(yystack_[3].value.as < vector<shared_ptr<Individual>> > ());}
 #line 1864 "parser.cc"
     break;
 
-  case 33: // sugar_for_pred: "{" individual predicate_operator individual "}"
+  case 33: // binary_predicate: "{" individual predicate_operator individual "}"
 #line 160 "parser.yy"
-                                                                  {yylhs.value.as < Sugar_For_Pred > ()=Sugar_For_Pred(yystack_[3].value.as < Individual > (),yystack_[2].value.as < std::string > (),yystack_[1].value.as < Individual > ());}
+                                                                    {yylhs.value.as < Sugar_For_Pred > ()=Sugar_For_Pred(yystack_[3].value.as < Individual > (),yystack_[2].value.as < std::string > (),yystack_[1].value.as < Individual > ());}
 #line 1870 "parser.cc"
     break;
 
-  case 34: // sugar_for_ctor: "{" assignment_list "}"
+  case 34: // constructor: "{" assignment_list "}"
 #line 162 "parser.yy"
-                                         {yylhs.value.as < Sugar_For_Ctor > ()=Sugar_For_Ctor(yystack_[1].value.as < vector<shared_ptr<Assignment>> > ());}
+                                      {yylhs.value.as < Sugar_For_Ctor > ()=Sugar_For_Ctor(yystack_[1].value.as < vector<shared_ptr<Assignment>> > ());}
 #line 1876 "parser.cc"
     break;
 
-  case 35: // sugar_for_oprt_apply: SYMBOL "." SYMBOL
+  case 35: // oprt_apply: SYMBOL "." SYMBOL
 #line 164 "parser.yy"
-                                         {yylhs.value.as < Sugar_For_Oprt_Apply > ()=Sugar_For_Oprt_Apply(yystack_[2].value.as < std::string > (),yystack_[0].value.as < std::string > ());}
+                               {yylhs.value.as < Sugar_For_Oprt_Apply > ()=Sugar_For_Oprt_Apply(yystack_[2].value.as < std::string > (),yystack_[0].value.as < std::string > ());}
 #line 1882 "parser.cc"
     break;
 
@@ -1985,7 +1985,7 @@ namespace yy {
 
   case 53: // individual_and_list: individual_and_list ";" individual
 #line 196 "parser.yy"
-                                                         {yystack_[2].value.as < vector<shared_ptr<Individual>> > ().push_back(make_shared<Individual>(yystack_[0].value.as < Individual > ()));yylhs.value.as < vector<shared_ptr<Individual>> > ()=yystack_[2].value.as < vector<shared_ptr<Individual>> > ();}
+                                                     {yystack_[2].value.as < vector<shared_ptr<Individual>> > ().push_back(make_shared<Individual>(yystack_[0].value.as < Individual > ()));yylhs.value.as < vector<shared_ptr<Individual>> > ()=yystack_[2].value.as < vector<shared_ptr<Individual>> > ();}
 #line 1990 "parser.cc"
     break;
 
@@ -2151,9 +2151,9 @@ namespace yy {
 #line 2152 "parser.cc"
     break;
 
-  case 81: // fact: sugar_for_pred
+  case 81: // fact: binary_predicate
 #line 249 "parser.yy"
-                      {yylhs.value.as < Fact > ()=Fact(yystack_[0].value.as < Sugar_For_Pred > ());}
+                        {yylhs.value.as < Fact > ()=Fact(yystack_[0].value.as < Sugar_For_Pred > ());}
 #line 2158 "parser.cc"
     break;
 
@@ -2368,13 +2368,12 @@ namespace yy {
   "statement", "ke_kb", "def_concept_list", "def_concept",
   "def_individual_list", "def_individual", "def_operator_list",
   "def_operator", "ke_rule_list", "ke_rule", "individual", "term",
-  "assertion", "sugar_for_and", "sugar_for_pred", "sugar_for_ctor",
-  "sugar_for_oprt_apply", "cud", "assignment_list", "assignment",
-  "math_individual", "predicate_operator", "individual_list",
-  "individual_and_list", "concept", "variable", "variable_list",
-  "math_equation", "coordinate", "math_expr", "math_func",
-  "math_expr_list", "number", "ke_questions", "ke_question", "fact_list",
-  "fact", "to_solve", YY_NULLPTR
+  "assertion", "conjunction", "binary_predicate", "constructor",
+  "oprt_apply", "cud", "assignment_list", "assignment", "math_individual",
+  "predicate_operator", "individual_list", "individual_and_list",
+  "concept", "variable", "variable_list", "math_equation", "coordinate",
+  "math_expr", "math_func", "math_expr_list", "number", "ke_questions",
+  "ke_question", "fact_list", "fact", "to_solve", YY_NULLPTR
     };
     return yy_sname[yysymbol];
   }
@@ -2856,7 +2855,7 @@ namespace yy {
 
 
 } // yy
-#line 2860 "parser.cc"
+#line 2859 "parser.cc"
 
 #line 256 "parser.yy"
 

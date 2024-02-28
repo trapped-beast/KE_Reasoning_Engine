@@ -1,6 +1,6 @@
 #ifndef AL_STRUCT_HH
 #define AL_STRUCT_HH
-// #define NDEBUG
+#define NDEBUG
 
 // AL抽象语法树相关的数据结构
 
