@@ -158,6 +158,44 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
             }
         }
     }
+    else if(oprt=="Focus_On_X_Axis" || oprt=="Focus_On_Y_Axis"){ // 判断焦点是否在X轴或Y轴上 (参数是: 圆锥曲线 Individual )
+        Math_Expr zero = Number(0);
+        assert(args.size()==1);
+        auto conic = *args[0]; // 要判断的对象
+        assert(conic.is_math_indi && conic.math_indi->is_math_expr && conic.math_indi->expr_val->is_sy);
+        // 可能通过的 fact 必须具有以下形式: Focus(x) = List(f1, f2)
+        if(fact->is_assert && fact->assertion->is_std && fact->assertion->left->get_output_str().find("Focus") != string::npos && fact->assertion->right->get_output_str().find("List")!=string::npos){
+            auto test_point = *fact->assertion->right; // 要判断的焦点
+            assert(test_point.is_term && test_point.term->is_std && test_point.term->args.size()==2);
+            auto point_1 = *test_point.term->args[0];
+            auto point_2 = *test_point.term->args[1];
+            cout<<"要判断的第一个点为: "<<point_1<<endl;
+            cout<<"要判断的第一个点为: "<<point_2<<endl;
+            assert(point_1.alt_val_is_known && point_1.alt_vals.size()==1 && point_2.alt_val_is_known && point_2.alt_vals.size()==1);
+            auto p1 = *point_1.alt_vals[0];
+            auto p2 = *point_2.alt_vals[0];
+            cout<<point_1<<p1<<endl;
+            cout<<point_2<<p2<<endl;
+            assert(p1.is_math_indi && p1.math_indi->is_coordinate && p1.val_is_known && p2.is_math_indi && p2.math_indi->is_coordinate && p2.val_is_known);
+            Math_Expr p1_x = *p1.math_indi->coordinate_val->abscissa->number_val;
+            Math_Expr p1_y = *p1.math_indi->coordinate_val->ordinate->number_val;
+            Math_Expr p2_x = *p2.math_indi->coordinate_val->abscissa->number_val;
+            Math_Expr p2_y = *p2.math_indi->coordinate_val->ordinate->number_val;
+            // cout<<p1_x<<", "<<p1_y<<", "<<p2_x<<", "<<p2_y<<endl;
+            if(oprt=="Focus_On_X_Axis"){
+                if(p1_y == zero && p2_y == zero)
+                    ret = make_shared<Individual>(true);
+                else
+                    ret = make_shared<Individual>(false);
+            }
+            else{
+                if(p1_x == zero && p2_x == zero)
+                    ret = make_shared<Individual>(true);
+                else
+                    ret = make_shared<Individual>(false);
+            }
+        }
+    }
     // 对于未定义执行性测试求值的算子, 默认返回 false
     // else if(oprt=="Focus_On_Y_Axis" || oprt=="Focus_On_X_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
     //     ; // 暂未定义执行性测试求值的算子, 默认返回 false
@@ -452,6 +490,17 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                     ret = Math_Expr(Number(*val_1->number_val ^ *val_2->number_val));
                     eval_ret = make_shared<Individual>(Math_Individual(ret));
                 }
+                else if(val_1->is_func && val_2->is_num){
+                    // Pow(sqrt(x),2) = x
+                    if(val_1->func_val->func_name=="sqrt" && val_1->func_val->args[0]->is_num && *val_2 == Math_Expr(Number(2))){
+                        ret = Math_Expr(*val_1->func_val->args[0]);
+                        eval_ret = make_shared<Individual>(Math_Individual(ret));
+                    }
+                    else{
+                        std::cerr<<"无法处理: "<<*indi<<endl;
+                        assert(false);
+                    }
+                }
             }
         }
         else if(oprt=="Generate_Line_Eq"){ // 根据系数 a、b、c 生成直线方程 ax+by+c=0 (参数: 三个 Math_Expr)
@@ -685,6 +734,96 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             auto ret = Math_Equation(ori_eq_l, new_eq_r);
             eval_ret = make_shared<Individual>(Math_Individual(Math_Equation(ret)));
             eval_ret->val_is_known = true;
+        }
+        else if(oprt=="Get_Left_Focus" || oprt=="Get_Right_Focus" || oprt=="Get_Top_Focus" || oprt=="Get_Down_Focus"){ // 获取圆锥曲线的左(右、上、下)焦点 (参数: 圆锥曲线 Individual)
+            assert(args.size()==1);
+            auto conic = *args[0];
+            string focus_list_str = "Focus(" + conic.get_output_str() +")"; // 一般题目中包含焦点信息
+            auto it = question.indi_hash_map.find(focus_list_str);
+            Number zero = Number(0);
+            if(it!=question.indi_hash_map.end()){
+                assert(!it->second->alt_vals.empty() && it->second->alt_vals[0]->is_term && it->second->alt_vals[0]->term->oprt=="List");
+                auto focus_list = *it->second->alt_vals[0]->term;
+                assert(focus_list.args.size()==2); // 题目中包含两个焦点的信息
+                assert(focus_list.args[0]->alt_val_is_known && focus_list.args[1]->alt_val_is_known);
+                auto p1 = *focus_list.args[0]->alt_vals[0];
+                auto p2 = *focus_list.args[1]->alt_vals[0];
+                assert(p1.is_math_indi && p1.math_indi->is_coordinate && p1.val_is_known && p2.is_math_indi && p2.math_indi->is_coordinate && p2.val_is_known);
+                Math_Expr p1_x = *p1.math_indi->coordinate_val->abscissa->number_val;
+                Math_Expr p1_y = *p1.math_indi->coordinate_val->ordinate->number_val;
+                Math_Expr p2_x = *p2.math_indi->coordinate_val->abscissa->number_val;
+                Math_Expr p2_y = *p2.math_indi->coordinate_val->ordinate->number_val;
+                if(oprt=="Get_Left_Focus" || oprt=="Get_Right_Focus"){
+                    assert(p1_y==zero && p2_y==zero);
+                    assert(p1_x.is_num && p2_x.is_num); // 暂时只处理点的横坐标为 Number 的情况
+                    Number p1_x_num = *p1_x.number_val;
+                    Number p2_x_num = *p2_x.number_val;
+                    if(oprt=="Get_Left_Focus"){
+                        if(p1_x_num < zero)
+                            eval_ret = make_shared<Individual>(p1);
+                        else if(p2_x_num < zero)
+                            eval_ret = make_shared<Individual>(p2);
+                        else
+                            assert(false);
+                    }
+                    else{
+                        if(p1_x_num > zero)
+                            eval_ret = make_shared<Individual>(p1);
+                        else if(p2_x_num > zero)
+                            eval_ret = make_shared<Individual>(p2);
+                        else
+                            assert(false);
+                    }
+                }
+                else{
+                    assert(p1_x==zero && p2_x==zero);
+                    assert(p1_y.is_num && p2_y.is_num); // 暂时只处理点的横坐标为 Number 的情况
+                    Number p1_y_num = *p1_y.number_val;
+                    Number p2_y_num = *p2_y.number_val;
+                    if(oprt=="Get_Down_Focus"){
+                        if(p1_y_num < zero)
+                            eval_ret = make_shared<Individual>(p1);
+                        else if(p2_y_num < zero)
+                            eval_ret = make_shared<Individual>(p2);
+                        else
+                            assert(false);
+                    }
+                    else{
+                        if(p1_y_num > zero)
+                            eval_ret = make_shared<Individual>(p1);
+                        else if(p2_y_num > zero)
+                            eval_ret = make_shared<Individual>(p2);
+                        else
+                            assert(false);
+                    }
+                }
+            }
+        }
+        else if(oprt=="Coordinate_X" || oprt=="Coordinate_Y"){ // 获取Coordinate的横(纵坐标) (参数: 坐标 Term)
+            assert(args.size()==1);
+            auto coordinate = args[0]->find_specific_indi("Coordinate", question);
+            assert(coordinate->is_math_indi && coordinate->math_indi->is_coordinate);
+            auto coordinate_val = coordinate->math_indi->coordinate_val;
+            if(oprt=="Coordinate_X")
+                eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->abscissa));
+            else
+                eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->ordinate));
+        }
+        else if(oprt=="Slope"){ // 求直线斜率 (参数: 直线表达式 Math_Equation)
+            assert(args.size()==1);
+            auto line_expr = args[0]->find_specific_indi("Equation", question); // 直线表达式
+            assert(line_expr);
+            // 目前只处理形如 y = k * x 的表达式
+            assert(line_expr->is_math_indi && line_expr->math_indi->is_equation);
+            auto line_expr_l = line_expr->math_indi->equation_val->left;
+            auto line_expr_r = line_expr->math_indi->equation_val->right;
+            cout<<*line_expr<<endl;
+            assert(line_expr_l->get_output_str()=="y");
+            assert(line_expr_r->is_mathe);
+            auto line_expr_r_l = line_expr_r->left;
+            auto line_expr_r_r = line_expr_r->right;
+            assert(line_expr_r_r->get_output_str()=="x");
+            eval_ret = make_shared<Individual>(Math_Expr(*line_expr_r_l));
         }
         else{
             auto it = question.kb->def_oprt_hash_table.find(oprt); // KB 中定义的 Opearator

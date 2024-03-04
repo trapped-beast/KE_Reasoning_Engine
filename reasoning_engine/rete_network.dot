@@ -1,582 +1,603 @@
 digraph rete_network {
-	graph [bb="0,0,21488,4135.1",
+	graph [bb="0,0,18552,5518.7",
 		ordering=in,
 		rankdir=LR,
 		ranksep="5 equally"
 	];
 	node [label="\N"];
 	subgraph cluster_alpha_network {
-		graph [bb="1596.5,8,8358,1626",
+		graph [bb="1654.9,8,8611.1,1464",
 			bgcolor=lightblue,
 			style=dashed
 		];
 		subgraph concept_node {
-			"Concept_Node: b:Business"	[fillcolor=cadetblue,
+			"Concept_Node: e:Ellipse"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1688.5,727",
+				pos="3405.9,1087",
 				shape=rect,
 				style=filled,
-				width=2.2778];
-			"Concept_Node: g:Good"	[fillcolor=cadetblue,
+				width=2.1076];
+			"Concept_Node: e:Ellipse_Std"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1688.5,574",
+				pos="3405.9,898",
 				shape=rect,
 				style=filled,
-				width=2.0278];
-			"Concept_Node: r:Raw_Material"	[fillcolor=cadetblue,
+				width=2.4514];
+			"Concept_Node: h:Hyperbola"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="3303,443",
+				pos="3405.9,736",
 				shape=rect,
 				style=filled,
-				width=2.6528];
-			"Concept_Node: c:Company"	[fillcolor=cadetblue,
+				width=2.3889];
+			"Concept_Node: h:Hyperbola_Std_1"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1688.5,1060",
+				pos="3405.9,628",
 				shape=rect,
 				style=filled,
-				width=2.3333];
-			"Concept_Node: a:Company"	[fillcolor=cadetblue,
+				width=2.9201];
+			"Concept_Node: h:Hyperbola_Std_2"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="1688.5,628",
+				pos="3405.9,574",
 				shape=rect,
 				style=filled,
-				width=2.3333];
-			"Concept_Node: b:Company"	[fillcolor=cadetblue,
+				width=2.9201];
+			"Concept_Node: pa:Parabola"	[fillcolor=cadetblue,
 				height=0.5,
-				pos="3303,528",
+				pos="3405.9,520",
+				shape=rect,
+				style=filled,
+				width=2.3368];
+			"Concept_Node: pa:Parabola_Std_r"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3405.9,466",
+				shape=rect,
+				style=filled,
+				width=2.8368];
+			"Concept_Node: pa:Parabola_Std_l"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3405.9,412",
+				shape=rect,
+				style=filled,
+				width=2.8264];
+			"Concept_Node: pa:Parabola_Std_u"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3405.9,1296",
+				shape=rect,
+				style=filled,
+				width=2.8681];
+			"Concept_Node: pa:Parabola_Std_d"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3405.9,1208",
+				shape=rect,
+				style=filled,
+				width=2.8681];
+			"Concept_Node: _c:Curve"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="1739.9,411",
+				shape=rect,
+				style=filled,
+				width=2.1389];
+			"Concept_Node: p:Point"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3405.9,304",
+				shape=rect,
+				style=filled,
+				width=1.9931];
+			"Concept_Node: a:Num"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="1739.9,355",
+				shape=rect,
+				style=filled,
+				width=1.9722];
+			"Concept_Node: b:Num"	[fillcolor=cadetblue,
+				height=0.5,
+				pos="3405.9,88",
+				shape=rect,
+				style=filled,
+				width=1.9826];
+		}
+		subgraph concept_memory {
+			"CM: e:Ellipse"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,1222",
+				shape=cylinder,
+				style=filled,
+				width=1.2847];
+			"CM: e:Ellipse_Std"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,1006",
+				shape=cylinder,
+				style=filled,
+				width=1.6285];
+			"CM: h:Hyperbola"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,763",
+				shape=cylinder,
+				style=filled,
+				width=1.566];
+			"CM: h:Hyperbola_Std_1"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,628",
+				shape=cylinder,
+				style=filled,
+				width=2.0972];
+			"CM: h:Hyperbola_Std_2"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,574",
+				shape=cylinder,
+				style=filled,
+				width=2.0972];
+			"CM: pa:Parabola"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,466",
+				shape=cylinder,
+				style=filled,
+				width=1.5139];
+			"CM: pa:Parabola_Std_r"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,412",
+				shape=cylinder,
+				style=filled,
+				width=2.0139];
+			"CM: pa:Parabola_Std_l"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,358",
+				shape=cylinder,
+				style=filled,
+				width=2.0035];
+			"CM: pa:Parabola_Std_u"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,1411",
+				shape=cylinder,
+				style=filled,
+				width=2.0451];
+			"CM: pa:Parabola_Std_d"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,1330",
+				shape=cylinder,
+				style=filled,
+				width=2.0451];
+			"CM: _c:Curve"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="3405.9,358",
+				shape=cylinder,
+				style=filled,
+				width=1.316];
+			"CM: p:Point"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,250",
+				shape=cylinder,
+				style=filled,
+				width=1.1701];
+			"CM: _c:Curve; p:Point"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,304",
+				shape=cylinder,
+				style=filled,
+				width=1.9618];
+			"CM: a:Num"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="3405.9,142",
+				shape=cylinder,
+				style=filled,
+				width=1.1493];
+			"CM: b:Num"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,88",
+				shape=cylinder,
+				style=filled,
+				width=1.1597];
+			"CM: a:Num; b:Num"	[fillcolor="#bbd0c0",
+				height=0.5,
+				pos="5071.9,34",
+				shape=cylinder,
+				style=filled,
+				width=1.7847];
+		}
+		subgraph intra_node {
+			"Intra_Node: e:Ellipse | e:Ellipse"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,1168",
+				shape=rect,
+				style=filled,
+				width=2.6389];
+			"Intra_Node: h:Hyperbola | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,898",
+				shape=rect,
+				style=filled,
+				width=3.2014];
+			"Intra_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,628",
+				shape=rect,
+				style=filled,
+				width=4.2639];
+			"Intra_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,574",
+				shape=rect,
+				style=filled,
+				width=4.2639];
+			"Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,1384",
+				shape=rect,
+				style=filled,
+				width=4.1597];
+			"Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,250",
+				shape=rect,
+				style=filled,
+				width=4.0764];
+			"Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,304",
+				shape=rect,
+				style=filled,
+				width=4.0972];
+			"Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,1438",
+				shape=rect,
+				style=filled,
+				width=4.1597];
+			"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,1222",
+				shape=rect,
+				style=filled,
+				width=3.8264];
+			"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,952",
+				shape=rect,
+				style=filled,
+				width=4.1701];
+			"Intra_Node: {Focus_On_X_Axis(h)} | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,682",
+				shape=rect,
+				style=filled,
+				width=4.1181];
+			"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,1276",
+				shape=rect,
+				style=filled,
+				width=3.8264];
+			"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,1006",
+				shape=rect,
+				style=filled,
+				width=4.1701];
+			"Intra_Node: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,736",
+				shape=rect,
+				style=filled,
+				width=4.1181];
+			"Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,1330",
+				shape=rect,
+				style=filled,
+				width=5.8368];
+			"Intra_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,790",
+				shape=rect,
+				style=filled,
+				width=6.0764];
+			"Intra_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,844",
+				shape=rect,
+				style=filled,
+				width=6.0764];
+			"Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,520",
+				shape=rect,
+				style=filled,
+				width=5.5451];
+			"Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,358",
+				shape=rect,
+				style=filled,
+				width=5.4826];
+			"Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,412",
+				shape=rect,
+				style=filled,
+				width=5.5451];
+			"Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,466",
+				shape=rect,
+				style=filled,
+				width=5.4826];
+			"Intra_Node: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,196",
+				shape=rect,
+				style=filled,
+				width=4.6181];
+			"Intra_Node: {a>0} | a:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="5071.9,142",
+				shape=rect,
+				style=filled,
+				width=2.3264];
+			"Intra_Node: {a>b} | a:Num; b:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,34",
+				shape=rect,
+				style=filled,
+				width=2.9618];
+			"Intra_Node: {b>0} | b:Num"	[fillcolor="#948ed6",
+				height=0.5,
+				pos="6737.9,88",
 				shape=rect,
 				style=filled,
 				width=2.3472];
-		}
-		subgraph concept_memory {
-			"CM: b:Business"	[fillcolor="#bbd0c0",
+			"Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="3303,798",
-				shape=cylinder,
-				style=filled,
-				width=1.4444];
-			"CM: g:Good"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="3303,335",
-				shape=cylinder,
-				style=filled,
-				width=1.1944];
-			"CM: b:Business; g:Good"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="4917.5,574",
-				shape=cylinder,
-				style=filled,
-				width=2.1111];
-			"CM: b:Business; c:Company; g:Good"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="6532,1006",
-				shape=cylinder,
-				style=filled,
-				width=3.0972];
-			"CM: c:Company; g:Good"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="4917.5,230",
-				shape=cylinder,
-				style=filled,
-				width=2.1806];
-			"CM: r:Raw_Material"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="4917.5,304",
-				shape=cylinder,
-				style=filled,
-				width=1.8333];
-			"CM: b:Business; g:Good; r:Raw_Material"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="6532,520",
-				shape=cylinder,
-				style=filled,
-				width=3.4167];
-			"CM: g:Good; r:Raw_Material"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="4917.5,358",
-				shape=cylinder,
-				style=filled,
-				width=2.5];
-			"CM: c:Company"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="3303,1357",
-				shape=cylinder,
-				style=filled,
-				width=1.5139];
-			"CM: b:Business; c:Company"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="4917.5,1060",
-				shape=cylinder,
-				style=filled,
-				width=2.4306];
-			"CM: a:Company"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="3303,628",
-				shape=cylinder,
-				style=filled,
-				width=1.5139];
-			"CM: b:Company"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="4917.5,466",
-				shape=cylinder,
-				style=filled,
-				width=1.5278];
-			"CM: a:Company; b:Company"	[fillcolor="#bbd0c0",
-				height=0.5,
-				pos="4917.5,628",
-				shape=cylinder,
-				style=filled,
-				width=2.5];
-		}
-		subgraph intra_node {
-			"Intra_Node: {Business_Include(c, b)} | b:Business; c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,1060",
+				pos="6737.9,1060",
 				shape=rect,
 				style=filled,
-				width=5.0417];
-			"Intra_Node: {Composed_Of(g, r)} | g:Good; r:Raw_Material"	[fillcolor="#948ed6",
+				width=5.5035];
+			"Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor="#948ed6",
 				height=0.5,
-				pos="6532,358",
+				pos="6737.9,1114",
 				shape=rect,
 				style=filled,
-				width=4.875];
-			"Intra_Node: {Decrease(Cost(b))} | b:Business"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,810",
-				shape=rect,
-				style=filled,
-				width=3.7083];
-			"Intra_Node: {Decrease(Demand(g))} | g:Good"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,196",
-				shape=rect,
-				style=filled,
-				width=3.7639];
-			"Intra_Node: {Decrease(EPS(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,1595",
-				shape=rect,
-				style=filled,
-				width=3.7361];
-			"Intra_Node: {Decrease(Net_Profit(b))} | b:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,466",
-				shape=rect,
-				style=filled,
-				width=4.2361];
-			"Intra_Node: {Decrease(Net_Profit(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,1226",
-				shape=rect,
-				style=filled,
-				width=4.2083];
-			"Intra_Node: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,1276",
-				shape=rect,
-				style=filled,
-				width=6.1944];
-			"Intra_Node: {Decrease(Number_of_Shares(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,1330",
-				shape=rect,
-				style=filled,
-				width=4.8889];
-			"Intra_Node: {Decrease(Price(r))} | r:Raw_Material"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,250",
-				shape=rect,
-				style=filled,
-				width=4.1111];
-			"Intra_Node: {Decrease(Profit(b))} | b:Business"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,816",
-				shape=rect,
-				style=filled,
-				width=3.7917];
-			"Intra_Node: {Decrease(Reserve(c, g))} | c:Company; g:Good"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,142",
-				shape=rect,
-				style=filled,
-				width=4.8889];
-			"Intra_Node: {Decrease(Revenue(b))} | b:Business"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,870",
-				shape=rect,
-				style=filled,
-				width=4.0278];
-			"Intra_Node: {Holds(a, b)} | a:Company; b:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,736",
-				shape=rect,
-				style=filled,
-				width=4.2361];
-			"Intra_Node: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,1168",
-				shape=rect,
-				style=filled,
-				width=6.0278];
-			"Intra_Node: {Increase(Cost(b))} | b:Business"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,924",
-				shape=rect,
-				style=filled,
-				width=3.6528];
-			"Intra_Node: {Increase(Demand(g))} | g:Good"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,47",
-				shape=rect,
-				style=filled,
-				width=3.6944];
-			"Intra_Node: {Increase(EPS(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,1384",
-				shape=rect,
-				style=filled,
-				width=3.6806];
-			"Intra_Node: {Increase(Net_Profit(b))} | b:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,412",
-				shape=rect,
-				style=filled,
-				width=4.1667];
-			"Intra_Node: {Increase(Net_Profit(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,1438",
-				shape=rect,
-				style=filled,
-				width=4.1528];
-			"Intra_Node: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,1492",
-				shape=rect,
-				style=filled,
-				width=6.125];
-			"Intra_Node: {Increase(Number_of_Shares(c))} | c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,1546",
-				shape=rect,
-				style=filled,
-				width=4.8194];
-			"Intra_Node: {Increase(Price(r))} | r:Raw_Material"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,304",
-				shape=rect,
-				style=filled,
-				width=4.0417];
-			"Intra_Node: {Increase(Profit(b))} | b:Business"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,978",
-				shape=rect,
-				style=filled,
-				width=3.7361];
-			"Intra_Node: {Increase(Revenue(b))} | b:Business"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,742",
-				shape=rect,
-				style=filled,
-				width=3.9583];
-			"Intra_Node: {Increase(Workload(c, b))} | b:Business; c:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,1114",
-				shape=rect,
-				style=filled,
-				width=5.2222];
-			"Intra_Node: {Industry_Recovery(b)} | b:Business"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="4917.5,136",
-				shape=rect,
-				style=filled,
-				width=3.9861];
-			"Intra_Node: {Ownership_Percentage(a, b)>0.5} | a:Company; b:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,628",
-				shape=rect,
-				style=filled,
-				width=5.8889];
-			"Intra_Node: {Product_Include(b, g)} | b:Business; g:Good"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,574",
-				shape=rect,
-				style=filled,
-				width=4.6528];
-			"Intra_Node: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[fillcolor="#948ed6",
-				height=0.5,
-				pos="6532,682",
-				shape=rect,
-				style=filled,
-				width=4.8889];
+				width=5.5035];
 		}
 		subgraph alpha_memory {
 			graph [rank=same];
-			"AM: {Business_Include(c, b)} | b:Business; c:Company"	[fillcolor=aquamarine,
+			"AM: e:Ellipse | e:Ellipse"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1060",
+				pos="8403.9,1168",
 				shape=cylinder,
 				style=filled,
-				width=4.5];
-			"AM: {Composed_Of(g, r)} | g:Good; r:Raw_Material"	[fillcolor=aquamarine,
+				width=2.0972];
+			"AM: h:Hyperbola | h:Hyperbola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,358",
+				pos="8403.9,898",
 				shape=cylinder,
 				style=filled,
-				width=4.3333];
-			"AM: {Decrease(Cost(b))} | b:Business"	[fillcolor=aquamarine,
+				width=2.6597];
+			"AM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,790",
+				pos="8403.9,628",
 				shape=cylinder,
 				style=filled,
-				width=3.1667];
-			"AM: {Decrease(Demand(g))} | g:Good"	[fillcolor=aquamarine,
+				width=3.7222];
+			"AM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,196",
+				pos="8403.9,574",
 				shape=cylinder,
 				style=filled,
-				width=3.2222];
-			"AM: {Decrease(EPS(c))} | c:Company"	[fillcolor=aquamarine,
+				width=3.7222];
+			"AM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1600",
+				pos="8403.9,1384",
 				shape=cylinder,
 				style=filled,
-				width=3.1944];
-			"AM: {Decrease(Net_Profit(b))} | b:Company"	[fillcolor=aquamarine,
+				width=3.6181];
+			"AM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,466",
+				pos="8403.9,250",
 				shape=cylinder,
 				style=filled,
-				width=3.6944];
-			"AM: {Decrease(Net_Profit(c))} | c:Company"	[fillcolor=aquamarine,
+				width=3.5347];
+			"AM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1222",
+				pos="8403.9,304",
 				shape=cylinder,
 				style=filled,
-				width=3.6667];
-			"AM: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor=aquamarine,
+				width=3.5556];
+			"AM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1276",
+				pos="8403.9,1438",
 				shape=cylinder,
 				style=filled,
-				width=5.6528];
-			"AM: {Decrease(Number_of_Shares(c))} | c:Company"	[fillcolor=aquamarine,
+				width=3.6181];
+			"AM: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1330",
+				pos="8403.9,1222",
 				shape=cylinder,
 				style=filled,
-				width=4.3472];
-			"AM: {Decrease(Price(r))} | r:Raw_Material"	[fillcolor=aquamarine,
+				width=3.2847];
+			"AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,250",
+				pos="8403.9,952",
 				shape=cylinder,
 				style=filled,
-				width=3.5694];
-			"AM: {Decrease(Profit(b))} | b:Business"	[fillcolor=aquamarine,
+				width=3.6285];
+			"AM: {Focus_On_X_Axis(h)} | h:Hyperbola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,844",
+				pos="8403.9,682",
 				shape=cylinder,
 				style=filled,
-				width=3.25];
-			"AM: {Decrease(Reserve(c, g))} | c:Company; g:Good"	[fillcolor=aquamarine,
+				width=3.5764];
+			"AM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,142",
+				pos="8403.9,1276",
 				shape=cylinder,
 				style=filled,
-				width=4.3472];
-			"AM: {Decrease(Revenue(b))} | b:Business"	[fillcolor=aquamarine,
+				width=3.2847];
+			"AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,898",
+				pos="8403.9,1006",
 				shape=cylinder,
 				style=filled,
-				width=3.4861];
-			"AM: {Holds(a, b)} | a:Company; b:Company"	[fillcolor=aquamarine,
+				width=3.6285];
+			"AM: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,682",
+				pos="8403.9,736",
 				shape=cylinder,
 				style=filled,
-				width=3.6944];
-			"AM: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[fillcolor=aquamarine,
+				width=3.5764];
+			"AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1168",
+				pos="8403.9,1330",
 				shape=cylinder,
 				style=filled,
-				width=5.4861];
-			"AM: {Increase(Cost(b))} | b:Business"	[fillcolor=aquamarine,
+				width=5.2951];
+			"AM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,952",
+				pos="8403.9,790",
 				shape=cylinder,
 				style=filled,
-				width=3.1111];
-			"AM: {Increase(Demand(g))} | g:Good"	[fillcolor=aquamarine,
+				width=5.5347];
+			"AM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,34",
+				pos="8403.9,844",
 				shape=cylinder,
 				style=filled,
-				width=3.1528];
-			"AM: {Increase(EPS(c))} | c:Company"	[fillcolor=aquamarine,
+				width=5.5347];
+			"AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1384",
+				pos="8403.9,520",
 				shape=cylinder,
 				style=filled,
-				width=3.1389];
-			"AM: {Increase(Net_Profit(b))} | b:Company"	[fillcolor=aquamarine,
+				width=5.0035];
+			"AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,412",
+				pos="8403.9,358",
 				shape=cylinder,
 				style=filled,
-				width=3.625];
-			"AM: {Increase(Net_Profit(c))} | c:Company"	[fillcolor=aquamarine,
+				width=4.941];
+			"AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1438",
+				pos="8403.9,412",
 				shape=cylinder,
 				style=filled,
-				width=3.6111];
-			"AM: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor=aquamarine,
+				width=5.0035];
+			"AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1492",
+				pos="8403.9,466",
 				shape=cylinder,
 				style=filled,
-				width=5.5833];
-			"AM: {Increase(Number_of_Shares(c))} | c:Company"	[fillcolor=aquamarine,
+				width=4.941];
+			"AM: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1546",
+				pos="8403.9,196",
 				shape=cylinder,
 				style=filled,
-				width=4.2778];
-			"AM: {Increase(Price(r))} | r:Raw_Material"	[fillcolor=aquamarine,
+				width=4.0764];
+			"AM: {a>0} | a:Num"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,304",
+				pos="8403.9,142",
 				shape=cylinder,
 				style=filled,
-				width=3.5];
-			"AM: {Increase(Profit(b))} | b:Business"	[fillcolor=aquamarine,
+				width=1.7847];
+			"AM: {a>b} | a:Num; b:Num"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1006",
+				pos="8403.9,34",
 				shape=cylinder,
 				style=filled,
-				width=3.1944];
-			"AM: {Increase(Revenue(b))} | b:Business"	[fillcolor=aquamarine,
+				width=2.4201];
+			"AM: {b>0} | b:Num"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,736",
+				pos="8403.9,88",
 				shape=cylinder,
 				style=filled,
-				width=3.4167];
-			"AM: {Increase(Workload(c, b))} | b:Business; c:Company"	[fillcolor=aquamarine,
+				width=1.8056];
+			"AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,1114",
+				pos="8403.9,1060",
 				shape=cylinder,
 				style=filled,
-				width=4.6806];
-			"AM: {Industry_Recovery(b)} | b:Business"	[fillcolor=aquamarine,
+				width=4.9618];
+			"AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=aquamarine,
 				height=0.5,
-				pos="8146.5,88",
+				pos="8403.9,1114",
 				shape=cylinder,
 				style=filled,
-				width=3.4444];
-			"AM: {Ownership_Percentage(a, b)>0.5} | a:Company; b:Company"	[fillcolor=aquamarine,
-				height=0.5,
-				pos="8146.5,520",
-				shape=cylinder,
-				style=filled,
-				width=5.3472];
-			"AM: {Product_Include(b, g)} | b:Business; g:Good"	[fillcolor=aquamarine,
-				height=0.5,
-				pos="8146.5,574",
-				shape=cylinder,
-				style=filled,
-				width=4.1111];
-			"AM: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[fillcolor=aquamarine,
-				height=0.5,
-				pos="8146.5,628",
-				shape=cylinder,
-				style=filled,
-				width=4.3472];
+				width=4.9618];
 		}
-		"Concept_Node: b:Business" -> "CM: b:Business"	[pos="e,3250.8,795.75 1770.8,730.58 2053.3,743.02 2988.1,784.18 3239.4,795.24"];
-		"CM: b:Business" -> "CM: b:Business; g:Good"	[pos="e,4841.2,582.79 3355.4,790.34 3537.8,763.26 4170.8,669.93 4694.5,601 4739.1,595.13 4788.8,589.04 4829.8,584.14"];
-		"CM: b:Business" -> "CM: b:Business; c:Company"	[pos="e,4829.5,1045.9 3355.4,806.35 3584.2,843.53 4512.9,994.43 4818.5,1044.1"];
-		"CM: b:Business" -> "Intra_Node: {Decrease(Cost(b))} | b:Business"	[pos="e,6398.2,807.33 3355.5,797.28 3572.4,794.34 4433.1,783.66 5140.5,789 5595.5,792.44 6134.3,802.2 6386.8,807.1"];
-		"CM: b:Business" -> "Intra_Node: {Decrease(Profit(b))} | b:Business"	[pos="e,4780.6,814.48 3355.4,798.57 3573,801 4423.6,810.5 4769.3,814.36"];
-		"CM: b:Business" -> "Intra_Node: {Decrease(Revenue(b))} | b:Business"	[pos="e,4772.1,863.55 3355.4,800.29 3571.3,809.93 4410.1,847.39 4760.9,863.05"];
-		"CM: b:Business" -> "Intra_Node: {Increase(Cost(b))} | b:Business"	[pos="e,4785.5,913.77 3355.4,802.01 3574,819.1 4431.5,886.11 4774.1,912.87"];
-		"CM: b:Business" -> "Intra_Node: {Increase(Profit(b))} | b:Business"	[pos="e,4782.8,963.07 3355.4,803.73 3573.5,828.08 4427.3,923.39 4771.5,961.81"];
-		"CM: b:Business" -> "Intra_Node: {Increase(Revenue(b))} | b:Business"	[pos="e,4774.7,746.93 3355.4,796.22 3571.7,788.7 4413.8,759.46 4763.2,747.32"];
-		"CM: b:Business" -> "Intra_Node: {Industry_Recovery(b)} | b:Business"	[pos="e,4848.3,154.45 3341.3,780.23 3501.1,704.37 4145.7,402.52 4694.5,203 4741.3,185.98 4794.7,169.76 4837.4,157.54"];
-		"Concept_Node: g:Good" -> "CM: g:Good"	[pos="e,3259.7,341.27 1761.9,563.27 2036.4,522.58 3009.3,378.38 3248.6,342.92"];
-		"Concept_Node: g:Good" -> "CM: b:Business; g:Good"	[pos="e,4841.3,574 1761.8,574 2187.8,574 4367.1,574 4830,574"];
-		"Concept_Node: g:Good" -> "CM: b:Business; c:Company; g:Good"	[pos="e,6420.1,1010.6 1761.6,587.07 1979.3,626.27 2649.2,745.09 3207.5,825 3866.5,919.32 4030,964.75 4694.5,1005 5339.4,1044.1 6114.1,\
-1021.9 6409,1011"];
-		"Concept_Node: g:Good" -> "CM: c:Company; g:Good"	[pos="e,4838.7,230.02 1761.7,557.95 1979,510.4 2646.3,369.72 3207.5,308 3824.6,240.13 4573.4,231.09 4827.4,230.06"];
-		"CM: g:Good" -> "CM: g:Good; r:Raw_Material"	[pos="e,4827.1,356.73 3346.3,335.6 3557.9,338.62 4503.3,352.11 4815.8,356.56"];
-		"CM: g:Good" -> "Intra_Node: {Decrease(Demand(g))} | g:Good"	[pos="e,6396.3,201.97 3346.4,333.22 3547.1,324.79 4422.7,287.99 5140.5,257 5594.3,237.41 6131.4,213.7 6384.8,202.48"];
-		"CM: g:Good" -> "Intra_Node: {Increase(Demand(g))} | g:Good"	[pos="e,6398.7,45.702 3346.4,326.07 3515.5,290.92 4158.4,161.4 4694.5,109 5322.9,47.574 6077.4,44.07 6387.4,45.641"];
-		"CM: b:Business; g:Good" -> "CM: b:Business; g:Good; r:Raw_Material"	[pos="e,6408.8,524.09 4993.8,571.48 5247.4,562.98 6072.2,535.37 6397.4,524.47"];
-		"CM: b:Business; g:Good" -> "Intra_Node: {Product_Include(b, g)} | b:Business; g:Good"	[pos="e,6364,574 4993.8,574 5236.5,574 6002.3,574 6352.8,574"];
-		"CM: c:Company; g:Good" -> "Intra_Node: {Decrease(Reserve(c, g))} | c:Company; g:Good"	[pos="e,6355.6,151.57 4996.3,225.76 5239.6,212.48 5991.2,171.46 6344.2,152.19"];
-		"Concept_Node: r:Raw_Material" -> "CM: r:Raw_Material"	[pos="e,4851.2,309.62 3398.8,434.82 3691,409.64 4573.7,333.55 4839.8,310.61"];
-		"Concept_Node: r:Raw_Material" -> "CM: b:Business; g:Good; r:Raw_Material"	[pos="e,6408.7,519.1 3398.8,447.1 3623.7,456.69 4207,480.65 4694.5,493 5332,509.15 6094.3,516.54 6397.3,519.01"];
-		"Concept_Node: r:Raw_Material" -> "CM: g:Good; r:Raw_Material"	[pos="e,4827.3,362.7 3398.8,438 3682.8,423.03 4524.5,378.66 4815.9,363.3"];
-		"CM: r:Raw_Material" -> "Intra_Node: {Decrease(Price(r))} | r:Raw_Material"	[pos="e,6383.8,254.93 4984,301.81 5219.4,293.92 6027.2,266.87 6372.5,255.31"];
-		"CM: r:Raw_Material" -> "Intra_Node: {Increase(Price(r))} | r:Raw_Material"	[pos="e,6386.3,304 4984,304 5219.9,304 6031.2,304 6375,304"];
-		"CM: g:Good; r:Raw_Material" -> "Intra_Node: {Composed_Of(g, r)} | g:Good; r:Raw_Material"	[pos="e,6356,358 5007.8,358 5262.6,358 5997.1,358 6344.6,358"];
-		"Concept_Node: c:Company" -> "CM: c:Company"	[pos="e,3248.3,1347.1 1772.8,1075.3 2056.7,1127.6 2982.9,1298.2 3237,1345"];
-		"Concept_Node: c:Company" -> "CM: b:Business; c:Company"	[pos="e,4829.6,1060 1772.9,1060 2220.5,1060 4335.3,1060 4818.2,1060"];
-		"CM: c:Company" -> "CM: c:Company; g:Good"	[pos="e,4838.5,237.77 3321.1,1338.6 3430.6,1221.4 4050.6,575.84 4694.5,277 4736,257.75 4785.5,246.29 4827.2,239.52"];
-		"CM: c:Company" -> "Intra_Node: {Decrease(EPS(c))} | c:Company"	[pos="e,6397,1599.9 3357.7,1368.2 3542.4,1406 4169.5,1529.3 4694.5,1573 5322.3,1625.3 6074.8,1610 6385.7,1600.3"];
-		"CM: c:Company" -> "Intra_Node: {Decrease(Net_Profit(c))} | c:Company"	[pos="e,6380,1224.6 3357.9,1351.5 3543.5,1333 4172.9,1272.5 4694.5,1249 5312.5,1221.2 6048.6,1222.3 6368.8,1224.5"];
-		"CM: c:Company" -> "Intra_Node: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,4694.1,1287.2 3357.7,1354.3 3562.1,1344 4300,1307 4682.6,1287.7"];
-		"CM: c:Company" -> "Intra_Node: {Decrease(Number_of_Shares(c))} | c:Company"	[pos="e,4741.3,1332.9 3357.7,1356.1 3570.8,1352.5 4364.1,1339.2 4729.8,1333.1"];
-		"CM: c:Company" -> "Intra_Node: {Increase(EPS(c))} | c:Company"	[pos="e,4784.7,1381.8 3357.7,1357.9 3579.7,1361.6 4431.3,1375.9 4773.2,1381.6"];
-		"CM: c:Company" -> "Intra_Node: {Increase(Net_Profit(c))} | c:Company"	[pos="e,4767.8,1430.5 3357.7,1359.7 3576.2,1370.7 4404.3,1412.3 4756.5,1430"];
-		"CM: c:Company" -> "Intra_Node: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,4696.8,1473.6 3357.7,1361.5 3562.6,1378.6 4303.4,1440.7 4685.3,1472.6"];
-		"CM: c:Company" -> "Intra_Node: {Increase(Number_of_Shares(c))} | c:Company"	[pos="e,4758.7,1527.5 3357.7,1363.3 3574.4,1388.7 4390.5,1484.3 4747.5,1526.2"];
-		"CM: b:Business; c:Company" -> "CM: b:Business; c:Company; g:Good"	[pos="e,6420,1009.7 5005.5,1057.1 5274.9,1048.1 6096.4,1020.6 6408.7,1010.1"];
-		"CM: b:Business; c:Company" -> "Intra_Node: {Business_Include(c, b)} | b:Business; c:Company"	[pos="e,6350.3,1060 5005.5,1060 5256.8,1060 5988.2,1060 6339,1060"];
-		"CM: b:Business; c:Company" -> "Intra_Node: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[pos="e,6314.5,1153.5 5005.5,1065.8 5248.5,1082.1 5940.5,1128.5 6303.1,1152.7"];
-		"CM: b:Business; c:Company" -> "Intra_Node: {Increase(Workload(c, b))} | b:Business; c:Company"	[pos="e,6343.5,1107.7 5005.5,1062.9 5255.2,1071.3 5978.8,1095.5 6332.2,1107.3"];
-		"Concept_Node: a:Company" -> "CM: a:Company"	[pos="e,3248.3,628 1772.8,628 2056.7,628 2982.9,628 3237,628"];
-		"CM: a:Company" -> "CM: a:Company; b:Company"	[pos="e,4827.2,628 3357.7,628 3589.7,628 4509.1,628 4816.1,628"];
-		"Concept_Node: b:Company" -> "CM: b:Company"	[pos="e,4862,468.09 3387.9,524.78 3672.1,513.85 4595.7,478.33 4850.7,468.53"];
-		"Concept_Node: b:Company" -> "CM: a:Company; b:Company"	[pos="e,4827.4,622.48 3387.9,533.2 3660.6,550.11 4521.5,603.51 4816.3,621.79"];
-		"CM: b:Company" -> "Intra_Node: {Decrease(Net_Profit(b))} | b:Company"	[pos="e,6379.2,466 4972.6,466 5191.2,466 6014.2,466 6367.9,466"];
-		"CM: b:Company" -> "Intra_Node: {Increase(Net_Profit(b))} | b:Company"	[pos="e,6381.8,417 4972.6,464.19 5191.7,456.85 6018.3,429.17 6370.5,417.37"];
-		"CM: a:Company; b:Company" -> "Intra_Node: {Holds(a, b)} | a:Company; b:Company"	[pos="e,6379.1,725.82 5007.8,633.98 5268.4,651.43 6030.9,702.5 6367.8,725.07"];
-		"CM: a:Company; b:Company" -> "Intra_Node: {Ownership_Percentage(a, b)>0.5} | a:Company; b:Company"	[pos="e,6319.7,628 5007.8,628 5254,628 5948.4,628 6308.4,628"];
-		"CM: a:Company; b:Company" -> "Intra_Node: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[pos="e,6355.7,676.13 5007.8,630.99 5262.5,639.52 5996.6,664.1 6344.2,675.75"];
-		"Intra_Node: {Business_Include(c, b)} | b:Business; c:Company" -> "AM: {Business_Include(c, b)} | b:Business; c:Company"	[pos="e,7984.2,1060 6713.7,1060 7026.7,1060 7665.8,1060 7973,1060"];
-		"Intra_Node: {Composed_Of(g, r)} | g:Good; r:Raw_Material" -> "AM: {Composed_Of(g, r)} | g:Good; r:Raw_Material"	[pos="e,7990.2,358 6707.9,358 7020.7,358 7672.3,358 7979,358"];
-		"Intra_Node: {Decrease(Cost(b))} | b:Business" -> "AM: {Decrease(Cost(b))} | b:Business"	[pos="e,8032.2,791.41 6666,808.35 6972.1,804.55 7723.2,795.24 8020.9,791.54"];
-		"Intra_Node: {Decrease(Demand(g))} | g:Good" -> "AM: {Decrease(Demand(g))} | g:Good"	[pos="e,8030.1,196 6667.7,196 6974.2,196 7720.2,196 8018.8,196"];
-		"Intra_Node: {Decrease(EPS(c))} | c:Company" -> "AM: {Decrease(EPS(c))} | c:Company"	[pos="e,8031,1599.6 6666.7,1595.4 6972.8,1596.4 7721.3,1598.7 8019.7,1599.6"];
-		"Intra_Node: {Decrease(Net_Profit(b))} | b:Company" -> "AM: {Decrease(Net_Profit(b))} | b:Company"	[pos="e,8013.1,466 6684.7,466 6994.9,466 7698,466 8001.6,466"];
-		"Intra_Node: {Decrease(Net_Profit(c))} | c:Company" -> "AM: {Decrease(Net_Profit(c))} | c:Company"	[pos="e,8014,1222.3 6684,1225.6 6994.1,1224.9 7699.3,1223.1 8002.5,1222.4"];
-		"Intra_Node: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "AM: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,7942.7,1276 5140.9,1276 5734,1276 7347.7,1276 7931.2,1276"];
-		"Intra_Node: {Decrease(Number_of_Shares(c))} | c:Company" -> "AM: {Decrease(Number_of_Shares(c))} | c:Company"	[pos="e,7989.6,1330 5093.7,1330 5658.3,1330 7425.5,1330 7978.4,1330"];
-		"Intra_Node: {Decrease(Price(r))} | r:Raw_Material" -> "AM: {Decrease(Price(r))} | r:Raw_Material"	[pos="e,8017.7,250 6680.4,250 6989.9,250 7704,250 8006.3,250"];
-		"Intra_Node: {Decrease(Profit(b))} | b:Business" -> "AM: {Decrease(Profit(b))} | b:Business"	[pos="e,8029,844.01 5054.3,818.55 5303.9,823.12 5852.5,832.64 6315,837 6954.5,843.03 7719.6,843.91 8017.8,844"];
-		"Intra_Node: {Decrease(Reserve(c, g))} | c:Company; g:Good" -> "AM: {Decrease(Reserve(c, g))} | c:Company; g:Good"	[pos="e,7989.7,142 6708.3,142 7021.1,142 7671.7,142 7978.5,142"];
-		"Intra_Node: {Decrease(Revenue(b))} | b:Business" -> "AM: {Decrease(Revenue(b))} | b:Business"	[pos="e,8020.9,896.92 5062.9,871.25 5601,875.92 7485.7,892.28 8009.5,896.82"];
-		"Intra_Node: {Holds(a, b)} | a:Company; b:Company" -> "AM: {Holds(a, b)} | a:Company; b:Company"	[pos="e,8013.1,686.43 6684.7,730.92 6995.1,720.53 7698.7,696.96 8002,686.81"];
-		"Intra_Node: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company" -> "AM: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[pos="e,7948.8,1168 6749.2,1168 7060.5,1168 7631,1168 7937.5,1168"];
-		"Intra_Node: {Increase(Cost(b))} | b:Business" -> "AM: {Increase(Cost(b))} | b:Business"	[pos="e,8034.4,951.04 5049.3,925.13 5572.9,929.68 7514.6,946.53 8023,950.94"];
-		"Intra_Node: {Increase(Demand(g))} | g:Good" -> "AM: {Increase(Demand(g))} | g:Good"	[pos="e,8032.6,34.91 6665.3,45.933 6971.1,43.468 7723.6,37.401 8021.3,35.001"];
-		"Intra_Node: {Increase(EPS(c))} | c:Company" -> "AM: {Increase(EPS(c))} | c:Company"	[pos="e,8033.3,1384 5050.3,1384 5575,1384 7512,1384 8021.8,1384"];
-		"Intra_Node: {Increase(Net_Profit(b))} | b:Company" -> "AM: {Increase(Net_Profit(b))} | b:Company"	[pos="e,8015.6,412 6682.2,412 6991.9,412 7701.2,412 8004.1,412"];
-		"Intra_Node: {Increase(Net_Profit(c))} | c:Company" -> "AM: {Increase(Net_Profit(c))} | c:Company"	[pos="e,8016.3,1438 5067.4,1438 5609.8,1438 7476,1438 8004.8,1438"];
-		"Intra_Node: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "AM: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,7945.1,1492 5138.4,1492 5730.2,1492 7351.3,1492 7933.6,1492"];
-		"Intra_Node: {Increase(Number_of_Shares(c))} | c:Company" -> "AM: {Increase(Number_of_Shares(c))} | c:Company"	[pos="e,7992.1,1546 5091.4,1546 5654.4,1546 7430.1,1546 7980.9,1546"];
-		"Intra_Node: {Increase(Price(r))} | r:Raw_Material" -> "AM: {Increase(Price(r))} | r:Raw_Material"	[pos="e,8020.2,304 6677.9,304 6986.9,304 7707.2,304 8008.8,304"];
-		"Intra_Node: {Increase(Profit(b))} | b:Business" -> "AM: {Increase(Profit(b))} | b:Business"	[pos="e,8031,1003.1 5052.3,977.21 5354.6,975.62 6113.8,972.69 6749,979 7217.7,983.66 7774.8,996.68 8019.6,1002.8"];
-		"Intra_Node: {Increase(Revenue(b))} | b:Business" -> "AM: {Increase(Revenue(b))} | b:Business"	[pos="e,8023.2,739.16 5060.3,745.67 5367.9,753.17 6119.4,769.09 6749,763 7212.9,758.52 7763.3,745.66 8011.9,739.44"];
-		"Intra_Node: {Increase(Workload(c, b))} | b:Business; c:Company" -> "AM: {Increase(Workload(c, b))} | b:Business; c:Company"	[pos="e,7977.5,1114 6720.3,1114 7033.4,1114 7658.7,1114 7966.3,1114"];
-		"Intra_Node: {Industry_Recovery(b)} | b:Business" -> "AM: {Industry_Recovery(b)} | b:Business"	[pos="e,8022,89.809 5061.5,133.84 5314.3,130.01 5856.9,121.82 6315,115 6949.4,105.55 7707.4,94.421 8010.6,89.977"];
-		"Intra_Node: {Ownership_Percentage(a, b)>0.5} | a:Company; b:Company" -> "AM: {Ownership_Percentage(a, b)>0.5} | a:Company; b:Company"	[pos="e,7953.6,532.85 6744.2,613.85 7055.9,592.97 7635.3,554.17 7942.4,533.61"];
-		"Intra_Node: {Product_Include(b, g)} | b:Business; g:Good" -> "AM: {Product_Include(b, g)} | b:Business; g:Good"	[pos="e,7998.2,574 6699.9,574 7012.2,574 7681.2,574 7987.1,574"];
-		"Intra_Node: {Subsidiary_Of(b, a)} | a:Company; b:Company" -> "AM: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[pos="e,7989.7,633.22 6708.3,676.13 7021.1,665.65 7671.7,643.87 7978.5,633.59"];
+		"Concept_Node: e:Ellipse" -> "CM: e:Ellipse"	[pos="e,5025.4,1218.3 3482.2,1093.1 3765.5,1116.1 4764.6,1197.2 5014.1,1217.4"];
+		"CM: e:Ellipse" -> "Intra_Node: e:Ellipse | e:Ellipse"	[pos="e,6642.6,1171.1 5118.2,1220.5 5339.5,1213.3 6308,1181.9 6631.4,1171.4"];
+		"CM: e:Ellipse" -> "Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,6599.7,1222 5118.2,1222 5330.4,1222 6229.5,1222 6588.2,1222"];
+		"CM: e:Ellipse" -> "Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,6599.7,1271.5 5118.2,1223.5 5330.4,1230.4 6229.5,1259.5 6588.2,1271.2"];
+		"CM: e:Ellipse" -> "Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,6527.6,1316.4 5118.2,1224.9 5317.4,1237.9 6121.7,1290.1 6516.3,1315.7"];
+		"Concept_Node: e:Ellipse_Std" -> "CM: e:Ellipse_Std"	[pos="e,5013.1,1002.3 3494.6,903.69 3788.8,922.79 4737.2,984.35 5001.8,1001.5"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,6587.5,956.85 5130.6,1004.1 5360.7,996.66 6216.6,968.88 6576.2,957.21"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,6587.5,1006 5130.6,1006 5360.7,1006 6216.6,1006 6576.2,1006"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,6539.4,1053.6 5130.6,1007.9 5350.9,1015 6145.2,1040.8 6527.9,1053.2"];
+		"CM: e:Ellipse_Std" -> "Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,6539.4,1101.2 5130.6,1009.7 5350.9,1024 6145.2,1075.6 6527.9,1100.4"];
+		"Concept_Node: h:Hyperbola" -> "CM: h:Hyperbola"	[pos="e,5015.4,762.1 3492.3,737.39 3784.7,742.13 4742.2,757.67 5004.1,761.92"];
+		"CM: h:Hyperbola" -> "Intra_Node: h:Hyperbola | h:Hyperbola"	[pos="e,6622.2,888.7 5128.7,767.53 5363.6,786.58 6274.4,860.48 6611,887.78"];
+		"CM: h:Hyperbola" -> "Intra_Node: {Focus_On_X_Axis(h)} | h:Hyperbola"	[pos="e,6589.1,689.19 5128.7,760.28 5356.2,749.21 6218.3,707.24 6577.9,689.74"];
+		"CM: h:Hyperbola" -> "Intra_Node: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[pos="e,6589.1,738.4 5128.7,762.09 5356.2,758.4 6218.3,744.41 6577.9,738.58"];
+		"CM: h:Hyperbola" -> "Intra_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,6518.8,786.46 5128.7,763.91 5342.5,767.37 6116.3,779.93 6507.3,786.28"];
+		"CM: h:Hyperbola" -> "Intra_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,6518.8,833.38 5128.7,765.72 5342.5,776.12 6116.3,813.79 6507.3,832.83"];
+		"Concept_Node: h:Hyperbola_Std_1" -> "CM: h:Hyperbola_Std_1"	[pos="e,4996.2,628 3511.3,628 3816.7,628 4704.5,628 4984.9,628"];
+		"CM: h:Hyperbola_Std_1" -> "Intra_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,6584.2,628 5147.6,628 5399.3,628 6219.7,628 6572.8,628"];
+		"Concept_Node: h:Hyperbola_Std_2" -> "CM: h:Hyperbola_Std_2"	[pos="e,4996.2,574 3511.3,574 3816.7,574 4704.5,574 4984.9,574"];
+		"CM: h:Hyperbola_Std_2" -> "Intra_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,6584.2,574 5147.6,574 5399.3,574 6219.7,574 6572.8,574"];
+		"Concept_Node: pa:Parabola" -> "CM: pa:Parabola"	[pos="e,5017.2,467.74 3490.2,517.29 3780.8,507.86 4745.4,476.56 5005.7,468.12"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,6537.8,513.54 5126.8,467.75 5341.4,474.71 6141,500.66 6526.5,513.17"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,6540.4,370.75 5126.8,462.5 5341.8,448.54 6144.7,396.44 6529.1,371.49"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,6537.8,418.46 5126.8,464.25 5341.4,457.29 6141,431.34 6526.5,418.83"];
+		"CM: pa:Parabola" -> "Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,6540.4,466 5126.8,466 5341.8,466 6144.7,466 6529.1,466"];
+		"Concept_Node: pa:Parabola_Std_r" -> "CM: pa:Parabola_Std_r"	[pos="e,4999.1,414.33 3508.5,462.7 3812.3,452.84 4709.9,423.71 4987.9,414.69"];
+		"CM: pa:Parabola_Std_r" -> "Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,6590.1,313.53 5144.6,407.34 5394.1,391.15 6227.7,337.05 6578.8,314.26"];
+		"Concept_Node: pa:Parabola_Std_l" -> "CM: pa:Parabola_Std_l"	[pos="e,4999.4,360.32 3507.8,408.72 3811.2,398.88 4710.5,369.69 4988.3,360.68"];
+		"CM: pa:Parabola_Std_l" -> "Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,6590.9,259.47 5144.4,353.36 5393.8,337.17 6229,282.97 6579.7,260.2"];
+		"Concept_Node: pa:Parabola_Std_u" -> "CM: pa:Parabola_Std_u"	[pos="e,4997.8,1406 3509.4,1303.1 3813.6,1324.1 4707.4,1385.9 4986.6,1405.2"];
+		"CM: pa:Parabola_Std_u" -> "Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,6587.9,1435.6 5146,1412.2 5396.6,1416.3 6224.8,1429.7 6576.6,1435.4"];
+		"Concept_Node: pa:Parabola_Std_d" -> "CM: pa:Parabola_Std_d"	[pos="e,4997.8,1324.6 3509.4,1215.5 3813.6,1237.8 4707.4,1303.4 4986.6,1323.8"];
+		"CM: pa:Parabola_Std_d" -> "Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,6587.9,1379.2 5146,1332.4 5396.6,1340.5 6224.8,1367.4 6576.6,1378.8"];
+		"Concept_Node: _c:Curve" -> "CM: _c:Curve"	[pos="e,3358.4,359.48 1817.2,408.57 2101.7,399.51 3096,367.84 3347,359.84"];
+		"CM: _c:Curve" -> "CM: _c:Curve; p:Point"	[pos="e,5001,306.27 3453.6,356.49 3683.2,349.03 4694.2,316.22 4989.6,306.64"];
+		"Concept_Node: p:Point" -> "CM: p:Point"	[pos="e,5029.5,251.34 3478.1,301.69 3757.4,292.62 4774.5,259.62 5018.2,251.71"];
+		"Concept_Node: p:Point" -> "CM: _c:Curve; p:Point"	[pos="e,5001,304 3478.1,304 3747.5,304 4703.5,304 4989.5,304"];
+		"CM: _c:Curve; p:Point" -> "Intra_Node: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[pos="e,6571.2,206.76 5142.8,299.46 5385.6,283.7 6197.5,231 6559.8,207.49"];
+		"Concept_Node: a:Num" -> "CM: a:Num"	[pos="e,3364.2,147.21 1811.3,345.98 2089.8,310.34 3110.3,179.71 3352.9,148.66"];
+		"CM: a:Num" -> "CM: a:Num; b:Num"	[pos="e,5007.5,38.111 3447.6,139.36 3666.8,125.13 4707.5,57.584 4996.4,38.836"];
+		"CM: a:Num" -> "Intra_Node: {a>0} | a:Num"	[pos="e,4987.8,142 3447.6,142 3662.1,142 4662.6,142 4976.5,142"];
+		"Concept_Node: b:Num" -> "CM: b:Num"	[pos="e,5029.8,88 3477.6,88 3756.3,88 4775.3,88 5018.5,88"];
+		"Concept_Node: b:Num" -> "CM: a:Num; b:Num"	[pos="e,5007.3,36.064 3477.6,85.706 3748.4,76.917 4718.4,45.438 4996.1,36.426"];
+		"CM: b:Num" -> "Intra_Node: {b>0} | b:Num"	[pos="e,6653.1,88 5114,88 5329.2,88 6327.3,88 6641.8,88"];
+		"CM: a:Num; b:Num" -> "Intra_Node: {a>b} | a:Num; b:Num"	[pos="e,6630.9,34 5136.6,34 5385.4,34 6293.7,34 6619.6,34"];
+		"Intra_Node: e:Ellipse | e:Ellipse" -> "AM: e:Ellipse | e:Ellipse"	[pos="e,8328.3,1168 6833.1,1168 7128.4,1168 8033.1,1168 8316.8,1168"];
+		"Intra_Node: h:Hyperbola | h:Hyperbola" -> "AM: h:Hyperbola | h:Hyperbola"	[pos="e,8307.7,898 6853.6,898 7160.8,898 7999,898 8296.5,898"];
+		"Intra_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "AM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,8269.5,628 6891.7,628 7211.1,628 7945.7,628 8258.1,628"];
+		"Intra_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "AM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,8269.5,574 6891.7,574 7211.1,574 7945.7,574 8258.1,574"];
+		"Intra_Node: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "AM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,8273.2,1384 6888,1384 7206.7,1384 7950.6,1384 8261.9,1384"];
+		"Intra_Node: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "AM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,8276.3,250 6885.1,250 7203.2,250 7954.6,250 8265,250"];
+		"Intra_Node: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "AM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,8275.6,304 6885.8,304 7204.1,304 7953.7,304 8264.3,304"];
+		"Intra_Node: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "AM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,8273.2,1438 6888,1438 7206.7,1438 7950.6,1438 8261.9,1438"];
+		"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse" -> "AM: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,8285.1,1222 6876.1,1222 7191.9,1222 7966.4,1222 8273.9,1222"];
+		"Intra_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,8272.8,952 6888.4,952 7207.1,952 7949.9,952 8261.4,952"];
+		"Intra_Node: {Focus_On_X_Axis(h)} | h:Hyperbola" -> "AM: {Focus_On_X_Axis(h)} | h:Hyperbola"	[pos="e,8274.7,682 6886.5,682 7204.9,682 7952.4,682 8263.3,682"];
+		"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "AM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,8285.1,1276 6876.1,1276 7191.9,1276 7966.4,1276 8273.9,1276"];
+		"Intra_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,8272.8,1006 6888.4,1006 7207.1,1006 7949.9,1006 8261.4,1006"];
+		"Intra_Node: {Focus_On_Y_Axis(h)} | h:Hyperbola" -> "AM: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[pos="e,8274.7,736 6886.5,736 7204.9,736 7952.4,736 8263.3,736"];
+		"Intra_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,8212.8,1330 6948.4,1330 7270.7,1330 7884.3,1330 8201.6,1330"];
+		"Intra_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "AM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,8204.2,790 6956.8,790 7278.5,790 7876.2,790 8193.1,790"];
+		"Intra_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "AM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,8204.2,844 6956.8,844 7278.5,844 7876.2,844 8193.1,844"];
+		"Intra_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,8223.6,520 6937.9,520 7260.9,520 7895,520 8212.4,520"];
+		"Intra_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,8225.7,358 6935.5,358 7258.4,358 7897.1,358 8214.6,358"];
+		"Intra_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,8223.6,412 6937.9,412 7260.9,412 7895,412 8212.4,412"];
+		"Intra_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,8225.7,466 6935.5,466 7258.4,466 7897.1,466 8214.6,466"];
+		"Intra_Node: {Point_On_Curve(p, _c)} | _c:Curve; p:Point" -> "AM: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[pos="e,8256.8,196 6904.5,196 7226,196 7930.4,196 8245.3,196"];
+		"Intra_Node: {a>0} | a:Num" -> "AM: {a>0} | a:Num"	[pos="e,8339.3,142 5156,142 5620.2,142 7885.8,142 8328,142"];
+		"Intra_Node: {a>b} | a:Num; b:Num" -> "AM: {a>b} | a:Num; b:Num"	[pos="e,8316.6,34 6844.9,34 7147.6,34 8013,34 8305.2,34"];
+		"Intra_Node: {b>0} | b:Num" -> "AM: {b>0} | b:Num"	[pos="e,8338.7,88 6822.8,88 7110.3,88 8052.9,88 8327.3,88"];
+		"Intra_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,8225,1060 6936.3,1060 7259.3,1060 7896.4,1060 8213.8,1060"];
+		"Intra_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,8225,1114 6936.3,1114 7259.3,1114 7896.4,1114 8213.8,1114"];
 	}
 	subgraph cluster_beta_network {
-		graph [bb="8065.5,1634,21480,2712",
+		graph [bb="8323.4,1472,18544,2820",
 			bgcolor=lightyellow,
 			style=dashed
 		];
@@ -586,854 +607,987 @@ digraph rete_network {
 		subgraph beta_memory {
 			"BM: dummy_top_node"	[fillcolor="#4a9759",
 				height=0.5,
-				pos="8146.5,2173",
+				pos="8403.9,2146",
 				shape=cylinder,
 				style=filled,
-				width=2.0278];
-			"BM: {Product_Include(b, g)} | b:Business; g:Good"	[fillcolor=burlywood,
+				width=2.0139];
+			"BM: e:Ellipse | e:Ellipse"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,1660",
+				pos="11736,2524",
 				shape=cylinder,
 				style=filled,
-				width=4.1111];
-			"BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material"	[fillcolor=burlywood,
+				width=2.0868];
+			"BM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor=burlywood,
 				height=0.5,
-				pos="14604,1714",
+				pos="11736,2686",
 				shape=cylinder,
 				style=filled,
-				width=7.375];
-			"BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[fillcolor=burlywood,
+				width=5.2847];
+			"BM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="17834,1958",
+				pos="11736,2470",
 				shape=cylinder,
 				style=filled,
-				width=8.9861];
-			"BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[fillcolor=burlywood,
+				width=4.9514];
+			"BM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="17834,1823",
+				pos="11736,2416",
 				shape=cylinder,
 				style=filled,
-				width=9.0556];
-			"BM: {Increase(Cost(b))} | b:Business"	[fillcolor=burlywood,
+				width=4.9514];
+			"BM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2146",
+				pos="11736,2308",
 				shape=cylinder,
 				style=filled,
-				width=3.0972];
-			"BM: {Decrease(Cost(b))} | b:Business"	[fillcolor=burlywood,
+				width=3.6181];
+			"BM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2092",
+				pos="11736,2362",
 				shape=cylinder,
 				style=filled,
-				width=3.1528];
-			"BM: {Increase(Revenue(b))} | b:Business"	[fillcolor=burlywood,
+				width=3.6181];
+			"BM: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2038",
+				pos="11736,2578",
 				shape=cylinder,
 				style=filled,
-				width=3.4028];
-			"BM: {Decrease(Revenue(b))} | b:Business"	[fillcolor=burlywood,
+				width=3.2743];
+			"BM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,1930",
+				pos="11736,2632",
 				shape=cylinder,
 				style=filled,
-				width=3.4722];
-			"BM: {Increase(Profit(b))} | b:Business"	[fillcolor=burlywood,
+				width=3.2743];
+			"BM: h:Hyperbola | h:Hyperbola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,1876",
+				pos="11736,2254",
 				shape=cylinder,
 				style=filled,
-				width=3.1806];
-			"BM: {{Increase(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[fillcolor=burlywood,
+				width=2.6493];
+			"BM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="14604,2632",
+				pos="11736,2146",
 				shape=cylinder,
 				style=filled,
-				width=6.3611];
-			"BM: {Decrease(Profit(b))} | b:Business"	[fillcolor=burlywood,
+				width=5.5243];
+			"BM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,1822",
+				pos="11736,2200",
 				shape=cylinder,
 				style=filled,
-				width=3.2361];
-			"BM: {{Decrease(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[fillcolor=burlywood,
+				width=5.5243];
+			"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor=burlywood,
 				height=0.5,
-				pos="14604,2578",
+				pos="11736,1984",
 				shape=cylinder,
 				style=filled,
-				width=6.4306];
-			"BM: {Increase(Net_Profit(c))} | c:Company"	[fillcolor=burlywood,
+				width=3.7118];
+			"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2308",
+				pos="11736,1930",
 				shape=cylinder,
 				style=filled,
-				width=3.5972];
-			"BM: {Decrease(Net_Profit(c))} | c:Company"	[fillcolor=burlywood,
+				width=3.7118];
+			"BM: {Focus_On_X_Axis(h)} | h:Hyperbola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2200",
+				pos="11736,2038",
 				shape=cylinder,
 				style=filled,
-				width=3.6528];
-			"BM: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor=burlywood,
+				width=3.566];
+			"BM: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2254",
+				pos="11736,2092",
 				shape=cylinder,
 				style=filled,
-				width=5.5694];
-			"BM: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor=burlywood,
+				width=3.566];
+			"BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2686",
+				pos="11736,1822",
 				shape=cylinder,
 				style=filled,
-				width=5.6389];
-			"BM: {Increase(EPS(c))} | c:Company"	[fillcolor=burlywood,
+				width=4.9306];
+			"BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2524",
+				pos="11736,1768",
 				shape=cylinder,
 				style=filled,
-				width=3.125];
-			"BM: {Decrease(EPS(c))} | c:Company"	[fillcolor=burlywood,
+				width=4.9931];
+			"BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2632",
+				pos="11736,1714",
 				shape=cylinder,
 				style=filled,
-				width=3.1944];
-			"BM: {Increase(Number_of_Shares(c))} | c:Company"	[fillcolor=burlywood,
+				width=4.9306];
+			"BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2578",
+				pos="11736,1876",
 				shape=cylinder,
 				style=filled,
-				width=4.2778];
-			"BM: {Decrease(Number_of_Shares(c))} | c:Company"	[fillcolor=burlywood,
+				width=4.9931];
+			"BM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,2470",
+				pos="11736,1660",
 				shape=cylinder,
 				style=filled,
-				width=4.3333];
-			"BM: {Holds(a, b)} | a:Company; b:Company"	[fillcolor=burlywood,
+				width=3.5451];
+			"BM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,1714",
+				pos="11736,1606",
 				shape=cylinder,
 				style=filled,
-				width=3.6944];
-			"BM: {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} | a:Company; b:Company"	[fillcolor=burlywood,
+				width=3.5243];
+			"BM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor=burlywood,
 				height=0.5,
-				pos="14604,2524",
+				pos="11736,2794",
 				shape=cylinder,
 				style=filled,
-				width=6.6667];
-			"BM: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[fillcolor=burlywood,
+				width=3.6076];
+			"BM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,1768",
+				pos="11736,2740",
 				shape=cylinder,
 				style=filled,
-				width=4.3333];
-			"BM: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company"	[fillcolor=burlywood,
+				width=3.6076];
+			"BM: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[fillcolor=burlywood,
 				height=0.5,
-				pos="14604,2470",
+				pos="11736,1552",
 				shape=cylinder,
 				style=filled,
-				width=6.5694];
-			"BM: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company"	[fillcolor=burlywood,
+				width=4.066];
+			"BM: {a>0} | a:Num"	[fillcolor=burlywood,
 				height=0.5,
-				pos="14604,2686",
+				pos="11736,1498",
 				shape=cylinder,
 				style=filled,
-				width=6.6389];
-			"BM: {Business_Include(c, b)} | b:Business; c:Company"	[fillcolor=burlywood,
+				width=1.7743];
+			"BM: {{a>0}; {b>0}} | a:Num; b:Num"	[fillcolor=burlywood,
 				height=0.5,
-				pos="11376,1984",
+				pos="15068,1498",
 				shape=cylinder,
 				style=filled,
-				width=4.4861];
-			"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good"	[fillcolor=burlywood,
+				width=3.191];
+			"BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[fillcolor=burlywood,
 				height=0.5,
-				pos="14604,1917",
+				pos="18400,1498",
 				shape=cylinder,
 				style=filled,
-				width=7.2917];
-			"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}} | b:Business; c:Company; g:Good"	[fillcolor=burlywood,
-				height=0.5,
-				pos="17834,1660",
-				shape=cylinder,
-				style=filled,
-				width=9.4028];
-			"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} | b:Business; c:Company; \
-g:Good"	[fillcolor=burlywood,
-				height=0.5,
-				pos="21062,2173",
-				shape=cylinder,
-				style=filled,
-				width=11.361];
-			"BM: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[fillcolor=burlywood,
-				height=0.5,
-				pos="11376,2416",
-				shape=cylinder,
-				style=filled,
-				width=5.4722];
-			"BM: {Increase(Workload(c, b))} | b:Business; c:Company"	[fillcolor=burlywood,
-				height=0.5,
-				pos="11376,2362",
-				shape=cylinder,
-				style=filled,
-				width=4.6667];
-			"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} | b:Business; c:Company; g:Good"	[fillcolor=burlywood,
-				height=0.5,
-				pos="17834,2052",
-				shape=cylinder,
-				style=filled,
-				width=9.1944];
-			"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} | b:Business; c:Company; g:Good"	[fillcolor=burlywood,
-				height=0.5,
-				pos="17834,2430",
-				shape=cylinder,
-				style=filled,
-				width=9.2639];
+				width=3.7743];
 		}
 		subgraph join_node {
-			"Join_Node: {Product_Include(b, g)} | b:Business; g:Good"	[fillcolor=cornsilk,
+			"Join_Node: e:Ellipse | e:Ellipse"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,1660",
+				pos="10070,2524",
 				shape=rect,
 				style=filled,
-				width=4.6111];
-			"Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material"	[fillcolor=cornsilk,
+				width=2.5972];
+			"Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="12990,1660",
+				pos="10070,2686",
 				shape=rect,
 				style=filled,
-				width=7.8889];
-			"Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[fillcolor=cornsilk,
+				width=5.7951];
+			"Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="16219,1768",
+				pos="10070,2470",
 				shape=rect,
 				style=filled,
-				width=9.5];
-			"Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[fillcolor=cornsilk,
+				width=5.4618];
+			"Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="16219,1714",
+				pos="10070,2416",
 				shape=rect,
 				style=filled,
-				width=9.5694];
-			"Join_Node: {Increase(Cost(b))} | b:Business"	[fillcolor=cornsilk,
+				width=5.4618];
+			"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2146",
+				pos="10070,2308",
 				shape=rect,
 				style=filled,
-				width=3.6111];
-			"Join_Node: {Decrease(Cost(b))} | b:Business"	[fillcolor=cornsilk,
+				width=4.1285];
+			"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2092",
+				pos="10070,2362",
 				shape=rect,
 				style=filled,
-				width=3.6667];
-			"Join_Node: {Increase(Revenue(b))} | b:Business"	[fillcolor=cornsilk,
+				width=4.1285];
+			"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,1930",
+				pos="10070,2578",
 				shape=rect,
 				style=filled,
-				width=3.9167];
-			"Join_Node: {Decrease(Revenue(b))} | b:Business"	[fillcolor=cornsilk,
+				width=3.7847];
+			"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,1984",
+				pos="10070,2632",
 				shape=rect,
 				style=filled,
-				width=3.9861];
-			"Join_Node: {Increase(Profit(b))} | b:Business"	[fillcolor=cornsilk,
+				width=3.7847];
+			"Join_Node: h:Hyperbola | h:Hyperbola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,1876",
+				pos="10070,2254",
 				shape=rect,
 				style=filled,
-				width=3.6944];
-			"Join_Node: {{Increase(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[fillcolor=cornsilk,
+				width=3.1597];
+			"Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="12990,1930",
+				pos="10070,2146",
 				shape=rect,
 				style=filled,
-				width=6.875];
-			"Join_Node: {Decrease(Profit(b))} | b:Business"	[fillcolor=cornsilk,
+				width=6.0347];
+			"Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,1822",
+				pos="10070,2200",
 				shape=rect,
 				style=filled,
-				width=3.75];
-			"Join_Node: {{Decrease(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[fillcolor=cornsilk,
+				width=6.0347];
+			"Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="12990,1876",
+				pos="10070,1984",
 				shape=rect,
 				style=filled,
-				width=6.9444];
-			"Join_Node: {Increase(Net_Profit(c))} | c:Company"	[fillcolor=cornsilk,
+				width=4.2222];
+			"Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2578",
+				pos="10070,1930",
 				shape=rect,
 				style=filled,
-				width=4.1111];
-			"Join_Node: {Decrease(Net_Profit(c))} | c:Company"	[fillcolor=cornsilk,
+				width=4.2222];
+			"Join_Node: {Focus_On_X_Axis(h)} | h:Hyperbola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2254",
+				pos="10070,2038",
 				shape=rect,
 				style=filled,
-				width=4.1667];
-			"Join_Node: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor=cornsilk,
+				width=4.0764];
+			"Join_Node: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2308",
+				pos="10070,2092",
 				shape=rect,
 				style=filled,
-				width=6.0833];
-			"Join_Node: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[fillcolor=cornsilk,
+				width=4.0764];
+			"Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2470",
+				pos="10070,1822",
 				shape=rect,
 				style=filled,
-				width=6.1528];
-			"Join_Node: {Increase(EPS(c))} | c:Company"	[fillcolor=cornsilk,
+				width=5.441];
+			"Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2524",
+				pos="10070,1768",
 				shape=rect,
 				style=filled,
-				width=3.6389];
-			"Join_Node: {Decrease(EPS(c))} | c:Company"	[fillcolor=cornsilk,
+				width=5.5035];
+			"Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2686",
+				pos="10070,1714",
 				shape=rect,
 				style=filled,
-				width=3.6944];
-			"Join_Node: {Increase(Number_of_Shares(c))} | c:Company"	[fillcolor=cornsilk,
+				width=5.441];
+			"Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2632",
+				pos="10070,1876",
 				shape=rect,
 				style=filled,
-				width=4.7778];
-			"Join_Node: {Decrease(Number_of_Shares(c))} | c:Company"	[fillcolor=cornsilk,
+				width=5.5035];
+			"Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2416",
+				pos="10070,1660",
 				shape=rect,
 				style=filled,
-				width=4.8472];
-			"Join_Node: {Holds(a, b)} | a:Company; b:Company"	[fillcolor=cornsilk,
+				width=4.0556];
+			"Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,1768",
+				pos="10070,1606",
 				shape=rect,
 				style=filled,
-				width=4.1944];
-			"Join_Node: {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} | a:Company; b:Company"	[fillcolor=cornsilk,
+				width=4.0347];
+			"Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="12990,1714",
+				pos="10070,2794",
 				shape=rect,
 				style=filled,
-				width=7.1806];
-			"Join_Node: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[fillcolor=cornsilk,
+				width=4.1181];
+			"Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,1714",
+				pos="10070,2740",
 				shape=rect,
 				style=filled,
-				width=4.8472];
-			"Join_Node: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company"	[fillcolor=cornsilk,
+				width=4.1181];
+			"Join_Node: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="12990,1768",
+				pos="10070,1552",
 				shape=rect,
 				style=filled,
-				width=7.0833];
-			"Join_Node: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company"	[fillcolor=cornsilk,
+				width=4.5764];
+			"Join_Node: {a>0} | a:Num"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="12990,1822",
+				pos="10070,1498",
 				shape=rect,
 				style=filled,
-				width=7.1528];
-			"Join_Node: {Business_Include(c, b)} | b:Business; c:Company"	[fillcolor=cornsilk,
+				width=2.2847];
+			"Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="9761,2038",
+				pos="13402,1498",
 				shape=rect,
 				style=filled,
-				width=5];
-			"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good"	[fillcolor=cornsilk,
+				width=3.7014];
+			"Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[fillcolor=cornsilk,
 				height=0.5,
-				pos="12990,1984",
+				pos="16734,1498",
 				shape=rect,
 				style=filled,
-				width=7.8056];
-			"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}} | b:Business; c:Company; g:Good"	[fillcolor=cornsilk,
-				height=0.5,
-				pos="16219,1660",
-				shape=rect,
-				style=filled,
-				width=9.9167];
-			"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} | b:Business; \
-c:Company; g:Good"	[fillcolor=cornsilk,
-				height=0.5,
-				pos="19448,1660",
-				shape=rect,
-				style=filled,
-				width=11.861];
-			"Join_Node: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[fillcolor=cornsilk,
-				height=0.5,
-				pos="9761,2362",
-				shape=rect,
-				style=filled,
-				width=5.9861];
-			"Join_Node: {Increase(Workload(c, b))} | b:Business; c:Company"	[fillcolor=cornsilk,
-				height=0.5,
-				pos="9761,2200",
-				shape=rect,
-				style=filled,
-				width=5.1806];
-			"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} | b:Business; c:Company; g:Good"	[fillcolor=cornsilk,
-				height=0.5,
-				pos="16219,1890",
-				shape=rect,
-				style=filled,
-				width=9.7083];
-			"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} | b:Business; c:Company; g:Good"	[fillcolor=cornsilk,
-				height=0.5,
-				pos="16219,1944",
-				shape=rect,
-				style=filled,
-				width=9.7778];
+				width=4.2847];
 		}
-		"Join_Node: {Product_Include(b, g)} | b:Business; g:Good" -> "BM: {Product_Include(b, g)} | b:Business; g:Good"	[pos="e,11227,1660 9927.4,1660 10239,1660 10910,1660 11216,1660"];
-		"BM: dummy_top_node" -> "Join_Node: {Product_Include(b, g)} | b:Business; g:Good"	[pos="e,9594.7,1676.3 8189.2,2154.7 8355.8,2082.5 8990.4,1814.9 9539.5,1687 9553.8,1683.7 9568.7,1680.7 9583.7,1678.2"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Cost(b))} | b:Business"	[pos="e,9630.6,2148.2 8219.9,2171.8 8468.3,2167.6 9288.4,2153.9 9619.5,2148.4"];
-		"BM: dummy_top_node" -> "Join_Node: {Decrease(Cost(b))} | b:Business"	[pos="e,9628.5,2098.6 8219.9,2169.4 8467.7,2156.9 9284.9,2115.9 9617.4,2099.2"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Revenue(b))} | b:Business"	[pos="e,9619.6,1946.5 8219.8,2160.9 8425.8,2126.8 9033.2,2027.3 9539.5,1957 9561.7,1953.9 9585.3,1950.8 9608.4,1947.9"];
-		"BM: dummy_top_node" -> "Join_Node: {Decrease(Revenue(b))} | b:Business"	[pos="e,9617.3,2000.7 8219.9,2164.5 8464.9,2135.8 9266.5,2041.8 9605.9,2002.1"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Profit(b))} | b:Business"	[pos="e,9627.7,1890.7 8219.6,2157.2 8425.1,2112.4 9031.3,1983.3 9539.5,1903 9564.3,1899.1 9590.8,1895.4 9616.4,1892.1"];
-		"BM: dummy_top_node" -> "Join_Node: {Decrease(Profit(b))} | b:Business"	[pos="e,9625.6,1836.1 8211.2,2155.6 8407.6,2102.5 9021.8,1940.7 9539.5,1849 9563.6,1844.7 9589.4,1840.9 9614.5,1837.6"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Net_Profit(c))} | c:Company"	[pos="e,9612.8,2562.9 8190.8,2187.2 8360.9,2242.5 8999.5,2445.2 9539.5,2551 9559.5,2554.9 9580.6,2558.4 9601.5,2561.4"];
-		"BM: dummy_top_node" -> "Join_Node: {Decrease(Net_Profit(c))} | c:Company"	[pos="e,9610.8,2246.5 8219.9,2176.6 8463.4,2188.9 9256.5,2228.7 9599.5,2245.9"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,9541.6,2289.7 8219.9,2179.1 8448.2,2198.2 9159.6,2257.7 9530.2,2288.8"];
-		"BM: dummy_top_node" -> "Join_Node: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,9598.4,2451.5 8219.6,2188.8 8425.1,2233.6 9031.3,2362.7 9539.5,2443 9555,2445.4 9571.1,2447.8 9587.3,2450"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(EPS(c))} | c:Company"	[pos="e,9629.7,2510.4 8199.2,2187.2 8381.4,2236.6 9010.8,2403.4 9539.5,2497 9564.9,2501.5 9592.1,2505.5 9618.4,2508.9"];
-		"BM: dummy_top_node" -> "Join_Node: {Decrease(EPS(c))} | c:Company"	[pos="e,9627.7,2674.5 8179.6,2187.1 8329.8,2252.5 8979.2,2528.5 9539.5,2659 9564.1,2664.7 9590.6,2669.3 9616.3,2672.9"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Number_of_Shares(c))} | c:Company"	[pos="e,9588.6,2614.1 8194.8,2191.1 8370,2257.4 9000.2,2489.3 9539.5,2605 9551.7,2607.6 9564.4,2610 9577.3,2612.2"];
-		"BM: dummy_top_node" -> "Join_Node: {Decrease(Number_of_Shares(c))} | c:Company"	[pos="e,9603.9,2397.5 8219.8,2185.1 8425.8,2219.2 9033.2,2318.7 9539.5,2389 9556.7,2391.4 9574.8,2393.8 9592.7,2396.1"];
-		"BM: dummy_top_node" -> "Join_Node: {Holds(a, b)} | a:Company; b:Company"	[pos="e,9609.5,1783.5 8201.9,2155.2 8387,2095.2 9010.5,1898.7 9539.5,1795 9558.4,1791.3 9578.3,1788 9598.2,1785.1"];
-		"BM: dummy_top_node" -> "Join_Node: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[pos="e,9586.2,1732.3 8194.8,2154.9 8370,2088.6 9000.2,1856.7 9539.5,1741 9551,1738.5 9563,1736.3 9575.1,1734.2"];
-		"BM: dummy_top_node" -> "Join_Node: {Business_Include(c, b)} | b:Business; c:Company"	[pos="e,9580.7,2053 8219.9,2166.9 8456.6,2147.1 9212.3,2083.9 9569.5,2053.9"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[pos="e,9602.2,2343.5 8219.9,2181.5 8461.4,2209.8 9243.2,2301.4 9590.8,2342.2"];
-		"BM: dummy_top_node" -> "Join_Node: {Increase(Workload(c, b))} | b:Business; c:Company"	[pos="e,9574.3,2196.9 8219.9,2174.2 8455.1,2178.2 9203.1,2190.7 9562.9,2196.7"];
-		"BM: {Product_Include(b, g)} | b:Business; g:Good" -> "Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material"	[pos="e,12706,1660 11524,1660 11788,1660 12348,1660 12694,1660"];
-		"Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material" -> "BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material"	[pos="e,14339,1705.1 13274,1669.5 13571,1679.4 14034,1694.9 14327,1704.8"];
-		"BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material" -> "Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[pos="e,15877,1756.6 14870,1722.9 15142,1732 15565,1746.1 15865,1756.2"];
-		"BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material" -> "Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[pos="e,15874,1714 14870,1714 15141,1714 15563,1714 15863,1714"];
-		"Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} | b:Business; g:Good; r:Raw_Material" -> "BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[pos="e,17676,1939.5 16377,1786.5 16682,1822.4 17351,1901.3 17665,1938.2"];
-		"Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} | b:Business; g:Good; r:Raw_Material" -> "BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[pos="e,17571,1805.3 16494,1732.5 16791,1752.6 17263,1784.5 17560,1804.6"];
-		"Join_Node: {Increase(Cost(b))} | b:Business" -> "BM: {Increase(Cost(b))} | b:Business"	[pos="e,11264,2146 9891.2,2146 10196,2146 10955,2146 11252,2146"];
-		"Join_Node: {Decrease(Cost(b))} | b:Business" -> "BM: {Decrease(Cost(b))} | b:Business"	[pos="e,11262,2092 9893.3,2092 10198,2092 10952,2092 11250,2092"];
-		"Join_Node: {Increase(Revenue(b))} | b:Business" -> "BM: {Increase(Revenue(b))} | b:Business"	[pos="e,11253,2029.8 9902.3,1939.4 10210,1960 10940,2008.9 11241,2029.1"];
-		"Join_Node: {Decrease(Revenue(b))} | b:Business" -> "BM: {Decrease(Revenue(b))} | b:Business"	[pos="e,11250,1934.2 9904.7,1979.2 10213,1968.9 10937,1944.7 11239,1934.5"];
-		"Join_Node: {Increase(Profit(b))} | b:Business" -> "BM: {Increase(Profit(b))} | b:Business"	[pos="e,11261,1876 9894.3,1876 10200,1876 10951,1876 11249,1876"];
-		"BM: {Increase(Profit(b))} | b:Business" -> "Join_Node: {{Increase(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[pos="e,12742,1921.7 11490,1879.8 11746,1888.4 12374,1909.4 12731,1921.4"];
-		"Join_Node: {{Increase(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company" -> "BM: {{Increase(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[pos="e,14375,2615.3 13238,1946.8 13250,1949.7 13262,1953.1 13274,1957 13800,2131.7 13814,2428.5 14339,2605 14347,2607.8 14356,2610.3 \
-14364,2612.5"];
-		"Join_Node: {Decrease(Profit(b))} | b:Business" -> "BM: {Decrease(Profit(b))} | b:Business"	[pos="e,11259,1822 9896.4,1822 10202,1822 10948,1822 11247,1822"];
-		"BM: {Decrease(Profit(b))} | b:Business" -> "Join_Node: {{Decrease(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[pos="e,12740,1867.6 11492,1825.9 11749,1834.5 12372,1855.3 12728,1867.3"];
-		"Join_Node: {{Decrease(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company" -> "BM: {{Decrease(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[pos="e,14374,2561 13240,1893.4 13252,1896.2 13263,1899.4 13274,1903 13800,2077.7 13814,2374.5 14339,2551 14347,2553.7 14355,2556.1 14363,\
-2558.3"];
-		"Join_Node: {Increase(Net_Profit(c))} | c:Company" -> "BM: {Increase(Net_Profit(c))} | c:Company"	[pos="e,11246,2324.3 9909.2,2561.2 9933.7,2558 9958.9,2554.6 9982.5,2551 10514,2470.3 10642,2418.6 11172,2335 11192,2331.9 11214,2328.8 \
-11234,2325.9"];
-		"Join_Node: {Decrease(Net_Profit(c))} | c:Company" -> "BM: {Decrease(Net_Profit(c))} | c:Company"	[pos="e,11244,2204.4 9911.2,2249 10221,2238.6 10929,2214.9 11232,2204.8"];
-		"Join_Node: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "BM: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,11175,2260.7 9980.3,2300.7 10291,2290.3 10857,2271.3 11163,2261.1"];
-		"Join_Node: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "BM: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,11239,2667.9 9915.1,2488.5 9937.7,2491.3 9960.7,2494.2 9982.5,2497 10512,2565.4 10644,2587.6 11172,2659 11190,2661.4 11209,2663.9 \
-11228,2666.4"];
-		"Join_Node: {Increase(EPS(c))} | c:Company" -> "BM: {Increase(EPS(c))} | c:Company"	[pos="e,11263,2524 9892.3,2524 10197,2524 10954,2524 11251,2524"];
-		"Join_Node: {Decrease(EPS(c))} | c:Company" -> "BM: {Decrease(EPS(c))} | c:Company"	[pos="e,11260,2635.8 9894.3,2681.6 10200,2671.3 10950,2646.2 11249,2636.2"];
-		"Join_Node: {Increase(Number_of_Shares(c))} | c:Company" -> "BM: {Increase(Number_of_Shares(c))} | c:Company"	[pos="e,11221,2583.1 9933.4,2626.3 10246,2615.8 10903,2593.8 11210,2583.5"];
-		"Join_Node: {Decrease(Number_of_Shares(c))} | c:Company" -> "BM: {Decrease(Number_of_Shares(c))} | c:Company"	[pos="e,11219,2464.8 9935.7,2421.8 10248,2432.3 10901,2454.1 11208,2464.4"];
-		"Join_Node: {Holds(a, b)} | a:Company; b:Company" -> "BM: {Holds(a, b)} | a:Company; b:Company"	[pos="e,11242,1718.4 9912.3,1763 10222,1752.6 10927,1729 11231,1718.8"];
-		"BM: {Holds(a, b)} | a:Company; b:Company" -> "Join_Node: {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} | a:Company; b:Company"	[pos="e,12731,1714 11509,1714 11773,1714 12370,1714 12720,1714"];
-		"Join_Node: {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} | a:Company; b:Company" -> "BM: {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} | a:Company; b:Company"	[pos="e,14370,2506.9 13248,1732.5 13257,1735 13266,1737.9 13274,1741 13818,1943.4 13796,2292.8 14339,2497 14346,2499.5 14352,2501.7 14359,\
-2503.8"];
-		"Join_Node: {Subsidiary_Of(b, a)} | a:Company; b:Company" -> "BM: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[pos="e,11219,1762.8 9935.7,1719.8 10248,1730.3 10901,1752.1 11208,1762.4"];
-		"BM: {Subsidiary_Of(b, a)} | a:Company; b:Company" -> "Join_Node: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company"	[pos="e,12735,1768 11532,1768 11807,1768 12384,1768 12723,1768"];
-		"BM: {Subsidiary_Of(b, a)} | a:Company; b:Company" -> "Join_Node: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company"	[pos="e,12732,1813.4 11532,1773.2 11806,1782.4 12381,1801.6 12721,1813"];
-		"Join_Node: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company" -> "BM: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company"	[pos="e,14577,2451.7 13240,1786.4 13252,1789 13263,1791.8 13274,1795 13825,1954.9 14418,2343.9 14568,2445.4"];
-		"Join_Node: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company" -> "BM: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company"	[pos="e,14369,2669 13248,1840 13257,1842.7 13265,1845.7 13274,1849 13828,2065.5 13786,2440.6 14339,2659 14345,2661.4 14351,2663.6 14358,\
-2665.7"];
-		"Join_Node: {Business_Include(c, b)} | b:Business; c:Company" -> "BM: {Business_Include(c, b)} | b:Business; c:Company"	[pos="e,11214,1989.4 9941.1,2032 10254,2021.5 10895,2000.1 11203,1989.8"];
-		"BM: {Business_Include(c, b)} | b:Business; c:Company" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good"	[pos="e,12709,1984 11537,1984 11808,1984 12357,1984 12697,1984"];
-		"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good" -> "BM: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good"	[pos="e,14342,1927.9 13271,1972.3 13569,1960 14036,1940.6 14330,1928.3"];
-		"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}} | b:Business; c:Company; g:Good"	[pos="e,15937,1678.5 14689,1898.5 14890,1854.8 15417,1744.5 15862,1687 15883,1684.3 15904,1681.9 15926,1679.6"];
-		"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} | b:Business; c:Company; g:Good"	[pos="e,15869,1895.8 14867,1912.6 15136,1908.1 15558,1901.1 15858,1896"];
-		"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} | b:Business; c:Company; g:Good"	[pos="e,15867,1938.1 14867,1921.4 15136,1925.9 15555,1932.9 15856,1937.9"];
-		"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}} | b:Business; c:Company; g:Good" -> "BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}} | b:Business; c:Company; g:Good"	[pos="e,17495,1660 16576,1660 16846,1660 17215,1660 17483,1660"];
-		"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}} | b:Business; c:Company; g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} | b:Business; \
-c:Company; g:Good"	[pos="e,19021,1660 18172,1660 18415,1660 18746,1660 19009,1660"];
-		"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} | b:Business; \
-c:Company; g:Good" -> "BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} | b:Business; c:Company; \
-g:Good"	[pos="e,21004,2154.6 19507,1678.4 19755,1757.2 20725,2066 20993,2151.2"];
-		"Join_Node: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company" -> "BM: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[pos="e,11178,2409.4 9977,2369.2 10288,2379.6 10860,2398.8 11167,2409"];
-		"Join_Node: {Increase(Workload(c, b))} | b:Business; c:Company" -> "BM: {Increase(Workload(c, b))} | b:Business; c:Company"	[pos="e,11207,2345.2 9945.8,2218.5 10258,2249.8 10887,2313.1 11196,2344.1"];
-		"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} | b:Business; c:Company; g:Good" -> "BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} | b:Business; c:Company; g:Good"	[pos="e,17675,2033.5 16476,1908.5 16510,1911.2 16544,1914 16576,1917 16966,1952.7 17423,2004.3 17664,2032.2"];
-		"Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} | b:Business; c:Company; g:Good" -> "BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} | b:Business; c:Company; g:Good"	[pos="e,17771,2411.5 16281,1962.5 16533,2038.4 17489,2326.5 17760,2408.2"];
+		"Join_Node: e:Ellipse | e:Ellipse" -> "BM: e:Ellipse | e:Ellipse"	[pos="e,11661,2524 10164,2524 10457,2524 11365,2524 11649,2524"];
+		"BM: dummy_top_node" -> "Join_Node: e:Ellipse | e:Ellipse"	[pos="e,9975.9,2514.7 8466.1,2163.5 8664.6,2219.7 9309.2,2397.5 9852.6,2497 9888.9,2503.6 9928.9,2509.1 9964.5,2513.4"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,9894.2,2667.5 8445.9,2164.3 8615.4,2238.9 9278.5,2523.1 9852.6,2659 9862.5,2661.3 9872.7,2663.5 9883,2665.4"];
+		"BM: dummy_top_node" -> "Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9909.5,2451.5 8476.8,2162.8 8687.4,2211.7 9321,2355.4 9852.6,2443 9867.4,2445.4 9882.8,2447.8 9898.3,2450"];
+		"BM: dummy_top_node" -> "Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9914.3,2397.5 8476.6,2159.1 8687.3,2197.5 9322.7,2311.5 9852.6,2389 9869,2391.4 9886,2393.8 9903.1,2396"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.8,2293.6 8476.6,2153 8725.8,2177.2 9557.6,2258.2 9909.5,2292.5"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.8,2343.6 8476.8,2155.5 8687.9,2183.5 9324.3,2267.5 9852.6,2335 9871.1,2337.4 9890.4,2339.8 9909.6,2342.2"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,9933.4,2564.2 8457.4,2163.8 8644.7,2226.5 9298,2439.4 9852.6,2551 9874.9,2555.5 9898.7,2559.4 9922,2562.7"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,9933.3,2618.9 8451.2,2164.1 8629.3,2233.1 9288.2,2481.4 9852.6,2605 9874.9,2609.9 9898.6,2613.9 9921.9,2617.3"];
+		"BM: dummy_top_node" -> "Join_Node: h:Hyperbola | h:Hyperbola"	[pos="e,9955.9,2246.7 8476.6,2150.7 8734.5,2167.4 9616.3,2224.6 9944.5,2245.9"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,9852.4,2146 8476.6,2146 8710.8,2146 9459.6,2146 9841,2146"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,9852.4,2193 8476.6,2148.3 8710.8,2155.9 9459.6,2180.2 9841,2192.6"];
+		"BM: dummy_top_node" -> "Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,9917.6,1998.7 8476.6,2139 8725.1,2114.8 9552.5,2034.3 9906.2,1999.8"];
+		"BM: dummy_top_node" -> "Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,9920,1948.5 8476.8,2136.5 8687.9,2108.5 9324.3,2024.5 9852.6,1957 9870.7,1954.7 9889.7,1952.3 9908.6,1949.9"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_X_Axis(h)} | h:Hyperbola"	[pos="e,9922.7,2047.5 8476.6,2141.3 8726.3,2125.1 9560.7,2071 9911.4,2048.2"];
+		"BM: dummy_top_node" -> "Join_Node: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[pos="e,9922.7,2096.7 8476.6,2143.7 8726.3,2135.6 9560.7,2108.5 9911.4,2097.1"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,9909.5,1840.5 8476.8,2129.2 8687.4,2080.3 9321,1936.6 9852.6,1849 9867.4,1846.6 9882.8,1844.2 9898.3,1842"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,9905,1786.5 8469.6,2127.5 8672.1,2070.3 9312.3,1893.9 9852.6,1795 9866,1792.6 9879.9,1790.3 9893.8,1788.1"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,9900.8,1732.5 8457.4,2128.2 8644.7,2065.5 9298,1852.6 9852.6,1741 9864.7,1738.6 9877.1,1736.3 9889.7,1734.3"];
+		"BM: dummy_top_node" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,9914.3,1894.5 8476.6,2132.9 8687.3,2094.5 9322.7,1980.5 9852.6,1903 9869,1900.6 9886,1898.2 9903.1,1896"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,9923.4,1674.5 8452.1,2127.5 8631.6,2058.1 9289.2,1810.4 9852.6,1687 9871.8,1682.8 9892.1,1679.2 9912.3,1676.1"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,9924.2,1619.7 8446.2,2127.6 8616.1,2052.7 9278.8,1768.8 9852.6,1633 9872,1628.4 9892.5,1624.6 9912.8,1621.4"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,9921.2,2781.2 8438.1,2164.5 8592.7,2249.5 9259.7,2606.3 9852.6,2767 9871,2772 9890.6,2776.1 9910.1,2779.4"];
+		"BM: dummy_top_node" -> "Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,9921.4,2726.6 8441.8,2164.4 8603.7,2244.6 9269.2,2564.8 9852.6,2713 9871.1,2717.7 9890.7,2721.6 9910.2,2724.8"];
+		"BM: dummy_top_node" -> "Join_Node: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[pos="e,9904.8,1568.1 8441.8,2127.6 8603.7,2047.4 9269.2,1727.2 9852.6,1579 9865.9,1575.6 9879.7,1572.7 9893.6,1570.1"];
+		"BM: dummy_top_node" -> "Join_Node: {a>0} | a:Num"	[pos="e,9987.2,1502.8 8438.1,2127.5 8592.7,2042.5 9259.7,1685.7 9852.6,1525 9892.3,1514.2 9937.3,1507.7 9976,1503.8"];
+		"Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "BM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,11545,2686 10279,2686 10601,2686 11216,2686 11534,2686"];
+		"Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "BM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,11557,2470 10267,2470 10589,2470 11228,2470 11546,2470"];
+		"Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "BM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,11557,2416 10267,2416 10589,2416 11228,2416 11546,2416"];
+		"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "BM: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,11605,2308 10219,2308 10537,2308 11282,2308 11594,2308"];
+		"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "BM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,11605,2362 10219,2362 10537,2362 11282,2362 11594,2362"];
+		"Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse" -> "BM: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,11618,2578 10206,2578 10521,2578 11299,2578 11606,2578"];
+		"Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "BM: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,11618,2632 10206,2632 10521,2632 11299,2632 11606,2632"];
+		"Join_Node: h:Hyperbola | h:Hyperbola" -> "BM: h:Hyperbola | h:Hyperbola"	[pos="e,11640,2254 10184,2254 10490,2254 11331,2254 11629,2254"];
+		"Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "BM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,11537,2146 10288,2146 10609,2146 11208,2146 11525,2146"];
+		"Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "BM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,11537,2200 10288,2200 10609,2200 11208,2200 11525,2200"];
+		"Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,11602,1984 10222,1984 10541,1984 11278,1984 11591,1984"];
+		"Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,11602,1930 10222,1930 10541,1930 11278,1930 11591,1930"];
+		"Join_Node: {Focus_On_X_Axis(h)} | h:Hyperbola" -> "BM: {Focus_On_X_Axis(h)} | h:Hyperbola"	[pos="e,11607,2038 10217,2038 10535,2038 11285,2038 11596,2038"];
+		"Join_Node: {Focus_On_Y_Axis(h)} | h:Hyperbola" -> "BM: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[pos="e,11607,2092 10217,2092 10535,2092 11285,2092 11596,2092"];
+		"Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,11558,1822 10266,1822 10589,1822 11229,1822 11547,1822"];
+		"Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,11556,1768 10268,1768 10591,1768 11227,1768 11545,1768"];
+		"Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,11558,1714 10266,1714 10589,1714 11229,1714 11547,1714"];
+		"Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,11556,1876 10268,1876 10591,1876 11227,1876 11545,1876"];
+		"Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "BM: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,11608,1660 10216,1660 10534,1660 11286,1660 11597,1660"];
+		"Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "BM: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,11609,1606 10215,1606 10532,1606 11286,1606 11597,1606"];
+		"Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "BM: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,11606,2794 10219,2794 10537,2794 11283,2794 11594,2794"];
+		"Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "BM: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,11606,2740 10219,2740 10537,2740 11283,2740 11594,2740"];
+		"Join_Node: {Point_On_Curve(p, _c)} | _c:Curve; p:Point" -> "BM: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[pos="e,11589,1552 10235,1552 10556,1552 11262,1552 11578,1552"];
+		"Join_Node: {a>0} | a:Num" -> "BM: {a>0} | a:Num"	[pos="e,11672,1498 10153,1498 10438,1498 11387,1498 11660,1498"];
+		"BM: {a>0} | a:Num" -> "Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,13268,1498 11800,1498 12042,1498 12911,1498 13257,1498"];
+		"Join_Node: {{a>0}; {b>0}} | a:Num; b:Num" -> "BM: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,14953,1498 13536,1498 13850,1498 14635,1498 14942,1498"];
+		"BM: {{a>0}; {b>0}} | a:Num; b:Num" -> "Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,16579,1498 15183,1498 15472,1498 16231,1498 16568,1498"];
+		"Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num" -> "BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,18264,1498 16888,1498 17208,1498 17939,1498 18252,1498"];
 	}
 	subgraph root {
 		root	[fillcolor=lightcyan,
-			height=0.79716,
-			pos="74,601",
+			height=0.82669,
+			pos="73.875,554",
 			shape=doublecircle,
 			style=filled,
-			width=0.79716];
+			width=0.82669];
 	}
 	subgraph terminal_node {
 		graph [rank=same];
-		"Terminal: (b:Business)    {Decrease(Cost(b))} => {Increase(Profit(b))}  # 业务成本下降，则该业务的业务利润增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3656",
+		"Terminal: (e:Ellipse)    ∅ => {{Param_A(e)>0}; {Param_B(e)>0}; {Param_C(e)>0}}  # 椭圆的参数a、b、c均大于0 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4842",
 			shape=cylinder,
 			style=filled,
-			width=9.6111];
-		"Terminal: (c:Company)    {Decrease(EPS(c))} => {Increase(PE(c))}  # 公司的EPS减少，则该公司的PE增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3980",
+			width=9.5556];
+		"Terminal: (e:Ellipse)    ∅ => {Sub(Pow(Param_A(e), 2), Pow(Param_B(e), 2))=Pow(Param_C(e), 2)}  # 椭圆的参数a、b、c满足：a^\
+2-b^2=c^2 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4785",
 			shape=cylinder,
 			style=filled,
-			width=8.9861];
-		"Terminal: (c:Company)    {Decrease(Net_Profit(c))} => {Decrease(Net_Profit_Margin(c))}  # 公司的净利润减少，则该公司的净利率减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3440",
+			width=11.67];
+		"Terminal: (e:Ellipse)    ∅ => {Length(Major_Axis(e))=Mul(2, Param_A(e))}  # 椭圆的长轴长等于两倍的参数a #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4728",
 			shape=cylinder,
 			style=filled,
-			width=11.389];
-		"Terminal: (c:Company)    {Decrease(Net_Profit_Attributable_To_Owners(c))} => {Decrease(EPS(c))}  # 公司的归母净利润减少，则该公司的EPS减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,4088",
+			width=9.191];
+		"Terminal: (e:Ellipse)    ∅ => {Length(Minor_Axis(e))=Mul(2, Param_B(e))}  # 椭圆的短轴长等于两倍的参数b #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4671",
 			shape=cylinder,
 			style=filled,
-			width=12.361];
-		"Terminal: (c:Company)    {Decrease(Number_of_Shares(c))} => {Increase(EPS(c))}  # 若公司的股数减少，则该公司的EPS增多 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3872",
+			width=9.2014];
+		"Terminal: (e:Ellipse)    ∅ => {Focal_Length(e)=Mul(2, Param_C(e))}  # 椭圆的焦距长等于两倍的参数c #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4956",
 			shape=cylinder,
 			style=filled,
-			width=10.611];
-		"Terminal: (b:Business)    {Decrease(Revenue(b))} => {Decrease(Profit(b))}  # 业务收入减少，则该业务的业务利润减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3548",
+			width=8.6493];
+		"Terminal: (e:Ellipse)    ∅ => {Eccentricity(e)=Div(Param_C(e), Param_A(e))}  # 椭圆的离心率=参数c/参数a #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4899",
 			shape=cylinder,
 			style=filled,
-			width=9.9861];
-		"Terminal: (b:Business; c:Company)    {Increase(Capital_Expenditure(c, b))} => {Increase(Workload(c, b))}  # 公司加大某项业务的资本开支，则该公司该业务的作业量增大 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3818",
+			width=8.9618];
+		"Terminal: (h:Hyperbola)    ∅ => {{Param_A(h)>0}; {Param_B(h)>0}; {Param_C(h)>0}}  # 双曲线的参数a、b、c均大于0 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4386",
 			shape=cylinder,
 			style=filled,
-			width=14.222];
-		"Terminal: (b:Business)    {Increase(Cost(b))} => {Decrease(Profit(b))}  # 业务成本增加，则该业务的业务利润下降 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3710",
+			width=10.066];
+		"Terminal: (h:Hyperbola)    ∅ => {Add(Pow(Param_A(h), 2), Pow(Param_B(h), 2))=Pow(Param_C(h), 2)}  # 双曲线的参数a、b、c满足：a^\
+2+b^2=c^2 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4329",
 			shape=cylinder,
 			style=filled,
-			width=9.6111];
-		"Terminal: (c:Company)    {Increase(EPS(c))} => {Decrease(PE(c))}  # 公司的EPS增加，则该公司的PE减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,4034",
+			width=12.264];
+		"Terminal: (h:Hyperbola)    ∅ => {Eccentricity(h)=Div(Param_C(h), Param_A(h))}  # 双曲线的离心率=参数c/参数a #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4272",
 			shape=cylinder,
 			style=filled,
-			width=8.9861];
-		"Terminal: (c:Company)    {Increase(Net_Profit(c))} => {Increase(Net_Profit_Margin(c))}  # 公司的净利润增加，则该公司的净利率增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3494",
+			width=9.4722];
+		"Terminal: (h:Hyperbola_Std_1)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_x)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_y)}}  # 标准双曲线Hyperbola_\
+Std_1的参数a等于其x^2系数的倒数的开方,参数b等于其y^2系数的倒数的开方 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3702",
 			shape=cylinder,
 			style=filled,
-			width=11.264];
-		"Terminal: (c:Company)    {Increase(Net_Profit_Attributable_To_Owners(c))} => {Increase(EPS(c))}  # 公司的归母净利润增加，则该公司的EPS增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3386",
+			width=18.67];
+		"Terminal: (h:Hyperbola_Std_1)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_1的焦点在其X轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3645",
 			shape=cylinder,
 			style=filled,
-			width=12.236];
-		"Terminal: (c:Company)    {Increase(Number_of_Shares(c))} => {Decrease(EPS(c))}  # 若公司的股数增多，则该公司的EPS减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3926",
+			width=9.3785];
+		"Terminal: (h:Hyperbola_Std_1)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h), Param_A(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_B(h), Param_A(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3759",
 			shape=cylinder,
 			style=filled,
-			width=10.611];
-		"Terminal: (b:Business)    {Increase(Revenue(b))} => {Increase(Profit(b))}  # 业务收入增加，则该业务的业务利润增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3602",
+			width=20.983];
+		"Terminal: (h:Hyperbola_Std_2)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_y)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_x)}}  # 标准双曲线Hyperbola_\
+Std_2的参数a等于其y^2系数的倒数的开方,参数b等于其x^2系数的倒数的开方 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3531",
 			shape=cylinder,
 			style=filled,
-			width=9.8611];
-		"Terminal: (b:Business; c:Company)    {Increase(Workload(c, b))} => {Increase(Revenue(c, b))}  # 公司加大某项业务的作业量，则该公司该业务的收入增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3764",
+			width=18.67];
+		"Terminal: (h:Hyperbola_Std_2)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_2的焦点在其Y轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3474",
 			shape=cylinder,
 			style=filled,
-			width=12.931];
-		"Terminal: (b:Business; c:Company; g:Good)    {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} => {Decrease(\
-Revenue(c, b))}  # 某种商品的需求减少，且某业务对应该商品，则经营该业务的公司的对应业务收入减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,2954",
+			width=9.3785];
+		"Terminal: (h:Hyperbola_Std_2)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h), Param_B(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_A(h), Param_B(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3588",
 			shape=cylinder,
 			style=filled,
-			width=20.153];
-		"Terminal: (b:Business; c:Company; g:Good)    {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_\
-Recovery(b)}} => {Increase(Capital_Expenditure(c, b))}  # 如果公司某业务商品的储量减少，且该行业有复苏态势，则公司加大对该项业务的资本开支 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,2738",
+			width=20.983];
+		"Terminal: (pa:Parabola_Std_d)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_y, 2))}  # 标准抛物线Parabola_Std_d的参数P等于其y系数的一半的相反数 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5184",
 			shape=cylinder,
 			style=filled,
-			width=23.486];
-		"Terminal: (b:Business; c:Company; g:Good)    {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} => {Increase(\
-Revenue(c, b))}  # 某种商品的需求增加，且某业务对应该商品，则经营该业务的公司的对应业务收入增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,2900",
+			width=12.108];
+		"Terminal: (pa:Parabola_Std_d)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_d的焦点在其Y轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5298",
 			shape=cylinder,
 			style=filled,
-			width=20.028];
-		"Terminal: (b:Business; c:Company)    {{Decrease(Profit(b))}; {Business_Include(c, b)}} => {Decrease(Net_Profit(c))}  # 业务利润减少，则经营该项业务的公司的净利润减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3170",
+			width=9.2743];
+		"Terminal: (pa:Parabola_Std_d)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
+Std_d生成准线方程:y=p/2 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5241",
 			shape=cylinder,
 			style=filled,
-			width=14.292];
-		"Terminal: (a:Company; b:Company)    {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} => {Subsidiary_Of(b, a)}  # 若某公司A控股公司B，且控股比超过50%\
-，则 B公司是A公司的子公司 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3116",
+			width=14.191];
+		"Terminal: (pa:Parabola_Std_l)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_x, 2))}  # 标准抛物线Parabola_Std_l的参数P等于其x系数的一半的相反数 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,2904",
 			shape=cylinder,
 			style=filled,
-			width=15.736];
-		"Terminal: (b:Business; c:Company)    {{Increase(Profit(b))}; {Business_Include(c, b)}} => {Increase(Net_Profit(c))}  # 业务利润增加，则经营该项业务的公司的净利润增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3224",
+			width=12.035];
+		"Terminal: (pa:Parabola_Std_l)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_l的焦点在其X轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3018",
 			shape=cylinder,
 			style=filled,
-			width=14.167];
-		"Terminal: (b:Business; g:Good; r:Raw_Material)    {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} => {Decrease(\
-Cost(b))}  # 业务对应商品的原料价格下降，则该业务的业务成本下降 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,2792",
+			width=9.191];
+		"Terminal: (pa:Parabola_Std_l)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
+Std_l生成准线方程:x=p/2 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,2961",
 			shape=cylinder,
 			style=filled,
-			width=16.875];
-		"Terminal: (b:Business; g:Good; r:Raw_Material)    {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} => {Increase(\
-Cost(b))}  # 业务对应商品的原料价格上涨，则该业务的业务成本上涨 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,2846",
+			width=14.108];
+		"Terminal: (pa:Parabola_Std_r)    ∅ => {Param_P(pa)=Div(pa.coeff_x, 2)}  # 标准抛物线Parabola_Std_r的参数P等于其x系数的一半 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3075",
 			shape=cylinder,
 			style=filled,
-			width=16.75];
-		"Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} => {Decrease(Net_Profit_Attributable_To_Owners(\
-a))}  # 若B公司是A公司的子公司，B公司净利润减少，则A公司归母净利润减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3332",
+			width=10.826];
+		"Terminal: (pa:Parabola_Std_r)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_r的焦点在其X轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3189",
 			shape=cylinder,
 			style=filled,
-			width=18.194];
-		"Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} => {Decrease(Net_Profit(a))}  # 若B公司是A公司的子公司，B公司净利润减少，则A公司净利润减少 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3278",
+			width=9.2118];
+		"Terminal: (pa:Parabola_Std_r)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
+Std_r生成准线方程:x=-p/2 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3132",
 			shape=cylinder,
 			style=filled,
-			width=15.819];
-		"Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} => {Increase(Net_Profit_Attributable_To_Owners(\
-a))}  # 若B公司是A公司的子公司，B公司净利润增加，则A公司归母净利润增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3062",
+			width=13.753];
+		"Terminal: (pa:Parabola_Std_u)    ∅ => {Param_P(pa)=Div(pa.coeff_y, 2)}  # 标准抛物线Parabola_Std_u的参数P等于其y系数的一半 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5469",
 			shape=cylinder,
 			style=filled,
-			width=18.069];
-		"Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} => {Increase(Net_Profit(a))}  # 若B公司是A公司的子公司，B公司净利润增加，则A公司净利润增加 #"	[fillcolor="#ee7b67",
-			height=0.5,
-			pos="19448,3008",
+			width=10.878];
+		"Terminal: (pa:Parabola_Std_u)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_u的焦点在其Y轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5412",
 			shape=cylinder,
 			style=filled,
-			width=15.694];
+			width=9.2743];
+		"Terminal: (pa:Parabola_Std_u)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
+Std_u生成准线方程:y=-p/2 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5355",
+			shape=cylinder,
+			style=filled,
+			width=13.816];
+		"Terminal: (e:Ellipse)    {Focus_On_X_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_A(e), Param_B(e), Center(e))}  # 已知椭圆e的焦点在x轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/a^2+y^2/b^2=1 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5013",
+			shape=cylinder,
+			style=filled,
+			width=18.191];
+		"Terminal: (e:Ellipse_Std)    {Focus_On_X_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_x)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_y)}}  # \
+已知标准椭圆e的焦点在x轴上，可得:e的参数a等于其x^2系数的倒数的开方、e的参数b等于其y^2系数的倒数的开方  #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4443",
+			shape=cylinder,
+			style=filled,
+			width=21.316];
+		"Terminal: (h:Hyperbola)    {Focus_On_X_Axis(h)} => {Param_C(h)=Neg(Coordinate_X(Left_Focus(h)))}  # 已知双曲线的焦点在x轴上,\
+则其参数c等于其左焦点横坐标的值的相反数 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3816",
+			shape=cylinder,
+			style=filled,
+			width=14.972];
+		"Terminal: (h:Hyperbola)    {Focus_On_X_Axis(h)} => {Param_C(h)=Coordinate_X(Right_Focus(h))}  # 已知双曲线的焦点在x轴上,\
+则其参数c等于其右焦点横坐标的值 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3930",
+			shape=cylinder,
+			style=filled,
+			width=13.847];
+		"Terminal: (h:Hyperbola)    {Focus_On_X_Axis(h)} => {{Left_Focus(h)=Get_Left_Focus(Focus(h))}; {Right_Focus(h)=Get_Right_Focus(Focus(\
+h))}}  # 焦点在x轴,则定位左、右焦点 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3873",
+			shape=cylinder,
+			style=filled,
+			width=14.67];
+		"Terminal: (e:Ellipse)    {Focus_On_Y_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_B(e), Param_A(e), Center(e))}  # 已知椭圆e的焦点在y轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/b^2+y^2/a^2=1 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5070",
+			shape=cylinder,
+			style=filled,
+			width=18.191];
+		"Terminal: (e:Ellipse_Std)    {Focus_On_Y_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_y)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_x)}}  # \
+已知标准椭圆e的焦点在y轴上，可得:e的参数a等于其y^2系数的倒数的开方、e的参数b等于其x^2系数的倒数的开方  #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4500",
+			shape=cylinder,
+			style=filled,
+			width=21.316];
+		"Terminal: (h:Hyperbola)    {Focus_On_Y_Axis(h)} => {Param_C(h)=Neg(Coordinate_Y(Left_Focus(h)))}  # 已知双曲线的焦点在y轴上,\
+则其参数c等于其下焦点纵坐标的值的相反数 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4101",
+			shape=cylinder,
+			style=filled,
+			width=14.972];
+		"Terminal: (h:Hyperbola)    {Focus_On_Y_Axis(h)} => {Param_C(h)=Coordinate_Y(Right_Focus(h))}  # 已知双曲线的焦点在y轴上,\
+则其参数c等于其上焦点纵坐标的值 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4044",
+			shape=cylinder,
+			style=filled,
+			width=13.847];
+		"Terminal: (h:Hyperbola)    {Focus_On_Y_Axis(h)} => {{Top_Focus(h)=Get_Top_Focus(Focus(h))}; {Down_Focus(h)=Get_Down_Focus(Focus(\
+h))}}  # 焦点在y轴,则定位上、下焦点 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3987",
+			shape=cylinder,
+			style=filled,
+			width=14.733];
+		"Terminal: (e:Ellipse)    {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} => {assert e_std:Ellipse_Std={recip_coeff_sq_x:=Recip(Extract_\
+Coeff(Equation(e), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(e), y^2))}; {e=e_std}}  # 如果椭圆方程（可）满足标准形式 \
+x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,5127",
+			shape=cylinder,
+			style=filled,
+			width=29.399];
+		"Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} => {assert h_std:Hyperbola_Std_1={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+x^2/a^2-y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_1概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4158",
+			shape=cylinder,
+			style=filled,
+			width=30.753];
+		"Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} => {assert h_std:Hyperbola_Std_2={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+y^2/a^2-x^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_2概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4215",
+			shape=cylinder,
+			style=filled,
+			width=30.753];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==-2*p*y)} => {assert p_std:Parabola_Std_d={coeff_y:=Extract_Coeff(Equation(\
+pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=-2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
+Std_d概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3417",
+			shape=cylinder,
+			style=filled,
+			width=22.806];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==2*p*y)} => {assert p_std:Parabola_Std_u={coeff_y:=Extract_Coeff(Equation(\
+pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
+Std_u概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3246",
+			shape=cylinder,
+			style=filled,
+			width=22.681];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==-2*p*x)} => {assert p_std:Parabola_Std_l={coeff_x:=Extract_Coeff(Equation(\
+pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
+Std_l概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3303",
+			shape=cylinder,
+			style=filled,
+			width=22.722];
+		"Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==2*p*x)} => {assert p_std:Parabola_Std_r={coeff_x:=Extract_Coeff(Equation(\
+pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
+Std_r概念的个体 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,3360",
+			shape=cylinder,
+			style=filled,
+			width=22.618];
+		"Terminal: (_c:Curve; p:Point)    {Point_On_Curve(p, _c)} => {Subst_Point_Into_Curve(p, _c)}  # 如果点在曲线上，就把点代入曲线方程 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,2847",
+			shape=cylinder,
+			style=filled,
+			width=11.285];
+		"Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x<e.recip_coeff_sq_y} => {Focus_On_Y_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数小于y^\
+2系数的倒数，可得到椭圆的焦点在y轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4557",
+			shape=cylinder,
+			style=filled,
+			width=15.295];
+		"Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x>e.recip_coeff_sq_y} => {Focus_On_X_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数大于y^\
+2系数的倒数，可得到椭圆的焦点在x轴上 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,4614",
+			shape=cylinder,
+			style=filled,
+			width=15.295];
+		"Terminal: (a:Num; b:Num)    {{a>0}; {b>0}; {a>b}} => {a^2>b^2}  # 如果a>0,b>0,a>b,那么a^2>b^2 #"	[fillcolor="#ee7b67",
+			height=0.5395,
+			pos="13402,1367",
+			shape=cylinder,
+			style=filled,
+			width=8.441];
 	}
 	subgraph cluster_legend {
-		graph [bb="8,1417,140,1959",
+		graph [bb="8,1447,139.75,1992",
 			fontname="Times-BoldItalic",
 			fontsize=20,
 			label=legend,
 			labelloc=b,
 			lheight=0.31,
-			lp="74,1432",
-			lwidth=0.76,
+			lp="73.875,1462.2",
+			lwidth=0.75,
 			style=dashed
 		];
 		Root	[fillcolor=lightcyan,
-			height=0.88743,
-			pos="74,1919",
+			height=0.912,
+			pos="73.875,1951",
 			shape=doublecircle,
 			style=filled,
-			width=0.88743];
+			width=0.912];
 		Concept_Node	[fillcolor=cadetblue,
 			height=0.5,
-			pos="74,1851",
+			pos="73.875,1882",
 			shape=rect,
 			style=filled,
-			width=1.3611];
+			width=1.3472];
 		Concept_Memory	[fillcolor="#bbd0c0",
 			height=0.5,
-			pos="74,1797",
+			pos="73.875,1828",
 			shape=cylinder,
 			style=filled,
-			width=1.6111];
+			width=1.6076];
 		Intra_Node	[fillcolor="#948ed6",
 			height=0.5,
-			pos="74,1743",
+			pos="73.875,1774",
 			shape=rect,
 			style=filled,
-			width=1.0833];
+			width=1.0764];
 		Alpha_Memory	[fillcolor=aquamarine,
 			height=0.5,
-			pos="74,1689",
+			pos="73.875,1720",
 			shape=cylinder,
 			style=filled,
-			width=1.4444];
+			width=1.441];
 		dummy_top_node	[fillcolor="#4a9759",
 			height=0.5,
-			pos="74,1635",
+			pos="73.875,1666",
 			shape=cylinder,
 			style=filled,
-			width=1.6111];
+			width=1.6076];
 		Beta_Memory	[fillcolor=burlywood,
 			height=0.5,
-			pos="74,1581",
+			pos="73.875,1612",
 			shape=cylinder,
 			style=filled,
-			width=1.3333];
+			width=1.3264];
 		Join_Node	[fillcolor=cornsilk,
 			height=0.5,
-			pos="74,1527",
+			pos="73.875,1558",
 			shape=rect,
 			style=filled,
-			width=1.0417];
+			width=1.0347];
 		Terminal_Node	[fillcolor="#ee7b67",
 			height=0.5,
-			pos="74,1473",
+			pos="73.875,1504",
 			shape=cylinder,
 			style=filled,
-			width=1.4306];
+			width=1.4201];
 	}
-	root -> "Concept_Node: b:Business"	[pos="e,1606.2,720.65 102.99,603.19 283.31,617.28 1283.6,695.44 1595,719.77"];
-	root -> "Concept_Node: g:Good"	[pos="e,1615.3,575.21 103.33,600.53 286.36,597.46 1303.7,580.43 1604,575.4"];
-	root -> "Concept_Node: r:Raw_Material"	[pos="e,3207.3,447.64 102.9,599.63 382.05,585.97 2673.1,473.79 3196,448.19"];
-	root -> "Concept_Node: c:Company"	[pos="e,1622.6,1041.5 102.31,608.77 284.14,660.53 1321.2,955.72 1611.8,1038.4"];
-	root -> "Concept_Node: a:Company"	[pos="e,1604.2,626.61 103.33,601.47 284.17,604.5 1279.5,621.17 1592.9,626.42"];
-	root -> "Concept_Node: b:Company"	[pos="e,3218.1,528.21 103,599.75 254.61,593.05 992.7,561.08 1596.5,547 2210.2,532.69 2948.3,529.1 3206.9,528.25"];
-	"AM: {Business_Include(c, b)} | b:Business; c:Company" -> "Join_Node: {{Increase(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[pos="e,12765,1911.5 8289.4,1077.4 8312.4,1080.5 8335.9,1083.7 8358,1087 9793.9,1300.7 10156,1342.5 11578,1633 12083,1736.1 12198,1818.3 \
-12706,1903 12721,1905.6 12737,1907.9 12753,1910.1"];
-	"AM: {Business_Include(c, b)} | b:Business; c:Company" -> "Join_Node: {{Decrease(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company"	[pos="e,12746,1857.6 8308.9,1058.3 8805.1,1056.7 10348,1078.2 11578,1383 12105,1513.4 12180,1718.3 12706,1849 12715,1851.3 12725,1853.5 \
-12735,1855.4"];
-	"AM: {Business_Include(c, b)} | b:Business; c:Company" -> "Join_Node: {Business_Include(c, b)} | b:Business; c:Company"	[pos="e,9580.6,2024.4 8308.8,1071.6 8325.7,1075.5 8342.4,1080.5 8358,1087 8973.1,1343.9 8923.6,1755.8 9539.5,2011 9549.2,2015 9559.4,2018.5 \
-9569.7,2021.5"];
-	"AM: {Composed_Of(g, r)} | g:Good; r:Raw_Material" -> "Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}} | b:Business; g:Good; r:Raw_Material"	[pos="e,12934,1641.6 8280.7,372.2 8306.5,375.76 8333.2,380.01 8358,385 10252,765.29 12511,1501.6 12923,1638"];
-	"AM: {Decrease(Cost(b))} | b:Business" -> "Join_Node: {Decrease(Cost(b))} | b:Business"	[pos="e,9628.5,2090.8 8261,790.39 8293.6,794.18 8328.4,801.98 8358,817 9038.9,1163 8857.6,1720.9 9539.5,2065 9563.4,2077.1 9590.6,2084.6 \
-9617.5,2089.1"];
-	"AM: {Decrease(Demand(g))} | g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} | b:Business; c:Company; g:Good"	[pos="e,15895,1925.6 8262.8,207.4 8680.6,247.69 10155,381 11374,381 11374,381 11374,381 12991,381 14438,381 14473,1512.2 15862,1917 15869,\
-1919.1 15877,1921.1 15884,1923"];
-	"AM: {Decrease(EPS(c))} | c:Company" -> "Join_Node: {Decrease(EPS(c))} | c:Company"	[pos="e,9627.7,2682.7 8261.8,1604.3 8294,1608.6 8328.3,1616.4 8358,1630 8991.2,1919.7 8903.4,2375.6 9539.5,2659 9563.4,2669.6 9590.1,2676.5 \
-9616.4,2680.9"];
-	"AM: {Decrease(Net_Profit(b))} | b:Company" -> "Join_Node: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company"	[pos="e,12743,1803.5 8277,480.21 8303.9,483.83 8331.9,488.11 8358,493 9807.5,765.05 10184,813.44 11578,1293 12097,1471.4 12175,1655.6 \
-12706,1795 12715,1797.3 12724,1799.4 12732,1801.3"];
-	"AM: {Decrease(Net_Profit(c))} | c:Company" -> "Join_Node: {Decrease(Net_Profit(c))} | c:Company"	[pos="e,9610.7,2247.4 8278.9,1227.3 8305.8,1231.5 8333.4,1238.3 8358,1249 8983.3,1520.4 8913.4,1957.4 9539.5,2227 9558.3,2235.1 9578.9,\
-2241 9599.6,2245.3"];
-	"AM: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "Join_Node: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,9560,2451.5 8324.8,1290.2 8336.3,1293.7 8347.5,1297.9 8358,1303 9015.8,1618.8 8880.8,2129.1 9539.5,2443 9542.7,2444.5 9546,2446 \
-9549.3,2447.4"];
-	"AM: {Decrease(Number_of_Shares(c))} | c:Company" -> "Join_Node: {Decrease(Number_of_Shares(c))} | c:Company"	[pos="e,9586.1,2404.7 8303.3,1339.4 8322.2,1343.6 8340.9,1349.3 8358,1357 8993.8,1643.1 8902.8,2104.8 9539.5,2389 9550.9,2394.1 9562.9,\
-2398.3 9575.2,2401.8"];
-	"AM: {Decrease(Price(r))} | r:Raw_Material" -> "Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[pos="e,15879,1695.6 8275.5,251.29 8710,255.58 10169,269 11374,269 11374,269 11374,269 12991,269 13409,269 14501,170.51 14870,367 15518,\
-711.87 15218,1334.5 15862,1687 15864,1688.2 15867,1689.4 15869,1690.6"];
-	"AM: {Decrease(Profit(b))} | b:Business" -> "Join_Node: {Decrease(Profit(b))} | b:Business"	[pos="e,9625.6,1817.2 8263.7,847.72 8295.2,851.69 8328.7,858.75 8358,871 8973.1,1127.9 8923.6,1539.8 9539.5,1795 9562.9,1804.7 9588.7,\
-1811.2 9614.2,1815.5"];
-	"AM: {Decrease(Reserve(c, g))} | c:Company; g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}} | b:Business; c:Company; g:Good"	[pos="e,16208,1641.9 8303.2,148.85 8769.1,168.72 10193,225 11374,225 11374,225 11374,225 12991,225 13409,225 14487,85.248 14870,252 15588,\
-564.55 16109,1461.6 16203,1631.9"];
-	"AM: {Decrease(Revenue(b))} | b:Business" -> "Join_Node: {Decrease(Revenue(b))} | b:Business"	[pos="e,9617.2,1979.1 8272.4,901.79 8301.4,905.96 8331.5,913.1 8358,925 8993.8,1211.1 8902.8,1672.8 9539.5,1957 9560.2,1966.3 9583.1,1972.7 \
-9606,1977.1"];
-	"AM: {Holds(a, b)} | a:Company; b:Company" -> "Join_Node: {Holds(a, b)} | a:Company; b:Company"	[pos="e,9609.7,1761.8 8279.9,686.93 8306.6,691.22 8333.8,698.12 8358,709 8993.8,995.06 8902.8,1456.8 9539.5,1741 9558,1749.3 9578.2,1755.3 \
-9598.6,1759.6"];
-	"AM: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company" -> "Join_Node: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company"	[pos="e,9560,2343.5 8324.8,1182.2 8336.3,1185.7 8347.5,1189.9 8358,1195 9015.8,1510.8 8880.8,2021.1 9539.5,2335 9542.7,2336.5 9546,2338 \
-9549.3,2339.4"];
-	"AM: {Increase(Cost(b))} | b:Business" -> "Join_Node: {Increase(Cost(b))} | b:Business"	[pos="e,9630.7,2144.2 8258.9,953.05 8292,956.8 8327.6,964.41 8358,979 9015.8,1294.8 8880.8,1805.1 9539.5,2119 9564.1,2130.7 9592,2138.1 \
-9619.4,2142.5"];
-	"AM: {Increase(Demand(g))} | g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} | b:Business; c:Company; g:Good"	[pos="e,16094,1871.5 8260.3,41.719 8674.9,69.392 10154,162 11374,162 11374,162 11374,162 12991,162 13891,162 14105,441.2 14870,914 15372,\
-1223.9 15343,1515.7 15862,1795 15930,1831.7 16014,1855 16083,1869.3"];
-	"AM: {Increase(EPS(c))} | c:Company" -> "Join_Node: {Increase(EPS(c))} | c:Company"	[pos="e,9629.8,2521.5 8259.8,1385.6 8292.6,1389.4 8327.8,1396.9 8358,1411 9004.7,1711.8 8892,2198 9539.5,2497 9564,2508.3 9591.5,2515.4 \
-9618.6,2519.9"];
-	"AM: {Increase(Net_Profit(b))} | b:Company" -> "Join_Node: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company"	[pos="e,12735,1750.7 8277.1,421.04 8826.2,460.66 10961,628.59 11578,885 12160,1126.2 12120,1512.2 12706,1741 12712,1743.3 12718,1745.4 \
-12724,1747.3"];
-	"AM: {Increase(Net_Profit(c))} | c:Company" -> "Join_Node: {Increase(Net_Profit(c))} | c:Company"	[pos="e,9612.6,2572.8 8276.8,1441.9 8304.5,1446.2 8332.9,1453.3 8358,1465 9004.7,1765.8 8892,2252 9539.5,2551 9558.8,2559.9 9580,2566.2 \
-9601.4,2570.7"];
-	"AM: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "Join_Node: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company"	[pos="e,9566.7,2289.5 8313.5,1506.2 8328.8,1509.6 8343.8,1513.8 8358,1519 8944.9,1733.4 8952,2068.3 9539.5,2281 9544.9,2282.9 9550.3,2284.7 \
-9555.9,2286.4"];
-	"AM: {Increase(Number_of_Shares(c))} | c:Company" -> "Join_Node: {Increase(Number_of_Shares(c))} | c:Company"	[pos="e,9588.7,2621.4 8300.8,1554.8 8320.6,1559.1 8340.1,1565 8358,1573 8993.8,1859.1 8902.8,2320.8 9539.5,2605 9551.6,2610.4 9564.4,2614.8 \
-9577.6,2618.5"];
-	"AM: {Increase(Price(r))} | r:Raw_Material" -> "Join_Node: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} | b:Business; g:Good; r:Raw_Material"	[pos="e,15902,1749.6 8272.7,316.89 8703.4,360.08 10164,497 11374,497 11374,497 11374,497 12991,497 14382,497 14512,1407.4 15862,1741 15871,\
-1743.3 15881,1745.5 15891,1747.4"];
-	"AM: {Increase(Profit(b))} | b:Business" -> "Join_Node: {Increase(Profit(b))} | b:Business"	[pos="e,9627.8,1870.3 8261.9,1010.7 8293.8,1014.7 8327.9,1021.5 8358,1033 8953.9,1261.4 8942.9,1622.3 9539.5,1849 9563.7,1858.2 9590.4,\
-1864.4 9616.6,1868.6"];
-	"AM: {Increase(Revenue(b))} | b:Business" -> "Join_Node: {Increase(Revenue(b))} | b:Business"	[pos="e,9619.7,1926.5 8269.8,738.42 8299.8,742.55 8330.9,750.01 8358,763 9015.8,1078.8 8880.8,1589.1 9539.5,1903 9560.8,1913.2 9584.6,\
-1920 9608.4,1924.5"];
-	"AM: {Increase(Workload(c, b))} | b:Business; c:Company" -> "Join_Node: {Increase(Workload(c, b))} | b:Business; c:Company"	[pos="e,9574,2185.5 8315.5,1126.3 8330.2,1130.1 8344.6,1135 8358,1141 8993.8,1427.1 8902.8,1888.8 9539.5,2173 9547.2,2176.4 9555.1,2179.4 \
-9563.2,2182.1"];
-	"AM: {Industry_Recovery(b)} | b:Business" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} | b:Business; \
-c:Company; g:Good"	[pos="e,19427,1641.5 8271,89.579 8699.8,94.924 10165,112 11374,112 11374,112 11374,112 16220,112 17689,112 19196,1431.4 19419,1634"];
-	"AM: {Ownership_Percentage(a, b)>0.5} | a:Company; b:Company" -> "Join_Node: {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} | a:Company; b:Company"	[pos="e,12751,1695.6 8299.5,537.66 8319.3,540.49 8339.1,543.62 8358,547 9804.1,806.56 10167,884.28 11578,1293 12088,1440.7 12187,1573.4 \
-12706,1687 12717,1689.4 12729,1691.7 12740,1693.7"];
-	"AM: {Product_Include(b, g)} | b:Business; g:Good" -> "Join_Node: {Product_Include(b, g)} | b:Business; g:Good"	[pos="e,9703.5,1641.6 8295,582.24 8316.6,586.48 8338.3,592.51 8358,601 8981.2,869.45 8957.7,1218.8 9539.5,1568 9588.1,1597.2 9647.7,1621.4 \
-9692.7,1637.7"];
-	"AM: {Product_Include(b, g)} | b:Business; g:Good" -> "Join_Node: {{Business_Include(c, b)}; {Product_Include(b, g)}} | b:Business; c:Company; g:Good"	[pos="e,12755,1965.5 8285.7,588.21 8309.9,591.7 8334.8,595.93 8358,601 8852.4,708.94 12210,1857.1 12706,1957 12718,1959.5 12731,1961.7 \
-12744,1963.8"];
-	"AM: {Subsidiary_Of(b, a)} | a:Company; b:Company" -> "Join_Node: {Subsidiary_Of(b, a)} | a:Company; b:Company"	[pos="e,9586.1,1702.7 8303.3,637.38 8322.2,641.58 8340.9,647.29 8358,655 8993.8,941.06 8902.8,1402.8 9539.5,1687 9550.9,1692.1 9562.9,\
-1696.3 9575.2,1699.8"];
-	"BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} | b:Business; g:Good; r:Raw_Material" -> "Terminal: (b:Business; g:Good; r:Raw_Material)    {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Increase(Price(r))}} => {Increase(\
-Cost(b))}  # 业务对应商品的原料价格上涨，则该业务的业务成本上涨 #"	[pos="e,19274,2860.2 18066,1975.9 18104,1986.4 18141,2002.1 18172,2025 18495,2263.1 18261,2608.2 18602,2819 18709,2884.7 19048,2874.9 \
-19263,2861"];
-	"BM: {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} | b:Business; g:Good; r:Raw_Material" -> "Terminal: (b:Business; g:Good; r:Raw_Material)    {{Product_Include(b, g)}; {Composed_Of(g, r)}; {Decrease(Price(r))}} => {Decrease(\
-Cost(b))}  # 业务对应商品的原料价格下降，则该业务的业务成本下降 #"	[pos="e,19279,2806.2 17950,1837.2 18021,1851 18109,1878.1 18172,1931 18491,2200.4 18250,2542.3 18602,2765 18709,2832.3 19053,2821.4 19268,\
-2807"];
-	"BM: {Increase(Cost(b))} | b:Business" -> "Terminal: (b:Business)    {Increase(Cost(b))} => {Decrease(Profit(b))}  # 业务成本增加，则该业务的业务利润下降 #"	[pos="e,19102,3710 11487,2145.3 11519,2149.1 11551,2157.2 11578,2173 12294,2589.3 11970,3277.6 12706,3656 12894,3752.4 14393,3710 14604,\
-3710 14604,3710 14604,3710 16220,3710 17263,3710 18495,3710 19090,3710"];
-	"BM: {Decrease(Cost(b))} | b:Business" -> "Terminal: (b:Business)    {Decrease(Cost(b))} => {Increase(Profit(b))}  # 业务成本下降，则该业务的业务利润增加 #"	[pos="e,19102,3656 11489,2091.4 11520,2095.3 11552,2103.4 11578,2119 12298,2539.4 11965,3236.4 12706,3616 12894,3712.1 14393,3656 14604,\
-3656 14604,3656 14604,3656 16220,3656 17263,3656 18495,3656 19090,3656"];
-	"BM: {Increase(Revenue(b))} | b:Business" -> "Terminal: (b:Business)    {Increase(Revenue(b))} => {Increase(Profit(b))}  # 业务收入增加，则该业务的业务利润增加 #"	[pos="e,19093,3602 11498,2038.7 11526,2043 11554,2050.9 11578,2065 12298,2485.4 11965,3182.4 12706,3562 12894,3658.1 14393,3602 14604,\
-3602 14604,3602 14604,3602 16220,3602 17258,3602 18483,3602 19081,3602"];
-	"BM: {Decrease(Revenue(b))} | b:Business" -> "Terminal: (b:Business)    {Decrease(Revenue(b))} => {Decrease(Profit(b))}  # 业务收入减少，则该业务的业务利润减少 #"	[pos="e,19088,3548 11501,1939.6 11527,1943.6 11554,1949.2 11578,1957 13026,2418.3 13084,3548 14604,3548 14604,3548 14604,3548 16220,3548 \
-17255,3548 18477,3548 19077,3548"];
-	"BM: {{Increase(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company" -> "Terminal: (b:Business; c:Company)    {{Increase(Profit(b))}; {Business_Include(c, b)}} => {Increase(Net_Profit(c))}  # 业务利润增加，则经营该项业务的公司的净利润增加 #"	[pos="e,18938,3228.8 14816,2646.2 14834,2649.6 14853,2653.8 14870,2659 15345,2799.5 15382,3046 15862,3167 16150,3239.6 18003,3235.6 18926,\
-3228.9"];
-	"BM: {{Decrease(Profit(b))}; {Business_Include(c, b)}} | b:Business; c:Company" -> "Terminal: (b:Business; c:Company)    {{Decrease(Profit(b))}; {Business_Include(c, b)}} => {Decrease(Net_Profit(c))}  # 业务利润减少，则经营该项业务的公司的净利润减少 #"	[pos="e,18933,3177.7 14826,2593.9 14841,2597 14856,2600.7 14870,2605 15347,2749.7 15379,3007.1 15862,3130 16150,3203.1 17997,3189.5 18922,\
-3177.8"];
-	"BM: {Increase(Net_Profit(c))} | c:Company" -> "Terminal: (c:Company)    {Increase(Net_Profit(c))} => {Increase(Net_Profit_Margin(c))}  # 公司的净利润增加，则该公司的净利率增加 #"	[pos="e,19042,3494 11505,2312.6 11531,2316.9 11556,2323.9 11578,2335 12212,2646.7 12056,3178.2 12706,3454 13482,3783.5 13760,3494 14604,\
-3494 14604,3494 14604,3494 16220,3494 17229,3494 18416,3494 19031,3494"];
-	"BM: {Decrease(Net_Profit(c))} | c:Company" -> "Terminal: (c:Company)    {Decrease(Net_Profit(c))} => {Decrease(Net_Profit_Margin(c))}  # 公司的净利润减少，则该公司的净利率减少 #"	[pos="e,19038,3440 11507,2212.6 11531,2216.3 11556,2221 11578,2227 12979,2595.3 13155,3440 14604,3440 14604,3440 14604,3440 16220,3440 \
-17227,3440 18410,3440 19026,3440"];
-	"BM: {Increase(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "Terminal: (c:Company)    {Increase(Net_Profit_Attributable_To_Owners(c))} => {Increase(EPS(c))}  # 公司的归母净利润增加，则该公司的EPS增加 #"	[pos="e,19007,3386 11534,2271.7 11549,2274.4 11564,2277.5 11578,2281 12968,2623.4 13172,3386 14604,3386 14604,3386 14604,3386 16220,3386 \
-17210,3386 18372,3386 18996,3386"];
-	"BM: {Decrease(Net_Profit_Attributable_To_Owners(c))} | c:Company" -> "Terminal: (c:Company)    {Decrease(Net_Profit_Attributable_To_Owners(c))} => {Decrease(EPS(c))}  # 公司的归母净利润减少，则该公司的EPS减少 #"	[pos="e,19003,4088 11384,2700.2 11454,2824.9 11984,3734.7 12706,4048 13093,4215.8 14182,4088 14604,4088 14604,4088 14604,4088 16220,4088 \
-17208,4088 18366,4088 18991,4088"];
-	"BM: {Increase(EPS(c))} | c:Company" -> "Terminal: (c:Company)    {Increase(EPS(c))} => {Decrease(PE(c))}  # 公司的EPS增加，则该公司的PE减少 #"	[pos="e,19124,4034 11488,2524.5 11519,2528.4 11551,2536.2 11578,2551 12256,2919.8 12020,3518.3 12706,3871 13082,4064.5 14180,4034 14604,\
-4034 14604,4034 14604,4034 16220,4034 17276,4034 18527,4034 19113,4034"];
-	"BM: {Decrease(EPS(c))} | c:Company" -> "Terminal: (c:Company)    {Decrease(EPS(c))} => {Increase(PE(c))}  # 公司的EPS减少，则该公司的PE增加 #"	[pos="e,19124,3980 11491,2633.1 11521,2637.1 11552,2644.8 11578,2659 12247,3016.6 12018,3620.3 12706,3940 13088,4117.8 14182,3980 14604,\
-3980 14604,3980 14604,3980 16220,3980 17276,3980 18527,3980 19113,3980"];
-	"BM: {Increase(Number_of_Shares(c))} | c:Company" -> "Terminal: (c:Company)    {Increase(Number_of_Shares(c))} => {Decrease(EPS(c))}  # 若公司的股数增多，则该公司的EPS减少 #"	[pos="e,19066,3926 11530,2586.6 11547,2591 11563,2597 11578,2605 12247,2962.6 12018,3566.3 12706,3886 12897,3974.9 14393,3926 14604,3926 \
-14604,3926 14604,3926 16220,3926 17242,3926 18447,3926 19055,3926"];
-	"BM: {Decrease(Number_of_Shares(c))} | c:Company" -> "Terminal: (c:Company)    {Decrease(Number_of_Shares(c))} => {Increase(EPS(c))}  # 若公司的股数减少，则该公司的EPS增多 #"	[pos="e,19066,3872 11532,2478.8 11548,2483.2 11564,2489.1 11578,2497 12260,2870.1 12005,3497.5 12706,3832 12896,3922.8 14393,3872 14604,\
-3872 14604,3872 14604,3872 16220,3872 17242,3872 18447,3872 19055,3872"];
-	"BM: {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} | a:Company; b:Company" -> "Terminal: (a:Company; b:Company)    {{Holds(a, b)}; {Ownership_Percentage(a, b)>0.5}} => {Subsidiary_Of(b, a)}  # 若某公司A控股公司B，且控股比超过50%\
-，则 B公司是A公司的子公司 #"	[pos="e,18881,3124.3 14832,2541.2 14845,2544 14858,2547.3 14870,2551 15347,2695.7 15379,2953.1 15862,3076 16144,3147.8 17930,3136 18870,\
-3124.4"];
-	"BM: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company" -> "Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} => {Increase(Net_Profit_Attributable_To_Owners(\
-a))}  # 若B公司是A公司的子公司，B公司净利润增加，则A公司归母净利润增加 #"	[pos="e,18797,3045.9 14769,2484.2 14803,2487.8 14837,2492.1 14870,2497 15315,2564.1 15419,2621.2 15862,2696 17072,2900.2 17378,2952 18602,\
-3035 18662,3039 18724,3042.5 18786,3045.4"];
-	"BM: {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} | a:Company; b:Company" -> "Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Increase(Net_Profit(b))}} => {Increase(Net_Profit(a))}  # 若B公司是A公司的子公司，B公司净利润增加，则A公司净利润增加 #"	[pos="e,18883,2997.6 14752,2484.2 14790,2488.1 14832,2492.6 14870,2497 16532,2689.5 16935,2846.6 18602,2981 18689,2988 18781,2993.2 18871,\
-2997.1"];
-	"BM: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company" -> "Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} => {Decrease(Net_Profit_Attributable_To_Owners(\
-a))}  # 若B公司是A公司的子公司，B公司净利润减少，则A公司归母净利润减少 #"	[pos="e,18967,3346.2 14635,2704.4 14768,2787.6 15339,3131 15862,3254 16434,3388.8 18114,3367.1 18956,3346.5"];
-	"BM: {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} | a:Company; b:Company" -> "Terminal: (a:Company; b:Company)    {{Subsidiary_Of(b, a)}; {Decrease(Net_Profit(b))}} => {Decrease(Net_Profit(a))}  # 若B公司是A公司的子公司，B公司净利润减少，则A公司净利润减少 #"	[pos="e,18878,3292.2 14630,2700.2 14755,2771.8 15338,3094.3 15862,3205 16418,3322.3 18002,3309.5 18867,3292.4"];
-	"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_Recovery(b)}} | b:Business; c:Company; \
-g:Good" -> "Terminal: (b:Business; c:Company; g:Good)    {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Reserve(c, g))}; {Industry_\
-Recovery(b)}} => {Increase(Capital_Expenditure(c, b))}  # 如果公司某业务商品的储量减少，且该行业有复苏态势，则公司加大对该项业务的资本开支 #"	[pos="e,20277,2721 21049,2186.9 20980,2259.6 20647,2598.6 20294,2716 20292,2716.7 20290,2717.3 20287,2717.9"];
-	"BM: {Increase(Capital_Expenditure(c, b))} | b:Business; c:Company" -> "Terminal: (b:Business; c:Company)    {Increase(Capital_Expenditure(c, b))} => {Increase(Workload(c, b))}  # 公司加大某项业务的资本开支，则该公司该业务的作业量增大 #"	[pos="e,18936,3818 11558,2433.3 11565,2436.1 11572,2439.3 11578,2443 12260,2816.1 12005,3443.5 12706,3778 12896,3868.8 14393,3818 14604,\
-3818 14604,3818 14604,3818 16220,3818 17174,3818 18286,3818 18924,3818"];
-	"BM: {Increase(Workload(c, b))} | b:Business; c:Company" -> "Terminal: (b:Business; c:Company)    {Increase(Workload(c, b))} => {Increase(Revenue(c, b))}  # 公司加大某项业务的作业量，则该公司该业务的收入增加 #"	[pos="e,18982,3764 11544,2374.3 11556,2378.2 11568,2383.1 11578,2389 12260,2762.1 12005,3389.5 12706,3724 12896,3814.8 14393,3764 14604,\
-3764 14604,3764 14604,3764 16220,3764 17197,3764 18341,3764 18971,3764"];
-	"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} | b:Business; c:Company; g:Good" -> "Terminal: (b:Business; c:Company; g:Good)    {{Business_Include(c, b)}; {Product_Include(b, g)}; {Increase(Demand(g))}} => {Increase(\
-Revenue(c, b))}  # 某种商品的需求增加，且某业务对应该商品，则经营该业务的公司的对应业务收入增加 #"	[pos="e,19162,2914.2 17853,2070.5 17903,2122.5 18051,2274.5 18172,2403 18366,2609.6 18345,2754.8 18602,2873 18697,2916.5 18947,2920 19151,\
-2914.5"];
-	"BM: {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} | b:Business; c:Company; g:Good" -> "Terminal: (b:Business; c:Company; g:Good)    {{Business_Include(c, b)}; {Product_Include(b, g)}; {Decrease(Demand(g))}} => {Decrease(\
-Revenue(c, b))}  # 某种商品的需求减少，且某业务对应该商品，则经营该业务的公司的对应业务收入减少 #"	[pos="e,18722,2947.9 17849,2444 17922,2513.2 18259,2819.6 18602,2927 18629,2935.3 18666,2941.8 18711,2946.7"];
+	root -> "Concept_Node: e:Ellipse"	[pos="e,3329.6,1074.9 103.66,558.61 396,605.4 2826.5,994.42 3318.3,1073.1"];
+	root -> "Concept_Node: e:Ellipse_Std"	[pos="e,3317.5,888.98 103.92,557 395.1,587.08 2788.7,834.34 3306.4,887.82"];
+	root -> "Concept_Node: h:Hyperbola"	[pos="e,3319.5,731.34 103.92,555.59 395.42,571.52 2794,702.61 3308.1,730.71"];
+	root -> "Concept_Node: h:Hyperbola_Std_1"	[pos="e,3300.3,625.68 103.92,554.65 391.99,561.05 2737.8,613.18 3289.2,625.43"];
+	root -> "Concept_Node: h:Hyperbola_Std_2"	[pos="e,3300.3,573.37 103.92,554.17 391.99,555.9 2737.8,569.99 3289.2,573.31"];
+	root -> "Concept_Node: pa:Parabola"	[pos="e,3321.5,520.85 103.92,553.7 395.82,550.72 2800.5,526.17 3310.2,520.97"];
+	root -> "Concept_Node: pa:Parabola_Std_r"	[pos="e,3303.3,468.68 103.92,553.23 392.48,545.61 2745.7,483.42 3291.9,468.98"];
+	root -> "Concept_Node: pa:Parabola_Std_l"	[pos="e,3303.8,416.31 103.92,552.76 392.56,540.45 2747,440.05 3292.4,416.8"];
+	root -> "Concept_Node: pa:Parabola_Std_u"	[pos="e,3322.2,1277.6 103.16,560.3 391.84,624.63 2803.4,1162 3311.2,1275.1"];
+	root -> "Concept_Node: pa:Parabola_Std_d"	[pos="e,3310.8,1189.5 103.16,559.56 389.72,615.84 2768.1,1082.9 3299.7,1187.4"];
+	root -> "Concept_Node: _c:Curve"	[pos="e,1662.5,417.56 103.76,551.52 291.38,535.39 1339.3,445.34 1651.3,418.53"];
+	root -> "Concept_Node: p:Point"	[pos="e,3333.9,301.71 103.55,548.49 259.64,518.79 1023.3,377.3 1654.9,328 2295.6,277.99 3072.1,294.23 3322.7,301.39"];
+	root -> "Concept_Node: a:Num"	[pos="e,1668.7,363.39 103.76,550.55 292.62,527.96 1353.2,401.12 1657.3,364.75"];
+	root -> "Concept_Node: b:Num"	[pos="e,3334.4,96.532 103.66,549.38 260.38,524.29 1026.7,402.26 1654.9,314 2296.9,223.8 3073.3,128.29 3323.2,97.888"];
+	"AM: e:Ellipse | e:Ellipse" -> "Join_Node: e:Ellipse | e:Ellipse"	[pos="e,9976,2526 8479.5,1165.9 8520.4,1167.6 8570.7,1174.5 8611.1,1195 9324.1,1556.9 9138.6,2137.2 9852.6,2497 9886.8,2514.2 9927.6,2522 \
+9964.6,2525.2"];
+	"AM: h:Hyperbola | h:Hyperbola" -> "Join_Node: h:Hyperbola | h:Hyperbola"	[pos="e,9955.7,2254.4 8499.9,897.17 8536.3,900.18 8577.2,907.8 8611.1,925 9324.1,1286.9 9138.6,1867.2 9852.6,2227 9880.6,2241.1 9913.1,\
+2248.9 9944.3,2253"];
+	"AM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Join_Node: h:Hyperbola_Std_1 | h:Hyperbola_Std_1"	[pos="e,9917.5,1978.5 8538.1,632.02 8563.3,636.46 8588.7,643.64 8611.1,655 9324.1,1016.9 9138.6,1597.2 9852.6,1957 9869.4,1965.4 9887.7,\
+1971.6 9906.4,1976.1"];
+	"AM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Join_Node: h:Hyperbola_Std_2 | h:Hyperbola_Std_2"	[pos="e,9917.5,1924.5 8538.1,578.02 8563.3,582.46 8588.7,589.64 8611.1,601 9324.1,962.88 9138.6,1543.2 9852.6,1903 9869.4,1911.4 9887.7,\
+1917.6 9906.4,1922.1"];
+	"AM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Join_Node: pa:Parabola_Std_d | pa:Parabola_Std_d"	[pos="e,9921.2,2735.3 8534.6,1387.4 8560.9,1391.8 8587.7,1399.1 8611.1,1411 9324.1,1772.9 9138.6,2353.2 9852.6,2713 9870.4,2722 9890.1,\
+2728.4 9910.1,2732.9"];
+	"AM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Join_Node: pa:Parabola_Std_l | pa:Parabola_Std_l"	[pos="e,9924.3,1601.9 8531.4,252.89 8558.7,257.2 8586.7,264.62 8611.1,277 9324.1,638.88 9138.6,1219.2 9852.6,1579 9871.4,1588.5 9892.2,\
+1595.1 9913.3,1599.7"];
+	"AM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Join_Node: pa:Parabola_Std_r | pa:Parabola_Std_r"	[pos="e,9923.5,1655.7 8532.2,307.02 8559.3,311.35 8587,318.74 8611.1,331 9324.1,692.88 9138.6,1273.2 9852.6,1633 9871.1,1642.3 9891.5,\
+1648.9 9912.3,1653.4"];
+	"AM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Join_Node: pa:Parabola_Std_u | pa:Parabola_Std_u"	[pos="e,9921.2,2789.3 8534.4,1443.5 8560.8,1448.2 8587.6,1455.9 8611.1,1468 9320.9,1834.1 9139.2,2408.1 9852.6,2767 9870.4,2776 9890.1,\
+2782.4 9910.1,2786.9"];
+	"AM: {Focus_On_X_Axis(e)} | e:Ellipse" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse"	[pos="e,9933.2,2575.4 8522.4,1223.6 8552.6,1227.6 8584.1,1235.3 8611.1,1249 9324.1,1610.9 9138.6,2191.2 9852.6,2551 9874,2561.8 9898,2568.9 \
+9922.1,2573.5"];
+	"AM: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "Join_Node: {Focus_On_X_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.9,2303.2 8534.9,955.46 8561.1,959.85 8587.8,967.15 8611.1,979 9324.1,1340.9 9138.6,1921.2 9852.6,2281 9870.4,2289.9 9889.9,\
+2296.4 9909.8,2300.9"];
+	"AM: {Focus_On_X_Axis(h)} | h:Hyperbola" -> "Join_Node: {Focus_On_X_Axis(h)} | h:Hyperbola"	[pos="e,9922.9,2033.6 8533,685.15 8559.8,689.5 8587.2,696.86 8611.1,709 9324.1,1070.9 9138.6,1651.2 9852.6,2011 9871,2020.2 9891.2,2026.8 \
+9911.8,2031.3"];
+	"AM: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse"	[pos="e,9933.2,2629.4 8522.4,1277.6 8552.6,1281.6 8584.1,1289.3 8611.1,1303 9324.1,1664.9 9138.6,2245.2 9852.6,2605 9874,2615.8 9898,2622.9 \
+9922.1,2627.5"];
+	"AM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "Join_Node: {Focus_On_Y_Axis(e)} | e:Ellipse_Std"	[pos="e,9920.9,2357.2 8534.9,1009.5 8561.1,1013.8 8587.8,1021.2 8611.1,1033 9324.1,1394.9 9138.6,1975.2 9852.6,2335 9870.4,2343.9 9889.9,\
+2350.4 9909.8,2354.9"];
+	"AM: {Focus_On_Y_Axis(h)} | h:Hyperbola" -> "Join_Node: {Focus_On_Y_Axis(h)} | h:Hyperbola"	[pos="e,9922.9,2087.6 8533,739.15 8559.8,743.5 8587.2,750.86 8611.1,763 9324.1,1124.9 9138.6,1705.2 9852.6,2065 9871,2074.2 9891.2,2080.8 \
+9911.8,2085.3"];
+	"AM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "Join_Node: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse"	[pos="e,9872,2667.5 8588.3,1347.1 8596.1,1350 8603.8,1353.3 8611.1,1357 9324.1,1718.9 9138.6,2299.2 9852.6,2659 9855.6,2660.5 9858.5,2661.9 \
+9861.6,2663.2"];
+	"AM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "Join_Node: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola"	[pos="e,9872,2127.5 8588.5,807.23 8596.3,810.08 8603.9,813.32 8611.1,817 9324.1,1178.9 9138.6,1759.2 9852.6,2119 9855.6,2120.5 9858.5,\
+2121.9 9861.6,2123.2"];
+	"AM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "Join_Node: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola"	[pos="e,9872,2181.5 8588.5,861.23 8596.3,864.08 8603.9,867.32 8611.1,871 9324.1,1232.9 9138.6,1813.2 9852.6,2173 9855.6,2174.5 9858.5,\
+2175.9 9861.6,2177.2"];
+	"AM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola"	[pos="e,9872,1857.5 8584.4,535.75 8593.6,538.94 8602.6,542.67 8611.1,547 9324.1,908.88 9138.6,1489.2 9852.6,1849 9855.6,1850.5 9858.5,\
+1851.9 9861.6,1853.2"];
+	"AM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola"	[pos="e,9873.6,1696.1 8582,372.95 8592.1,376.32 8601.9,380.3 8611.1,385 9324.1,746.88 9138.6,1327.2 9852.6,1687 9856,1688.7 9859.4,1690.3 \
+9862.9,1691.8"];
+	"AM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola"	[pos="e,9872,1749.5 8584.4,427.75 8593.6,430.94 8602.6,434.67 8611.1,439 9324.1,800.88 9138.6,1381.2 9852.6,1741 9855.6,1742.5 9858.5,\
+1743.9 9861.6,1745.2"];
+	"AM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "Join_Node: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola"	[pos="e,9873.6,1804.1 8582,480.95 8592.1,484.32 8601.9,488.3 8611.1,493 9324.1,854.88 9138.6,1435.2 9852.6,1795 9856,1796.7 9859.4,1798.3 \
+9862.9,1799.8"];
+	"AM: {Point_On_Curve(p, _c)} | _c:Curve; p:Point" -> "Join_Node: {Point_On_Curve(p, _c)} | _c:Curve; p:Point"	[pos="e,9904.7,1543.7 8550.9,202.52 8571.8,207.01 8592.5,213.56 8611.1,223 9324.1,584.88 9138.6,1165.2 9852.6,1525 9865.5,1531.5 9879.4,\
+1536.7 9893.7,1540.8"];
+	"AM: {a>0} | a:Num" -> "Join_Node: {a>0} | a:Num"	[pos="e,9987.2,1498.4 8468.5,139.59 8511,140.49 8567,146.65 8611.1,169 9323,529.47 9143.8,1099.6 9852.6,1466 9890.2,1485.4 9936.1,1494 \
+9975.9,1497.5"];
+	"AM: {a>b} | a:Num; b:Num" -> "Join_Node: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num"	[pos="e,16579,1491.4 8491.5,39.93 8528.8,43.865 8572.6,50.353 8611.1,61 10069,463.76 10222,1414 11735,1414 11735,1414 11735,1414 13403,\
+1414 14619,1414 16083,1470.6 16568,1490.9"];
+	"AM: {b>0} | b:Num" -> "Join_Node: {{a>0}; {b>0}} | a:Num; b:Num"	[pos="e,13268,1495.6 8469,85.513 8511.5,86.409 8567.2,92.597 8611.1,115 9326.5,479.99 9118.2,1103.1 9852.6,1428 9862.5,1432.4 12594,1483.1 \
+13257,1495.3"];
+	"AM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Join_Node: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9872.8,2397.8 8582.8,1075.2 8592.6,1078.5 8602.1,1082.4 8611.1,1087 9324.1,1448.9 9138.6,2029.2 9852.6,2389 9855.8,2390.6 9859,\
+2392.1 9862.2,2393.5"];
+	"AM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Join_Node: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std"	[pos="e,9872.8,2451.8 8582.8,1129.2 8592.6,1132.5 8602.1,1136.4 8611.1,1141 9324.1,1502.9 9138.6,2083.2 9852.6,2443 9855.8,2444.6 9859,\
+2446.1 9862.2,2447.5"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {{Param_A(e)>0}; {Param_B(e)>0}; {Param_C(e)>0}}  # 椭圆的参数a、b、c均大于0 #"	[pos="e,13058,4854.6 11811,2514.3 11853,2513.1 11903,2519.7 11935,2551 12663,3262.8 11529,4142.1 12295,4813 12351,4862.1 12745,4862.3 \
+13046,4854.9"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Sub(Pow(Param_A(e), 2), Pow(Param_B(e), 2))=Pow(Param_C(e), 2)}  # 椭圆的参数a、b、c满足：a^\
+2-b^2=c^2 #"	[pos="e,12981,4799.3 11811,2514.3 11853,2513.2 11903,2519.9 11935,2551 12646,3243.9 11547,4103.1 12295,4756 12346,4800.9 12682,4804.9 \
+12970,4799.5"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Length(Major_Axis(e))=Mul(2, Param_A(e))}  # 椭圆的长轴长等于两倍的参数a #"	[pos="e,13071,4740.2 11811,2514.3 11853,2513.3 11903,2520 11935,2551 12630,3225 11564,4064 12295,4699 12352,4748.5 12756,4748.2 13059,\
+4740.5"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Length(Minor_Axis(e))=Mul(2, Param_B(e))}  # 椭圆的短轴长等于两倍的参数b #"	[pos="e,13070,4683.2 11811,2514.4 11853,2513.4 11903,2520.1 11935,2551 12613,3206.1 11582,4025 12295,4642 12352,4691.4 12756,4691.1 13059,\
+4683.5"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Focal_Length(e)=Mul(2, Param_C(e))}  # 椭圆的焦距长等于两倍的参数c #"	[pos="e,13090,4967.9 11811,2514.2 11853,2513 11903,2519.6 11935,2551 12696,3300.6 11494,4220.1 12295,4927 12353,4978.1 12773,4976.5 13079,\
+4968.2"];
+	"BM: e:Ellipse | e:Ellipse" -> "Terminal: (e:Ellipse)    ∅ => {Eccentricity(e)=Div(Param_C(e), Param_A(e))}  # 椭圆的离心率=参数c/参数a #"	[pos="e,13079,4911.1 11811,2514.2 11853,2513.1 11903,2519.7 11935,2551 12679,3281.7 11512,4181.1 12295,4870 12352,4920.3 12763,4919.4 \
+13068,4911.4"];
+	"BM: {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} | e:Ellipse" -> "Terminal: (e:Ellipse)    {Is_In_Form(Equation(e), x^2/a^2+y^2/b^2==1)} => {assert e_std:Ellipse_Std={recip_coeff_sq_x:=Recip(Extract_\
+Coeff(Equation(e), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(e), y^2))}; {e=e_std}}  # 如果椭圆方程（可）满足标准形式 \
+x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #"	[pos="e,12343,5117.4 11923,2703 11927,2706 11931,2709.3 11935,2713 12698,3465.6 11491,4388.2 12295,5098 12302,5104.3 12315,5109.9 12332,\
+5114.7"];
+	"BM: {e.recip_coeff_sq_x>e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x>e.recip_coeff_sq_y} => {Focus_On_X_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数大于y^\
+2系数的倒数，可得到椭圆的焦点在x轴上 #"	[pos="e,12851,4629.9 11914,2481.6 11922,2485.9 11929,2491 11935,2497 12612,3151.1 11583,3968.9 12295,4585 12339,4623 12589,4631.6 12840,\
+4630"];
+	"BM: {e.recip_coeff_sq_x<e.recip_coeff_sq_y} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {e.recip_coeff_sq_x<e.recip_coeff_sq_y} => {Focus_On_Y_Axis(e)}  # 已知标准椭圆方程中x^2系数的倒数小于y^\
+2系数的倒数，可得到椭圆的焦点在y轴上 #"	[pos="e,12851,4572.9 11914,2427.6 11922,2431.9 11929,2437 11935,2443 12611,3096.1 11583,3912.9 12295,4528 12339,4566 12589,4574.6 12840,\
+4573"];
+	"BM: {Focus_On_X_Axis(e)} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {Focus_On_X_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_x)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_y)}}  # \
+已知标准椭圆e的焦点在x轴上，可得:e的参数a等于其x^2系数的倒数的开方、e的参数b等于其y^2系数的倒数的开方  #"	[pos="e,12634,4457.5 11866,2302.5 11892,2307.3 11916,2317.1 11935,2335 12610,2986.1 11585,3800.8 12295,4414 12326,4440.8 12459,4453 12623,\
+4457.3"];
+	"BM: {Focus_On_Y_Axis(e)} | e:Ellipse_Std" -> "Terminal: (e:Ellipse_Std)    {Focus_On_Y_Axis(e)} => {{Param_A(e)=Sqrt(e.recip_coeff_sq_y)}; {Param_B(e)=Sqrt(e.recip_coeff_sq_x)}}  # \
+已知标准椭圆e的焦点在y轴上，可得:e的参数a等于其y^2系数的倒数的开方、e的参数b等于其x^2系数的倒数的开方  #"	[pos="e,12634,4514.5 11866,2356.5 11892,2361.3 11916,2371.1 11935,2389 12610,3041.1 11584,3856.8 12295,4471 12326,4497.8 12459,4510 12623,\
+4514.3"];
+	"BM: {Focus_On_X_Axis(e)} | e:Ellipse" -> "Terminal: (e:Ellipse)    {Focus_On_X_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_A(e), Param_B(e), Center(e))}  # 已知椭圆e的焦点在x轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/a^2+y^2/b^2=1 #"	[pos="e,12747,5029.5 11854,2570.1 11884,2574 11913,2583.9 11935,2605 12696,3355.6 11493,4276.1 12295,4984 12332,5017.1 12523,5028.1 12735,\
+5029.4"];
+	"BM: {Focus_On_Y_Axis(e)} | e:Ellipse" -> "Terminal: (e:Ellipse)    {Focus_On_Y_Axis(e)} => {Equation(e)=Generate_Ellipse_Eq(Param_B(e), Param_A(e), Center(e))}  # 已知椭圆e的焦点在y轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: \
+x^2/b^2+y^2/a^2=1 #"	[pos="e,12747,5086.5 11854,2624.1 11884,2628 11913,2637.9 11935,2659 12697,3410.6 11492,4332.2 12295,5041 12332,5074.1 12523,5085.1 12735,\
+5086.5"];
+	"BM: h:Hyperbola | h:Hyperbola" -> "Terminal: (h:Hyperbola)    ∅ => {{Param_A(h)>0}; {Param_B(h)>0}; {Param_C(h)>0}}  # 双曲线的参数a、b、c均大于0 #"	[pos="e,13039,4398.9 11832,2244.6 11868,2246.1 11908,2254.9 11935,2281 12609,2931.1 11586,3744.7 12295,4357 12350,4404.7 12729,4406 13028,\
+4399.2"];
+	"BM: h:Hyperbola | h:Hyperbola" -> "Terminal: (h:Hyperbola)    ∅ => {Add(Pow(Param_A(h), 2), Pow(Param_B(h), 2))=Pow(Param_C(h), 2)}  # 双曲线的参数a、b、c满足：a^\
+2+b^2=c^2 #"	[pos="e,12960,4343.5 11832,2244.6 11868,2246.2 11908,2255.1 11935,2281 12592,2912.2 11604,3705.7 12295,4300 12345,4343.4 12666,4348.3 \
+12949,4343.7"];
+	"BM: h:Hyperbola | h:Hyperbola" -> "Terminal: (h:Hyperbola)    ∅ => {Eccentricity(h)=Div(Param_C(h), Param_A(h))}  # 双曲线的离心率=参数c/参数a #"	[pos="e,13060,4284.3 11832,2244.7 11868,2246.3 11908,2255.1 11935,2281 12576,2893.4 11621,3666.6 12295,4243 12351,4291.5 12747,4291.8 \
+13049,4284.6"];
+	"BM: {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), x^2/a^2-y^2/b^2==1)} => {assert h_std:Hyperbola_Std_1={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+x^2/a^2-y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_1概念的个体 #"	[pos="e,12315,4139.7 11923,2163.2 11927,2166.1 11931,2169.4 11935,2173 12574,2783.4 11623,3554.5 12295,4129 12297,4131.1 12300,4133.1 \
+12304,4135.1"];
+	"BM: {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Is_In_Form(Equation(h), y^2/a^2-x^2/b^2==1)} => {assert h_std:Hyperbola_Std_2={recip_coeff_sq_x:=Recip(\
+Extract_Coeff(Equation(h), x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h), y^2))}; {h=h_std}}  # 如果双曲线方程（可）满足标准形式 \
+y^2/a^2-x^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_2概念的个体 #"	[pos="e,12315,4196.7 11923,2217.2 11927,2220.1 11931,2223.4 11935,2227 12575,2838.4 11622,3610.6 12295,4186 12297,4188.1 12300,4190.1 \
+12304,4192.1"];
+	"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Terminal: (h:Hyperbola_Std_1)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_x)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_y)}}  # 标准双曲线Hyperbola_\
+Std_1的参数a等于其x^2系数的倒数的开方,参数b等于其y^2系数的倒数的开方 #"	[pos="e,12729,3717.1 11870,1979.9 11894,1985 11917,1994.5 11935,2011 12490,2524.3 11713,3190.8 12295,3673 12332,3704 12513,3715 12718,\
+3717"];
+	"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Terminal: (h:Hyperbola_Std_1)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_1的焦点在其X轴上 #"	[pos="e,13064,3656.7 11870,1980 11894,1985.1 11917,1994.5 11935,2011 12473,2505.5 11730,3151.7 12295,3616 12353,3663.6 12751,3663.9 13053,\
+3657"];
+	"BM: h:Hyperbola_Std_1 | h:Hyperbola_Std_1" -> "Terminal: (h:Hyperbola_Std_1)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h), Param_A(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_B(h), Param_A(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #"	[pos="e,12646,3773.1 11870,1979.7 11894,1984.8 11917,1994.3 11935,2011 12506,2543.1 11695,3230 12295,3730 12327,3756.9 12466,3768.8 12635,\
+3772.8"];
+	"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Terminal: (h:Hyperbola_Std_2)    ∅ => {{Param_A(h)=Sqrt(h.recip_coeff_sq_y)}; {Param_B(h)=Sqrt(h.recip_coeff_sq_x)}}  # 标准双曲线Hyperbola_\
+Std_2的参数a等于其y^2系数的倒数的开方,参数b等于其x^2系数的倒数的开方 #"	[pos="e,12729,3545.8 11870,1926.1 11894,1931.2 11917,1940.6 11935,1957 12456,2431.8 11748,3056.5 12295,3502 12332,3532.7 12513,3543.7 \
+12718,3545.7"];
+	"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Terminal: (h:Hyperbola_Std_2)    ∅ => {Focus_On_X_Axis(h)}  # 标准双曲线Hyperbola_Std_2的焦点在其Y轴上 #"	[pos="e,13064,3485.5 11870,1926.3 11894,1931.3 11917,1940.7 11935,1957 12440,2413 11766,3017.3 12295,3445 12353,3492.1 12751,3492.6 13053,\
+3485.7"];
+	"BM: h:Hyperbola_Std_2 | h:Hyperbola_Std_2" -> "Terminal: (h:Hyperbola_Std_2)    ∅ => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h), Param_B(h)), -1, 0), \
+Generate_Line_Eq(Neg(Div(Param_A(h), Param_B(h))), -1, 0))}  # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #"	[pos="e,12646,3601.8 11870,1926 11894,1931.1 11917,1940.5 11935,1957 12472,2450.5 11731,3095.6 12295,3559 12327,3585.6 12466,3597.4 12635,\
+3601.5"];
+	"BM: {Focus_On_X_Axis(h)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Focus_On_X_Axis(h)} => {Param_C(h)=Neg(Coordinate_X(Left_Focus(h)))}  # 已知双曲线的焦点在x轴上,\
+则其参数c等于其左焦点横坐标的值的相反数 #"	[pos="e,12863,3831.2 11865,2032.7 11891,2037.5 11916,2047.2 11935,2065 12507,2598.1 11694,3286 12295,3787 12340,3824.8 12597,3833 12851,\
+3831.3"];
+	"BM: {Focus_On_X_Axis(h)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Focus_On_X_Axis(h)} => {Param_C(h)=Coordinate_X(Right_Focus(h))}  # 已知双曲线的焦点在x轴上,\
+则其参数c等于其右焦点横坐标的值 #"	[pos="e,12903,3945 11865,2032.5 11891,2037.3 11916,2047 11935,2065 12540,2635.7 11660,3364.2 12295,3901 12342,3941.1 12624,3948.1 12892,\
+3945.2"];
+	"BM: {Focus_On_X_Axis(h)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Focus_On_X_Axis(h)} => {{Left_Focus(h)=Get_Left_Focus(Focus(h))}; {Right_Focus(h)=Get_Right_Focus(Focus(\
+h))}}  # 焦点在x轴,则定位左、右焦点 #"	[pos="e,12873,3888.2 11865,2032.6 11890,2037.3 11916,2047 11935,2065 12523,2616.9 11677,3325.1 12295,3844 12341,3882.5 12604,3890.4 12862,\
+3888.3"];
+	"BM: {Focus_On_Y_Axis(h)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Focus_On_Y_Axis(h)} => {Param_C(h)=Neg(Coordinate_Y(Left_Focus(h)))}  # 已知双曲线的焦点在y轴上,\
+则其参数c等于其下焦点纵坐标的值的相反数 #"	[pos="e,12863,4116.6 11865,2086.3 11891,2091 11916,2100.8 11935,2119 12573,2728.4 11624,3498.4 12295,4072 12340,4110.4 12596,4118.6 12851,\
+4116.7"];
+	"BM: {Focus_On_Y_Axis(h)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Focus_On_Y_Axis(h)} => {Param_C(h)=Coordinate_Y(Right_Focus(h))}  # 已知双曲线的焦点在y轴上,\
+则其参数c等于其上焦点纵坐标的值 #"	[pos="e,12903,4059.1 11865,2086.4 11891,2091.2 11916,2100.9 11935,2119 12557,2709.5 11641,3459.4 12295,4015 12342,4055.3 12624,4062.2 \
+12892,4059.3"];
+	"BM: {Focus_On_Y_Axis(h)} | h:Hyperbola" -> "Terminal: (h:Hyperbola)    {Focus_On_Y_Axis(h)} => {{Top_Focus(h)=Get_Top_Focus(Focus(h))}; {Down_Focus(h)=Get_Down_Focus(Focus(\
+h))}}  # 焦点在y轴,则定位上、下焦点 #"	[pos="e,12871,4002.4 11865,2086.5 11891,2091.2 11916,2101 11935,2119 12540,2690.7 11659,3420.3 12295,3958 12340,3996.5 12602,4004.5 12860,\
+4002.5"];
+	"BM: {Is_In_Form(Equation(pa), y^2==2*p*x)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==2*p*x)} => {assert p_std:Parabola_Std_r={coeff_x:=Extract_Coeff(Equation(\
+pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
+Std_r概念的个体 #"	[pos="e,12587,3371.7 11914,1834.1 11921,1838.3 11928,1843.2 11935,1849 12438,2303.1 11767,2905.1 12295,3331 12323,3354.2 12435,3366.1 \
+12576,3371.3"];
+	"BM: {Is_In_Form(Equation(pa), y^2==-2*p*x)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), y^2==-2*p*x)} => {assert p_std:Parabola_Std_l={coeff_x:=Extract_Coeff(Equation(\
+pa), x)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_\
+Std_l概念的个体 #"	[pos="e,12584,3314.6 11916,1781.4 11923,1785.3 11929,1789.8 11935,1795 12437,2248.1 11768,2849.1 12295,3274 12323,3297 12433,3308.8 12572,\
+3314.2"];
+	"BM: {Is_In_Form(Equation(pa), x^2==2*p*y)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==2*p*y)} => {assert p_std:Parabola_Std_u={coeff_y:=Extract_Coeff(Equation(\
+pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
+Std_u概念的个体 #"	[pos="e,12585,3257.6 11914,1726.1 11921,1730.3 11928,1735.2 11935,1741 12436,2193.1 11769,2793 12295,3217 12323,3240 12433,3251.9 12573,\
+3257.2"];
+	"BM: {Is_In_Form(Equation(pa), x^2==-2*p*y)} | pa:Parabola" -> "Terminal: (pa:Parabola)    {Is_In_Form(Equation(pa), x^2==-2*p*y)} => {assert p_std:Parabola_Std_d={coeff_y:=Extract_Coeff(Equation(\
+pa), y)}; {pa=p_std}}  # 如果抛物线方程（可）满足标准形式 x^2=-2*p*y，则提取其中的y的系数，并进一步生成Parabola_\
+Std_d概念的个体 #"	[pos="e,12580,3428.5 11916,1889.4 11923,1893.3 11929,1897.8 11935,1903 12439,2358 11767,2961.2 12295,3388 12323,3410.8 12431,3422.7 12569,\
+3428.1"];
+	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Param_P(pa)=Div(pa.coeff_x, 2)}  # 标准抛物线Parabola_Std_r的参数P等于其x系数的一半 #"	[pos="e,13012,3087.3 11864,1655.4 11890,1660.1 11915,1669.6 11935,1687 12403,2100.8 11805,2658.5 12295,3046 12350,3089.8 12707,3092.9 \
+13000,3087.5"];
+	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_r的焦点在其X轴上 #"	[pos="e,13070,3200.3 11864,1655.1 11890,1659.8 11915,1669.4 11935,1687 12435,2138.1 11770,2736.9 12295,3160 12353,3207.3 12756,3207.5 \
+13059,3200.6"];
+	"BM: pa:Parabola_Std_r | pa:Parabola_Std_r" -> "Terminal: (pa:Parabola_Std_r)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
+Std_r生成准线方程:x=-p/2 #"	[pos="e,12906,3146.1 11864,1655.3 11890,1660 11915,1669.5 11935,1687 12419,2119.4 11787,2697.7 12295,3103 12343,3141.9 12627,3148.8 12895,\
+3146.2"];
+	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_x, 2))}  # 标准抛物线Parabola_Std_l的参数P等于其x系数的一半的相反数 #"	[pos="e,12968,2916.7 11863,1601.7 11889,1606.4 11915,1615.8 11935,1633 12370,2008.6 11840,2523.8 12295,2875 12348,2916 12673,2920.9 12957,\
+2916.9"];
+	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Focus_On_X_Axis(pa)}  # 标准抛物线Parabola_Std_l的焦点在其X轴上 #"	[pos="e,13071,3029.1 11863,1601.4 11889,1606 11915,1615.5 11935,1633 12402,2045.8 11806,2602.4 12295,2989 12354,3035.8 12757,3036.1 13059,\
+3029.3"];
+	"BM: pa:Parabola_Std_l | pa:Parabola_Std_l" -> "Terminal: (pa:Parabola_Std_l)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1, 0, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
+Std_l生成准线方程:x=p/2 #"	[pos="e,12894,2974.8 11863,1601.5 11889,1606.2 11915,1615.6 11935,1633 12386,2027.1 11823,2563.1 12295,2932 12343,2969.8 12619,2977.1 \
+12882,2974.9"];
+	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Param_P(pa)=Div(pa.coeff_y, 2)}  # 标准抛物线Parabola_Std_u的参数P等于其y系数的一半 #"	[pos="e,13233,5488.9 11738,2812.3 11748,3027.3 11857,5075.6 12295,5440 12431,5553.4 12945,5518.5 13222,5490.1"];
+	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_u的焦点在其Y轴上 #"	[pos="e,13068,5423.7 11738,2812.2 11749,3024.4 11866,5027.3 12295,5383 12353,5431 12754,5431.1 13056,5424"];
+	"BM: pa:Parabola_Std_u | pa:Parabola_Std_u" -> "Terminal: (pa:Parabola_Std_u)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Div(Param_P(pa), 2))}  # 为标准抛物线Parabola_\
+Std_u生成准线方程:y=-p/2 #"	[pos="e,12904,5369.6 11738,2812.5 11750,3023.4 11874,4979.1 12295,5326 12343,5365.6 12626,5372.6 12893,5369.8"];
+	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Param_P(pa)=Neg(Div(pa.coeff_y, 2))}  # 标准抛物线Parabola_Std_d的参数P等于其y系数的一半的相反数 #"	[pos="e,12966,5198.8 11866,2734.1 11892,2738.9 11916,2748.8 11935,2767 12699,3520.6 11490,4444.3 12295,5155 12345,5199.4 12670,5204 12954,\
+5199"];
+	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Focus_On_Y_Axis(pa)}  # 标准抛物线Parabola_Std_d的焦点在其Y轴上 #"	[pos="e,13068,5310.6 11866,2733.9 11892,2738.8 11916,2748.7 11935,2767 12732,3558.5 11455,4522.3 12295,5269 12351,5319 12753,5318.7 13056,\
+5310.9"];
+	"BM: pa:Parabola_Std_d | pa:Parabola_Std_d" -> "Terminal: (pa:Parabola_Std_d)    ∅ => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0, 1, Neg(Div(Param_P(pa), 2)))}  # 为标准抛物线Parabola_\
+Std_d生成准线方程:y=p/2 #"	[pos="e,12891,5257 11866,2734 11892,2738.8 11916,2748.7 11935,2767 12716,3539.6 11473,4483.3 12295,5212 12341,5252.6 12615,5260 12879,\
+5257.1"];
+	"BM: {Point_On_Curve(p, _c)} | _c:Curve; p:Point" -> "Terminal: (_c:Curve; p:Point)    {Point_On_Curve(p, _c)} => {Subst_Point_Into_Curve(p, _c)}  # 如果点在曲线上，就把点代入曲线方程 #"	[pos="e,12995,2861.5 11883,1552.2 11902,1557.6 11920,1566.1 11935,1579 12371,1955.5 11838,2473.1 12295,2824 12350,2866.2 12694,2868.1 \
+12984,2861.8"];
+	"BM: {{a>0}; {b>0}; {a>b}} | a:Num; b:Num" -> "Terminal: (a:Num; b:Num)    {{a>0}; {b>0}; {a>b}} => {a^2>b^2}  # 如果a>0,b>0,a>b,那么a^2>b^2 #"	[pos="e,13706,1371.5 18264,1493.3 17821,1478.1 16377,1429.3 15183,1400 14670,1387.4 14073,1377.3 13718,1371.7"];
 }

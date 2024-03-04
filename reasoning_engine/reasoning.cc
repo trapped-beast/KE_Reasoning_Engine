@@ -24,6 +24,7 @@ shared_ptr<Fact> find_fact_by_name(const string &name, Rete_Question &question){
     }
     cout<<"找不到fact: "<<name<<endl;
     assert(false);
+    return ret;
 }
 
 // 把 fact 加入 Reasoning_Graph 中并为其溯源 (接收的参数为新 fact、其作为前提的fact的名称、所在 Question)
@@ -315,8 +316,11 @@ bool transpose(shared_ptr<Fact> origin_eq){ // 尝试对方程进行简单的移
     // 处理涉及 +-*/^ 的方程，形如 Mul(num_1, a) = num_2
     vector<string> mathe_op = {"Add", "Sub", "Mul", "Div", "Pow"};
     bool left_is_mathe_with_2_args = left->is_term && std::find(mathe_op.begin(), mathe_op.end(), left->term->oprt)!=mathe_op.end() && left->term->args.size()==2;
+    bool left_arg_1_is_num = false;
+    if(left_is_mathe_with_2_args)
+        left_arg_1_is_num = left->term->args[0]->is_math_indi && left->term->args[0]->math_indi->is_math_expr && left->term->args[0]->math_indi->expr_val->is_num;
     bool right_is_num = right->is_math_indi && right->math_indi->is_math_expr && right->math_indi->expr_val->is_num;
-    if(left_is_mathe_with_2_args && right_is_num){
+    if(left_is_mathe_with_2_args && right_is_num && left_arg_1_is_num){
         auto arg_1 = left->term->args[0]; // 即左部的 num_1
         auto arg_2 = left->term->args[1]; // 即左部的 a
         string oprt = left->term->oprt;
@@ -430,12 +434,23 @@ bool is_potentially_solvable_eq(shared_ptr<Fact> fact){
     cout<<"判断是否是潜在可解的方程: "<<*fact<<endl;
     bool ret = false;
     vector<string> mathe_op = {"Add", "Sub", "Mul", "Div", "Pow"};
-    if(fact->is_assert && fact->assertion->is_std && fact->assertion->left->is_term && fact->assertion->right->is_term){
-        auto left = *fact->assertion->left->term;
-        auto right = *fact->assertion->right->term;
-        if(std::find(mathe_op.begin(),mathe_op.end(),left.oprt)!=mathe_op.end() && std::find(mathe_op.begin(),mathe_op.end(),right.oprt)!=mathe_op.end())
-            ret = true;
+    // 一般情况是: 方程两边都是 +-*/^ 式子
+    if(fact->is_assert && fact->assertion->is_std && fact->assertion->left->is_term){
+        auto l = fact->assertion->left;
+        auto r = fact->assertion->right;
+        if(fact->assertion->right->is_term){
+            auto left = *l->term;
+            auto right = *r->term;
+            if(std::find(mathe_op.begin(),mathe_op.end(),left.oprt)!=mathe_op.end() && std::find(mathe_op.begin(),mathe_op.end(),right.oprt)!=mathe_op.end())
+                ret = true;
+        }
+        // 存在特殊情况: 形如 Pow(x, 2) = Number
+        else if(r->is_math_indi && r->val_is_known){
+            if(l->term->oprt=="Pow")
+                ret = true;
+        }
     }
+
     return ret;
 }
 
@@ -465,17 +480,24 @@ void find_dependence(shared_ptr<Fact> fact, shared_ptr<vector<shared_ptr<Fact>>>
     conditions->clear();
 }
 
+
 void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> &rules_not_worked){ // 尝试解方程
     // 先考虑有多个 alt 的个体
     // TODO: 过滤重复的求解
     for(auto p:question->indi_hash_map){
         auto indi = *p.second;
         if(indi.alt_vals.size()>1){
-            if(indi.alt_vals.size()!=2) // 目前只处理带2个 alt 的个体
+            if(indi.alt_vals.size()!=2) // 目前只处理带2个 alt 的个体, 即 a = b, a = c => b = c
                 continue;
             auto alt_1 = indi.alt_vals[0];
             auto alt_2 = indi.alt_vals[1];
+            if(alt_1->val_is_known && alt_2->val_is_known){
+                if(alt_1->get_output_str() == alt_2->get_output_str())
+                    indi.alt_vals.pop_back();
+                continue;
+            }
             auto new_fact = make_shared<Fact>(Assertion(*alt_1,*alt_2));
+            cout<<"生成新的方程:"<<*new_fact<<endl;
             new_fact->where_is = question;
             // 传播变量声明
             new_fact->assertion->propagate_var_decl(question->var_decl);
@@ -505,83 +527,134 @@ void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> 
     // 再考虑 fact 中的方程
     auto origin_fact_num = question->fact_list.size();
     for(size_t i=0; i!=origin_fact_num; ++i){
-        auto origin_eq = question->fact_list[i];
+        auto origin_eq = question->fact_list[i]; // 原方程需要保留
+        if(!(origin_eq->is_assert && origin_eq->assertion->is_std))
+            continue;
+        origin_eq = make_shared<Fact>(Fact(Assertion(*origin_eq->assertion->left, *origin_eq->assertion->right)));
         if(is_potentially_solvable_eq(origin_eq)){
+            // 方程两边都是 +-*/^ 式子
+            // 或者: 形如 Pow(x, 2) = Number
             auto new_eq = make_shared<Fact>(origin_eq->get_copy());
             cout<<"考虑解方程: "<<*new_eq<<endl;
             // 先对可求解的部分进行计算，而后尝试移项求解
             auto &left = new_eq->assertion->left;
             auto &right = new_eq->assertion->right;
-            assert(left->is_term && left->term->is_std && right->is_term && right->term->is_std);
-            // 对于方程，尝试直接对左右两边进行计算，如果失败，则对其参数进行尽可能的计算
+            assert(left->is_term && left->term->is_std);
+
             shared_ptr<Individual> temp;
             // 求值本身的 dependence 要记录
             auto conditions = make_shared<vector<shared_ptr<Fact>>>();
             auto total_conditions = make_shared<vector<shared_ptr<Fact>>>();
-            temp = action_eval(left,*question,conditions);
-            total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
-            vector<string> inner_conditions; // 记录该过程中的 dependence
-            if(temp){
-                auto new_fact = make_shared<Fact>(Assertion(*left,*temp));
-                left = temp;
-                cout<<"加入: "<<*new_fact<<endl;
-                question->fact_list.push_back(new_fact);
-                inner_conditions.push_back(new_fact->get_output_str());
-                new_fact->where_is = question;
-                find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
-            }
-            else{
-                size_t i = 0;
-                for(auto &arg:left->term->args){
-                    if(arg->is_term){
-                        temp = action_eval(arg,*question,conditions);
-                        total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
-                        if(temp){
-                            auto new_fact = make_shared<Fact>(Assertion(*arg,*temp));
-                            arg = temp;
-                            cout<<"加入: "<<*new_fact<<endl;
-                            question->fact_list.push_back(new_fact);
-                            inner_conditions.push_back(new_fact->get_output_str());
-                            new_fact->where_is = question;
-                            find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
-                        }
-                    }
-                    ++i;
-                }
-            }
-            temp = action_eval(right,*question,conditions);
-            total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
-            if(temp){
-                auto new_fact = make_shared<Fact>(Assertion(*right,*temp));
-                right = temp;
-                cout<<"加入: "<<*new_fact<<endl;
-                question->fact_list.push_back(new_fact);
-                inner_conditions.push_back(new_fact->get_output_str());
-                new_fact->where_is = question;
-                find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
-            }
-            else{
-                size_t i = 0;
-                for(auto &arg:right->term->args){
-                    if(arg->is_term){
-                        temp = action_eval(arg,*question,conditions);
-                        total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
-                        if(temp){
-                            auto new_fact = make_shared<Fact>(Assertion(*arg,*temp));
-                            arg = temp;
-                            cout<<"加入: "<<*new_fact<<endl;
-                            question->fact_list.push_back(new_fact);
-                            inner_conditions.push_back(new_fact->get_output_str());
-                            new_fact->where_is = question;
-                            find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
-                        }
-                    }
-                    ++i;
-                }
-            }
-            new_eq->where_is = question;
-            question->fact_list.push_back(new_eq);
 
+            if(right->val_is_known){ // 形如 Pow(x, 2) = Number
+                // 暂时只处理右侧为 Number 的情况
+                assert(right->is_math_indi && right->math_indi->is_math_expr && right->math_indi->expr_val->is_num);
+                assert(left->is_term && left->term->oprt=="Pow" &&left->term->args.size()==2);
+                auto arg_1 = left->term->args[0];
+                auto arg_2 = left->term->args[1];
+                assert(*arg_2 == Individual(Math_Expr(Number(2))));
+                vector<shared_ptr<Individual>> temp_args = {make_shared<Individual>(*right)};
+                auto sqrt_ret = make_shared<Individual>(Term("Sqrt",temp_args));
+                sqrt_ret = action_eval(sqrt_ret, *question, conditions);
+                temp_args.clear();
+                temp_args.push_back(sqrt_ret);
+                auto neg_sqrt_ret = make_shared<Individual>(Term("Neg",temp_args));
+                neg_sqrt_ret = action_eval(neg_sqrt_ret, *question, conditions);
+
+                // 先判断 x 的正负 (可能有 operator 和 binary_predicate 两种写法)
+                bool positive = false, negative = false;
+                string gt_str = "GreaterThan(" + arg_1->get_output_str() + ",0)"; // operator 写法
+                string lt_str = "LessThan(" + arg_1->get_output_str() + ",0)";
+                string gt_str_infix = arg_1->get_output_str() + ">0"; // binary_predicate 写法
+                string lt_str_infix = arg_1->get_output_str() + "<0";
+                bool gt = false, lt = false;
+                for(auto fact:question->fact_list){
+                    if(fact->get_output_str().find(gt_str_infix) != string::npos)
+                        gt = true;
+                    if(fact->get_output_str().find(lt_str_infix) != string::npos)
+                        lt = true;
+                }
+                if(gt || question->indi_hash_map.find(gt_str) != question->indi_hash_map.end()){
+                    left = arg_1;
+                    right = sqrt_ret;
+                }
+                else if(lt || question->indi_hash_map.find(lt_str) != question->indi_hash_map.end()){
+                    left = arg_1;
+                    right = neg_sqrt_ret;
+                }
+            }
+            else{ // 方程两边都是 +-*/^ 式子
+                assert(right->is_term && right->term->is_std);
+                // 对于方程，尝试直接对左右两边进行计算，如果失败，则对其参数进行尽可能的计算
+                temp = action_eval(left,*question,conditions);
+                total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+                vector<string> inner_conditions; // 记录该过程中的 dependence
+                if(temp){
+                    auto new_fact = make_shared<Fact>(Assertion(*left,*temp));
+                    left = temp;
+                    cout<<"加入: "<<*new_fact<<endl;
+                    question->normalize_individual(new_fact);
+                    question->fact_list.push_back(new_fact);
+                    inner_conditions.push_back(new_fact->get_output_str());
+                    new_fact->where_is = question;
+                    find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+                }
+                else{
+                    size_t i = 0;
+                    for(auto &arg:left->term->args){
+                        if(arg->is_term){
+                            temp = action_eval(arg,*question,conditions);
+                            total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+                            if(temp){
+                                auto new_fact = make_shared<Fact>(Assertion(*arg,*temp));
+                                arg = temp;
+                                cout<<"加入: "<<*new_fact<<endl;
+                                question->normalize_individual(new_fact);
+                                question->fact_list.push_back(new_fact);
+                                inner_conditions.push_back(new_fact->get_output_str());
+                                new_fact->where_is = question;
+                                find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+                            }
+                        }
+                        ++i;
+                    }
+                }
+                temp = action_eval(right,*question,conditions);
+                total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+                if(temp){
+                    auto new_fact = make_shared<Fact>(Assertion(*right,*temp));
+                    right = temp;
+                    cout<<"加入: "<<*new_fact<<endl;
+                    question->normalize_individual(new_fact);
+                    question->fact_list.push_back(new_fact);
+                    inner_conditions.push_back(new_fact->get_output_str());
+                    new_fact->where_is = question;
+                    find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+                }
+                else{
+                    size_t i = 0;
+                    for(auto &arg:right->term->args){
+                        if(arg->is_term){
+                            temp = action_eval(arg,*question,conditions);
+                            total_conditions->insert(total_conditions->end(), conditions->begin(), conditions->end());
+                            if(temp){
+                                auto new_fact = make_shared<Fact>(Assertion(*arg,*temp));
+                                arg = temp;
+                                cout<<"加入: "<<*new_fact<<endl;
+                                question->normalize_individual(new_fact);
+                                question->fact_list.push_back(new_fact);
+                                inner_conditions.push_back(new_fact->get_output_str());
+                                new_fact->where_is = question;
+                                find_dependence(new_fact,conditions); // 建立求值本身的 dependence 到它的边
+                            }
+                        }
+                        ++i;
+                    }
+                }
+            }
+            new_eq = make_shared<Fact>(Assertion(*new_eq->assertion->left, *new_eq->assertion->right));
+            question->normalize_individual(new_eq);
+            question->fact_list.push_back(new_eq);
             // "处理方程" 这一过程需要在 Reasoning_Graph 中体现
             cout<<"原方程: "<<*origin_eq<<endl;
             cout<<"新方程: "<<*new_eq<<endl;
@@ -603,6 +676,9 @@ void solve_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> 
             construct_fact_in_graph(new_eq, dependence, *question);
             // 尝试简单的移项求解
             transpose(new_eq);
+        }
+        else{
+            cout<<"不可解: "<<*origin_eq<<endl;
         }
     }
     cout<<endl;
@@ -635,6 +711,7 @@ void take_action(shared_ptr<Rete_Rule> instantiated_rule, shared_ptr<Rete_Questi
         rules_not_worked.push_back(instantiated_rule);
     size_t new_fact_num = question->fact_list.size();
     size_t add_fact_num = new_fact_num-origin_fact_num; // 由该规则导致的新增 fact 的数量
+    // 不考虑一题多解的情况: 如果 a=>c, b=>c, 那么我们只需要一条路径即可. 所以对于后者, 我们在检查到 c 已知时, 会把诱发 b=>c 的这一条规则当作是无用的.
     if(add_fact_num>0){
         // 对于新增的 fact，先检查是否已经存在 (只需检查最后一条是否已经存在)
         bool fact_existed = false;
@@ -656,6 +733,7 @@ void take_action(shared_ptr<Rete_Rule> instantiated_rule, shared_ptr<Rete_Questi
         shared_ptr<Reasoning_Edge> edge;
         size_t first_edge_pos=0; // 记录实例化规则相关的 edge 在 Reasoning_Graph 中的位置
         for(auto e: reasoning_graph->edges){
+            cout<<"当前处理的 edge 对应的 rule 为: "<< *e->instantiated_rule <<endl;
             if(e->instantiated_rule->get_output_str()==instantiated_rule->get_output_str()){
                 edge = e;
                 break;

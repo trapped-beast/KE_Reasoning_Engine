@@ -1226,6 +1226,8 @@ Math_Expr Math_Expr::get_copy(){
     }
     else if(is_enclosed)
         ret.enclosed_expr = make_shared<Math_Expr>(enclosed_expr->get_copy());
+    else if(is_func)
+        ret.func_val = make_shared<Math_Func>(func_val->get_copy());
     else
         assert(false);
     return ret;
@@ -1233,6 +1235,11 @@ Math_Expr Math_Expr::get_copy(){
 
 Number Number::get_copy(){
     Number ret = Number(*this);
+    return ret;
+}
+
+Math_Func Math_Func::get_copy(){
+    Math_Func ret = Math_Func(*this);
     return ret;
 }
 
@@ -1260,6 +1267,11 @@ void Rete_Question::normalize_individual(shared_ptr<Assertion> &assertion){ // �
     if(assertion->is_std){
         normalize_individual(assertion->left);
         normalize_individual(assertion->right);
+        for(auto r:assertion->left->alt_vals){
+            if(r->val_is_known){
+                assertion->left->alt_val_is_known = true;
+            }
+        }
     }
     else{
         assert(assertion->is_sugar_for_true);
@@ -1810,8 +1822,6 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
         cout<<"当前 Question:"<<endl<<*this<<endl;
     #endif
     cout<<"当前要执行的 RHS: "<<*rhs<<endl;
-    if(rhs->get_output_str()=="{Line_Equation(Asymptote(h_std))=Ex_Or((3/4)*x-y==0, (-3/4)*x-y==0)}")
-        cout<<endl;
     bool worked = false; // 该 RHS 是否发挥了作用
     // RHS 要考虑的情况有: Cud、Term、Assertion
     if(rhs->is_cud){
@@ -1843,16 +1853,33 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
         string rhs_str = rhs->get_output_str();
         try_to_simplify(rhs->assertion,*this); // 对 assertion 进行可能的化简
         auto new_fact = make_shared<Fact>(Assertion(*rhs->assertion));
-        normalize_individual(new_fact); // 保存之前先统一 Individual
-        cout<<*new_fact<<endl;
-        // 传播变量声明
-        new_fact->assertion->propagate_var_decl(var_decl);
-        new_fact->var_decl = new_fact->assertion->var_decl;
-        fact_list.push_back(new_fact);
-        if(rhs_str.find("Subst")!=string::npos)
+        bool new_fact_is_not_new = false;
+        for(auto old_fact:fact_list){
+            if(old_fact->get_output_str()==new_fact->get_output_str()){
+                new_fact_is_not_new = true;
+                new_fact = old_fact;
+                break;
+            }
+        }
+        if(new_fact_is_not_new){
+            cout<<*new_fact<<" 已存在, 不保存"<<endl;
             worked = true;
-        else if(new_fact->assertion->is_std && !new_fact->assertion->right->val_is_known){
-            worked = is_potentially_solvable_eq(new_fact); // 右部如果不可知，则该 rhs 未发挥作用（唯一的例外是生成的fact是潜在可解的方程）
+        }
+        else{
+            normalize_individual(new_fact); // 保存之前先统一 Individual
+            cout<<*new_fact<<endl;
+            // 传播变量声明
+            new_fact->assertion->propagate_var_decl(var_decl);
+            new_fact->var_decl = new_fact->assertion->var_decl;
+            fact_list.push_back(new_fact);
+            if(rhs_str.find("Subst")!=string::npos)
+                worked = true;
+            else if(new_fact->assertion->is_std){
+                if(!new_fact->assertion->right->val_is_known)
+                    worked = is_potentially_solvable_eq(new_fact); // 右部如果不可知，则该 rhs 未发挥作用（唯一的例外是生成的fact是潜在可解的方程）
+                else
+                    worked = true;
+            }
         }
     }
     #ifndef NDEBUG

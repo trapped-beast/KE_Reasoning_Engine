@@ -1,6 +1,6 @@
 #ifndef AL_STRUCT_HH
 #define AL_STRUCT_HH
-#define NDEBUG
+// #define NDEBUG
 
 // AL抽象语法树相关的数据结构
 
@@ -178,6 +178,7 @@ public:
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Individual &parent); // 传播变量声明 (Math_Func 的上层可能是 Math_Individual)
     void propagate_var_decl(const map<string, shared_ptr<Concept>> &v, Math_Expr &parent); // 传播变量声明 (Math_Func 的上层可能是 Math_Expr)
     shared_ptr<Math_Func> instantiate(const map<string, string> &abstract_to_concrete); // 实例化
+    Math_Func get_copy();
 
     string func_name; //函数名
     vector<shared_ptr<Math_Expr>> args; // 参数列表
@@ -357,6 +358,8 @@ public:
     // 用math_individual初始化
     Individual(const Math_Individual &e):is_math_indi(true),math_indi(make_shared<Math_Individual>(e)){
         if(e.is_math_expr && e.expr_val->is_num)
+            val_is_known = true;
+        else if(e.is_coordinate && e.coordinate_val->abscissa->is_num && e.coordinate_val->ordinate->is_num)
             val_is_known = true;
     }
 

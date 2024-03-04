@@ -120,9 +120,18 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
 }
 
 void Reasoning_Graph::print_all_progress(){ // 输出所有求解进展
+    // 不考虑一题多解的情况: 如果 a=>c, b=>c, 那么我们只需要一条路径即可. 所以对于后者, 我们在检查到 c 已知时, 会把诱发 b=>c 的这一条规则当作是无用的. 这样, 这条规则对应的 edge 是没有终点的, 我们在这里进行删除.
+    vector<shared_ptr<Reasoning_Edge>> new_edges;
+    for(auto e: edges){
+        if(e->fact_end || e->token_end)
+            new_edges.push_back(e);
+    }
+    this->edges = new_edges;
+    
     size_t cnt = 0;
     cout<<"所有的求解尝试:"<<endl;
     for(auto e:edges){
+        cout<<"当前处理的 edge 对应的 rule 为: "<< *e->instantiated_rule <<endl;
         if(e->instantiated_rule->description=="组合已知条件") // 这种边实际上并不是 "蕴含" 关系，只是为了保留 "Token 和 组成其的Fact 之间存在连接" 这一信息
             continue;
         cout<<"\t"<<++cnt<<". ";
