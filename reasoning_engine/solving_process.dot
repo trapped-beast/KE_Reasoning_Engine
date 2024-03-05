@@ -1,53 +1,15 @@
 digraph solving_process {
-	graph [bb="0,0,942.63,540"];
+	graph [bb="0,0,216.32,108"];
 	node [label="\N"];
-	"{Equation(c)=x^2/9+y^2/16==1}"	[fillcolor=cornsilk,
+	"{Point_On_Curve(q, c)}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="500.41,522",
+		pos="108.16,90",
 		style=filled,
-		width=3.8149];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[height=0.5,
-		pos="193.41,306",
-		width=5.2934];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[pos="e,188.46,324.39 376.73,513.92 306.28,507.09 227.54,493.8 204.41,468 172.07,431.92 178.41,371.11 185.92,335.45"];
-	"def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[height=0.5,
-		pos="500.41,450",
-		width=7.9662];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[pos="e,500.41,468.1 500.41,503.7 500.41,496.41 500.41,487.73 500.41,479.54"];
-	"{c=e_std}"	[height=0.5,
-		pos="854.41,450",
-		width=1.3696];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{c=e_std}"	[pos="e,817.75,462.39 588.35,507.81 647.5,498.31 727.05,484.33 796.41,468 799.78,467.21 803.24,466.34 806.71,465.42"];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[height=0.5,
-		pos="292.41,90",
-		width=8.1226];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[pos="e,284.44,108.23 201.35,287.85 218.44,250.91 258.85,163.55 279.61,118.67"];
-	"{Focus_On_Y_Axis(e_std)}"	[height=0.5,
-		pos="500.41,378",
-		width=3.2462];
-	"def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}" -> "{Focus_On_Y_Axis(e_std)}"	[pos="e,500.41,396.1 500.41,431.7 500.41,424.41 500.41,415.73 500.41,407.54"];
-	"{Param_A(c)=Param_A(e_std)}"	[height=0.5,
-		pos="810.41,378",
-		width=3.6727];
-	"{c=e_std}" -> "{Param_A(c)=Param_A(e_std)}"	[pos="e,821.27,396.28 843.76,432.05 838.81,424.18 832.8,414.62 827.26,405.79"];
-	"{Param_A(e_std)=4}"	[height=0.5,
-		pos="500.41,306",
-		width=2.5353];
-	"{Focus_On_Y_Axis(e_std)}" -> "{Param_A(e_std)=4}"	[pos="e,500.41,324.1 500.41,359.7 500.41,352.41 500.41,343.73 500.41,335.54"];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[height=0.5,
-		pos="500.41,234",
-		width=6.0469];
-	"{Param_A(e_std)=4}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[pos="e,500.41,252.1 500.41,287.7 500.41,280.41 500.41,271.73 500.41,263.54"];
-	"{Param_A(c)=Param_A(e_std)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[pos="e,537.71,252.08 773.94,360.29 717.81,334.58 610.24,285.31 548.03,256.81"];
-	"{Mul(2, Param_A(c))=8}"	[height=0.5,
-		pos="430.41,162",
-		width=2.9903];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}" -> "{Mul(2, Param_A(c))=8}"	[pos="e,447.52,180.1 483.11,215.7 474.8,207.39 464.69,197.28 455.55,188.14"];
-	"{Mul(2, Param_A(c))=8}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[pos="e,326.32,108.2 397.71,144.41 379.38,135.12 356.28,123.4 336.39,113.31"];
-	"{Length(Major_Axis(c))=8}"	[fillcolor="#ee7b67",
+		width=2.8481];
+	"{Equation(c)=y^2==4*x}"	[fillcolor="#ee7b67",
 		height=0.5,
-		pos="292.41,18",
+		pos="108.16,18",
 		style=filled,
-		width=3.2746];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}" -> "{Length(Major_Axis(c))=8}"	[pos="e,292.41,36.104 292.41,71.697 292.41,64.407 292.41,55.726 292.41,47.536"];
+		width=3.0045];
+	"{Point_On_Curve(q, c)}" -> "{Equation(c)=y^2==4*x}"	[pos="e,108.16,36.104 108.16,71.697 108.16,64.407 108.16,55.726 108.16,47.536"];
 }

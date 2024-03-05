@@ -334,23 +334,31 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             auto target = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!target)
                 target = action_eval(args[0], question, conditions_sp);
-            assert(target->is_math_indi && target->math_indi->is_math_expr);
-            auto target_val = target->math_indi->expr_val;
-            if(target_val->is_num){
-                Number temp = Number(*target_val->number_val);
-                temp.trans_to_opposite();
-                eval_ret = make_shared<Individual>(Math_Individual(temp));
+            // 先处理一种特殊情况: 数学表达式是形如 Sqrt(x) 的 term
+            if(target->is_term){
+                assert(target->term->oprt=="Sqrt");
+                vector<shared_ptr<Individual>> temp_args = {target};
+                eval_ret = make_shared<Individual>(Term("Neg", temp_args));
             }
-            else if(target_val->is_mathe && target_val->left->is_num){ // 只处理 left 为 Number 的情况
-                // +-*/^ 式的相反数只需对其左部去相反数
-                Number temp_left = Number(*target_val->left->number_val);
-                temp_left.trans_to_opposite();
-                Math_Expr temp;
-                if(target_val->right->is_num)
-                    temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,Math_Expr(*target_val->right->number_val));
-                else
-                    temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,target_val->right);
-                eval_ret = make_shared<Individual>(Math_Individual(temp));
+            else{
+                assert(target->is_math_indi && target->math_indi->is_math_expr);
+                auto target_val = target->math_indi->expr_val;
+                if(target_val->is_num){
+                    Number temp = Number(*target_val->number_val);
+                    temp.trans_to_opposite();
+                    eval_ret = make_shared<Individual>(Math_Individual(temp));
+                }
+                else if(target_val->is_mathe && target_val->left->is_num){ // 只处理 left 为 Number 的情况
+                    // +-*/^ 式的相反数只需对其左部去相反数
+                    Number temp_left = Number(*target_val->left->number_val);
+                    temp_left.trans_to_opposite();
+                    Math_Expr temp;
+                    if(target_val->right->is_num)
+                        temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,Math_Expr(*target_val->right->number_val));
+                    else
+                        temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,target_val->right);
+                    eval_ret = make_shared<Individual>(Math_Individual(temp));
+                }
             }
         }
         else if(oprt=="Sqrt"){ // 对数学表达式进行开方 (参数是: 数学表达式 Math_Expr)

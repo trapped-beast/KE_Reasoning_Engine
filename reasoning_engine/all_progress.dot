@@ -1,117 +1,64 @@
 digraph all_progress {
-	graph [bb="0,0,2999.1,540"];
+	graph [bb="0,0,2416,468"];
 	node [label="\N"];
-	"{Equation(c)=x^2/9+y^2/16==1}"	[height=0.5,
-		pos="1637,522",
-		width=3.8149];
-	"{Param_A(c)>0}"	[height=0.5,
-		pos="723.95,450",
+	"{Focus(g)=List(f1, f2)}"	[height=0.5,
+		pos="1300.4,450",
+		width=2.7628];
+	"{Param_A(g)>0}"	[height=0.5,
+		pos="76.43,378",
+		width=2.1231];
+	"{Focus(g)=List(f1, f2)}" -> "{Param_A(g)>0}"	[pos="e,130.65,391.11 1200.6,449.4 1001.9,449.09 543.35,442.81 161.43,396 155.02,395.21 148.37,394.21 141.74,393.09"];
+	"{Param_B(g)>0}"	[height=0.5,
+		pos="246.43,378",
 		width=2.1088];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Param_A(c)>0}"	[pos="e,778.19,462.97 1502.7,517.91 1338.5,512.86 1052.3,499.97 808.95,468 802.55,467.16 795.9,466.12 789.28,464.98"];
-	"{Param_B(c)>0}"	[height=0.5,
-		pos="892.95,450",
-		width=2.0946];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Param_B(c)>0}"	[pos="e,947.21,462.83 1509.2,515.17 1376.1,508.05 1161.7,493.67 977.95,468 971.56,467.11 964.92,466.03 958.29,464.87"];
-	"{Param_C(c)>0}"	[height=0.5,
-		pos="1062,450",
-		width=2.0946];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Param_C(c)>0}"	[pos="e,1117.9,462.39 1524.7,511.33 1426,502.21 1278.5,487.11 1151,468 1143.8,466.93 1136.4,465.7 1129,464.4"];
-	"{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[height=0.5,
-		pos="1035,378",
-		width=7.8809];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,1078.8,396.16 1509.5,515.05 1396.1,508.14 1239.9,494.18 1184,468 1162.9,458.15 1165.1,445.17 1146,432 1128.5,420.02 1107.9,409.37 \
-1089.3,400.82"];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[height=0.5,
-		pos="2392,378",
-		width=5.2934];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}"	[pos="e,2223.1,386.63 1697,505.44 1727.9,496.38 1765.8,483.65 1798,468 1823.9,455.38 1824.8,441.7 1852,432 1916.3,409.03 2081,395.08 2211.8,\
-387.3"];
-	"{Length(Minor_Axis(c))=Mul(2, Param_B(c))}"	[height=0.5,
-		pos="2052,450",
-		width=5.2934];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Length(Minor_Axis(c))=Mul(2, Param_B(c))}"	[pos="e,1961.5,466.26 1718.9,507.17 1785.3,495.98 1879.1,480.15 1950.3,468.15"];
-	"{Focal_Length(c)=Mul(2, Param_C(c))}"	[height=0.5,
-		pos="2425,450",
-		width=4.5541];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Focal_Length(c)=Mul(2, Param_C(c))}"	[pos="e,2306.8,462.8 1750.6,511.61 1874.1,501.33 2077.1,484.13 2252,468 2266.1,466.7 2280.9,465.3 2295.6,463.89"];
-	"{Eccentricity(c)=Div(Param_C(c), Param_A(c))}"	[height=0.5,
-		pos="2803,450",
-		width=5.4498];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{Eccentricity(c)=Div(Param_C(c), Param_A(c))}"	[pos="e,2663.8,463.06 1764.5,515.09 1948.6,506.3 2299.6,488.6 2598,468 2615.6,466.78 2634.1,465.4 2652.4,463.96"];
-	"def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[height=0.5,
-		pos="1480,450",
+	"{Focus(g)=List(f1, f2)}" -> "{Param_B(g)>0}"	[pos="e,300.2,390.96 1201,448.23 1024.9,445.84 647.33,436.02 331.43,396 324.93,395.18 318.17,394.14 311.45,392.99"];
+	"{Param_C(g)>0}"	[height=0.5,
+		pos="416.43,378",
+		width=2.1088];
+	"{Focus(g)=List(f1, f2)}" -> "{Param_C(g)>0}"	[pos="e,470.67,390.95 1202.2,446.63 1051.1,442.05 752.6,429.3 501.43,396 495.03,395.15 488.38,394.11 481.75,392.96"];
+	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
+		pos="797.43,378",
 		width=7.9662];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}"	[pos="e,1518.6,468.24 1599.3,504.23 1578.3,494.84 1551.8,483.02 1529.1,472.9"];
-	"{c=e_std}"	[height=0.5,
-		pos="1795,378",
-		width=1.3696];
-	"{Equation(c)=x^2/9+y^2/16==1}" -> "{c=e_std}"	[pos="e,1795.9,396.17 1713.4,506.71 1736.5,498.86 1759.9,486.73 1776,468 1790.2,451.39 1794.6,426.71 1795.6,407.55"];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}; {Sub(Pow(Param_A(c), 2), Pow(Param_\
-B(c), 2))=Pow(Param_C(c), 2)}"	[height=0.5,
-		pos="705.95,234",
-		width=19.61];
-	"{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=Pow(Param_C(c), 2)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}; {Sub(Pow(Param_A(c), 2), Pow(Param_\
-B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,746.2,252.37 994.94,359.73 935.08,333.89 822.26,285.2 756.7,256.9"];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[height=0.5,
-		pos="2700,90",
-		width=8.1226];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[pos="e,2714.1,108.06 2534.9,365.75 2611.8,351.56 2700.5,320.29 2749,252 2778.3,210.57 2745.2,151.17 2720.9,117.3"];
-	"{Focus_On_Y_Axis(e_std)}"	[height=0.5,
-		pos="1480,378",
-		width=3.2462];
-	"def_indi e_std:Ellipse_Std={recip_coeff_sq_x:=9; recip_coeff_sq_y:=16}" -> "{Focus_On_Y_Axis(e_std)}"	[pos="e,1480,396.1 1480,431.7 1480,424.41 1480,415.73 1480,407.54"];
-	"{Param_A(c)=Param_A(e_std)}"	[height=0.5,
-		pos="1978,306",
-		width=3.6727];
-	"{c=e_std}" -> "{Param_A(c)=Param_A(e_std)}"	[pos="e,1935,323.41 1828.1,364.32 1854.9,354.07 1893.2,339.42 1924.4,327.5"];
-	"{Param_B(c)=Param_B(e_std)}"	[height=0.5,
-		pos="1497,306",
-		width=3.6443];
-	"{c=e_std}" -> "{Param_B(c)=Param_B(e_std)}"	[pos="e,1561.3,322.11 1754.1,367.41 1707.4,356.44 1629.9,338.23 1572.2,324.67"];
-	"{Param_A(e_std)=4}"	[height=0.5,
-		pos="1737,306",
-		width=2.5353];
-	"{Focus_On_Y_Axis(e_std)}" -> "{Param_A(e_std)=4}"	[pos="e,1684.8,321.21 1535.7,361.81 1576.4,350.74 1631.5,335.72 1673.8,324.2"];
-	"{Param_B(e_std)=3}"	[height=0.5,
-		pos="1257,306",
-		width=2.5211];
-	"{Focus_On_Y_Axis(e_std)}" -> "{Param_B(e_std)=3}"	[pos="e,1304.2,321.82 1429.9,361.29 1395.8,350.59 1350.6,336.38 1314.9,325.19"];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}"	[height=0.5,
-		pos="1858,234",
-		width=11.89];
-	"{Param_A(e_std)=4}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}"	[pos="e,1828.1,252.29 1765.3,288.59 1781.1,279.47 1801,267.97 1818.2,257.97"];
-	"{Param_A(e_std)=4}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}; {Sub(Pow(Param_A(c), 2), Pow(Param_\
-B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,1124.8,248.9 1672.3,292.92 1660.6,291.04 1648.4,289.3 1637,288 1473.9,269.55 1293.9,257.41 1136.1,249.46"];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[height=0.5,
-		pos="2522,234",
-		width=6.0469];
-	"{Param_A(e_std)=4}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[pos="e,2364.9,246.79 1802.2,293.03 1813.7,291.16 1825.7,289.39 1837,288 1862.2,284.88 2159.2,262.3 2353.7,247.63"];
-	"{Param_B(e_std)=3}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}"	[pos="e,1682.3,250.85 1322.8,293.21 1334.1,291.34 1345.9,289.53 1357,288 1460.5,273.73 1576.6,261.24 1670.9,251.97"];
-	"{Param_B(e_std)=3}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}; {Sub(Pow(Param_A(c), 2), Pow(Param_\
-B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,840.81,252.13 1182.1,295.49 1097.6,284.75 958.16,267.04 851.96,253.55"];
-	"{Param_A(c)=Param_A(e_std)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}"	[pos="e,1887.6,252.28 1948.9,288.05 1933.4,278.99 1914,267.7 1897.2,257.87"];
-	"{Param_A(c)=Param_A(e_std)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}; {Sub(Pow(Param_A(c), 2), Pow(Param_\
-B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,1151.3,248.34 1885.1,292.83 1869.1,291.01 1852.6,289.3 1837,288 1615.4,269.48 1368.8,256.98 1162.6,248.79"];
-	"{Param_A(c)=Param_A(e_std)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}"	[pos="e,2407.6,249.71 2071.8,292.93 2161.5,281.38 2297.3,263.9 2396.4,251.16"];
-	"{Param_B(c)=Param_B(e_std)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}"	[pos="e,1769.9,252.07 1570.4,290.75 1624.8,280.21 1699.4,265.75 1759,254.19"];
-	"{Param_B(c)=Param_B(e_std)}" -> "{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}; {Sub(Pow(Param_A(c), 2), Pow(Param_\
-B(c), 2))=Pow(Param_C(c), 2)}"	[pos="e,935.88,251.49 1402.9,293.06 1387.5,291.26 1371.8,289.51 1357,288 1221.6,274.27 1070.1,261.77 947.3,252.36"];
-	"{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=7}"	[height=0.5,
-		pos="1858,162",
-		width=5.8621];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}" -> "{Sub(Pow(Param_A(c), 2), Pow(Param_B(c), 2))=7}"	[pos="e,1858,180.1 1858,215.7 1858,208.41 1858,199.73 1858,191.54"];
-	"{7=Pow(Param_C(c), 2)}"	[height=0.5,
-		pos="705.95,162",
-		width=2.9903];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}; {Param_B(c)=Param_B(e_std)}; {Param_B(e_std)=3}; {Sub(Pow(Param_A(c), 2), Pow(Param_\
-B(c), 2))=Pow(Param_C(c), 2)}" -> "{7=Pow(Param_C(c), 2)}"	[pos="e,705.95,180.1 705.95,215.7 705.95,208.41 705.95,199.73 705.95,191.54"];
-	"{Mul(2, Param_A(c))=8}"	[height=0.5,
-		pos="2577,162",
-		width=2.9903];
-	"{Param_A(c)=Param_A(e_std)}; {Param_A(e_std)=4}" -> "{Mul(2, Param_A(c))=8}"	[pos="e,2563.5,180.1 2535.5,215.7 2541.9,207.64 2549.5,197.89 2556.5,188.98"];
-	"{Mul(2, Param_A(c))=8}" -> "{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}"	[pos="e,2669.4,108.36 2606.4,144.23 2622.3,135.17 2642.2,123.85 2659.6,113.98"];
-	"{Length(Major_Axis(c))=8}"	[height=0.5,
-		pos="2700,18",
-		width=3.2746];
-	"{Length(Major_Axis(c))=Mul(2, Param_A(c))}; {Mul(2, Param_A(c))=8}" -> "{Length(Major_Axis(c))=8}"	[pos="e,2700,36.104 2700,71.697 2700,64.407 2700,55.726 2700,47.536"];
+	"{Focus(g)=List(f1, f2)}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,912.06,394.95 1223.2,438.25 1143.4,427.15 1017.6,409.64 923.39,396.53"];
+	"{Eccentricity(g)=Div(Param_C(g), Param_A(g))}"	[height=0.5,
+		pos="1300.4,378",
+		width=5.4925];
+	"{Focus(g)=List(f1, f2)}" -> "{Eccentricity(g)=Div(Param_C(g), Param_A(g))}"	[pos="e,1300.4,396.1 1300.4,431.7 1300.4,424.41 1300.4,415.73 1300.4,407.54"];
+	"{Left_Focus(g)=(-3,0)}"	[height=0.5,
+		pos="1615.4,378",
+		width=2.7628];
+	"{Focus(g)=List(f1, f2)}" -> "{Left_Focus(g)=(-3,0)}"	[pos="e,1554.2,392.6 1361.5,435.42 1413.5,423.87 1488.2,407.27 1543.2,395.06"];
+	"{Right_Focus(g)=(3,0)}"	[height=0.5,
+		pos="1834.4,378",
+		width=2.8197];
+	"{Focus(g)=List(f1, f2)}" -> "{Right_Focus(g)=(3,0)}"	[pos="e,1760.1,390.67 1382,439.45 1467.3,429.31 1604.9,412.5 1723.4,396 1731.7,394.85 1740.3,393.61 1748.9,392.34"];
+	"{Param_C(g)=3}"	[height=0.5,
+		pos="1271.4,18",
+		width=2.1088];
+	"{Focus(g)=List(f1, f2)}" -> "{Param_C(g)=3}"	[pos="e,1347.6,18.705 1399.3,447.27 1569.9,443.35 1905.4,431.22 1945.4,396 1975.8,369.29 1964.4,347.45 1964.4,307 1964.4,307 1964.4,307 \
+1964.4,161 1964.4,38.752 1545.3,20.763 1359,18.808"];
+	"{Div(Pow(Param_B(g), 2), Pow(Param_A(g), 2))=2}"	[height=0.5,
+		pos="2204.4,378",
+		width=5.8763];
+	"{Focus(g)=List(f1, f2)}" -> "{Div(Pow(Param_B(g), 2), Pow(Param_A(g), 2))=2}"	[pos="e,2051.9,390.81 1390.4,442.03 1541.9,430.3 1850,406.44 2040.7,391.68"];
+	"{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
+		pos="797.43,306",
+		width=9.9139];
+	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,797.43,324.1 797.43,359.7 797.43,352.41 797.43,343.73 797.43,335.54"];
+	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[height=0.5,
+		pos="1271.4,162",
+		width=13.738];
+	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,1266.1,180.41 967.1,363.1 1045.6,354.53 1129,341.74 1163.4,324 1216.8,296.53 1248.2,229.16 1262.4,190.84"];
+	"{Param_C(g)=3}" -> "{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,786.29,287.66 1202.2,25.804 1076.9,39.699 820.69,75.923 767.43,144 737.03,182.86 761.63,243.03 780.64,277.75"];
+	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[height=0.5,
+		pos="1009.4,234",
+		width=5.9332];
+	"{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,958.23,251.9 849.56,287.79 879.17,278.01 916.42,265.71 947.51,255.44"];
+	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,1206.7,180.28 1071.9,216.32 1109,206.4 1156.4,193.74 1195.6,183.25"];
+	"{Pow(Param_C(g), 2)=9}"	[height=0.5,
+		pos="1271.4,90",
+		width=3.0045];
+	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}" -> "{Pow(Param_C(g), 2)=9}"	[pos="e,1271.4,108.1 1271.4,143.7 1271.4,136.41 1271.4,127.73 1271.4,119.54"];
+	"{Pow(Param_C(g), 2)=9}" -> "{Param_C(g)=3}"	[pos="e,1271.4,36.104 1271.4,71.697 1271.4,64.407 1271.4,55.726 1271.4,47.536"];
+	"{Pow(Param_C(g), 2)=9}" -> "{Pow(Param_C(g), 2)=9}"	[pos="e,1345.9,76.54 1345.9,103.46 1374.2,103.98 1397.6,99.492 1397.6,90 1397.6,81.806 1380.2,77.342 1357.2,76.608"];
 }

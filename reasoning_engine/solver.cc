@@ -17,10 +17,10 @@ void test(){
 
 int main (int argc, char *argv[]){
   test();
-  const string kb_name = "kb.ke"; // 知识库文件
-  const string question_name = "question.ke"; // 题目信息文件
-  // const string kb_name = "kb_conic10k.ke"; // 知识库文件
-  // const string question_name = "current_conic10k_question.ke"; // 题目信息文件
+  // const string kb_name = "kb.ke"; // 知识库文件
+  // const string question_name = "question.ke"; // 题目信息文件
+  const string kb_name = "kb_conic10k.ke"; // 知识库文件
+  const string question_name = "current_conic10k_question.ke"; // 题目信息文件
   // const string question_name = "question_conic10k.ke"; // 题目信息文件
   shared_ptr<Knowledge_Base> kb;
   vector<shared_ptr<Question>> questions;
