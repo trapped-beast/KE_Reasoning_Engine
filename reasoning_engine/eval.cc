@@ -751,6 +751,19 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             Number zero = Number(0);
             if(it!=question.indi_hash_map.end()){
                 assert(!it->second->alt_vals.empty() && it->second->alt_vals[0]->is_term && it->second->alt_vals[0]->term->oprt=="List");
+                // 焦点信息要作为 dependence
+                string focus_fact_str = "{"+focus_list_str+"="+it->second->alt_vals[0]->get_output_str()+"}";
+                bool find_focus_fact = false;
+                for(auto f: question.fact_list){
+                    cout<<"当前 fact: "<<*f<<endl;
+                    if(f->get_output_str()==focus_fact_str){
+                        find_focus_fact = true;
+                        assert(conditions_sp);
+                        conditions_sp->push_back(f);
+                        break;
+                    }
+                }
+                assert(find_focus_fact);
                 auto focus_list = *it->second->alt_vals[0]->term;
                 assert(focus_list.args.size()==2); // 题目中包含两个焦点的信息
                 assert(focus_list.args[0]->alt_val_is_known && focus_list.args[1]->alt_val_is_known);
@@ -832,6 +845,61 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             auto line_expr_r_r = line_expr_r->right;
             assert(line_expr_r_r->get_output_str()=="x");
             eval_ret = make_shared<Individual>(Math_Expr(*line_expr_r_l));
+        }
+        else if(oprt=="Generate_Hyperbola_Expr_For_Focus_On_X" || oprt=="Generate_Hyperbola_Expr_For_Focus_On_Y"){ // 根据 双曲线参数a、b (或 a^2、b^2) 生成双曲线表达式 x^2/a^2-y^2/b^2 = 1 或 y^2/a^2-x^2/b^2=1 (参数 a、b Number (或 a^2、b^2 Term))
+            // TODO: 暂时只处理 a、b (或 a^2、b^2) 为 number 的情况
+            assert(args.size()==2);
+            Number two = Number(2);
+            Math_Expr sq_x = Math_Expr(Math_Expr("x"),'^',two);
+            Math_Expr sq_y = Math_Expr(Math_Expr("y"),'^',two);
+            Math_Expr part_x, part_y, left;
+            if(args[0]->is_term && args[0]->term->oprt=="Pow"){ // 参数为 a^2、b^2
+                auto a_2 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+                if(!a_2)
+                    a_2 = action_eval(args[0], question, conditions_sp);
+                auto b_2 = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
+                if(!b_2)
+                    b_2 = action_eval(args[1], question, conditions_sp);
+                if(a_2 && a_2->is_math_indi && a_2->math_indi->is_math_expr && a_2->math_indi->expr_val->is_num && b_2 && b_2->is_math_indi && b_2->math_indi->is_math_expr && b_2->math_indi->expr_val->is_num){
+                    if(oprt=="Generate_Hyperbola_Expr_For_Focus_On_X"){
+                        part_x = Math_Expr(sq_x, '/', *a_2->math_indi->expr_val);
+                        part_y = Math_Expr(sq_y, '/', *b_2->math_indi->expr_val);
+                    }
+                    else{
+                        part_x = Math_Expr(sq_y, '/', *a_2->math_indi->expr_val);
+                        part_y = Math_Expr(sq_x, '/', *b_2->math_indi->expr_val);
+                    }
+                    left = Math_Expr(part_x, '-', part_y);
+                    eval_ret = make_shared<Individual>(Math_Individual(Math_Equation(left, Math_Expr(Number(1)))));
+                    eval_ret->val_is_known = true;
+                }
+            }
+            else{ // 参数为 a、b
+                auto a = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
+                if(!a)
+                    a = action_eval(args[0], question, conditions_sp);
+                auto b = args[1]->find_specific_indi("Math_Expr", question, conditions_sp);
+                if(!b)
+                    b = action_eval(args[1], question, conditions_sp);
+                if(a && a->is_math_indi && a->math_indi->is_math_expr && a->math_indi->expr_val->is_num && b && b->is_math_indi && b->math_indi->is_math_expr && b->math_indi->expr_val->is_num){
+                    vector<shared_ptr<Individual>> temp_args = {a, make_shared<Individual>(Math_Expr(two))};
+                    auto a_2 = action_eval(make_shared<Individual>(Term("Pow",temp_args)), question, conditions_sp);
+
+                    temp_args = {b, make_shared<Individual>(Math_Expr(two))};
+                    auto b_2 = action_eval(make_shared<Individual>(Term("Pow",temp_args)), question, conditions_sp);
+                    if(oprt=="Generate_Hyperbola_Expr_For_Focus_On_X"){
+                        part_x = Math_Expr(sq_x, '/', *a_2->math_indi->expr_val);
+                        part_y = Math_Expr(sq_y, '/', *b_2->math_indi->expr_val);
+                    }
+                    else{
+                        part_x = Math_Expr(sq_y, '/', *a_2->math_indi->expr_val);
+                        part_y = Math_Expr(sq_x, '/', *b_2->math_indi->expr_val);
+                    }
+                    left = Math_Expr(part_x, '-', part_y);
+                    eval_ret = make_shared<Individual>(Math_Individual(Math_Equation(left, Math_Expr(Number(1)))));
+                    eval_ret->val_is_known = true;
+                }
+            }
         }
         else{
             auto it = question.kb->def_oprt_hash_table.find(oprt); // KB 中定义的 Opearator

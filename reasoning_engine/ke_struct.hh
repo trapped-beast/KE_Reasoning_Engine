@@ -811,8 +811,8 @@ string str_of_abs_to_con(const map<string, string> &abstrct_to_concrete); // 约
 shared_ptr<Individual> var_decl_to_indi(const map<string, shared_ptr<Concept>> &var_decl); // 把变量声明改造为 Individual(具体地说是Variable)
 map<string, shared_ptr<Concept>> instantiate_var_decl(const map<string, shared_ptr<Concept>> &var_decl, const map<string, string> &abstract_to_concrete); // 实例化变量声明
 shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions = nullptr); // 个体求值
-void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question);
-void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question);
+void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp);
+void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp);
 void construct_fact_in_graph(shared_ptr<Fact> new_fact, vector<string> dependence, Rete_Question &question);
 bool is_potentially_solvable_eq(shared_ptr<Fact> fact);
 

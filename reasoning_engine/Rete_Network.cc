@@ -30,6 +30,7 @@ bool find_path(shared_ptr<Reasoning_Node> &start, shared_ptr<Reasoning_Node> &en
 }
 
 void Reasoning_Graph::print_solving_process(){ // 输出求解过程
+    reasoning_graph->print_all_progress();
     reasoning_graph->draw_all_progress();
     #ifndef NDEBUG
         cout<<"边的数量为:"<<this->edges.size()<<endl;
@@ -55,8 +56,10 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
     string start_str, end_str;
     for(const auto &edge:edges){
         start_str = edge->fact_start ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
+        if(!edge->fact_end && !edge->token_end) // 不考虑一题多解
+            continue;
         end_str = edge->fact_end ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
-        // cout<<start_str<<" -> "<<end_str<<endl;
+        cout<<start_str<<" -> "<<end_str<<endl;
         auto it_start = node_hash_table.find(start_str);
         auto it_end = node_hash_table.find(end_str);
         assert(it_start!=node_hash_table.end() && it_end!=node_hash_table.end());
@@ -93,6 +96,8 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
     // 对于所有的不存在到终点路径的节点，删除其入边
     vector<shared_ptr<Reasoning_Edge>> new_edges; // 保留所有有用的边
     for(auto &edge:edges){
+        if(!edge->fact_end && !edge->token_end) // 不考虑一题多解
+            continue;
         end_str = edge->fact_end ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
         auto it_end = node_hash_table.find(end_str);
         assert(it_end!=node_hash_table.end());
@@ -123,8 +128,11 @@ void Reasoning_Graph::print_all_progress(){ // 输出所有求解进展
     // 不考虑一题多解的情况: 如果 a=>c, b=>c, 那么我们只需要一条路径即可. 所以对于后者, 我们在检查到 c 已知时, 会把诱发 b=>c 的这一条规则当作是无用的. 这样, 这条规则对应的 edge 是没有终点的, 我们在这里进行删除.
     vector<shared_ptr<Reasoning_Edge>> new_edges;
     for(auto e: edges){
-        if(e->fact_end || e->token_end)
+        if(e->fact_end || e->token_end){
+            if(e->fact_start && e->fact_end && e->fact_start->get_output_str()==e->fact_end->get_output_str()) // 不存在到自身的边
+                assert(false);
             new_edges.push_back(e);
+        }
     }
     this->edges = new_edges;
     
@@ -156,9 +164,11 @@ void Reasoning_Graph::draw_all_progress(){ // 可视化所有求解进展
     
     for(auto edge:edges){
         start_name = (edge->fact_start) ? edge->fact_start->get_output_str() : edge->token_start->get_output_str();
+        if(!edge->fact_end && !edge->token_end) // 不考虑一题多解
+            continue;
         end_name = (edge->fact_end) ? edge->fact_end->get_output_str() : edge->token_end->get_output_str();
         edge_name = edge->instantiated_rule->description;
-        // cout<<start_name<<" => "<<end_name<<endl;
+        cout<<start_name<<" => "<<end_name<<endl;
         start = agnode(g, (char *)start_name.c_str(), 1);
         end = agnode(g, (char *)end_name.c_str(), 1);
         e = agedge(g, start, end, (char *)"", 1);

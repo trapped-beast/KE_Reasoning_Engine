@@ -1435,77 +1435,6 @@ string Individual::get_self_type(Rete_Question &question){ // 查询自身类型
     return ret;
 }
 
-// shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, Rete_Question &question, shared_ptr<Fact> condition){ // 找到个体的某个特定类型的值
-//     // 每个 Individual 可能有若干个替代值，如果该 Individual 本身不属于指定类型，那么要从其替代值中找到属于该类型的值
-//     if(get_self_type()==type_name) // 自身是否就是指定类型
-//         return make_shared<Individual>(*this);
-//     for(auto alt_val:alt_vals){ // alt_vals 中是否有指定类型
-//         if(alt_val->get_self_type()==type_name){
-//             if(condition){ // 把 individual = alt 的 fact 依据传回调用方 (如果需要的话)
-//                 auto condition_name = "{"+ get_output_str() + "=" + alt_val->get_output_str() +"}";
-//                 shared_ptr<Fact> condition_fact;
-//                 for(auto f:question.fact_list){
-//                     if(f->get_output_str()==condition_name){
-//                         condition_fact = f;
-//                         break;
-//                     }
-//                 }
-//                 assert(condition_fact);
-//                 *condition = *condition_fact;
-//             }
-//             return alt_val;
-//         }
-//     }
-//     // 除此之外，考虑个体的相等性传递
-//     if(is_term && term->is_std && term->args.size()==1){ // 目前只考虑一元算子替换参数的情况 ({a=b} => {P(a)=p(b)})
-//         string oprt = term->oprt;
-//         auto old_body = term->args[0]; // 原来的参数即 a
-//         for(auto alt:old_body->alt_vals){ // alt 即 b
-//             string old_obj_name = this->get_output_str(); // 即 P(a)
-//             string new_obj_name = oprt+"("+alt->get_output_str()+")"; // Term 名称对参数进行替换得到新的 Term 名称 (即由 P(a) 替换得到 P(b))
-//             auto it = question.indi_hash_map.find(new_obj_name);
-//             if(it!=question.indi_hash_map.end()){
-//                 auto new_obj = it->second; // 即 P(b)
-//                 // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=b} => {P(a)=p(b)})
-//                 string lhs_name = "{"+old_body->get_output_str()+"="+alt->get_output_str()+"}"; // 用于替换的参数之间的相等关系，也就是就是引起该 suffice to 关系的 assertion
-//                 string new_rule_desc = "等量代换";
-//                 // 用这里的 suffice to 关系创建新的规则加入 reasoning_graph
-//                 shared_ptr<Rete_Rule> new_rule = make_shared<Rete_Rule>();
-//                 new_rule->description = new_rule_desc;
-//                 shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
-//                 for(auto fact: question.fact_list){ // 在当前已知的 fact 中找到该起点，补充到 edge 上
-//                     if(fact->get_output_str().find(lhs_name)!=string::npos){
-//                         edge->fact_start = fact;
-//                         break;
-//                     }
-//                 }
-//                 assert(edge->fact_start);
-//                 // 创建新的 rhs (即 P(a)=p(b)) 作为终点，补充到 edge 上
-//                 auto it_l = question.indi_hash_map.find(old_obj_name);
-//                 auto it_r = question.indi_hash_map.find(new_obj_name);
-//                 assert(it_l!=question.indi_hash_map.end() && it_r!=question.indi_hash_map.end());
-//                 auto assertion = Assertion(*it_l->second,*it_r->second);
-//                 auto new_rhs = make_shared<Individual>(assertion);
-//                 question.normalize_individual(new_rhs); // 保存之前先统一 Individual
-//                 // 传播变量声明
-//                 new_rhs->propagate_var_decl(var_decl);
-//                 auto new_fact = make_shared<Fact>(assertion);
-//                 question.fact_list.push_back(new_fact);
-//                 edge->end = new_fact;
-//                 reasoning_graph->edges.push_back(edge);
-//                 if(condition) // 把 {P(a)=p(b)} 这一依据传回给调用方 (如果需要的话)
-//                     *condition = *new_fact;
-
-//                 return new_obj->find_specific_indi(type_name, question);
-//             }
-//         }
-//     }
-
-//     cerr<<*this<<" 找不到类型为 "<<type_name<<" 的值!"<<endl;
-//     return nullptr;
-// }
-
-
 shared_ptr<Individual> Individual::find_specific_indi(const string &type_name, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp){ // 找到个体的某个特定类型的值
     auto this_question = make_shared<Rete_Question>(question);
     // 每个 Individual 可能有若干个替代值，如果该 Individual 本身不属于指定类型，那么要从其替代值中找到属于该类型的值
@@ -1770,9 +1699,9 @@ void Rete_Question::take_action(shared_ptr<Cud> cud, shared_ptr<Knowledge_Base> 
 }
 
 // 对 assertion 进行可能的化简
-void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question){
+void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp){
     if(assertion->is_sugar_for_true){
-        try_to_simplify(assertion->lonely_left, question);
+        try_to_simplify(assertion->lonely_left, question, conditions_sp);
         if(assertion->lonely_left->is_assertion){
             assertion->is_sugar_for_true = false;
             assertion->is_std = true;
@@ -1783,8 +1712,8 @@ void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question){
     else{
         // 化简完毕要把 left 原来的 alt 换成新的 right
         auto old_alt_name = assertion->right->get_output_str();
-        try_to_simplify(assertion->left, question);
-        try_to_simplify(assertion->right, question);
+        try_to_simplify(assertion->left, question, conditions_sp);
+        try_to_simplify(assertion->right, question, conditions_sp);
         for(auto &alt:assertion->left->alt_vals){
             if(alt->get_output_str()==old_alt_name){
                 *alt = *assertion->right; // 修改的是 alt 指向的值，而不是指针本身
@@ -1793,14 +1722,15 @@ void try_to_simplify(shared_ptr<Assertion> &assertion, Rete_Question &question){
         }
     }
 }
-void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question){
+void try_to_simplify(shared_ptr<Individual> &indi, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions_sp){
     if(indi->is_term){ // 目前只处理 Term
         auto &term = indi->term;
         // if(term->is_oprt_apply || (term->is_std && std::find(built_in_oprts.begin(),built_in_oprts.end(),term->oprt)!=built_in_oprts.end())){
         if(term->is_oprt_apply || term->is_std){
-            auto ret = action_eval(indi, question);
-            if(ret)
+            auto ret = action_eval(indi, question, conditions_sp);
+            if(ret){
                 *indi = *ret;
+            }
         }
     }
 }
@@ -1851,7 +1781,8 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
     else{
         assert(rhs->is_assertion);
         string rhs_str = rhs->get_output_str();
-        try_to_simplify(rhs->assertion,*this); // 对 assertion 进行可能的化简
+        auto conditions_sp = make_shared<vector<shared_ptr<Fact>>>();
+        try_to_simplify(rhs->assertion,*this, conditions_sp); // 对 assertion 进行可能的化简
         auto new_fact = make_shared<Fact>(Assertion(*rhs->assertion));
         bool new_fact_is_not_new = false;
         for(auto old_fact:fact_list){
@@ -1872,6 +1803,20 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
             new_fact->assertion->propagate_var_decl(var_decl);
             new_fact->var_decl = new_fact->assertion->var_decl;
             fact_list.push_back(new_fact);
+
+            // // 为新 fact 添加其路径
+            // // TODO:
+            // if(conditions_sp && !conditions_sp->empty()){
+            //     vector<string> dependence;
+            //     cout<<*new_fact<<" 存在以下依赖: "<<endl;
+            //     for(auto fact: *conditions_sp){
+            //         cout<<"\t"<<fact->get_output_str()<<endl;
+            //         dependence.push_back(fact->get_output_str());
+            //     }
+            //     construct_fact_in_graph(new_fact, dependence, *this);
+            //     string s;
+            // }
+
             if(rhs_str.find("Subst")!=string::npos)
                 worked = true;
             else if(new_fact->assertion->is_std){
