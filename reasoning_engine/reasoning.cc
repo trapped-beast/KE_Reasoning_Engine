@@ -33,29 +33,23 @@ shared_ptr<Fact> find_fact_by_name(const string &name, Rete_Question &question){
 // 把 fact 加入 Reasoning_Graph 中并为其溯源 (接收的参数为新 fact、其作为前提的fact的名称、所在 Question)
 void construct_fact_in_graph(shared_ptr<Fact> new_fact, vector<string> dependence, Rete_Question &question){
     // 在 Reasoning_Graph 中体现该 fact
-    new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
-    assert(dependence.size()>1); // dependence 肯定有2条以上 (!!!该函数不能直接调用, 只能通过 find_dependence 调用)
-
+    assert(dependence.size()>1); // dependence 肯定至少有2条 (!!!该函数不能直接调用, 只能通过 find_dependence 调用, 除非保证 dependence 至少有2条)
     auto new_rule = make_shared<Rete_Rule>();
     new_rule->description = "显然";
     shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
-
+    new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
+    edge->fact_end = new_fact;
+    
     vector<shared_ptr<Fact>> token_args; // 组成新 fact 的依赖的 token
     for(auto dep_name:dependence)
         token_args.push_back(find_fact_by_name(dep_name,question));
 
-    // if(dependence.size()==1){
-    //     fact_start = make_shared<Fact>(*token_args[0]);
-    //     edge->fact_start = fact_start;
-    // }
-    // else{
     auto new_lhs = make_shared<Token>(token_args);
     new_lhs = reasoning_graph->share_or_build_token_node(new_lhs);
     trace_back(new_lhs); // 而 Token 本身需要由 Fact 组成，要在 reasoning_graph 中体现这一点
     edge->token_start = new_lhs;
     // }
 
-    edge->fact_end = new_fact;
     reasoning_graph->edges.push_back(edge);
 }
 
@@ -496,6 +490,16 @@ bool is_potentially_solvable_eq(shared_ptr<Fact> fact){
 // 根据 fact 及其依赖创建 Reasoning_Edge
 void find_dependence(shared_ptr<Fact> fact, shared_ptr<vector<shared_ptr<Fact>>> conditions){
     cout<<"conditions->size()="<<conditions->size()<<endl;
+    if(fact->get_output_str()=="{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}")
+        string s;
+    // 依赖中可能会包含几个连续的相同 fact, 要进行处理
+    auto new_conditions = make_shared<vector<shared_ptr<Fact>>>();
+    for(auto condition: *conditions){
+        if(new_conditions->empty() || condition->get_output_str()!=(new_conditions->at(new_conditions->size()-1))->get_output_str())
+            new_conditions->push_back(condition);
+    }
+    conditions = new_conditions;
+
     for(auto c:*conditions){
         cout<<"\t"<<*c<<endl;
     }
@@ -713,7 +717,12 @@ void solve_self_contained_eq(shared_ptr<Rete_Question> question, vector<shared_p
             continue;
         origin_eq = make_shared<Fact>(Fact(Assertion(*origin_eq->assertion->left, *origin_eq->assertion->right)));
         if(is_potentially_solvable_eq(origin_eq)){
-            // 潜在可解的方程形如: +-*/^ = +-/*^ 或者 Pow(x, 2) = Number
+            /*
+             * 潜在可解的方程形如:
+             * + - * / ^ = + - / * ^
+             * Pow(x, 2) = Number
+             * Mul(num, Pow(y)) = Number
+             */
             auto new_eq = make_shared<Fact>(origin_eq->get_copy());
             cout<<"考虑解方程: "<<*new_eq<<endl;
             
@@ -733,9 +742,6 @@ void solve_self_contained_eq(shared_ptr<Rete_Question> question, vector<shared_p
                 solve_mathe_of_pow(left, right, conditions, question, rules_not_worked);
             }
             else{ // +-*/^ = +-/*^
-                if(new_eq->get_output_str() == "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}")
-                    string s;
-
                 solve_mathe_to_mathe(left, right, conditions, total_conditions, question, rules_not_worked);
             }
             new_eq = make_shared<Fact>(Assertion(*new_eq->assertion->left, *new_eq->assertion->right));
@@ -753,12 +759,16 @@ void solve_self_contained_eq(shared_ptr<Rete_Question> question, vector<shared_p
 
             // 把 fact 加入 Reasoning_Graph 中并为其溯源
             cout<<"total_conditions.size() = "<<total_conditions->size()<<endl;
-            vector<string> dependence;
             for(auto c:*total_conditions){
-                dependence.push_back(c->get_output_str());
                 cout<<"\t"<<*c<<endl;
             }
-            construct_fact_in_graph(new_eq, dependence, *question);
+            find_dependence(new_eq, total_conditions);
+            // vector<string> dependence;
+            // for(auto c:*total_conditions){
+            //     dependence.push_back(c->get_output_str());
+            //     cout<<"\t"<<*c<<endl;
+            // }
+            // construct_fact_in_graph(new_eq, dependence, *question);
             // 在上一步中可能已经有 token -> new_eq 的路径 (该 token 包含原方程的信息), 在这种情况下 原方程 -> 新方程 的路径可以擦去
             // auto new_conditions = make_shared<vector<shared_ptr<Fact>>>();
             // for(auto condition: *total_conditions){
@@ -783,13 +793,17 @@ void process_special_eq_fact(shared_ptr<Rete_Question> question, vector<shared_p
     // 非线性方程求解困难, 但是我们对于特定格式的非线性方程有简单的处理方式
     cout<<"考虑处理特定格式的非 self-contained 的方程"<<endl;
     auto origin_fact_num = question->fact_list.size();
-    auto conditions = make_shared<vector<shared_ptr<Fact>>>();
     for(size_t i=0; i!=origin_fact_num; ++i){
+        auto conditions = make_shared<vector<shared_ptr<Fact>>>();
         auto origin_eq = question->fact_list[i]; // 原方程需要保留
         if(!(origin_eq->is_assert && origin_eq->assertion->is_std))
             continue;
         origin_eq = make_shared<Fact>(Fact(Assertion(*origin_eq->assertion->left, *origin_eq->assertion->right)));
         cout<< "当前处理: " << *origin_eq << endl;
+
+        if(origin_eq->get_output_str()=="{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}")
+            string s;
+
         auto left = origin_eq->assertion->left;
         auto right = origin_eq->assertion->right;
         shared_ptr<Fact> new_fact;

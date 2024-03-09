@@ -1784,6 +1784,7 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
         auto conditions_sp = make_shared<vector<shared_ptr<Fact>>>();
         try_to_simplify(rhs->assertion,*this, conditions_sp); // 对 assertion 进行可能的化简
         auto new_fact = make_shared<Fact>(Assertion(*rhs->assertion));
+        new_fact->where_is = make_shared<Rete_Question>(*this);
         bool new_fact_is_not_new = false;
         for(auto old_fact:fact_list){
             if(old_fact->get_output_str()==new_fact->get_output_str()){
@@ -1803,6 +1804,7 @@ bool Rete_Question::take_action(shared_ptr<Individual> rhs, shared_ptr<Knowledge
             new_fact->assertion->propagate_var_decl(var_decl);
             new_fact->var_decl = new_fact->assertion->var_decl;
             fact_list.push_back(new_fact);
+            find_dependence(new_fact, conditions_sp);
 
             // // 为新 fact 添加其路径
             // // TODO:

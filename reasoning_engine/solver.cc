@@ -21,14 +21,14 @@ int main (int argc, char *argv[]){
     cout<<"请输入要解的题目序号!"<<endl;
     return EXIT_FAILURE;
   }
-  // const string kb_name = "kb.ke"; // 知识库文件 
-  // const string question_name = "question.ke"; // 题目信息文件
-  const string kb_name = "kb_conic10k.ke"; // 知识库文件
-  const string question_name = "current_conic10k_question.ke"; // 题目信息文件
+  const string kb_name = "kb.ke"; // 知识库文件 
+  const string question_name = "question.ke"; // 题目信息文件
+  // const string kb_name = "kb_conic10k.ke"; // 知识库文件
+  // const string question_name = "current_conic10k_question.ke"; // 题目信息文件
   // const string question_name = "question_conic10k.ke"; // 题目信息文件
   shared_ptr<Knowledge_Base> kb;
   vector<shared_ptr<Question>> questions;
-  if(!ke_parse(kb_name,question_name,kb,questions))
+  if(!ke_parse(kb_name, question_name, kb,questions))
     return EXIT_FAILURE;
   cout<<"当前例题库中的题目数量为: "<<questions.size()<<endl;
   size_t num = std::stoi(argv[1]); // 当前要解的题目是第几题

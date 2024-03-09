@@ -281,6 +281,14 @@ class Reasoning_Edge{ // 推理图的边
 public:
     // 用 实例化后的规则 初始化
     Reasoning_Edge(shared_ptr<Rete_Rule> rule):instantiated_rule(rule){}
+    string get_output_str(){
+        assert((fact_start || token_start) && (fact_end || token_end));
+        string ret;
+        ret += fact_start ? fact_start->get_output_str() : token_start->get_output_str();
+        ret += " => ";
+        ret += fact_end ? fact_end->get_output_str() : token_end->get_output_str();
+        return ret;
+    }
 
     shared_ptr<Rete_Rule> abstract_rule; // 原始规则
     shared_ptr<Rete_Rule> instantiated_rule; // 实例化之后的规则
@@ -366,5 +374,6 @@ void sup_possible_alt(Individual &indi, Rete_Question &question);
 bool binding_conflict(const map<string,string> &abs_to_con_1, const map<string,string> &abs_to_con_2);
 void link_alt_to_solve(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> &rules_not_worked);
 void solve_self_contained_eq(shared_ptr<Rete_Question> question, vector<shared_ptr<Rete_Rule>> &rules_not_worked);
+void find_dependence(shared_ptr<Fact> fact, shared_ptr<vector<shared_ptr<Fact>>> conditions);
 
 #endif

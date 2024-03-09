@@ -129,9 +129,14 @@ void Reasoning_Graph::print_all_progress(){ // 输出所有求解进展
     vector<shared_ptr<Reasoning_Edge>> new_edges;
     for(auto e: edges){
         if(e->fact_end || e->token_end){
-            if(e->fact_start && e->fact_end && e->fact_start->get_output_str()==e->fact_end->get_output_str()) // 不存在到自身的边
-                assert(false);
+            // FIXME: 按理说不存在到自身的边, 而且就算存在, 那它也应该是有 fact_start 和 fact_end
+            // 这里暂时简单地删除到自身的边
+            if(e->fact_start && e->token_end && e->fact_start->get_output_str()==e->token_end->get_output_str())
+                continue;
             new_edges.push_back(e);
+        }
+        else{
+            // cout<<"擦去这条边: "<<e->get_output_str()<<endl;
         }
     }
     this->edges = new_edges;

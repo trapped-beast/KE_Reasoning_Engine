@@ -751,25 +751,34 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             Number zero = Number(0);
             if(it!=question.indi_hash_map.end()){
                 assert(!it->second->alt_vals.empty() && it->second->alt_vals[0]->is_term && it->second->alt_vals[0]->term->oprt=="List");
-                // 焦点信息要作为 dependence
-                string focus_fact_str = "{"+focus_list_str+"="+it->second->alt_vals[0]->get_output_str()+"}";
-                bool find_focus_fact = false;
-                for(auto f: question.fact_list){
-                    cout<<"当前 fact: "<<*f<<endl;
-                    if(f->get_output_str()==focus_fact_str){
-                        find_focus_fact = true;
-                        assert(conditions_sp);
-                        conditions_sp->push_back(f);
-                        break;
-                    }
-                }
-                assert(find_focus_fact);
                 auto focus_list = *it->second->alt_vals[0]->term;
                 assert(focus_list.args.size()==2); // 题目中包含两个焦点的信息
                 assert(focus_list.args[0]->alt_val_is_known && focus_list.args[1]->alt_val_is_known);
                 auto p1 = *focus_list.args[0]->alt_vals[0];
                 auto p2 = *focus_list.args[1]->alt_vals[0];
                 assert(p1.is_math_indi && p1.math_indi->is_coordinate && p1.val_is_known && p2.is_math_indi && p2.math_indi->is_coordinate && p2.val_is_known);
+                
+                // 焦点信息要作为 dependence
+                string focus_fact_str = "{"+focus_list_str+"="+it->second->alt_vals[0]->get_output_str()+"}";
+                string f1_fact_str = "{"+focus_list.args[0]->get_output_str()+"="+p1.get_output_str()+"}";
+                string f2_fact_str = "{"+focus_list.args[1]->get_output_str()+"="+p2.get_output_str()+"}";
+                bool find_focus_fact = false, find_f1_fact = false, find_f2_fact = false;
+                for(auto f: question.fact_list){
+                    if(f->get_output_str()==focus_fact_str){
+                        find_focus_fact = true;
+                        conditions_sp->push_back(f);
+                    }
+                    else if(f->get_output_str()==f1_fact_str){
+                        find_f1_fact = true;
+                        conditions_sp->push_back(f);
+                    }
+                    else if(f->get_output_str()==f2_fact_str){
+                        find_f2_fact = true;
+                        conditions_sp->push_back(f);
+                    }
+                }
+                assert(find_focus_fact && find_f1_fact && find_f2_fact);
+
                 Math_Expr p1_x = *p1.math_indi->coordinate_val->abscissa->number_val;
                 Math_Expr p1_y = *p1.math_indi->coordinate_val->ordinate->number_val;
                 Math_Expr p2_x = *p2.math_indi->coordinate_val->abscissa->number_val;
@@ -829,6 +838,17 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->abscissa));
             else
                 eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->ordinate));
+            // 点坐标要作为 dependence
+            string point_fact_str = "{"+args[0]->get_output_str()+"="+coordinate->get_output_str()+"}";
+            bool find_point_fact = false;
+            for(auto f: question.fact_list){
+                if(f->get_output_str()==point_fact_str){
+                    find_point_fact = true;
+                    conditions_sp->push_back(f);
+                    break;
+                }
+            }
+            assert(find_point_fact);
         }
         else if(oprt=="Slope"){ // 求直线斜率 (参数: 直线表达式 Math_Equation)
             assert(args.size()==1);
@@ -845,6 +865,18 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             auto line_expr_r_r = line_expr_r->right;
             assert(line_expr_r_r->get_output_str()=="x");
             eval_ret = make_shared<Individual>(Math_Expr(*line_expr_r_l));
+
+            // 直线表达式要作为 dependence
+            string line_fact_str = "{"+args[0]->get_output_str()+"="+line_expr->get_output_str()+"}";
+            bool find_point_fact = false;
+            for(auto f: question.fact_list){
+                if(f->get_output_str()==line_fact_str){
+                    find_point_fact = true;
+                    conditions_sp->push_back(f);
+                    break;
+                }
+            }
+            assert(find_point_fact);
         }
         else if(oprt=="Generate_Hyperbola_Expr_For_Focus_On_X" || oprt=="Generate_Hyperbola_Expr_For_Focus_On_Y"){ // 根据 双曲线参数a、b (或 a^2、b^2) 生成双曲线表达式 x^2/a^2-y^2/b^2 = 1 或 y^2/a^2-x^2/b^2=1 (参数 a、b Number (或 a^2、b^2 Term))
             // TODO: 暂时只处理 a、b (或 a^2、b^2) 为 number 的情况
