@@ -1601,13 +1601,17 @@ void Rete_Question::print_result(){ // 输出求解结果
     for(auto indi:to_solve){
         for(auto alt:indi->alt_vals){
             if(alt->val_is_known){
-                cout<<*indi<<" = "<<*alt<<endl;
+                string ret = "{" + indi->get_output_str() + "=" + alt->get_output_str() + "}";
+                cout<<ret<<endl;
+                reasoning_graph->end_str = ret;
                 break;
             }
             else if(alt->alt_val_is_known){
                 for(auto alt_val: alt->alt_vals){
                     if(alt_val->val_is_known){
-                        cout<<*indi<<" = "<<*alt_val<<endl;
+                        string ret = "{" + indi->get_output_str() + "=" + alt_val->get_output_str() + "}";
+                        cout<<ret<<endl;
+                        reasoning_graph->end_str = ret;
                         break;
                     }
                 }

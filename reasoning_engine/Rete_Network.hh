@@ -327,6 +327,7 @@ public:
     map<string,shared_ptr<Fact>> fact_nodes_hash_table; // 节点可能是 Fact
     map<string,shared_ptr<Token>> token_nodes_hash_table; // 节点可能是 Token
     vector<shared_ptr<Reasoning_Edge>> edges; // 边为 Rete_Rule
+    string end_str; // 推理终点
 
     map<string,shared_ptr<Reasoning_Node>> nodes; // 统一 fact_node 和 token_node
 

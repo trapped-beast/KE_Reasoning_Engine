@@ -67,7 +67,11 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
         end = it_end->second;
         start->out_edges.push_back(edge);
         end->in_edges.push_back(edge);
+
+        if(start_str=="{Param_C(g)=3}; {Pow(Param_C(g), 2)=Sub(k^2, 1)}" && end_str=="{9=Sub(k^2, 1)}")
+            string s;
     }
+    
     this->nodes = node_hash_table;
     #ifndef NDEBUG
         for(auto p:nodes){
@@ -76,10 +80,10 @@ void Reasoning_Graph::print_solving_process(){ // 输出求解过程
         }
     #endif
 
-    auto to_solve = (*--edges.end())->fact_end; // 最后一条边的终点就是答案，也就是全图的终点
-    assert(to_solve); // 目前的 to_solve 只有一个个体
-    auto it = node_hash_table.find(to_solve->get_output_str());
+    // 目前的 to_solve 只有一个个体
+    auto it = node_hash_table.find(this->end_str);
     assert(it!=node_hash_table.end());
+    cout<<"推理终点为: "<<it->second->get_output_str()<<endl;
     shared_ptr<Reasoning_Node> end_node = it->second; // 全图的终点
     set<shared_ptr<Reasoning_Node>> reachable_node_set; // 存在到终点路径的所有节点
     set<shared_ptr<Reasoning_Node>> unreachable_node_set; // 不存在到终点路径的所有节点

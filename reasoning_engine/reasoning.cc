@@ -328,7 +328,18 @@ bool transpose(shared_ptr<Fact> origin_eq){ // 尝试对方程进行简单的移
         left_arg_2_is_num = left->term->args[1]->is_math_indi && left->term->args[1]->math_indi->is_math_expr && left->term->args[1]->math_indi->expr_val->is_num;
     }
     bool right_is_num = right->is_math_indi && right->math_indi->is_math_expr && right->math_indi->expr_val->is_num;
+
+
+    if(origin_eq->get_output_str()=="{Sub(k^2, 1)=9}"){
+        cout<<(left_arg_1_is_num ? "第1参数为 Number" : "第1参数不为 Number")<<endl;
+        cout<<(left_arg_2_is_num ? "第2参数为 Number" : "第2参数不为 Number")<<endl;
+        cout<<(right_is_num ? "右边为 Number" : "右边不为 Number")<<endl;
+        string s;
+    }
+
+    bool arg_2_is_num = left_arg_2_is_num;
     // Pow() 运算比较特殊，第二个参数才是 num
+    // 除此之外，Sub、Div也可以是第二个参数为 num
     if(left_is_mathe_with_2_args && right_is_num && !left_arg_1_is_num && left_arg_2_is_num){
         // std::reverse(left->term->args.begin(), left->term->args.end());
         // cout<<"调整参数位置得到: "<<origin_eq->get_output_str()<<endl;
@@ -350,20 +361,37 @@ bool transpose(shared_ptr<Fact> origin_eq){ // 尝试对方程进行简单的移
             new_args.push_back(arg_1);
             right_val = make_shared<Individual>(Term("Sub",new_args));
         }
-        else if(oprt=="Sub"){ // num_1 - a = num_2  => a = num_1 - num_2
-            new_args.push_back(arg_1);
-            new_args.push_back(right);
-            right_val = make_shared<Individual>(Term("Sub",new_args));
+        else if(oprt=="Sub"){
+            if(arg_2_is_num){ // a - num_1 = num_2  => a = num_1 + num_2
+                new_args.push_back(arg_2);
+                new_args.push_back(right);
+                right_val = make_shared<Individual>(Term("Add",new_args));
+                new_left = *arg_1;
+            }
+            else{ // num_1 - a = num_2  => a = num_1 - num_2
+                new_args.push_back(arg_1);
+                new_args.push_back(right);
+                right_val = make_shared<Individual>(Term("Sub",new_args));
+            }
         }
         else if(oprt=="Mul"){ // num_1 * a = num_2  => a = num_2 / num_1
             new_args.push_back(right);
             new_args.push_back(arg_1);
             right_val = make_shared<Individual>(Term("Div",new_args));
         }
-        else if(oprt=="Div"){ // num_1 / a = num_2  => a = num_1 / num_2
-            new_args.push_back(arg_1);
-            new_args.push_back(right);
-            right_val = make_shared<Individual>(Term("Div",new_args));
+        else if(oprt=="Div"){
+            // num_1 / a = num_2  => a = num_1 / num_2
+            if(arg_2_is_num){ // a / num_1 = num_2  => a = num_1 * num_2
+                new_args.push_back(arg_2);
+                new_args.push_back(right);
+                right_val =  make_shared<Individual>(Term("Mul",new_args));
+                new_left = *arg_1;
+            }
+            else{
+                new_args.push_back(arg_2);
+                new_args.push_back(right);
+                right_val = make_shared<Individual>(Term("Div",new_args));
+            }
         }
         else if(oprt=="Pow"){
             /*
@@ -463,24 +491,31 @@ bool transpose(shared_ptr<Fact> origin_eq){ // 尝试对方程进行简单的移
 // 判断 fact 是否是潜在可解的方程
 bool is_potentially_solvable_eq(shared_ptr<Fact> fact){
     cout<<"判断是否是潜在可解的方程: "<<*fact<<endl;
+
+    if(fact->get_output_str()=="{k^2=10}")
+        string s;
+
     bool ret = false;
     vector<string> mathe_op = {"Add", "Sub", "Mul", "Div", "Pow"};
-    // 一般情况是: 方程两边都是 +-*/^ 式子
-    if(fact->is_assert && fact->assertion->is_std && fact->assertion->left->is_term){
+    // 一般情况是: 方程两边都是 +-*/^ 式子 (一类特殊情况是 k^2 = num)
+    if(fact->is_assert && fact->assertion->is_std){
         auto l = fact->assertion->left;
         auto r = fact->assertion->right;
-        if(fact->assertion->right->is_term){
-            auto left = *l->term;
-            auto right = *r->term;
-            if(std::find(mathe_op.begin(),mathe_op.end(),left.oprt)!=mathe_op.end() && std::find(mathe_op.begin(),mathe_op.end(),right.oprt)!=mathe_op.end())
-                ret = true;
-        }
-        // 存在特殊情况
-        else if(r->is_math_indi && r->val_is_known){
-            if(l->term->oprt=="Pow") // 形如 Pow(x, 2) = Number
-                ret = true;
-            else if(l->term->oprt=="Mul" && l->term->args.size()==2 && l->term->args[0]->val_is_known && l->term->args[1]->is_term && l->term->args[1]->term->oprt=="Pow") // 形如 Mul(num, Pow(y)) = Number
-                ret = true;
+        bool is_k2_eq_num = l->is_math_indi && l->math_indi->is_math_expr && l->math_indi->expr_val->op_val=='^';
+        if(fact->assertion->left->is_term || is_k2_eq_num){
+            if(fact->assertion->right->is_term){
+                auto left = *l->term;
+                auto right = *r->term;
+                if(std::find(mathe_op.begin(),mathe_op.end(),left.oprt)!=mathe_op.end() && std::find(mathe_op.begin(),mathe_op.end(),right.oprt)!=mathe_op.end())
+                    ret = true;
+            }
+            // 存在特殊情况
+            else if(r->is_math_indi && r->val_is_known){
+                if(is_k2_eq_num || l->term->oprt=="Pow") // 形如 Pow(x, 2) = Number (k^2 = num是等价形式)
+                    ret = true;
+                else if(l->term->oprt=="Mul" && l->term->args.size()==2 && l->term->args[0]->val_is_known && l->term->args[1]->is_term && l->term->args[1]->term->oprt=="Pow") // 形如 Mul(num, Pow(y)) = Number
+                    ret = true;
+            }
         }
     }
 
@@ -574,9 +609,18 @@ void solve_pow_to_num(shared_ptr<Individual> &left, shared_ptr<Individual> &righ
         cout<<__FILE__<< " 暂时无法处理 "<< *right <<endl;
         return;
     }
-    if(left->is_term && left->term->oprt=="Pow" &&left->term->args.size()==2){
-        auto arg_1 = left->term->args[0];
-        auto arg_2 = left->term->args[1];
+    bool is_k2_eq_num = left->is_math_indi && left->math_indi->is_math_expr && left->math_indi->expr_val->op_val=='^' && right->val_is_known; // k^2 = num
+
+    if((left->is_term && left->term->oprt=="Pow" &&left->term->args.size()==2) || is_k2_eq_num){
+        shared_ptr<Individual> arg_1, arg_2;
+        if(is_k2_eq_num){
+            arg_1 = make_shared<Individual>(Math_Individual(*left->math_indi->expr_val->left));
+            arg_2 = make_shared<Individual>(Math_Individual(*left->math_indi->expr_val->right));
+        }
+        else{
+            arg_1 = left->term->args[0];
+            arg_2 = left->term->args[1];
+        }
         assert(*arg_2 == Individual(Math_Expr(Number(2))));
         vector<shared_ptr<Individual>> temp_args = {make_shared<Individual>(*right)};
         auto sqrt_ret = make_shared<Individual>(Term("Sqrt",temp_args));
@@ -596,18 +640,23 @@ void solve_pow_to_num(shared_ptr<Individual> &left, shared_ptr<Individual> &righ
         for(auto fact:question->fact_list){
             if(fact->get_output_str().find(gt_str_infix) != string::npos){
                 gt = true;
+                conditions->push_back(fact);
                 break;
             }
             if(fact->get_output_str().find(lt_str_infix) != string::npos){
                 lt = true;
+                conditions->push_back(fact);
                 break;
             }
         }
-        if(gt || question->indi_hash_map.find(gt_str) != question->indi_hash_map.end()){
+        auto it_gt = question->indi_hash_map.find(gt_str);
+        auto it_lt = question->indi_hash_map.find(lt_str);
+        // TODO: 匹配 operator 写法时的 dependence 未添加
+        if(gt || it_gt != question->indi_hash_map.end()){
             left = arg_1;
             right = sqrt_ret;
         }
-        else if(lt || question->indi_hash_map.find(lt_str) != question->indi_hash_map.end()){
+        else if(lt || it_lt != question->indi_hash_map.end()){
             left = arg_1;
             right = neg_sqrt_ret;
         }
@@ -720,16 +769,21 @@ void solve_self_contained_eq(shared_ptr<Rete_Question> question, vector<shared_p
             /*
              * 潜在可解的方程形如:
              * + - * / ^ = + - / * ^
-             * Pow(x, 2) = Number
+             * Pow(x, 2) = Number (等价形式为 k^2 = num)
              * Mul(num, Pow(y)) = Number
              */
             auto new_eq = make_shared<Fact>(origin_eq->get_copy());
             cout<<"考虑解方程: "<<*new_eq<<endl;
+
+            if(new_eq->get_output_str()=="{k^2=10}")
+                string s;
             
             // 先对可求解的部分进行计算，而后尝试移项求解
             auto &left = new_eq->assertion->left;
             auto &right = new_eq->assertion->right;
-            assert(left->is_term && left->term->is_std);
+            bool is_k2_eq_num = left->is_math_indi && left->math_indi->is_math_expr && left->math_indi->expr_val->op_val=='^' && right->val_is_known; // 考虑 k^2 = num
+
+            assert((left->is_term && left->term->is_std) || is_k2_eq_num);
             // 求值本身的 dependence 要记录
             auto conditions = make_shared<vector<shared_ptr<Fact>>>();
             auto total_conditions = make_shared<vector<shared_ptr<Fact>>>();
@@ -737,9 +791,9 @@ void solve_self_contained_eq(shared_ptr<Rete_Question> question, vector<shared_p
             if(right->val_is_known){
                 // TODO: 处理 math_func 而不仅仅是 Number
                 // 处理 Pow(x, 2) = Number 的情况 
-                solve_pow_to_num(left, right, conditions, question, rules_not_worked);
+                solve_pow_to_num(left, right, total_conditions, question, rules_not_worked);
                 // 处理 Mul(num, Pow(y)) = Number 的情况
-                solve_mathe_of_pow(left, right, conditions, question, rules_not_worked);
+                solve_mathe_of_pow(left, right, total_conditions, question, rules_not_worked);
             }
             else{ // +-*/^ = +-/*^
                 solve_mathe_to_mathe(left, right, conditions, total_conditions, question, rules_not_worked);

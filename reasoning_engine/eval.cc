@@ -3,46 +3,62 @@
 
 // 在某个表达式中提取某个表达式的系数
 shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_ptr<Math_Expr> body){
-    cout<<"提取 "<<*entire_expr<<" 中的 "<<*body<<endl;
+    cout<<"提取 "<<*entire_expr<<" 中的 "<<*body << "的系数"<<endl;
     shared_ptr<Individual> ret;
     auto one = Math_Expr((Number(1)));
     // 只需要处理 is_enclosed 和 is_mathe 的情况
     if(entire_expr->is_enclosed)
         ret = extract_coeff(entire_expr->enclosed_expr, body);
     else if(entire_expr->is_mathe){
-        if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos){
-            if(entire_expr->left->get_output_str()!=body->get_output_str()) // 主体出现在 +-*/^式 左侧 (真子段)
-                ret = extract_coeff(entire_expr->left, body);
-            else if(entire_expr->op_val == '/'){ // 如果 / 式的左侧为 body，右侧的即为其表达式的系数的倒数
-                vector<shared_ptr<Individual>> args = {make_shared<Individual>(*entire_expr->right)};
-                auto empty_rete_question = make_shared<Rete_Question>();
-                ret = action_eval(make_shared<Individual>(Term("Recip", args)), *empty_rete_question);
+        if(entire_expr->op_val == '+' || entire_expr->op_val == '-'){
+            if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos){ // 主体出现在 +-式 左侧
+                if(entire_expr->left->get_output_str()!=body->get_output_str()) // 真子段迭代处理
+                    ret = extract_coeff(entire_expr->left, body);
+                else{
+                    ret = make_shared<Individual>(Math_Individual(Number(1)));
+                }
+            }
+            else if(entire_expr->right->get_output_str().find(body->get_output_str())!=string::npos){ // 主体出现在 +-式 右侧
+                if(entire_expr->right->get_output_str()!=body->get_output_str()) // 真子段迭代处理
+                    ret = extract_coeff(entire_expr->right, body);
+                else{
+                    ret = make_shared<Individual>(Math_Individual(Number(1)));
+                }
+            }
+        }
+        else if(entire_expr->op_val == '*'){
+            if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos){ // 主体出现在 / 式 左侧
+                if(entire_expr->left->get_output_str()!=body->get_output_str()){ // 真子段迭代处理
+                    assert(false); // 较为复杂，暂不处理
+                }
+                else
+                    ret = make_shared<Individual>(*entire_expr->right);
             }
             else{
-                ret = make_shared<Individual>(Math_Individual(Number(1)));
+                if(entire_expr->right->get_output_str()!=body->get_output_str()){ // 真子段迭代处理
+                    assert(false); // 较为复杂，暂不处理
+                }
+                else
+                    ret = make_shared<Individual>(*entire_expr->right);
             }
         }
-        else if(entire_expr->right->get_output_str().find(body->get_output_str())!=string::npos){
-            if(entire_expr->right->get_output_str()!=body->get_output_str()) // 主体出现在 +-*/^式 右侧 (真子段)
-                ret = extract_coeff(entire_expr->right, body);
-        }
-        else{ // 最终会归为 */ 式
-            Math_Expr temp_ret;
-            if(entire_expr->op_val=='*'){
-                if(*entire_expr->left==*body)
-                    temp_ret = *entire_expr->right;
+        else if(entire_expr->op_val == '/'){
+            if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos){ // 主体出现在 / 式 左侧
+                if(entire_expr->left->get_output_str()!=body->get_output_str()){ // 真子段迭代处理
+                    assert(false); // 较为复杂，暂不处理
+                }
                 else{
-                    assert(*entire_expr->right==*body);
-                    temp_ret = *entire_expr->left;
+                    vector<shared_ptr<Individual>> args = {make_shared<Individual>(*entire_expr->right)};
+                    auto empty_rete_question = make_shared<Rete_Question>();
+                    ret = action_eval(make_shared<Individual>(Term("Recip", args)), *empty_rete_question);
                 }
             }
             else{
-                assert(entire_expr->op_val=='/');
-                
-                assert(*entire_expr->left==*body); // body 为分子
-                temp_ret = Math_Expr(one,'/',*entire_expr->right);
+                assert(false); // 较为复杂，暂不处理
             }
-            ret = make_shared<Individual>(*make_shared<Math_Individual>(temp_ret));
+        }
+        else{
+            assert(false); // 暂不处理
         }
     }
     cout<<"计算 extract_coeff("<<*entire_expr<<string(",")<<*body<<string(") = ")<<*ret<<endl;
@@ -457,11 +473,14 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
                 Math_Expr ret;
-                if(val_1->is_num && val_2->is_num)
+                if(val_1->is_num && val_2->is_num){
                     ret = Math_Expr(Number(*val_1->number_val + *val_2->number_val));
-                else
-                    ret = Math_Expr(val_1,'+',val_2);
-                eval_ret = make_shared<Individual>(Math_Individual(ret));
+                    eval_ret = make_shared<Individual>(Math_Individual(ret));
+                }
+                else{
+                    vector<shared_ptr<Individual>> temp_args = {num_1, num_2};
+                    eval_ret = make_shared<Individual>(Term("Add",temp_args));
+                }
             }
         }
         else if(oprt=="Sub"){ // 对若干个数学表达式进行相减 (参数是: 两个数学表达式 Math_Expr)
@@ -477,11 +496,14 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
                 Math_Expr ret;
-                if(val_1->is_num && val_2->is_num)
+                if(val_1->is_num && val_2->is_num){
                     ret = Math_Expr(Number(*val_1->number_val - *val_2->number_val));
-                else
-                    ret = Math_Expr(val_1,'-',val_2);
-                eval_ret = make_shared<Individual>(Math_Individual(ret));
+                    eval_ret = make_shared<Individual>(Math_Individual(ret));
+                }
+                else{
+                    vector<shared_ptr<Individual>> temp_args = {num_1, num_2};
+                    eval_ret = make_shared<Individual>(Term("Sub",temp_args));
+                }
             }
         }
         else if(oprt=="Mul"){ // 对若干个数学表达式进行相乘 (参数是: 若干个数学表达式 Math_Expr)
@@ -497,15 +519,19 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 auto val_1 = num_1->math_indi->expr_val;
                 auto val_2 = num_2->math_indi->expr_val;
                 Math_Expr ret;
-                if(val_1->is_num && val_2->is_num)
+                if(val_1->is_num && val_2->is_num){
                     ret = Math_Expr(Number(*val_1->number_val * *val_2->number_val));
-                else
-                    ret = Math_Expr(val_1,'*',val_2);
-                eval_ret = make_shared<Individual>(Math_Individual(ret));
+                    eval_ret = make_shared<Individual>(Math_Individual(ret));
+                }
+                else{
+                    vector<shared_ptr<Individual>> temp_args = {num_1, num_2};
+                    eval_ret = make_shared<Individual>(Term("Mul",temp_args));
+                }
             }
         }
         else if(oprt=="Div"){ // 对若干个数学表达式进行相除 (参数是: 若干个数学表达式 Math_Expr)
             // 暂时处理两个参数
+            // TODO: 把eval_ret 中带 / 的情况改为 Div 算子形式
             assert(args.size()==2);
             auto num_1 = args[0]->find_specific_indi("Math_Expr", question, conditions_sp);
             if(!num_1)

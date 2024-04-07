@@ -2,13 +2,9 @@
 g: Hyperbola; f1: Point; f2: Point; { f1 = (-3, 0)}; { f2 = (3, 0)}; {Focus(g)=List(f1,f2)}; {Expression(OneOf(Asymptote(g))) = y == sqrt(2)*x}
 To_Solve(Expression(g))
 
-
 # 2. 椭圆$\\frac{x^{2}}{k^{2}}+y^{2}=1(k>0)$的一个焦点是$(3 , 0)$，那么$k$=? #
-G: Ellipse; Expression(G) = (y^2 + x^2/k^2 = 1); k: Number; k>0; Coordinate(OneOf(Focus(G))) = (3,0)
+g: Ellipse; k: Number; {Expression(g) = y^2 + x^2/k^2 == 1};  {k>0}; {OneOf(Focus(g)) = (3, 0)}
 To_Solve(k)
-
-"answer_expressions": "sqrt(10)",
-"process": ""
 
 
 # 3. 已知抛物线$y^{2}=4 x$上的任意一点$P$，记点$P$到$y$轴的距离为$d$，对于给定点$A(4,5)$，则$|P A|+d$的最小值为? #
