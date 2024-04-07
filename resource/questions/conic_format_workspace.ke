@@ -1,0 +1,3 @@
+# 30. 若点$P$到直线$x=-1$的距离比它到点$(2 , 0)$的距离小$1$，则点$P$的轨迹方程为? #
+g: Line; h: Point; p: Point; {Expression(g) = x == -1}; {h = (2, 0)}; {Distance(p, g) = Neg(Distance(p, h),1)}
+To_Solve(LocusEquation(p))

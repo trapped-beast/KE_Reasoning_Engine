@@ -1,9 +1,6 @@
 # 1. 如果双曲线的两个焦点分别为$F_{1}(-3,0)$, $F_{2}(3,0)$ ,一条渐近线方程为$y=\\sqrt{2} x$，则该双曲线的方程为? #
-G: Hyperbola; F1: Point; F2: Point; Coordinate(F1) = (-3, 0); Coordinate(F2) = (3, 0); Focus(G)={F1,F2}; Expression(OneOf(Asymptote(G))) = (y = sqrt(2)*x)
-To_Solve(Expression(G))
-
-"answer_expressions": "x^2/3-y^2/6=1",
-"process": ""
+g: Hyperbola; f1: Point; f2: Point; { f1 = (-3, 0)}; { f2 = (3, 0)}; {Focus(g)=List(f1,f2)}; {Expression(OneOf(Asymptote(g))) = y == sqrt(2)*x}
+To_Solve(Expression(g))
 
 
 # 2. 椭圆$\\frac{x^{2}}{k^{2}}+y^{2}=1(k>0)$的一个焦点是$(3 , 0)$，那么$k$=? #

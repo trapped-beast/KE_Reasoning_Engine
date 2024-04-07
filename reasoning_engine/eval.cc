@@ -3,16 +3,28 @@
 
 // 在某个表达式中提取某个表达式的系数
 shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_ptr<Math_Expr> body){
+    cout<<"提取 "<<*entire_expr<<" 中的 "<<*body<<endl;
     shared_ptr<Individual> ret;
+    auto one = Math_Expr((Number(1)));
     // 只需要处理 is_enclosed 和 is_mathe 的情况
     if(entire_expr->is_enclosed)
         ret = extract_coeff(entire_expr->enclosed_expr, body);
     else if(entire_expr->is_mathe){
-        if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos && entire_expr->left->get_output_str()!=body->get_output_str()){ // 主体出现在 +-*/^式 左侧 (真子段)
-            ret = extract_coeff(entire_expr->left, body);
+        if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos){
+            if(entire_expr->left->get_output_str()!=body->get_output_str()) // 主体出现在 +-*/^式 左侧 (真子段)
+                ret = extract_coeff(entire_expr->left, body);
+            else if(entire_expr->op_val == '/'){ // 如果 / 式的左侧为 body，右侧的即为其表达式的系数的倒数
+                vector<shared_ptr<Individual>> args = {make_shared<Individual>(*entire_expr->right)};
+                auto empty_rete_question = make_shared<Rete_Question>();
+                ret = action_eval(make_shared<Individual>(Term("Recip", args)), *empty_rete_question);
+            }
+            else{
+                ret = make_shared<Individual>(Math_Individual(Number(1)));
+            }
         }
-        else if(entire_expr->right->get_output_str().find(body->get_output_str())!=string::npos && entire_expr->right->get_output_str()!=body->get_output_str()){ // 主体出现在 +-*/^式 右侧 (真子段)
-            ret = extract_coeff(entire_expr->right, body);
+        else if(entire_expr->right->get_output_str().find(body->get_output_str())!=string::npos){
+            if(entire_expr->right->get_output_str()!=body->get_output_str()) // 主体出现在 +-*/^式 右侧 (真子段)
+                ret = extract_coeff(entire_expr->right, body);
         }
         else{ // 最终会归为 */ 式
             Math_Expr temp_ret;
@@ -26,7 +38,7 @@ shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_p
             }
             else{
                 assert(entire_expr->op_val=='/');
-                auto one = Math_Expr((Number(1)));
+                
                 assert(*entire_expr->left==*body); // body 为分子
                 temp_ret = Math_Expr(one,'/',*entire_expr->right);
             }
@@ -62,6 +74,11 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
         cout<<"当前求值的 fact 为: "<<*fact<<endl;
     #endif
+
+    if(indi->get_output_str()=="Focus_On_X_Axis(g)" && fact->get_output_str()=="{OneOf(Focus(g))=(3,0)}")
+        string s;
+
+
     // 要进行求值操作的是标准形式的 Term // TODO: 支持更多形式如 sugar_for_oprt_apply?
     assert(indi->term->is_std);
     auto t = indi->term;
@@ -88,14 +105,19 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
             cout<<"测试方程右部为: "<<test_right<<endl;
             /*
              * 能判断的方程形式有:
-             *     1. x^2/a^2 + y^2/b^2 = 1 (Ellipse)
-             *     2. y^2/a^2 + x^2/b^2 = 1 (Ellipse)
-             *     3. x^2/a^2 - y^2/b^2 = 1 (Hyperbola)
-             *     4. y^2/a^2 - x^2/b^2 = 1 (Hyperbola)
-             *     5. y^2 =  2*p*x (Parabola)
-             *     6. y^2 = -2*p*x (Parabola)
-             *     7. x^2 =  2*p*y (Parabola)
-             *     8. x^2 = -2*p*y (Parabola)
+             *     1.  x^2/a^2 + y^2/b^2 = 1 (Ellipse)
+             *     2.  y^2/a^2 + x^2/b^2 = 1 (Ellipse)
+             *     3.  x^2/a^2 - y^2/b^2 = 1 (Hyperbola)
+             *     4.  y^2/a^2 - x^2/b^2 = 1 (Hyperbola)
+             *     5.  y^2 =  2*p*x (Parabola)
+             *     6.  y^2 = -2*p*x (Parabola)
+             *     7.  x^2 =  2*p*y (Parabola)
+             *     8.  x^2 = -2*p*y (Parabola)
+             * 
+             *     1-1.  x^2/a^2  +    y^2    =  1 (Ellipse)
+             *     1-2.  y^2/a^2  +    x^2    =  1 (Ellipse)
+             *     1-3.    x^2    +  y^2/b^2  =  1 (Ellipse)
+             *     1-4.    y^2    +  x^2/b^2  =  1 (Ellipse)
              */
             Math_Expr x = Math_Expr("x");
             Math_Expr y = Math_Expr("y");
@@ -109,12 +131,15 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
                             // 左边是 x^2/Math_Expr，右边是 y^2/Math_Expr，或者对调
                             auto left = *test_left.left;
                             auto right = *test_left.right;
-                            // 首先，左右两边都必须是 未知数^2/Math_Expr
-                            bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^';
-                            bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^';
+                            // 首先，判断左右两边都是否是 未知数^2/Math_Expr (Math_Expr可以为1)
+                            bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^' && left.right->is_mathe && left.right->op_val=='^';
+                            bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^' && right.right->is_mathe && right.right->op_val=='^';
+                            bool l_denominator_is_1 = left.is_mathe && left.op_val=='^'; // 1-3、1-4
+                            bool r_denominator_is_1 = right.is_mathe && right.op_val=='^'; // 1-1、1-2
                             // 其次，两个参数一个是 x、另一个是 y
-                            bool var_conform = (*left.left->left==x && *right.left->left==y) || (*left.left->left==y && *right.left->left==x);
-                            ret = make_shared<Individual>(left_conform && right_conform && var_conform);
+                            // 这里不做检查
+                            // bool var_conform = (*left.left->left==x && *right.left->left==y) || (*left.left->left==y && *right.left->left==x);
+                            ret = make_shared<Individual>((left_conform || l_denominator_is_1) && (right_conform || r_denominator_is_1));
                         }
                     }
                     else if(target_eq->get_output_str()=="x^2/a^2-y^2/b^2==1" || target_eq->get_output_str()=="y^2/a^2-x^2/b^2==1"){
@@ -141,7 +166,7 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
                     if(test_right.is_mathe && test_right.op_val=='*' && *test_right.right==x && test_right.left->is_num)
                         ret = make_shared<Individual>(*test_right.left->number_val > zero);
                 }
-                else if(target_eq->get_output_str()=="y^2==-2*p*x"){
+                else if(target_eq->get_output_str()=="y^2==-2*p*x"){ // 形式 6
                     if(test_right.is_mathe && test_right.op_val=='*' && *test_right.right==x && test_right.left->is_num)
                         ret = make_shared<Individual>(*test_right.left->number_val < zero);
                 }
@@ -163,39 +188,62 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
         assert(args.size()==1);
         auto conic = *args[0]; // 要判断的对象
         assert(conic.is_math_indi && conic.math_indi->is_math_expr && conic.math_indi->expr_val->is_sy);
-        // 可能通过的 fact 必须具有以下形式: Focus(x) = List(f1, f2)
-        if(fact->is_assert && fact->assertion->is_std && fact->assertion->left->get_output_str().find("Focus") != string::npos && fact->assertion->right->get_output_str().find("List")!=string::npos){
-            auto test_point = *fact->assertion->right; // 要判断的焦点
-            assert(test_point.is_term && test_point.term->is_std && test_point.term->args.size()==2);
-            auto point_1 = *test_point.term->args[0];
-            auto point_2 = *test_point.term->args[1];
-            cout<<"要判断的第一个点为: "<<point_1<<endl;
-            cout<<"要判断的第一个点为: "<<point_2<<endl;
-            assert(point_1.alt_val_is_known && point_1.alt_vals.size()==1 && point_2.alt_val_is_known && point_2.alt_vals.size()==1);
-            auto p1 = *point_1.alt_vals[0];
-            auto p2 = *point_2.alt_vals[0];
-            cout<<point_1<<p1<<endl;
-            cout<<point_2<<p2<<endl;
-            assert(p1.is_math_indi && p1.math_indi->is_coordinate && p1.val_is_known && p2.is_math_indi && p2.math_indi->is_coordinate && p2.val_is_known);
-            Math_Expr p1_x = *p1.math_indi->coordinate_val->abscissa->number_val;
-            Math_Expr p1_y = *p1.math_indi->coordinate_val->ordinate->number_val;
-            Math_Expr p2_x = *p2.math_indi->coordinate_val->abscissa->number_val;
-            Math_Expr p2_y = *p2.math_indi->coordinate_val->ordinate->number_val;
-            // cout<<p1_x<<", "<<p1_y<<", "<<p2_x<<", "<<p2_y<<endl;
-            if(oprt=="Focus_On_X_Axis"){
-                if(p1_y == zero && p2_y == zero)
-                    ret = make_shared<Individual>(true);
-                else
-                    ret = make_shared<Individual>(false);
+        // 可能通过的 fact 必须具有以下形式: 1.Focus(x) = List(f1, f2)  2.OneOf(Focus(x)) = (m,n)
+        if(fact->is_assert && fact->assertion->is_std && fact->assertion->left->get_output_str().find("Focus") != string::npos){
+            // 1.Focus(x) = List(f1, f2)
+            if(fact->assertion->right->get_output_str().find("List")!=string::npos){
+                auto test_point = *fact->assertion->right; // 要判断的焦点
+                assert(test_point.is_term && test_point.term->is_std && test_point.term->args.size()==2);
+                auto point_1 = *test_point.term->args[0];
+                auto point_2 = *test_point.term->args[1];
+                cout<<"要判断的第一个点为: "<<point_1<<endl;
+                cout<<"要判断的第一个点为: "<<point_2<<endl;
+                assert(point_1.alt_val_is_known && point_1.alt_vals.size()==1 && point_2.alt_val_is_known && point_2.alt_vals.size()==1);
+                auto p1 = *point_1.alt_vals[0];
+                auto p2 = *point_2.alt_vals[0];
+                cout<<point_1<<p1<<endl;
+                cout<<point_2<<p2<<endl;
+                assert(p1.is_math_indi && p1.math_indi->is_coordinate && p1.val_is_known && p2.is_math_indi && p2.math_indi->is_coordinate && p2.val_is_known);
+                Math_Expr p1_x = *p1.math_indi->coordinate_val->abscissa->number_val;
+                Math_Expr p1_y = *p1.math_indi->coordinate_val->ordinate->number_val;
+                Math_Expr p2_x = *p2.math_indi->coordinate_val->abscissa->number_val;
+                Math_Expr p2_y = *p2.math_indi->coordinate_val->ordinate->number_val;
+                // cout<<p1_x<<", "<<p1_y<<", "<<p2_x<<", "<<p2_y<<endl;
+                if(oprt=="Focus_On_X_Axis"){
+                    if(p1_y == zero && p2_y == zero)
+                        ret = make_shared<Individual>(true);
+                    else
+                        ret = make_shared<Individual>(false);
+                }
+                else{
+                    if(p1_x == zero && p2_x == zero)
+                        ret = make_shared<Individual>(true);
+                    else
+                        ret = make_shared<Individual>(false);
+                }
             }
-            else{
-                if(p1_x == zero && p2_x == zero)
-                    ret = make_shared<Individual>(true);
-                else
-                    ret = make_shared<Individual>(false);
+            // 2.OneOf(Focus(x)) = (m,n)
+            else if(fact->assertion->left->get_output_str().find("OneOf")!=string::npos && fact->assertion->right->is_math_indi && fact->assertion->right->math_indi->is_coordinate){
+                auto test_point = *fact->assertion->right->math_indi->coordinate_val; // 要判断的焦点
+                cout<<"要判断的点为: "<<test_point<<endl;
+                Math_Expr p_x = *test_point.abscissa->number_val;
+                Math_Expr p_y = *test_point.ordinate->number_val;
+                if(oprt=="Focus_On_X_Axis"){
+                    if(p_y == zero)
+                        ret = make_shared<Individual>(true);
+                    else
+                        ret = make_shared<Individual>(false);
+                }
+                else{
+                    if(p_x == zero)
+                        ret = make_shared<Individual>(true);
+                    else
+                        ret = make_shared<Individual>(false);
+                }
             }
         }
     }
+    
     // 对于未定义执行性测试求值的算子, 默认返回 false
     // else if(oprt=="Focus_On_Y_Axis" || oprt=="Focus_On_X_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
     //     ; // 暂未定义执行性测试求值的算子, 默认返回 false
@@ -218,6 +266,10 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     #ifndef NDEBUG
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
     #endif
+
+    if(indi->get_output_str() == "Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))")
+        string s;
+    
 
     shared_ptr<Individual> eval_ret; // 最终的求值结果    assert(indi->is_term);
     // 要进行求值操作的是标准形式的 Term 或 Sugar_For_Oprt_Apply 或 Assertion
@@ -291,7 +343,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                 }
             }
             else{ // 其它情况的结果统一为: 1 / Math_Expr
-                ret = Math_Expr(one,'/',*expr_val);
+                ret = expr_val->get_output_str()=="1" ? one : Math_Expr(one,'/',*expr_val);
             }
             
             eval_ret = make_shared<Individual>(Math_Individual(ret));
@@ -746,10 +798,14 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
         else if(oprt=="Get_Left_Focus" || oprt=="Get_Right_Focus" || oprt=="Get_Top_Focus" || oprt=="Get_Down_Focus"){ // 获取圆锥曲线的左(右、上、下)焦点 (参数: 圆锥曲线 Individual)
             assert(args.size()==1);
             auto conic = *args[0];
-            string focus_list_str = "Focus(" + conic.get_output_str() +")"; // 一般题目中包含焦点信息
+            // 题目中包含焦点信息: 1.Focus(x) = List(f1, f2)  2.OneOf(Focus(x)) = (m,n)
+            string focus_list_str = "Focus(" + conic.get_output_str() +")"; // 1.Focus(x) = List(f1, f2)
+            string one_focus_str = "OneOf(Focus(" + conic.get_output_str() + "))"; // 2.OneOf(Focus(x)) = (m,n)
             auto it = question.indi_hash_map.find(focus_list_str);
+            auto it_one = question.indi_hash_map.find(one_focus_str);
             Number zero = Number(0);
-            if(it!=question.indi_hash_map.end()){
+            Number neg_one = Number(-1);
+            if(it_one==question.indi_hash_map.end() && it!=question.indi_hash_map.end()){ // 1.Focus(x) = List(f1, f2)
                 assert(!it->second->alt_vals.empty() && it->second->alt_vals[0]->is_term && it->second->alt_vals[0]->term->oprt=="List");
                 auto focus_list = *it->second->alt_vals[0]->term;
                 assert(focus_list.args.size()==2); // 题目中包含两个焦点的信息
@@ -825,6 +881,60 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                             eval_ret = make_shared<Individual>(p2);
                         else
                             assert(false);
+                    }
+                }
+            }
+            else if(it_one!=question.indi_hash_map.end()){ // 2.OneOf(Focus(x)) = (m,n)
+                assert(!it_one->second->alt_vals.empty() && it_one->second->alt_vals[0]->val_is_known);
+                auto one_focus = *it_one->second->alt_vals[0];
+                assert(one_focus.is_math_indi && one_focus.math_indi->is_coordinate);
+                // 焦点信息要作为 dependence
+                string focus_fact_str = "{" + one_focus_str + "=" + one_focus.get_output_str() + "}";
+                bool find_focus_fact = false;
+                for(auto f: question.fact_list){
+                    if(f->get_output_str()==focus_fact_str){
+                        find_focus_fact = true;
+                        conditions_sp->push_back(f);
+                    }
+                }
+                assert(find_focus_fact);
+                Math_Expr p_x = *one_focus.math_indi->coordinate_val->abscissa;
+                Math_Expr p_y = *one_focus.math_indi->coordinate_val->ordinate;
+                shared_ptr<Individual> another_focus;
+                if(oprt=="Get_Left_Focus" || oprt=="Get_Right_Focus"){
+                    assert(p_y==zero);
+                    assert(p_x.is_num); // 暂时只处理点的横坐标为 Number 的情况
+                    another_focus = make_shared<Individual>(Math_Individual(Coordinate(*p_x.number_val*neg_one,p_y)));
+                    Number p_x_num = *p_x.number_val;
+                    if(oprt=="Get_Left_Focus"){
+                        if(p_x_num < zero)
+                            eval_ret = make_shared<Individual>(one_focus);
+                        else
+                            eval_ret = another_focus;
+                    }
+                    else{
+                        if(p_x_num > zero)
+                            eval_ret = make_shared<Individual>(one_focus);
+                        else
+                            eval_ret = another_focus;
+                    }
+                }
+                else{
+                    assert(p_x==zero);
+                    assert(p_y.is_num); // 暂时只处理点的横坐标为 Number 的情况
+                    another_focus = make_shared<Individual>(Math_Individual(Coordinate(*p_x.number_val*neg_one,p_y)));
+                    Number p_y_num = *p_y.number_val;
+                    if(oprt=="Get_Down_Focus"){
+                        if(p_y_num < zero)
+                            eval_ret = make_shared<Individual>(one_focus);
+                        else
+                            eval_ret = another_focus;
+                    }
+                    else{
+                        if(p_y_num > zero)
+                            eval_ret = make_shared<Individual>(one_focus);
+                        else
+                            eval_ret = another_focus;
                     }
                 }
             }

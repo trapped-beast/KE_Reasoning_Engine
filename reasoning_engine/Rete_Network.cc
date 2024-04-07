@@ -469,7 +469,7 @@ bool Intra_Node::perform_predicate_test(shared_ptr<Sugar_For_Pred> test_constrai
     if(!right)
         right = action_eval(test_constraint->right,*fact->where_is);
     bool ret = false;
-    if(left && right){
+    if(left && right && left->val_is_known && right->val_is_known){
         assert(left->math_indi->expr_val->is_num);
         assert(right->math_indi->expr_val->is_num);
         auto left_val = *left->math_indi->expr_val->number_val;

@@ -39,7 +39,7 @@ def_indi origin:Point = {x:=0; y:=0}
 def_op Generate_Line_Eq(l:Num; m:Num; n:Num) = assert l_std:Line_Std = {a:=l; b:=m; c:=n}
 
 -- 把点代入曲线方程，生成新的等式
-def_op Subst_Point_Into_Curve(_p:Point; _c:Curve) = {Equation(_c) = Subst_Unknown(Equation(_c), Solve_Unknown( {Subst(Subst(Left(Equation(_c)),x,_p.x),y,_p.y) = Subst(Subst(Right(Equation(_c)),x,_p.x),y,_p.y)} ))}
+def_op Subst_Point_Into_Curve(_p:Point; _c:Curve) = {Expression(_c) = Subst_Unknown(Expression(_c), Solve_Unknown( {Subst(Subst(Left(Expression(_c)),x,_p.x),y,_p.y) = Subst(Subst(Right(Expression(_c)),x,_p.x),y,_p.y)} ))}
 
 
 
@@ -48,7 +48,7 @@ def_op Subst_Point_Into_Curve(_p:Point; _c:Curve) = {Equation(_c) = Subst_Unknow
 
 e:Ellipse => {{Param_A(e)>0}; {Param_B(e)>0}; {Param_C(e)>0}}  # 椭圆的参数a、b、c均大于0 #
 
-{e:Ellipse; {Is_In_Form(Equation(e),x^2/a^2+y^2/b^2==1)}} => {assert e_std:Ellipse_Std = {recip_coeff_sq_x:=Recip(Extract_Coeff(Equation(e),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(e),y^2))}; {e=e_std}} # 如果椭圆方程（可）满足标准形式 x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #
+{e:Ellipse; {Is_In_Form(Expression(e),x^2/a^2+y^2/b^2==1)}} => {assert e_std:Ellipse_Std = {recip_coeff_sq_x:=Recip(Extract_Coeff(Expression(e),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Expression(e),y^2))}; {e=e_std}} # 如果椭圆方程（可）满足标准形式 x^2/a^2+y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Ellipse_Std概念的个体 #
 
 {e:Ellipse_Std; {e.recip_coeff_sq_x>e.recip_coeff_sq_y}} => {Focus_On_X_Axis(e)} # 已知标准椭圆方程中x^2系数的倒数大于y^2系数的倒数，可得到椭圆的焦点在x轴上 #
 
@@ -60,6 +60,8 @@ e:Ellipse => {{Param_A(e)>0}; {Param_B(e)>0}; {Param_C(e)>0}}  # 椭圆的参数
 
 e:Ellipse => {Sub(Pow(Param_A(e),2),Pow(Param_B(e),2))=Pow(Param_C(e),2)} # 椭圆的参数a、b、c满足：a^2-b^2=c^2 #
 
+{e:Ellipse; {Is_In_Form(Expression(e),x^2/a^2+y^2/b^2==1)}} => {{Pow(Param_A(e),2)=Recip(Extract_Coeff(Expression(e),x^2))}; {Pow(Param_B(e),2)=Recip(Extract_Coeff(Expression(e),y^2))}} # 如果椭圆方程（可）满足标准形式 x^2/a^2+y^2/b^2=1，则其参数a^2等于其x^2系数的倒数，其参数b^2等于其y^2系数的倒数 #
+
 e:Ellipse => {Length(Major_Axis(e)) = Mul(2,Param_A(e))} # 椭圆的长轴长等于两倍的参数a #
 
 e:Ellipse => {Length(Minor_Axis(e)) = Mul(2,Param_B(e))} # 椭圆的短轴长等于两倍的参数b #
@@ -68,9 +70,21 @@ e:Ellipse => {Focal_Length(e) = Mul(2,Param_C(e))} # 椭圆的焦距长等于两
 
 e:Ellipse => {Eccentricity(e) = Div(Param_C(e),Param_A(e))} # 椭圆的离心率=参数c/参数a #
 
-{e:Ellipse; {Focus_On_X_Axis(e)}} => {Equation(e) = Generate_Ellipse_Eq(Param_A(e),Param_B(e),Center(e))} # 已知椭圆e的焦点在x轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: x^2/a^2+y^2/b^2=1 #
+{e:Ellipse; {Focus_On_X_Axis(e)}} => {Expression(e) = Generate_Ellipse_Eq(Param_A(e),Param_B(e),Center(e))} # 已知椭圆e的焦点在x轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: x^2/a^2+y^2/b^2=1 #
 
-{e:Ellipse; {Focus_On_Y_Axis(e)}} => {Equation(e) = Generate_Ellipse_Eq(Param_B(e),Param_A(e),Center(e))} # 已知椭圆e的焦点在y轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: x^2/b^2+y^2/a^2=1 #
+{e:Ellipse; {Focus_On_Y_Axis(e)}} => {Expression(e) = Generate_Ellipse_Eq(Param_B(e),Param_A(e),Center(e))} # 已知椭圆e的焦点在y轴上，根据参数a、b和椭圆中心，生成椭圆标准方程: x^2/b^2+y^2/a^2=1 #
+
+{e:Ellipse; {Focus_On_X_Axis(e)}} => {{Left_Focus(e) = Get_Left_Focus(e)}; {Right_Focus(e) = Get_Right_Focus(e)}} # 焦点在x轴上,则定位左、右焦点#
+
+{e:Ellipse; {Focus_On_Y_Axis(e)}} => {{Top_Focus(e) = Get_Top_Focus(e)}; {Down_Focus(e) = Get_Down_Focus(e)}} # 焦点在y轴上,则定位上、下焦点#
+
+{e:Ellipse; {Focus_On_X_Axis(e)}} => {Param_C(e) = Neg(Coordinate_X(Left_Focus(e)))} # 已知椭圆的焦点在x轴上,则其参数c等于其左焦点横坐标的值的相反数 #
+
+{e:Ellipse; {Focus_On_X_Axis(e)}} => {Param_C(e) = Coordinate_X(Right_Focus(e))} # 已知椭圆的焦点在x轴上,则其参数c等于其右焦点横坐标的值 #
+
+{e:Ellipse; {Focus_On_Y_Axis(e)}} => {Param_C(e) = Neg(Coordinate_Y(Left_Focus(e)))} # 已知椭圆的焦点在y轴上,则其参数c等于其下焦点纵坐标的值的相反数 #
+
+{e:Ellipse; {Focus_On_Y_Axis(e)}} => {Param_C(e) = Coordinate_Y(Right_Focus(e))} # 已知椭圆的焦点在y轴上,则其参数c等于其上焦点纵坐标的值 #
 
 
 
@@ -80,9 +94,9 @@ h:Hyperbola => {{Param_A(h)>0}; {Param_B(h)>0}; {Param_C(h)>0}}  # 双曲线的�
 
 h:Hyperbola => {Add(Pow(Param_A(h),2),Pow(Param_B(h),2))=Pow(Param_C(h),2)} # 双曲线的参数a、b、c满足：a^2+b^2=c^2 #
 
-{h:Hyperbola; {Is_In_Form(Equation(h),x^2/a^2-y^2/b^2==1)}} => {assert h_std:Hyperbola_Std_1 = {recip_coeff_sq_x:=Recip(Extract_Coeff(Equation(h),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h),y^2))}; {h=h_std}} # 如果双曲线方程（可）满足标准形式 x^2/a^2-y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_1概念的个体 #
+{h:Hyperbola; {Is_In_Form(Expression(h),x^2/a^2-y^2/b^2==1)}} => {assert h_std:Hyperbola_Std_1 = {recip_coeff_sq_x:=Recip(Extract_Coeff(Expression(h),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Expression(h),y^2))}; {h=h_std}} # 如果双曲线方程（可）满足标准形式 x^2/a^2-y^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_1概念的个体 #
 
-{h:Hyperbola; {Is_In_Form(Equation(h),y^2/a^2-x^2/b^2==1)}} => {assert h_std:Hyperbola_Std_2 = {recip_coeff_sq_x:=Recip(Extract_Coeff(Equation(h),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Equation(h),y^2))}; {h=h_std}} # 如果双曲线方程（可）满足标准形式 y^2/a^2-x^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_2概念的个体 #
+{h:Hyperbola; {Is_In_Form(Expression(h),y^2/a^2-x^2/b^2==1)}} => {assert h_std:Hyperbola_Std_2 = {recip_coeff_sq_x:=Recip(Extract_Coeff(Expression(h),x^2)); recip_coeff_sq_y:=Recip(Extract_Coeff(Expression(h),y^2))}; {h=h_std}} # 如果双曲线方程（可）满足标准形式 y^2/a^2-x^2/b^2=1，则提取其中的x^2和y^2的系数，并进一步生成Hyperbola_Std_2概念的个体 #
 
 h:Hyperbola_Std_1 => {{Param_A(h) = Sqrt(h.recip_coeff_sq_x)};{Param_B(h) = Sqrt(h.recip_coeff_sq_y)}} # 标准双曲线Hyperbola_Std_1的参数a等于其x^2系数的倒数的开方,参数b等于其y^2系数的倒数的开方 #
 
@@ -92,9 +106,9 @@ h:Hyperbola_Std_1 => {Focus_On_X_Axis(h)} # 标准双曲线Hyperbola_Std_1的焦
 
 h:Hyperbola_Std_2 => {Focus_On_X_Axis(h)} # 标准双曲线Hyperbola_Std_2的焦点在其Y轴上 #
 
-h:Hyperbola_Std_1 => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h),Param_A(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_B(h),Param_A(h))),-1,0))} # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #
+h:Hyperbola_Std_1 => {Line_Expression(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_B(h),Param_A(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_B(h),Param_A(h))),-1,0))} # 为标准双曲线Hyperbola_Std_1生成渐近线方程:y=+-(b/a)x #
 
-h:Hyperbola_Std_2 => {Line_Equation(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h),Param_B(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_A(h),Param_B(h))),-1,0))} # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #
+h:Hyperbola_Std_2 => {Line_Expression(Asymptote(h))=Ex_Or(Generate_Line_Eq(Div(Param_A(h),Param_B(h)),-1,0),Generate_Line_Eq(Neg(Div(Param_A(h),Param_B(h))),-1,0))} # 为标准双曲线Hyperbola_Std_2生成渐近线方程:y=+-(a/b)x #
 
 h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 双曲线的离心率=参数c/参数a #
 
@@ -123,13 +137,19 @@ h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 双曲线的离�
 {h:Hyperbola; {Focus_On_X_Axis(h)}} => {Expression(h) = Generate_Hyperbola_Expr_For_Focus_On_Y(Pow(Param_A(h),2), Pow(Param_B(h),2))} # 已知双曲线的焦点在y轴上, 根据参数a^2、b^2 生成双曲线标准方程: y^2/a^2-x^2/b^2=1 #
 
 
-{pa:Parabola; {Is_In_Form(Equation(pa),y^2==2*p*x)}} => {assert p_std:Parabola_Std_r = {coeff_x:=Extract_Coeff(Equation(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_r概念的个体 #
 
-{pa:Parabola; {Is_In_Form(Equation(pa),y^2==-2*p*x)}} => {assert p_std:Parabola_Std_l = {coeff_x:=Extract_Coeff(Equation(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_l概念的个体 #
 
-{pa:Parabola; {Is_In_Form(Equation(pa),x^2==2*p*y)}} => {assert p_std:Parabola_Std_u = {coeff_y:=Extract_Coeff(Equation(pa),y)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 x^2=2*p*y，则提取其中的y的系数，并进一步生成Parabola_Std_u概念的个体 #
 
-{pa:Parabola; {Is_In_Form(Equation(pa),x^2==-2*p*y)}} => {assert p_std:Parabola_Std_d = {coeff_y:=Extract_Coeff(Equation(pa),y)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 x^2=-2*p*y，则提取其中的y的系数，并进一步生成Parabola_Std_d概念的个体 #
+
+
+
+{pa:Parabola; {Is_In_Form(Expression(pa),y^2==2*p*x)}} => {assert p_std:Parabola_Std_r = {coeff_x:=Extract_Coeff(Expression(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_r概念的个体 #
+
+{pa:Parabola; {Is_In_Form(Expression(pa),y^2==-2*p*x)}} => {assert p_std:Parabola_Std_l = {coeff_x:=Extract_Coeff(Expression(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_l概念的个体 #
+
+{pa:Parabola; {Is_In_Form(Expression(pa),x^2==2*p*y)}} => {assert p_std:Parabola_Std_u = {coeff_y:=Extract_Coeff(Expression(pa),y)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 x^2=2*p*y，则提取其中的y的系数，并进一步生成Parabola_Std_u概念的个体 #
+
+{pa:Parabola; {Is_In_Form(Expression(pa),x^2==-2*p*y)}} => {assert p_std:Parabola_Std_d = {coeff_y:=Extract_Coeff(Expression(pa),y)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 x^2=-2*p*y，则提取其中的y的系数，并进一步生成Parabola_Std_d概念的个体 #
 
 pa:Parabola_Std_r => {Param_P(pa) = Div(pa.coeff_x,2)} # 标准抛物线Parabola_Std_r的参数P等于其x系数的一半 #
 
@@ -147,13 +167,15 @@ pa:Parabola_Std_u => {Focus_On_Y_Axis(pa)} # 标准抛物线Parabola_Std_u的焦
 
 pa:Parabola_Std_d => {Focus_On_Y_Axis(pa)} # 标准抛物线Parabola_Std_d的焦点在其Y轴上 #
 
-pa:Parabola_Std_r => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1,0,Div(Param_P(pa),2))} # 为标准抛物线Parabola_Std_r生成准线方程:x=-p/2 #
+pa:Parabola_Std_r => {Line_Expression(Directrix(pa))=Generate_Line_Eq(1,0,Div(Param_P(pa),2))} # 为标准抛物线Parabola_Std_r生成准线方程:x=-p/2 #
 
-pa:Parabola_Std_l => {Line_Equation(Directrix(pa))=Generate_Line_Eq(1,0,Neg(Div(Param_P(pa),2)))} # 为标准抛物线Parabola_Std_l生成准线方程:x=p/2 #
+pa:Parabola_Std_l => {Line_Expression(Directrix(pa))=Generate_Line_Eq(1,0,Neg(Div(Param_P(pa),2)))} # 为标准抛物线Parabola_Std_l生成准线方程:x=p/2 #
 
-pa:Parabola_Std_u => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0,1,Div(Param_P(pa),2))} # 为标准抛物线Parabola_Std_u生成准线方程:y=-p/2 #
+pa:Parabola_Std_u => {Line_Expression(Directrix(pa))=Generate_Line_Eq(0,1,Div(Param_P(pa),2))} # 为标准抛物线Parabola_Std_u生成准线方程:y=-p/2 #
 
-pa:Parabola_Std_d => {Line_Equation(Directrix(pa))=Generate_Line_Eq(0,1,Neg(Div(Param_P(pa),2)))} # 为标准抛物线Parabola_Std_d生成准线方程:y=p/2 #
+pa:Parabola_Std_d => {Line_Expression(Directrix(pa))=Generate_Line_Eq(0,1,Neg(Div(Param_P(pa),2)))} # 为标准抛物线Parabola_Std_d生成准线方程:y=p/2 #
+
+
 
 
 
