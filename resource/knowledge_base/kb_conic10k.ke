@@ -90,6 +90,13 @@ e:Ellipse => {Eccentricity(e) = Div(Param_C(e),Param_A(e))} # 椭圆的离心率
 
 
 
+
+
+
+
+
+
+
 h:Hyperbola => {{Param_A(h)>0}; {Param_B(h)>0}; {Param_C(h)>0}}  # 双曲线的参数a、b、c均大于0 #
 
 h:Hyperbola => {Add(Pow(Param_A(h),2),Pow(Param_B(h),2))=Pow(Param_C(h),2)} # 双曲线的参数a、b、c满足：a^2+b^2=c^2 #
@@ -141,6 +148,46 @@ h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 双曲线的离�
 
 
 
+
+
+
+
+
+
+{_p:Parabola; {Is_In_Form(Expression(_p),y^2==2*p*x)}} => {{Focus_On_X_Axis(pa)}; {Open_To_Right(_p)}; {Param_P(_p) = Div(Extract_Coeff(Expression(_p),x),2)}} # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则该抛物线焦点在x轴上，开头朝右，且参数P等于其x系数的一半 #
+
+{_p:Parabola; {Is_In_Form(Expression(_p),y^2==-2*p*x)}} => {{Focus_On_X_Axis(pa)}; {Open_To_Left(_p)}; {Param_P(_p) = Neg(Div(Extract_Coeff(Expression(_p),x),2))}} # 如果抛物线方程（可）满足标准形式 y^2=-2*p*x，则该抛物线焦点在x轴上，开头朝左，且参数P等于其x系数的一半的相反数 #
+
+{_p:Parabola; {Is_In_Form(Expression(_p),x^2==2*p*y)}} => {{Focus_On_Y_Axis(pa)}; {Open_To_Up(_p)}; {Param_P(_p) = Div(Extract_Coeff(Expression(_p),y),2)}} # 如果抛物线方程（可）满足标准形式 x^2=2*p*y，则该抛物线焦点在y轴上，开头朝上，且参数P等于其y系数的一半 #
+
+{_p:Parabola; {Is_In_Form(Expression(_p),x^2==-2*p*y)}} => {{Focus_On_Y_Axis(pa)}; {Open_To_Down(_p)}; {Param_P(_p) = Neg(Div(Extract_Coeff(Expression(_p),y),2))}} # 如果抛物线方程（可）满足标准形式 x^2=-2*p*y，则该抛物线焦点在y轴上，开头朝左，且参数P等于其y系数的一半的相反数 #
+
+
+{_p:Parabola; {Open_To_Right(_p)}} => {Line_Expression(Directrix(_p))=Generate_Line_Eq(1,0,Div(Param_P(_p),2))} # 为开口朝右的抛物线生成准线方程: x=-p/2 #
+
+{_p:Parabola; {Open_To_Left(_p)}} => {Line_Expression(Directrix(_p))=Generate_Line_Eq(1,0,Neg(Div(Param_P(_p),2)))} # 为开口朝左的抛物线生成准线方程: x=p/2 #
+
+{_p:Parabola; {Open_To_Up(_p)}} => {Line_Expression(Directrix(_p))=Generate_Line_Eq(0,1,Div(Param_P(_p),2))} # 为开口朝上的抛物线生成准线方程: y=-p/2 #
+
+{_p:Parabola; {Open_To_Down(_p)}} => {Line_Expression(Directrix(_p))=Generate_Line_Eq(0,1,Neg(Div(Param_P(_p),2)))} # 为开口朝下的抛物线生成准线方程: y=p/2 #
+
+{_p:Parabola; {Open_To_Right(_p)}} => {Focus(_p)=Generate_Coordinate(Div(Param_P(_p),2),0)} # 为开口朝右的抛物线生成焦点坐标: (p/2,0) #
+
+{_p:Parabola; {Open_To_Left(_p)}} => {Focus(_p)=Generate_Coordinate(Neg(Div(Param_P(_p)),2),0)} # 为开口朝左的抛物线生成焦点坐标: (-p/2,0) #
+
+{_p:Parabola; {Open_To_Up(_p)}} => {Focus(_p)=Generate_Coordinate(0,Div(Param_P(_p),2))} # 为开口朝上的抛物线生成焦点坐标: (0,p/2) #
+
+{_p:Parabola; {Open_To_Down(_p)}} => {Focus(_p)=Generate_Coordinate(0,Neg(Div(Param_P(_p)),2))} # 为开口朝下的抛物线生成焦点坐标: (0,-p/2) #
+
+{_p:Parabola; {Open_To_Right(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, yAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝右的抛物线上任意一点到y轴的距离等于到准线的距离-p/2 #
+
+{_p:Parabola; {Open_To_Left(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, yAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝左的抛物线上任意一点到y轴的距离等于到准线的距离-p/2 #
+
+{_p:Parabola; {Open_To_Up(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, xAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝上的抛物线上任意一点到x轴的距离等于到准线的距离-p/2 #
+
+{_p:Parabola; {Open_To_Down(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, xAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝下的抛物线上任意一点到x轴的距离等于到准线的距离-p/2 #
+
+{_p:Parabola; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, Focus(_p)) = Distance(_a, Line_Expression(Directrix(_p)))} # 抛物线上任意一点到焦点的距离与到准线的距离相等 #
 
 
 {pa:Parabola; {Is_In_Form(Expression(pa),y^2==2*p*x)}} => {assert p_std:Parabola_Std_r = {coeff_x:=Extract_Coeff(Expression(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_r概念的个体 #

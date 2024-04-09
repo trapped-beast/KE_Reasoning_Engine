@@ -172,6 +172,8 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
     // 先尝试为 to_solve 补充可能的 alt_val
     sup_possible_alt(*unknown, *question); // 这一步实际上是 eager evaluation
 
+    // TODO: 对Min、Max、Range的求值（替换）也是一种 eager evaluation，要在 sup_possible_alt 进行考虑
+
     #ifndef NDEBUG
         cout<<endl<<"当前 Question:"<<endl<<*question<<endl;
         cout<<endl<<"当前 Question 中的所有 Individual 如下: ("<<question->indi_hash_map.size()<<"个)"<<endl;

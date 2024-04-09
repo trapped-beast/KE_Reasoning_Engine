@@ -1,144 +1,88 @@
 digraph solving_process {
-	graph [bb="0,0,3089.7,1044"];
+	graph [bb="0,0,1568.5,612"];
 	node [label="\N"];
-	"{Focus(g)=List(f1, f2)}"	[fillcolor=cornsilk,
+	"{Expression(g)=y^2+x^2/k^2==1}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="1367.2,1026",
+		pos="616.26,594",
 		style=filled,
-		width=2.7628];
+		width=3.9713];
 	"{Param_C(g)>0}"	[height=0.5,
-		pos="1212.2,954",
+		pos="779.26,522",
 		width=2.1088];
-	"{Focus(g)=List(f1, f2)}" -> "{Param_C(g)>0}"	[pos="e,1246.4,970.43 1331.3,1008.8 1309.1,998.75 1280.5,985.82 1256.9,975.15"];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
-		pos="846.25,810",
-		width=7.9662];
-	"{Focus(g)=List(f1, f2)}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,868.61,828.28 1294.7,1013.3 1246.5,1004.5 1182.2,990.73 1127.2,972 1056.1,947.75 1039.3,937.58 974.25,900 939.95,880.2 903.05,\
-853.96 877.72,835.11"];
-	"{Left_Focus(g)=(-3,0)}"	[height=0.5,
-		pos="1494.2,882",
-		width=2.7628];
-	"{Focus(g)=List(f1, f2)}" -> "{Left_Focus(g)=(-3,0)}"	[pos="e,1478.9,900.19 1382.6,1007.9 1404.7,983.14 1445.7,937.24 1471.4,908.51"];
-	"{Param_C(g)=3}"	[height=0.5,
-		pos="1488.2,810",
-		width=2.1088];
-	"{Focus(g)=List(f1, f2)}" -> "{Param_C(g)=3}"	[pos="e,1441.1,824.45 1364.4,1007.7 1360.2,976.08 1355.7,908.23 1386.2,864 1397,848.43 1413.8,837.12 1430.7,829.06"];
-	"{Div(Pow(Param_B(g), 2), Pow(Param_A(g), 2))=2}"	[height=0.5,
-		pos="2324.2,738",
-		width=5.8763];
-	"{Focus(g)=List(f1, f2)}" -> "{Div(Pow(Param_B(g), 2), Pow(Param_A(g), 2))=2}"	[pos="e,2254.1,755.35 1412.6,1009.6 1528.1,970.61 1843.5,865.84 2110.2,792 2153.9,779.91 2203,767.67 2243.1,758"];
-	"{Expression(g)=Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))}"	[height=0.5,
-		pos="415.25,450",
-		width=11.535];
-	"{Focus(g)=List(f1, f2)}" -> "{Expression(g)=Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))}"	[pos="e,426.02,468.19 1273.1,1019.9 1042.3,1006.2 467.25,963.92 467.25,883 467.25,883 467.25,883 467.25,593 467.25,550.86 446.81,505.75 \
-431.56,477.95"];
-	"{f1=(-3,0)}; {f2=(3,0)}; {Focus(g)=List(f1, f2)}"	[height=0.5,
-		pos="1843.2,954",
-		width=5.3787];
-	"{Focus(g)=List(f1, f2)}" -> "{f1=(-3,0)}; {f2=(3,0)}; {Focus(g)=List(f1, f2)}"	[pos="e,1742.9,969.76 1442.7,1013.9 1520.5,1002.5 1642.7,984.49 1731.7,971.41"];
+	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Param_C(g)>0}"	[pos="e,743.6,538.32 655.3,576.23 678.69,566.19 708.54,553.37 733.09,542.83"];
+	"{Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
+		pos="628.26,378",
+		width=7.9235];
+	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,595.86,396.36 602.15,576.01 579.08,546.05 538.17,482.24 562.26,432 567.71,420.64 576.91,410.94 586.74,403.07"];
+	"{Pow(Param_A(g), 2)=k^2}"	[height=0.5,
+		pos="689.26,450",
+		width=3.2746];
+	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Pow(Param_A(g), 2)=k^2}"	[pos="e,680.46,468.11 625.21,575.59 637.7,551.29 660.49,506.97 675.24,478.27"];
+	"{Pow(Param_B(g), 2)=1}"	[height=0.5,
+		pos="217.26,378",
+		width=3.0045];
+	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Pow(Param_B(g), 2)=1}"	[pos="e,248.36,395.68 584.62,576.03 512.85,537.54 337.8,443.65 258.05,400.88"];
 	"{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[height=0.5,
-		pos="1161.2,882",
+		pos="1003.3,450",
 		width=4.9522];
-	"{Param_C(g)>0}" -> "{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[pos="e,1173.8,900.28 1199.9,936.05 1194.1,928.09 1187,918.41 1180.6,909.51"];
-	"{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
-		pos="1488.2,738",
-		width=9.9139];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,1342.6,754.88 985.16,793.85 1087,782.75 1225.3,767.67 1331.2,756.12"];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[height=0.5,
-		pos="1419.2,594",
-		width=13.738];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,1372.7,612.38 892.17,791.85 995.98,753.08 1248.5,658.77 1362.2,616.32"];
-	"{Pow(Param_A(g), 2)=3}; {Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
-		pos="1941.2,378",
-		width=12.772];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Pow(Param_A(g), 2)=3}; {Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,1615.6,391.05 848.68,791.55 852.18,764.8 858.25,712.03 858.25,667 858.25,667 858.25,667 858.25,521 858.25,444.69 1286.4,408.2 \
-1604.3,391.63"];
-	"{Left_Focus(g)=(-3,0)}" -> "{Param_C(g)=3}"	[pos="e,1489.7,828.1 1492.8,863.7 1492.1,856.41 1491.4,847.73 1490.7,839.54"];
-	"{Param_C(g)=3}" -> "{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,1488.2,756.1 1488.2,791.7 1488.2,784.41 1488.2,775.73 1488.2,767.54"];
-	"{Param_C(g)=3}" -> "{Pow(Param_A(g), 2)=3}; {Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,1950.9,396.16 1564.2,808.27 1640.1,805.2 1759,793.99 1854.2,756 1917.9,730.61 1980.2,735.56 1980.2,667 1980.2,667 1980.2,667 1980.2,\
-521 1980.2,480.96 1978,470.27 1966.2,432 1963.6,423.44 1959.8,414.51 1956,406.46"];
-	"{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}"	[height=0.5,
-		pos="2429.2,666",
-		width=5.9332];
-	"{Div(Pow(Param_B(g), 2), Pow(Param_A(g), 2))=2}" -> "{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}"	[pos="e,2403.2,684.35 2350.2,719.7 2363.3,710.95 2379.5,700.19 2393.7,690.69"];
-	"{Expression(g)=Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))}; {Generate_Hyperbola_Expr_For_Focus_\
-On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=x^2/3-y^2/6==1}"	[height=0.5,
-		pos="1160.2,90",
-		width=23.164];
-	"{Expression(g)=Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))}" -> "{Expression(g)=Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))}; {Generate_Hyperbola_Expr_For_Focus_\
-On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=x^2/3-y^2/6==1}"	[pos="e,1075.4,108.31 598.23,433.42 747.65,415.47 934.25,378.7 934.25,307 934.25,307 934.25,307 934.25,233 934.25,167.65 1002.8,131.21 \
-1064.4,111.65"];
-	"{f1=(-3,0)}"	[fillcolor=cornsilk,
+	"{Param_C(g)>0}" -> "{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[pos="e,950.15,467.6 823.78,507.09 856.88,496.74 902.51,482.49 939.47,470.93"];
+	"{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
+A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
+		pos="784.26,306",
+		width=21.785];
+	"{Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
+A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,745.33,324.47 666.82,359.7 687.37,350.48 712.87,339.03 734.86,329.17"];
+	"{Pow(Param_A(g), 2)=k^2}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
+A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,875.19,324.31 767.57,436.13 831.34,424.86 912.38,408.38 922.26,396 932.24,383.49 931.32,373.19 922.26,360 913.05,346.59 899.94,\
+336.58 885.43,329.1"];
+	"{Pow(Param_B(g), 2)=1}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
+A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,630.01,324.12 295.89,365.28 308.71,363.45 321.85,361.63 334.26,360 428.31,347.63 533.6,335.16 618.68,325.42"];
+	"{OneOf(Focus(g))=(3,0)}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="1781.2,1026",
+		pos="1362.3,522",
 		style=filled,
-		width=1.5117];
-	"{f1=(-3,0)}" -> "{f1=(-3,0)}; {f2=(3,0)}; {Focus(g)=List(f1, f2)}"	[pos="e,1828.2,971.96 1795.9,1008.4 1803.3,1000.1 1812.4,989.8 1820.7,980.49"];
-	"{f1=(-3,0)}; {f2=(3,0)}; {Focus(g)=List(f1, f2)}" -> "{Left_Focus(g)=(-3,0)}"	[pos="e,1559.1,896.01 1764.1,937.12 1706,925.47 1627.6,909.75 1570.3,898.25"];
-	"{f2=(3,0)}"	[fillcolor=cornsilk,
+		width=2.9903];
+	"{Left_Focus(g)=(-3,0)}"	[height=0.5,
+		pos="1299.3,450",
+		width=2.7628];
+	"{OneOf(Focus(g))=(3,0)}" -> "{Left_Focus(g)=(-3,0)}"	[pos="e,1314.7,468.1 1346.7,503.7 1339.3,495.47 1330.3,485.48 1322.1,476.42"];
+	"{Param_C(g)=3}"	[height=0.5,
+		pos="1214.3,378",
+		width=2.1088];
+	"{OneOf(Focus(g))=(3,0)}" -> "{Param_C(g)=3}"	[pos="e,1278,388.08 1381.8,503.87 1400.9,485.12 1424.6,454.72 1407.3,432 1392.6,412.81 1337.1,398.85 1289.3,390.08"];
+	"{Left_Focus(g)=(-3,0)}" -> "{Param_C(g)=3}"	[pos="e,1234.6,395.79 1278.7,432.05 1268,423.28 1254.9,412.43 1243.2,402.83"];
+	"{Param_C(g)=3}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
+A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,890.43,324.28 1153.1,367.05 1087.9,356.43 983.01,339.36 901.73,326.12"];
+	"{Sub(k^2, 1)=9}"	[height=0.5,
+		pos="784.26,234",
+		width=2.0662];
+	"{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
+A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Sub(k^2, 1)=9}"	[pos="e,784.26,252.1 784.26,287.7 784.26,280.41 784.26,271.73 784.26,263.54"];
+	"{k^2=10}"	[height=0.5,
+		pos="784.26,162",
+		width=1.3553];
+	"{Sub(k^2, 1)=9}" -> "{k^2=10}"	[pos="e,784.26,180.1 784.26,215.7 784.26,208.41 784.26,199.73 784.26,191.54"];
+	"{k>0}; {k^2=10}"	[height=0.5,
+		pos="835.26,90",
+		width=2.1657];
+	"{k^2=10}" -> "{k>0}; {k^2=10}"	[pos="e,822.91,107.96 796.35,144.41 802.29,136.25 809.6,126.22 816.27,117.07"];
+	"{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}" -> "{Param_C(g)=3}"	[pos="e,1171.5,393.19 1053.5,432.32 1085.8,421.6 1127.8,407.69 1160.7,396.77"];
+	"{Pow(Param_C(g), 2)=9}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="1905.2,1026",
+		pos="1003.3,522",
 		style=filled,
-		width=1.4264];
-	"{f2=(3,0)}" -> "{f1=(-3,0)}; {f2=(3,0)}; {Focus(g)=List(f1, f2)}"	[pos="e,1858.3,971.96 1890.6,1008.4 1883.2,1000.1 1874.1,989.8 1865.8,980.49"];
-	"{Expression(OneOf(Asymptote(g)))=y==sqrt(2)*x}"	[fillcolor=cornsilk,
-		height=0.5,
-		pos="2324.2,810",
-		style=filled,
-		width=5.7057];
-	"{Expression(OneOf(Asymptote(g)))=y==sqrt(2)*x}" -> "{Div(Pow(Param_B(g), 2), Pow(Param_A(g), 2))=2}"	[pos="e,2324.2,756.1 2324.2,791.7 2324.2,784.41 2324.2,775.73 2324.2,767.54"];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[height=0.5,
-		pos="1604.2,666",
-		width=5.9332];
-	"{Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,1575.9,684.1 1516.9,719.7 1531.8,710.71 1550.2,699.61 1566.3,689.92"];
-	"{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[height=0.5,
-		pos="2429.2,594",
-		width=11.705];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}" -> "{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,2245.1,610.63 1750.8,652.57 1885.3,641.16 2085.5,624.17 2233.6,611.6"];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,1465.2,612.4 1559.5,648.05 1534.3,638.52 1502.5,626.52 1475.7,616.34"];
-	"{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}" -> "{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,2429.2,612.1 2429.2,647.7 2429.2,640.41 2429.2,631.73 2429.2,623.54"];
-	"{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}"	[height=0.5,
-		pos="2773.2,378",
-		width=8.7908];
-	"{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}" -> "{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}"	[pos="e,2790.2,396.39 2598.6,654.73 2711.2,646.12 2841.6,632 2859.2,612 2913.7,550.4 2839.3,451.27 2797.8,404.72"];
-	"{Mul(3, Pow(Param_A(g), 2))=9}"	[height=0.5,
-		pos="2429.2,522",
-		width=3.9002];
-	"{Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}" -> "{Mul(3, Pow(Param_A(g), 2))=9}"	[pos="e,2429.2,540.1 2429.2,575.7 2429.2,568.41 2429.2,559.73 2429.2,551.54"];
-	"{Pow(Param_A(g), 2)=3}"	[height=0.5,
-		pos="2429.2,450",
-		width=3.0187];
-	"{Mul(3, Pow(Param_A(g), 2))=9}" -> "{Pow(Param_A(g), 2)=3}"	[pos="e,2429.2,468.1 2429.2,503.7 2429.2,496.41 2429.2,487.73 2429.2,479.54"];
-	"{Pow(Param_C(g), 2)=9}"	[height=0.5,
-		pos="1207.2,522",
 		width=3.0045];
-	"{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}" -> "{Pow(Param_C(g), 2)=9}"	[pos="e,1254.6,538.63 1366.6,575.61 1335.9,565.46 1297.1,552.66 1265.4,542.22"];
-	"{Pow(Param_C(g), 2)=9}" -> "{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[pos="e,1161,863.65 1104.8,527.99 1030.6,533.99 939.31,547.18 915.25,576 826,682.91 1068.8,673.66 1142.2,792 1153.5,810.17 1158.2,834.01 \
-1160.1,852.44"];
-	"{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}" -> "{Param_C(g)=3}"	[pos="e,1433.3,822.76 1235,865.2 1291.2,853.18 1367.9,836.77 1422.1,825.16"];
-	"{Pow(Param_A(g), 2)=3}" -> "{Pow(Param_A(g), 2)=3}; {Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,2058.6,395.84 2348.9,437.48 2273.2,426.61 2158.3,410.14 2069.8,397.44"];
-	"{Pow(Param_A(g), 2)=3}" -> "{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}"	[pos="e,2690.6,395.82 2496,435.42 2548.2,424.79 2621.5,409.89 2679.6,398.06"];
-	"{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=6}"	[height=0.5,
-		pos="2429.2,234",
-		width=5.8621];
-	"{Pow(Param_A(g), 2)=3}" -> "{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=6}"	[pos="e,2429.2,252.23 2429.2,431.85 2429.2,395.14 2429.2,308.66 2429.2,263.53"];
-	"{Pow(Param_A(g), 2)=3}; {Param_C(g)=3}; {Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}"	[pos="e,1777.3,655.11 1946.2,396.38 1957.4,439.25 1979.2,550.97 1923.2,612 1903.7,633.39 1847.9,646.14 1788.4,653.75"];
-	"{Pow(Param_B(g), 2)=6}"	[height=0.5,
-		pos="2669.2,306",
-		width=3.0045];
-	"{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=Mul(Pow(Param_A(g), 2), 2)}" -> "{Pow(Param_B(g), 2)=6}"	[pos="e,2694.3,323.86 2747.5,359.7 2734.3,350.81 2718.1,339.87 2703.8,330.26"];
-	"{Pow(Param_B(g), 2)=6}" -> "{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=6}"	[pos="e,2486.7,251.75 2617.2,289.81 2582.2,279.6 2535.7,266.04 2497.7,254.96"];
-	"{Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=x^2/3-y^2/6==1}"	[height=0.5,
-		pos="1648.2,162",
-		width=11.791];
-	"{Pow(Param_A(g), 2)=3}; {Pow(Param_B(g), 2)=6}" -> "{Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=x^2/3-y^2/6==1}"	[pos="e,1824.7,178.82 2287.4,220.28 2160.8,208.94 1974.7,192.26 1835.9,179.82"];
-	"{Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=x^2/3-y^2/6==1}" -> "{Expression(g)=Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))}; {Generate_Hyperbola_Expr_For_Focus_\
-On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=x^2/3-y^2/6==1}"	[pos="e,1280.9,108.3 1531.4,144.23 1459.3,133.9 1366.8,120.63 1292.2,109.93"];
-	"{Expression(g)=x^2/3-y^2/6==1}"	[fillcolor="#ee7b67",
+	"{Pow(Param_C(g), 2)=9}" -> "{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[pos="e,1003.3,468.1 1003.3,503.7 1003.3,496.41 1003.3,487.73 1003.3,479.54"];
+	"{k>0}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="1160.2,18",
+		pos="886.26,162",
 		style=filled,
-		width=3.8433];
-	"{Expression(g)=Generate_Hyperbola_Expr_For_Focus_On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))}; {Generate_Hyperbola_Expr_For_Focus_\
-On_X(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=x^2/3-y^2/6==1}" -> "{Expression(g)=x^2/3-y^2/6==1}"	[pos="e,1160.2,36.104 1160.2,71.697 1160.2,64.407 1160.2,55.726 1160.2,47.536"];
+		width=0.97149];
+	"{k>0}" -> "{k>0}; {k^2=10}"	[pos="e,847.74,108.12 874.43,144.76 868.49,136.61 861.15,126.53 854.43,117.31"];
+	"{k=Sqrt(10)}"	[fillcolor="#ee7b67",
+		height=0.5,
+		pos="835.26,18",
+		style=filled,
+		width=1.6965];
+	"{k>0}; {k^2=10}" -> "{k=Sqrt(10)}"	[pos="e,835.26,36.104 835.26,71.697 835.26,64.407 835.26,55.726 835.26,47.536"];
 }

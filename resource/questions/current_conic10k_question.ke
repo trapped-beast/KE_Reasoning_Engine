@@ -1,3 +1,3 @@
 # 3. 已知抛物线$y^{2}=4 x$上的任意一点$P$，记点$P$到$y$轴的距离为$d$，对于给定点$A(4,5)$，则$|P A|+d$的最小值为? #
-G: Parabola; A: Point; P: Point; Expression(G) = (y^2 = 4*x); Coordinate(A) = (4, 5); PointOnCurve(P,G); Distance(P, yAxis) = d; d:Number
-To_Solve(Min(d + Abs(LineSegmentOf(P, A))))
+g: Parabola; p: Point; a: Point; d:Number; {Expression(g) = y^2 == 4*x}; {a = (4, 5)}; {PointOnCurve(p,g)}; {Distance(p, yAxis) = d}
+To_Solve(Min(Add(Distance(p,a),d)))

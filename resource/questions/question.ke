@@ -1,53 +1,53 @@
 # 1. 已知椭圆c的曲线方程为 x^2/9+y^2/16=1, 求c的长轴长。 #
-c:Ellipse; {Equation(c) = x^2/9+y^2/16==1}
+c:Ellipse; {Expression(c) = x^2/9+y^2/16==1}
 To_Solve(Length(Major_Axis(c)))
 
 
 # 2. 已知椭圆c的曲线方程为 x^2/16+y^2/9=1, 求c的短轴长。 #
-c:Ellipse; {Equation(c) = x^2/16+y^2/9==1}
+c:Ellipse; {Expression(c) = x^2/16+y^2/9==1}
 To_Solve(Length(Minor_Axis(c)))
 
 
 # 3. 已知抛物线c的曲线方程为 y^2=12*x, 求c的准线方程。 #
-c:Parabola; {Equation(c) = y^2==12*x}
-To_Solve(Line_Equation(Directrix(c)))
+c:Parabola; {Expression(c) = y^2==12*x}
+To_Solve(Line_Expression(Directrix(c)))
 
 
 # 4. 已知抛物线c的曲线方程为 x^2=12*y, 求c的准线方程。 #
-c:Parabola; {Equation(c) = x^2==12*y}
-To_Solve(Line_Equation(Directrix(c)))
+c:Parabola; {Expression(c) = x^2==12*y}
+To_Solve(Line_Expression(Directrix(c)))
 
 
 # 5. 已知双曲线c的曲线方程为 x^2/16-y^2/9=1, 求c的渐近线方程。 #
-c:Hyperbola; {Equation(c) = x^2/16-y^2/9==1}
-To_Solve(Line_Equation(Asymptote(c)))
+c:Hyperbola; {Expression(c) = x^2/16-y^2/9==1}
+To_Solve(Line_Expression(Asymptote(c)))
 
 
 # 6. 已知双曲线c的曲线方程为 y^2/16-x^2/9=1, 求c的渐近线方程。 #
-c:Hyperbola; {Equation(c) = y^2/16-x^2/9==1}
-To_Solve(Line_Equation(Asymptote(c)))
+c:Hyperbola; {Expression(c) = y^2/16-x^2/9==1}
+To_Solve(Line_Expression(Asymptote(c)))
 
 
 # 7. 已知椭圆c的中心在坐标原点、c的焦点在x轴上、c的长轴长=10、c的焦距长=8，求c的标准方程。 #
 c:Ellipse; {Center(c)=origin}; {Focus_On_X_Axis(c)}; {Length(Major_Axis(c))=10}; {Focal_Length(c)=8}
-To_Solve(Equation(c))
+To_Solve(Expression(c))
 
 
 # 8. 已知椭圆c的中心在坐标原点、c的焦点在y轴上、c的长轴长=10、c的焦距长=8，求c的标准方程。 #
 c:Ellipse; {Center(c)=origin}; {Focus_On_Y_Axis(c)}; {Length(Major_Axis(c))=10}; {Focal_Length(c)=8}
-To_Solve(Equation(c))
+To_Solve(Expression(c))
 
 
 # 9. 已知抛物线c的方程为 y^2=2*m*x、点q(1,2)在c上，求c的标准方程。 #
-c:Hyperbola; {Equation(c) = y^2==2*m*x}; def_indi q:Point={x:=1;y:=2}; {Point_On_Curve(q,c)}
-To_Solve(Equation(c))
+c:Hyperbola; {Expression(c) = y^2==2*m*x}; def_indi q:Point={x:=1;y:=2}; {Point_On_Curve(q,c)}
+To_Solve(Expression(c))
 
 
 # 10. 已知抛物线c的方程为 x^2=2*m*y、点q(4,2)在c上，求c的标准方程。 #
-c:Hyperbola; {Equation(c) = x^2==2*m*y}; def_indi q:Point={x:=4;y:=2}; {Point_On_Curve(q,c)}
-To_Solve(Equation(c))
+c:Hyperbola; {Expression(c) = x^2==2*m*y}; def_indi q:Point={x:=4;y:=2}; {Point_On_Curve(q,c)}
+To_Solve(Expression(c))
 
 
 # 11. 已知双曲线c1的方程为x^2/16-y^2/9=1、抛物线c2的方程为y^2=3*m*x、点q(12,24)在c2上、有椭圆c3、c3的短轴长等于c2的参数p、c3和c1的参数c相等、c3的焦点在x轴上、c3的中心在坐标原点、求c3的标准方程。 #
-c1:Hyperbola; c2:Parabola; c3:Ellipse; {Equation(c1) = x^2/16-y^2/9==1}; {Equation(c2) = y^2==3*m*x}; def_indi q:Point={x:=12;y:=24}; {Point_On_Curve(q,c2)}; {Length(Minor_Axis(c3))=Param_P(c2)}; {Param_C(c3)=Param_C(c1)}; {Focus_On_X_Axis(c3)}; {Center(c3)=origin}
-To_Solve(Equation(c3))
+c1:Hyperbola; c2:Parabola; c3:Ellipse; {Expression(c1) = x^2/16-y^2/9==1}; {Expression(c2) = y^2==3*m*x}; def_indi q:Point={x:=12;y:=24}; {Point_On_Curve(q,c2)}; {Length(Minor_Axis(c3))=Param_P(c2)}; {Param_C(c3)=Param_C(c1)}; {Focus_On_X_Axis(c3)}; {Center(c3)=origin}
+To_Solve(Expression(c3))

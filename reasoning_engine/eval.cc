@@ -27,7 +27,7 @@ shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_p
             }
         }
         else if(entire_expr->op_val == '*'){
-            if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos){ // 主体出现在 / 式 左侧
+            if(entire_expr->left->get_output_str().find(body->get_output_str())!=string::npos){ // 主体出现在 * 式 左侧
                 if(entire_expr->left->get_output_str()!=body->get_output_str()){ // 真子段迭代处理
                     assert(false); // 较为复杂，暂不处理
                 }
@@ -39,7 +39,7 @@ shared_ptr<Individual> extract_coeff(shared_ptr<Math_Expr> entire_expr, shared_p
                     assert(false); // 较为复杂，暂不处理
                 }
                 else
-                    ret = make_shared<Individual>(*entire_expr->right);
+                    ret = make_shared<Individual>(*entire_expr->left);
             }
         }
         else if(entire_expr->op_val == '/'){
@@ -148,8 +148,8 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
                             auto left = *test_left.left;
                             auto right = *test_left.right;
                             // 首先，判断左右两边都是否是 未知数^2/Math_Expr (Math_Expr可以为1)
-                            bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^' && left.right->is_mathe && left.right->op_val=='^';
-                            bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^' && right.right->is_mathe && right.right->op_val=='^';
+                            bool left_conform = left.is_mathe && left.left->is_mathe && left.left->op_val=='^' && ((left.right->is_mathe && left.right->op_val=='^') || (left.right->is_num));
+                            bool right_conform = right.is_mathe && right.left->is_mathe && right.left->op_val=='^' && ((right.right->is_mathe && right.right->op_val=='^') || (right.right->is_num));
                             bool l_denominator_is_1 = left.is_mathe && left.op_val=='^'; // 1-3、1-4
                             bool r_denominator_is_1 = right.is_mathe && right.op_val=='^'; // 1-1、1-2
                             // 其次，两个参数一个是 x、另一个是 y
@@ -283,7 +283,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
     #endif
 
-    if(indi->get_output_str() == "Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))")
+    if(indi->get_output_str() == "Coordinate_X(Left_Focus(c))")
         string s;
     
 
@@ -403,29 +403,31 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             if(!target)
                 target = action_eval(args[0], question, conditions_sp);
             // 先处理一种特殊情况: 数学表达式是形如 Sqrt(x) 的 term
-            if(target->is_term){
-                assert(target->term->oprt=="Sqrt");
-                vector<shared_ptr<Individual>> temp_args = {target};
-                eval_ret = make_shared<Individual>(Term("Neg", temp_args));
-            }
-            else{
-                assert(target->is_math_indi && target->math_indi->is_math_expr);
-                auto target_val = target->math_indi->expr_val;
-                if(target_val->is_num){
-                    Number temp = Number(*target_val->number_val);
-                    temp.trans_to_opposite();
-                    eval_ret = make_shared<Individual>(Math_Individual(temp));
+            if(target){
+                if(target->is_term){
+                    assert(target->term->oprt=="Sqrt");
+                    vector<shared_ptr<Individual>> temp_args = {target};
+                    eval_ret = make_shared<Individual>(Term("Neg", temp_args));
                 }
-                else if(target_val->is_mathe && target_val->left->is_num){ // 只处理 left 为 Number 的情况
-                    // +-*/^ 式的相反数只需对其左部去相反数
-                    Number temp_left = Number(*target_val->left->number_val);
-                    temp_left.trans_to_opposite();
-                    Math_Expr temp;
-                    if(target_val->right->is_num)
-                        temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,Math_Expr(*target_val->right->number_val));
-                    else
-                        temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,target_val->right);
-                    eval_ret = make_shared<Individual>(Math_Individual(temp));
+                else{
+                    assert(target->is_math_indi && target->math_indi->is_math_expr);
+                    auto target_val = target->math_indi->expr_val;
+                    if(target_val->is_num){
+                        Number temp = Number(*target_val->number_val);
+                        temp.trans_to_opposite();
+                        eval_ret = make_shared<Individual>(Math_Individual(temp));
+                    }
+                    else if(target_val->is_mathe && target_val->left->is_num){ // 只处理 left 为 Number 的情况
+                        // +-*/^ 式的相反数只需对其左部去相反数
+                        Number temp_left = Number(*target_val->left->number_val);
+                        temp_left.trans_to_opposite();
+                        Math_Expr temp;
+                        if(target_val->right->is_num)
+                            temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,Math_Expr(*target_val->right->number_val));
+                        else
+                            temp = Math_Expr(Math_Expr(temp_left),target_val->op_val,target_val->right);
+                        eval_ret = make_shared<Individual>(Math_Individual(temp));
+                    }
                 }
             }
         }
@@ -968,23 +970,25 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
         else if(oprt=="Coordinate_X" || oprt=="Coordinate_Y"){ // 获取Coordinate的横(纵坐标) (参数: 坐标 Term)
             assert(args.size()==1);
             auto coordinate = args[0]->find_specific_indi("Coordinate", question);
-            assert(coordinate->is_math_indi && coordinate->math_indi->is_coordinate);
-            auto coordinate_val = coordinate->math_indi->coordinate_val;
-            if(oprt=="Coordinate_X")
-                eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->abscissa));
-            else
-                eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->ordinate));
-            // 点坐标要作为 dependence
-            string point_fact_str = "{"+args[0]->get_output_str()+"="+coordinate->get_output_str()+"}";
-            bool find_point_fact = false;
-            for(auto f: question.fact_list){
-                if(f->get_output_str()==point_fact_str){
-                    find_point_fact = true;
-                    conditions_sp->push_back(f);
-                    break;
+            if(coordinate){
+                assert(coordinate->is_math_indi && coordinate->math_indi->is_coordinate);
+                auto coordinate_val = coordinate->math_indi->coordinate_val;
+                if(oprt=="Coordinate_X")
+                    eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->abscissa));
+                else
+                    eval_ret = make_shared<Individual>(Math_Expr(*coordinate_val->ordinate));
+                // 点坐标要作为 dependence
+                string point_fact_str = "{"+args[0]->get_output_str()+"="+coordinate->get_output_str()+"}";
+                bool find_point_fact = false;
+                for(auto f: question.fact_list){
+                    if(f->get_output_str()==point_fact_str){
+                        find_point_fact = true;
+                        conditions_sp->push_back(f);
+                        break;
+                    }
                 }
+                assert(find_point_fact);
             }
-            assert(find_point_fact);
         }
         else if(oprt=="Slope"){ // 求直线斜率 (参数: 直线表达式 Math_Equation)
             assert(args.size()==1);
@@ -1068,6 +1072,18 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
                     eval_ret->val_is_known = true;
                 }
             }
+        }
+        else if(oprt=="Generate_Coordinate"){ // 求直角坐标 (参数: 横坐标 Math_Expr, 纵坐标 Math_Expr)
+            assert(args.size()==2);
+            auto abscissa = args[0]->find_specific_indi("Math_Expr", question);
+            auto ordinate = args[1]->find_specific_indi("Math_Expr", question);
+            if(!abscissa)
+                abscissa = action_eval(args[0], question, conditions_sp);
+            if(!ordinate)
+                ordinate = action_eval(args[1], question, conditions_sp);
+            // 暂时只处理横、纵坐标为 Number 的情况
+            assert(abscissa->is_math_indi && abscissa->math_indi->is_math_expr && abscissa->math_indi->expr_val->is_num && ordinate->is_math_indi && ordinate->math_indi->is_math_expr && ordinate->math_indi->expr_val->is_num);
+            eval_ret = make_shared<Individual>(Math_Individual(Coordinate(*abscissa->math_indi->expr_val, *ordinate->math_indi->expr_val)));
         }
         else{
             auto it = question.kb->def_oprt_hash_table.find(oprt); // KB 中定义的 Opearator
