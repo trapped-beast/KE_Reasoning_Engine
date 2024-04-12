@@ -179,15 +179,17 @@ h:Hyperbola => {Eccentricity(h) = Div(Param_C(h),Param_A(h))} # 双曲线的离�
 
 {_p:Parabola; {Open_To_Down(_p)}} => {Focus(_p)=Generate_Coordinate(0,Neg(Div(Param_P(_p)),2))} # 为开口朝下的抛物线生成焦点坐标: (0,-p/2) #
 
-{_p:Parabola; {Open_To_Right(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, yAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝右的抛物线上任意一点到y轴的距离等于到准线的距离-p/2 #
+{_p:Parabola; {Open_To_Right(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, yAxis) = Sub(Distance(_a, Focus(_p)),Div(Param_P(_p),2))} # 开口朝右的抛物线上任意一点到y轴的距离等于到焦点的距离-p/2 #
 
-{_p:Parabola; {Open_To_Left(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, yAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝左的抛物线上任意一点到y轴的距离等于到准线的距离-p/2 #
+{_p:Parabola; {Open_To_Left(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, yAxis) = Sub(Distance(_a, Focus(_p)),Div(Param_P(_p),2))} # 开口朝左的抛物线上任意一点到y轴的距离等于到焦点的距离-p/2 #
 
-{_p:Parabola; {Open_To_Up(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, xAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝上的抛物线上任意一点到x轴的距离等于到准线的距离-p/2 #
+{_p:Parabola; {Open_To_Up(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, xAxis) = Sub(Distance(_a, Focus(_p)),Div(Param_P(_p),2))} # 开口朝上的抛物线上任意一点到x轴的距离等于到焦点的距离-p/2 #
 
-{_p:Parabola; {Open_To_Down(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, xAxis) = Sub(Distance(_a, Line_Expression(Directrix(_p))),Div(Param_P(_p),2))} # 开口朝下的抛物线上任意一点到x轴的距离等于到准线的距离-p/2 #
+{_p:Parabola; {Open_To_Down(_p)}; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, xAxis) = Sub(Distance(_a, Focus(_p)),Div(Param_P(_p),2))} # 开口朝下的抛物线上任意一点到x轴的距离等于到焦点的距离-p/2 #
 
 {_p:Parabola; _a:Point; {PointOnCurve(_a,_p)}} => {Distance(_a, Focus(_p)) = Distance(_a, Line_Expression(Directrix(_p)))} # 抛物线上任意一点到焦点的距离与到准线的距离相等 #
+
+{_p:Parabola; _m:Point; _n:Point; {PointOnCurve(_m,_p)}; {Point_Outside_Parabola(_n,_p)}} => {Min(Add(Distance(_m, _n), Distance(_m, Focus(_p)))) = Distance(_n, Focus(_p))} # 对于抛物线上任意一点m、抛物线外任意一点n, n到焦点的距离 + n到m的距离 的最小值等于 m到焦点的距离 #
 
 
 {pa:Parabola; {Is_In_Form(Expression(pa),y^2==2*p*x)}} => {assert p_std:Parabola_Std_r = {coeff_x:=Extract_Coeff(Expression(pa),x)}; {pa=p_std}} # 如果抛物线方程（可）满足标准形式 y^2=2*p*x，则提取其中的x的系数，并进一步生成Parabola_Std_r概念的个体 #

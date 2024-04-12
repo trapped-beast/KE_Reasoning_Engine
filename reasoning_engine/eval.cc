@@ -259,6 +259,10 @@ shared_ptr<Individual> intra_node_eval(shared_ptr<Individual> indi, shared_ptr<F
             }
         }
     }
+    else if(oprt=="Point_Outside_Parabola"){ // 判断某个点是否在给定抛物线外 (参数是: 点 Coordinate、抛物线 Equation)
+        assert(args.size()==2);
+        // TODO:实现该函数
+    }
     
     // 对于未定义执行性测试求值的算子, 默认返回 false
     // else if(oprt=="Focus_On_Y_Axis" || oprt=="Focus_On_X_Axis"){ // 判断圆锥曲线的焦点是否在Y轴上 (参数是: 圆锥曲线对象 Symbol)
@@ -283,7 +287,7 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
         cout<<"当前求值的 Individual 为: "<<*indi<<endl;
     #endif
 
-    if(indi->get_output_str() == "Coordinate_X(Left_Focus(c))")
+    if(indi->get_output_str() == "Min(Add(Distance(p, a), Distance(p, Focus(g))))")
         string s;
     
 
@@ -1085,6 +1089,72 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
             assert(abscissa->is_math_indi && abscissa->math_indi->is_math_expr && abscissa->math_indi->expr_val->is_num && ordinate->is_math_indi && ordinate->math_indi->is_math_expr && ordinate->math_indi->expr_val->is_num);
             eval_ret = make_shared<Individual>(Math_Individual(Coordinate(*abscissa->math_indi->expr_val, *ordinate->math_indi->expr_val)));
         }
+        else if(oprt=="Min"){ // 求最小值 (参数: 两个距离之和 Add(Distance(x), Distance(y)))
+            assert(args.size()==1); // 暂时只处理两个距离之和的最小值
+            assert(args[0]->is_term && args[0]->term->oprt=="Add" && args[0]->term->args[0]->term->oprt=="Distance" && args[0]->term->args[1]->term->oprt=="Distance");
+            auto distance_1 = args[0]->term->args[0]; // 距离 1: Distance(p,x)
+            auto distance_2 = args[0]->term->args[1]; // 距离 2: Distance(p,y)
+            cout<<"距离 1: "<<*distance_1<<endl;
+            cout<<"距离 2: "<<*distance_2<<endl;
+            assert(*distance_1->term->args[0] == *distance_2->term->args[0]);
+            assert(!distance_1->term->args[1]->alt_vals.empty() && distance_1->term->args[1]->alt_vals[0]->val_is_known);
+            cout<<*distance_1->term->args[1]<<*distance_1->term->args[1]->alt_vals[0]<<"在抛物线外"<<endl;
+            cout<<"所以 "<<*indi<<" 等价于: "<< *distance_1->term->args[1] <<" 到 "<< *distance_2->term->args[1] << " 之间的距离" <<endl;
+            vector<shared_ptr<Individual>> temp_args = {distance_1->term->args[1], distance_2->term->args[1]};
+            auto target = make_shared<Individual>(Term("Calc_Distance", temp_args));
+            eval_ret = action_eval(target, question, conditions_sp);
+
+            // 动点在抛物线上、抛物线外定点的坐标 要作为 dependence
+            string fact_point_on_curve_str = "{PointOnCurve(" + distance_1->term->args[0]->get_output_str() +", "+ distance_2->term->args[1]->term->args[0]->get_output_str()+")}";
+            string fact_point_outside_str = "{" + distance_1->term->args[1]->get_output_str() +"=" + distance_1->term->args[1]->alt_vals[0]->get_output_str()+"}";
+            cout<<fact_point_on_curve_str<<endl;
+            cout<<fact_point_outside_str<<endl;
+            int find_cnt = 0;
+            for(auto fact:question.fact_list){
+                if(fact->get_output_str()==fact_point_on_curve_str || fact->get_output_str()==fact_point_outside_str){
+                    conditions_sp->push_back(fact);
+                    ++find_cnt;
+                }
+            }
+            assert(find_cnt==2);
+        }
+        else if(oprt=="Calc_Distance"){ // 计算两点之间的距离 (参数: 两个 Coordinate)
+            assert(args.size()==2);
+            auto p1 = args[0]->find_specific_indi("Coordinate", question);
+            auto p2 = args[1]->find_specific_indi("Coordinate", question);
+            assert(p1 && p1->is_math_indi && p1->math_indi->is_coordinate && p2 && p2->is_math_indi && p2->math_indi->is_coordinate);
+            // (x1, y1) 到 (x2, y2)之间的距离 = Sqrt((x1-x2)^2 + (y1-y2)^2)
+            cout<<"p1: "<<*p1<<endl;
+            cout<<"p2: "<<*p2<<endl;
+            auto p1_x = p1->math_indi->coordinate_val->abscissa;
+            auto p1_y = p1->math_indi->coordinate_val->ordinate;
+            auto p2_x = p2->math_indi->coordinate_val->abscissa;
+            auto p2_y = p2->math_indi->coordinate_val->ordinate;
+            vector<shared_ptr<Individual>> temp_args;
+            temp_args = {make_shared<Individual>(*p1_x), make_shared<Individual>(*p2_x)};
+            auto p1X_Sub_p2X = make_shared<Individual>(Term("Sub",temp_args));
+            temp_args = {make_shared<Individual>(*p1_y), make_shared<Individual>(*p2_y)};
+            auto p1Y_Sub_p2Y = make_shared<Individual>(Term("Sub",temp_args));
+            assert(p1X_Sub_p2X && p1Y_Sub_p2Y);
+            auto p1X_Sub_p2X_val = action_eval(p1X_Sub_p2X, question);
+            auto p1Y_Sub_p2Y_val = action_eval(p1Y_Sub_p2Y, question);
+            temp_args = {p1X_Sub_p2X_val, make_shared<Individual>(Math_Expr(2))};
+            auto p1X_Sub_p2X_2 = make_shared<Individual>(Term("Pow",temp_args)); // (x1-x2)^2
+            temp_args = {p1Y_Sub_p2Y_val, make_shared<Individual>(Math_Expr(2))};
+            auto p1Y_Sub_p2Y_2 = make_shared<Individual>(Term("Pow",temp_args)); // (y1-y2)^2)
+            assert(p1X_Sub_p2X_2 && p1Y_Sub_p2Y_2);
+            auto p1X_Sub_p2X_2_val = action_eval(p1X_Sub_p2X_2, question);
+            auto p1Y_Sub_p2Y_2_val = action_eval(p1Y_Sub_p2Y_2, question);
+            temp_args = {p1X_Sub_p2X_2_val, p1Y_Sub_p2Y_2_val};
+            auto X2_Plus_Y2 = make_shared<Individual>(Term("Add",temp_args)); // (x1-x2)^2 + (y1-y2)^2
+            assert(X2_Plus_Y2);
+            auto X2_Plus_Y2_val = action_eval(X2_Plus_Y2, question);
+            assert(X2_Plus_Y2_val && X2_Plus_Y2_val->is_math_indi && X2_Plus_Y2_val->math_indi->is_math_expr);
+            vector<shared_ptr<Math_Expr>> math_func_args = {X2_Plus_Y2_val->math_indi->expr_val};
+            auto target = make_shared<Individual>(Math_Expr(Math_Func("sqrt", math_func_args))); // Sqrt((x1-x2)^2 + (y1-y2)^2)
+            cout<<"最终得到: "<<*target<<endl;
+            eval_ret = target;
+        }
         else{
             auto it = question.kb->def_oprt_hash_table.find(oprt); // KB 中定义的 Opearator
             if(it != question.kb->def_oprt_hash_table.end()){
@@ -1106,6 +1176,10 @@ shared_ptr<Individual> action_eval(shared_ptr<Individual> indi, Rete_Question &q
     }
     if(eval_ret){
         cout<<"求值 "<<*indi<<" 得到的结果为: "<<*eval_ret<<endl;
+
+        if(eval_ret->get_output_str() == "Sub(sqrt(34), 1)")
+            string s;
+
         // // 构造新的 fact // 不是所有的求值细节都要展示
         // if(indi->term->is_std){
         //     auto new_fact = make_shared<Fact>(Assertion(*indi,*eval_ret));

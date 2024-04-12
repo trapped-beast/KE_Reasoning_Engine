@@ -352,7 +352,7 @@ public:
     // 用cud初始化
     Individual(const Cud &e):is_cud(true),cud(make_shared<Cud>(e)){}
     // 用term初始化
-    Individual(const Term &e):is_term(true),term(make_shared<Term>(e)){}
+    Individual(const Term &e);
     // 用assertion初始化
     Individual(const Assertion &e):is_assertion(true),assertion(make_shared<Assertion>(e)){}
     // 用math_individual初始化
@@ -536,6 +536,14 @@ public:
 
     map<string,shared_ptr<Concept>> var_decl; // 变量声明
 };
+
+// 用term初始化 Individual
+inline Individual::Individual(const Term &e):is_term(true),term(make_shared<Term>(e)){
+    vector<string> mathe_oprt = {"Add", "Sub", "Mul", "Div"};
+    auto is_mathe = std::find(mathe_oprt.begin(), mathe_oprt.end(), e.oprt) != mathe_oprt.end();
+    if(is_mathe && e.args.size()==2 && e.args[0]->is_math_indi && e.args[0]->math_indi->is_math_expr && e.args[1]->is_math_indi && e.args[1]->math_indi->is_math_expr)
+        val_is_known = true; 
+}
 
 class Assertion{
 public:

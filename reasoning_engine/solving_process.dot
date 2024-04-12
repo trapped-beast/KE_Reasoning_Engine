@@ -1,88 +1,75 @@
 digraph solving_process {
-	graph [bb="0,0,1568.5,612"];
+	graph [bb="0,0,2188.3,396"];
 	node [label="\N"];
-	"{Expression(g)=y^2+x^2/k^2==1}"	[fillcolor=cornsilk,
+	"{Expression(g)=y^2==4*x}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="616.26,594",
+		pos="179.05,378",
 		style=filled,
-		width=3.9713];
-	"{Param_C(g)>0}"	[height=0.5,
-		pos="779.26,522",
-		width=2.1088];
-	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Param_C(g)>0}"	[pos="e,743.6,538.32 655.3,576.23 678.69,566.19 708.54,553.37 733.09,542.83"];
-	"{Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
-		pos="628.26,378",
-		width=7.9235];
-	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,595.86,396.36 602.15,576.01 579.08,546.05 538.17,482.24 562.26,432 567.71,420.64 576.91,410.94 586.74,403.07"];
-	"{Pow(Param_A(g), 2)=k^2}"	[height=0.5,
-		pos="689.26,450",
-		width=3.2746];
-	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Pow(Param_A(g), 2)=k^2}"	[pos="e,680.46,468.11 625.21,575.59 637.7,551.29 660.49,506.97 675.24,478.27"];
-	"{Pow(Param_B(g), 2)=1}"	[height=0.5,
-		pos="217.26,378",
-		width=3.0045];
-	"{Expression(g)=y^2+x^2/k^2==1}" -> "{Pow(Param_B(g), 2)=1}"	[pos="e,248.36,395.68 584.62,576.03 512.85,537.54 337.8,443.65 258.05,400.88"];
-	"{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[height=0.5,
-		pos="1003.3,450",
-		width=4.9522];
-	"{Param_C(g)>0}" -> "{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[pos="e,950.15,467.6 823.78,507.09 856.88,496.74 902.51,482.49 939.47,470.93"];
-	"{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
-A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[height=0.5,
-		pos="784.26,306",
-		width=21.785];
-	"{Sub(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
-A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,745.33,324.47 666.82,359.7 687.37,350.48 712.87,339.03 734.86,329.17"];
-	"{Pow(Param_A(g), 2)=k^2}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
-A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,875.19,324.31 767.57,436.13 831.34,424.86 912.38,408.38 922.26,396 932.24,383.49 931.32,373.19 922.26,360 913.05,346.59 899.94,\
-336.58 885.43,329.1"];
-	"{Pow(Param_B(g), 2)=1}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
-A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,630.01,324.12 295.89,365.28 308.71,363.45 321.85,361.63 334.26,360 428.31,347.63 533.6,335.16 618.68,325.42"];
-	"{OneOf(Focus(g))=(3,0)}"	[fillcolor=cornsilk,
+		width=3.232];
+	"{Param_P(g)=2}"	[height=0.5,
+		pos="179.05,306",
+		width=2.0804];
+	"{Expression(g)=y^2==4*x}" -> "{Param_P(g)=2}"	[pos="e,179.05,324.1 179.05,359.7 179.05,352.41 179.05,343.73 179.05,335.54"];
+	"{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[height=0.5,
+		pos="320.05,234",
+		width=5.6915];
+	"{Param_P(g)=2}" -> "{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[pos="e,285.55,252.13 210.69,289.29 229.72,279.84 254.25,267.67 275.25,257.24"];
+	"{d=Distance(p, yAxis)}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="1362.3,522",
+		pos="1041,378",
 		style=filled,
-		width=2.9903];
-	"{Left_Focus(g)=(-3,0)}"	[height=0.5,
-		pos="1299.3,450",
-		width=2.7628];
-	"{OneOf(Focus(g))=(3,0)}" -> "{Left_Focus(g)=(-3,0)}"	[pos="e,1314.7,468.1 1346.7,503.7 1339.3,495.47 1330.3,485.48 1322.1,476.42"];
-	"{Param_C(g)=3}"	[height=0.5,
-		pos="1214.3,378",
-		width=2.1088];
-	"{OneOf(Focus(g))=(3,0)}" -> "{Param_C(g)=3}"	[pos="e,1278,388.08 1381.8,503.87 1400.9,485.12 1424.6,454.72 1407.3,432 1392.6,412.81 1337.1,398.85 1289.3,390.08"];
-	"{Left_Focus(g)=(-3,0)}" -> "{Param_C(g)=3}"	[pos="e,1234.6,395.79 1278.7,432.05 1268,423.28 1254.9,412.43 1243.2,402.83"];
-	"{Param_C(g)=3}" -> "{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
-A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}"	[pos="e,890.43,324.28 1153.1,367.05 1087.9,356.43 983.01,339.36 901.73,326.12"];
-	"{Sub(k^2, 1)=9}"	[height=0.5,
-		pos="784.26,234",
-		width=2.0662];
-	"{Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Pow(Param_A(g), 2)=k^2}; {Pow(Param_B(g), 2)=1}; {Param_C(g)=3}; {Sub(Pow(Param_\
-A(g), 2), Pow(Param_B(g), 2))=Pow(Param_C(g), 2)}" -> "{Sub(k^2, 1)=9}"	[pos="e,784.26,252.1 784.26,287.7 784.26,280.41 784.26,271.73 784.26,263.54"];
-	"{k^2=10}"	[height=0.5,
-		pos="784.26,162",
-		width=1.3553];
-	"{Sub(k^2, 1)=9}" -> "{k^2=10}"	[pos="e,784.26,180.1 784.26,215.7 784.26,208.41 784.26,199.73 784.26,191.54"];
-	"{k>0}; {k^2=10}"	[height=0.5,
-		pos="835.26,90",
-		width=2.1657];
-	"{k^2=10}" -> "{k>0}; {k^2=10}"	[pos="e,822.91,107.96 796.35,144.41 802.29,136.25 809.6,126.22 816.27,117.07"];
-	"{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}" -> "{Param_C(g)=3}"	[pos="e,1171.5,393.19 1053.5,432.32 1085.8,421.6 1127.8,407.69 1160.7,396.77"];
-	"{Pow(Param_C(g), 2)=9}"	[fillcolor=cornsilk,
+		width=2.7912];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}"	[height=0.5,
+		pos="1041,306",
+		width=7.1985];
+	"{d=Distance(p, yAxis)}" -> "{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}"	[pos="e,1041,324.1 1041,359.7 1041,352.41 1041,343.73 1041,335.54"];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[height=0.5,
+		pos="1231,234",
+		width=19.126];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}" -> "{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[pos="e,1183.7,252.43 1087.5,287.88 1113.3,278.37 1145.7,266.46 1173.1,256.35"];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}"	[height=0.5,
+		pos="1203,162",
+		width=11.492];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}" -> "{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}"	[pos="e,1209.9,180.1 1224.1,215.7 1221.1,208.15 1217.5,199.12 1214.1,190.68"];
+	"{Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="1003.3,522",
+		pos="1753,306",
 		style=filled,
-		width=3.0045];
-	"{Pow(Param_C(g), 2)=9}" -> "{Param_C(g)>0}; {Pow(Param_C(g), 2)=9}"	[pos="e,1003.3,468.1 1003.3,503.7 1003.3,496.41 1003.3,487.73 1003.3,479.54"];
-	"{k>0}"	[fillcolor=cornsilk,
+		width=12.089];
+	"{Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), Distance(p, Focus(g))), Div(Param_P(g), 2))}" -> "{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[pos="e,1358.8,252.14 1628.3,288.28 1550.6,277.85 1450.4,264.41 1370,253.64"];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[height=0.5,
+		pos="775.05,90",
+		width=21.529];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}" -> "{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[pos="e,880.81,108.3 1099.7,144.1 1037,133.85 956.9,120.74 891.92,110.12"];
+	"{a=(4,5)}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="886.26,162",
+		pos="320.05,306",
 		style=filled,
-		width=0.97149];
-	"{k>0}" -> "{k>0}; {k^2=10}"	[pos="e,847.74,108.12 874.43,144.76 868.49,136.61 861.15,126.53 854.43,117.31"];
-	"{k=Sqrt(10)}"	[fillcolor="#ee7b67",
+		width=1.3269];
+	"{a=(4,5)}" -> "{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[pos="e,320.05,252.1 320.05,287.7 320.05,280.41 320.05,271.73 320.05,263.54"];
+	"{Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[height=0.5,
+		pos="376.05,162",
+		width=10.198];
+	"{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}" -> "{Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[pos="e,362.36,180.1 333.89,215.7 340.33,207.64 348.13,197.89 355.26,188.98"];
+	"{PointOnCurve(p, g)}"	[fillcolor=cornsilk,
 		height=0.5,
-		pos="835.26,18",
+		pos="480.05,306",
 		style=filled,
-		width=1.6965];
-	"{k>0}; {k^2=10}" -> "{k=Sqrt(10)}"	[pos="e,835.26,36.104 835.26,71.697 835.26,64.407 835.26,55.726 835.26,47.536"];
+		width=2.6064];
+	"{PointOnCurve(p, g)}" -> "{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[pos="e,359.01,252.04 443.74,289.12 421.74,279.49 393.37,267.08 369.35,256.57"];
+	"{Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}" -> "{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[pos="e,676.33,108.32 472.13,144.14 530.3,133.94 604.7,120.89 665.21,110.27"];
+	"{Min(Add(Distance(p, a), d))=Sub(sqrt(34), 1)}"	[fillcolor="#ee7b67",
+		height=0.5,
+		pos="775.05,18",
+		style=filled,
+		width=5.3076];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}" -> "{Min(Add(Distance(p, a), d))=Sub(sqrt(34), 1)}"	[pos="e,775.05,36.104 775.05,71.697 775.05,64.407 775.05,55.726 775.05,47.536"];
 }

@@ -1,78 +1,116 @@
 digraph all_progress {
-	graph [bb="0,0,2296.4,396"];
+	graph [bb="0,0,3708.4,396"];
 	node [label="\N"];
 	"{Expression(g)=y^2==4*x}"	[height=0.5,
-		pos="892.07,378",
+		pos="743.25,378",
 		width=3.232];
 	"{Focus_On_X_Axis(pa)}"	[height=0.5,
-		pos="892.07,306",
+		pos="192.25,306",
 		width=2.9476];
-	"{Expression(g)=y^2==4*x}" -> "{Focus_On_X_Axis(pa)}"	[pos="e,892.07,324.1 892.07,359.7 892.07,352.41 892.07,343.73 892.07,335.54"];
+	"{Expression(g)=y^2==4*x}" -> "{Focus_On_X_Axis(pa)}"	[pos="e,269.53,318.7 651.72,366.57 563.43,356.34 426.08,340 307.25,324 298.67,322.84 289.74,321.6 280.81,320.33"];
 	"{Open_To_Right(g)}"	[height=0.5,
-		pos="559.07,306",
+		pos="1942.2,306",
 		width=2.5211];
-	"{Expression(g)=y^2==4*x}" -> "{Open_To_Right(g)}"	[pos="e,619.78,319.76 825.08,362.92 768.82,351.09 688.6,334.23 630.99,322.12"];
+	"{Expression(g)=y^2==4*x}" -> "{Open_To_Right(g)}"	[pos="e,1859,313.54 853.01,371.68 1032.7,362.82 1400.8,344.03 1712.2,324 1756.8,321.13 1806.2,317.54 1847.7,314.39"];
 	"{Param_P(g)=2}"	[height=0.5,
-		pos="1383.1,234",
+		pos="886.25,306",
 		width=2.0804];
-	"{Expression(g)=y^2==4*x}" -> "{Param_P(g)=2}"	[pos="e,1358,251.41 992.75,368.69 1057,361.37 1141.4,347.98 1213.1,324 1262.5,307.47 1314.9,277.94 1348.3,257.45"];
+	"{Expression(g)=y^2==4*x}" -> "{Param_P(g)=2}"	[pos="e,854.56,322.51 777.14,360.41 797.3,350.54 823.03,337.95 844.44,327.47"];
 	"def_indi p_std:Parabola_Std_r={coeff_x:=4}"	[height=0.5,
-		pos="1806.1,306",
+		pos="495.25,306",
 		width=4.9807];
-	"{Expression(g)=y^2==4*x}" -> "def_indi p_std:Parabola_Std_r={coeff_x:=4}"	[pos="e,1667,317.65 994.25,369.17 1155.3,356.84 1468.9,332.82 1655.7,318.51"];
+	"{Expression(g)=y^2==4*x}" -> "def_indi p_std:Parabola_Std_r={coeff_x:=4}"	[pos="e,553.44,323.42 688.82,361.64 652.2,351.3 603.61,337.58 564.27,326.48"];
 	"{g=p_std}"	[height=0.5,
-		pos="718.07,306",
+		pos="743.25,306",
 		width=1.398];
-	"{Expression(g)=y^2==4*x}" -> "{g=p_std}"	[pos="e,750.64,320.1 851.71,360.76 824.59,349.85 788.88,335.49 761.2,324.35"];
+	"{Expression(g)=y^2==4*x}" -> "{g=p_std}"	[pos="e,743.25,324.1 743.25,359.7 743.25,352.41 743.25,343.73 743.25,335.54"];
 	"{Open_To_Right(g)}; {PointOnCurve(p, g)}"	[height=0.5,
-		pos="559.07,234",
+		pos="2073.2,234",
 		width=4.9664];
-	"{Open_To_Right(g)}" -> "{Open_To_Right(g)}; {PointOnCurve(p, g)}"	[pos="e,559.07,252.1 559.07,287.7 559.07,280.41 559.07,271.73 559.07,263.54"];
-	"{Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[height=0.5,
-		pos="932.07,162",
-		width=9.8997];
-	"{Param_P(g)=2}" -> "{Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[pos="e,1057.2,179.29 1328,221.4 1318.4,219.5 1308.5,217.63 1299.1,216 1223.1,202.83 1137.8,190.38 1068.6,180.86"];
+	"{Open_To_Right(g)}" -> "{Open_To_Right(g)}; {PointOnCurve(p, g)}"	[pos="e,2041.4,252.04 1973,288.59 1990.4,279.27 2012.5,267.48 2031.5,257.33"];
+	"{Distance(p, yAxis)=Sub(Distance(p, Focus(g)), Div(Param_P(g), 2))}"	[height=0.5,
+		pos="1923.2,162",
+		width=7.6819];
+	"{Param_P(g)=2}" -> "{Distance(p, yAxis)=Sub(Distance(p, Focus(g)), Div(Param_P(g), 2))}"	[pos="e,1726.3,174.97 884.31,287.51 883.12,266.94 884.79,233.4 905.25,216 936.26,189.62 1596.6,182.21 1637.2,180 1662.5,178.63 1688.9,\
+177.14 1715.1,175.62"];
 	"{Focus(g)=(1,0)}"	[height=0.5,
-		pos="1383.1,162",
+		pos="1552.2,162",
 		width=2.1231];
-	"{Param_P(g)=2}" -> "{Focus(g)=(1,0)}"	[pos="e,1383.1,180.1 1383.1,215.7 1383.1,208.41 1383.1,199.73 1383.1,191.54"];
+	"{Param_P(g)=2}" -> "{Focus(g)=(1,0)}"	[pos="e,1497.8,174.9 876.22,287.82 866.04,267.87 854.13,235.25 872.25,216 917.57,167.85 1400.7,188.43 1466.2,180 1473,179.13 1480,178.05 \
+1487,176.86"];
+	"{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[height=0.5,
+		pos="1119.2,234",
+		width=5.6915];
+	"{Param_P(g)=2}" -> "{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[pos="e,1063.6,251.72 931.73,291.34 966.23,280.97 1014.2,266.57 1052.9,254.92"];
 	"{Param_P(p_std)=2}"	[height=0.5,
-		pos="1953.1,234",
+		pos="90.249,234",
 		width=2.5069];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=4}" -> "{Param_P(p_std)=2}"	[pos="e,1919.2,251.11 1842,287.88 1862.3,278.24 1887.7,266.14 1909.1,255.94"];
+	"def_indi p_std:Parabola_Std_r={coeff_x:=4}" -> "{Param_P(p_std)=2}"	[pos="e,156.8,246.5 407.87,289.9 336.5,277.56 236.56,260.29 167.95,248.43"];
 	"{Focus_On_X_Axis(p_std)}"	[height=0.5,
-		pos="2179.1,234",
+		pos="316.25,234",
 		width=3.2604];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=4}" -> "{Focus_On_X_Axis(p_std)}"	[pos="e,2106.9,248.55 1887.9,289.64 1949.5,278.08 2033.6,262.3 2095.5,250.67"];
+	"def_indi p_std:Parabola_Std_r={coeff_x:=4}" -> "{Focus_On_X_Axis(p_std)}"	[pos="e,357.64,251.19 451.92,288.05 426.73,278.2 394.82,265.73 368.28,255.35"];
 	"{Line_Expression(Directrix(p_std))=x+1==0}"	[height=0.5,
-		pos="1660.1,234",
+		pos="636.25,234",
 		width=5.1228];
-	"def_indi p_std:Parabola_Std_r={coeff_x:=4}" -> "{Line_Expression(Directrix(p_std))=x+1==0}"	[pos="e,1695.7,252.07 1770.4,287.88 1750.9,278.56 1726.7,266.94 1705.9,256.96"];
+	"def_indi p_std:Parabola_Std_r={coeff_x:=4}" -> "{Line_Expression(Directrix(p_std))=x+1==0}"	[pos="e,602.11,251.95 529.74,287.88 548.49,278.57 571.87,266.96 591.96,256.99"];
 	"{PointOnCurve(p, g)}"	[height=0.5,
-		pos="1110.1,306",
+		pos="1609.2,306",
 		width=2.6064];
 	"{Distance(p, Focus(g))=Distance(p, Line_Expression(Directrix(g)))}"	[height=0.5,
-		pos="1023.1,234",
+		pos="1609.2,234",
 		width=7.426];
-	"{PointOnCurve(p, g)}" -> "{Distance(p, Focus(g))=Distance(p, Line_Expression(Directrix(g)))}"	[pos="e,1044.5,252.28 1089,288.05 1078.3,279.41 1065,268.75 1053.2,259.26"];
-	"{PointOnCurve(p, g)}" -> "{Open_To_Right(g)}; {PointOnCurve(p, g)}"	[pos="e,679.05,247.68 1041.7,293.27 1030.2,291.41 1018.3,289.59 1007.1,288 900.72,272.94 779.76,258.81 690.35,248.93"];
-	"{Open_To_Right(g)}; {PointOnCurve(p, g)}" -> "{Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[pos="e,842.24,179.86 640.92,217.64 696.95,207.12 771.6,193.12 831.28,181.91"];
-	"{Line_Expression(Directrix(g))=x+1==0}"	[height=0.5,
-		pos="169.07,162",
-		width=4.6963];
-	"{Open_To_Right(g)}; {PointOnCurve(p, g)}" -> "{Line_Expression(Directrix(g))=x+1==0}"	[pos="e,252.99,178.06 473.96,217.72 412.12,206.62 328.38,191.59 264.3,180.09"];
-	"{Open_To_Right(g)}; {PointOnCurve(p, g)}" -> "{Focus(g)=(1,0)}"	[pos="e,1328.2,174.95 686.71,221.03 706.89,219.26 727.55,217.52 747.07,216 991.29,196.97 1054.2,211.82 1297.1,180 1303.5,179.15 1310.3,\
-178.11 1317,176.96"];
-	"{Distance(p, yAxis)=d}; {Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[height=0.5,
-		pos="694.07,90",
-		width=12.53];
-	"{Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}" -> "{Distance(p, yAxis)=d}; {Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[pos="e,752.78,108.27 873.54,143.79 840.24,133.99 798.33,121.66 763.38,111.39"];
-	"{Distance(p, yAxis)=d}"	[height=0.5,
-		pos="457.07,162",
+	"{PointOnCurve(p, g)}" -> "{Distance(p, Focus(g))=Distance(p, Line_Expression(Directrix(g)))}"	[pos="e,1609.2,252.1 1609.2,287.7 1609.2,280.41 1609.2,271.73 1609.2,263.54"];
+	"{PointOnCurve(p, g)}" -> "{Open_To_Right(g)}; {PointOnCurve(p, g)}"	[pos="e,1976.9,249.54 1681.2,294.14 1757.3,282.66 1878.2,264.43 1965.6,251.24"];
+	"{PointOnCurve(p, g)}" -> "{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[pos="e,1223.4,249.88 1535.6,294.48 1455.9,283.09 1327.7,264.78 1234.6,251.48"];
+	"{d=Distance(p, yAxis)}"	[height=0.5,
+		pos="3449.2,378",
 		width=2.7912];
-	"{Distance(p, yAxis)=d}" -> "{Distance(p, yAxis)=d}; {Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[pos="e,635.66,108.25 507.62,146.07 541.77,135.98 587.29,122.54 624.8,111.46"];
-	"{d=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[height=0.5,
-		pos="694.07,18",
-		width=8.0799];
-	"{Distance(p, yAxis)=d}; {Distance(p, yAxis)=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}" -> "{d=Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2))}"	[pos="e,694.07,36.104 694.07,71.697 694.07,64.407 694.07,55.726 694.07,47.536"];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}"	[height=0.5,
+		pos="3449.2,306",
+		width=7.1985];
+	"{d=Distance(p, yAxis)}" -> "{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}"	[pos="e,3449.2,324.1 3449.2,359.7 3449.2,352.41 3449.2,343.73 3449.2,335.54"];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[height=0.5,
+		pos="2988.2,234",
+		width=19.126];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}" -> "{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[pos="e,3101.7,252.23 3344.6,289.12 3275.8,278.66 3185.3,264.92 3112.7,253.9"];
+	"{Open_To_Right(g)}; {PointOnCurve(p, g)}" -> "{Distance(p, yAxis)=Sub(Distance(p, Focus(g)), Div(Param_P(g), 2))}"	[pos="e,1960.3,180.28 2036.9,216.05 2017,206.74 1992,195.07 1970.5,185.04"];
+	"{Line_Expression(Directrix(g))=x+1==0}"	[height=0.5,
+		pos="2387.2,162",
+		width=4.6963];
+	"{Open_To_Right(g)}; {PointOnCurve(p, g)}" -> "{Line_Expression(Directrix(g))=x+1==0}"	[pos="e,2316.6,178.76 2144.5,217.12 2192.4,206.45 2255.6,192.36 2305.5,181.23"];
+	"{Open_To_Right(g)}; {PointOnCurve(p, g)}" -> "{Focus(g)=(1,0)}"	[pos="e,1607.9,174.77 1950.3,220.59 1862.7,211.13 1742.5,196.89 1637.2,180 1631.3,179.05 1625.1,177.97 1619,176.85"];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}"	[height=0.5,
+		pos="2988.2,162",
+		width=11.492];
+	"{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}" -> "{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}"	[pos="e,2988.2,180.1 2988.2,215.7 2988.2,208.41 2988.2,199.73 2988.2,191.54"];
+	"{Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[height=0.5,
+		pos="2737.2,306",
+		width=12.089];
+	"{Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), Distance(p, Focus(g))), Div(Param_P(g), 2))}" -> "{Add(Distance(p, a), d)=Add(Distance(p, a), Distance(p, yAxis))}; {Add(Distance(p, a), Distance(p, yAxis))=Sub(Add(Distance(p, a), \
+Distance(p, Focus(g))), Div(Param_P(g), 2))}"	[pos="e,2926,252.35 2799.3,287.7 2834.4,277.89 2878.6,265.58 2915.4,255.32"];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[height=0.5,
+		pos="2039.2,90",
+		width=21.529];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}" -> "{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[pos="e,2265.4,107.68 2783.8,145.92 2634.8,134.93 2432.6,120.01 2276.5,108.5"];
+	"{a=(4,5)}"	[height=0.5,
+		pos="1119.2,306",
+		width=1.3269];
+	"{a=(4,5)}" -> "{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}"	[pos="e,1119.2,252.1 1119.2,287.7 1119.2,280.41 1119.2,271.73 1119.2,263.54"];
+	"{Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[height=0.5,
+		pos="1090.2,162",
+		width=10.198];
+	"{a=(4,5)}; {PointOnCurve(p, g)}; {Param_P(g)=2}" -> "{Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[pos="e,1097.3,180.1 1112.1,215.7 1109,208.15 1105.2,199.12 1101.7,190.68"];
+	"{Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}" -> "{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}"	[pos="e,1813,107.69 1288,146.41 1437.5,135.39 1643.3,120.21 1801.7,108.53"];
+	"{Min(Add(Distance(p, a), d))=Sub(sqrt(34), 1)}"	[height=0.5,
+		pos="2039.2,18",
+		width=5.3076];
+	"{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}; {Sub(Min(Add(Distance(p, \
+a), Distance(p, Focus(g)))), Div(Param_P(g), 2))=Sub(sqrt(34), 1)}" -> "{Min(Add(Distance(p, a), d))=Sub(sqrt(34), 1)}"	[pos="e,2039.2,36.104 2039.2,71.697 2039.2,64.407 2039.2,55.726 2039.2,47.536"];
 }

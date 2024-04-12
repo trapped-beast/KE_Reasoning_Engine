@@ -54,26 +54,39 @@ void construct_fact_in_graph(shared_ptr<Fact> new_fact, vector<string> dependenc
 }
 
 // 尝试为 Individual 补充可能的 alt_val
-void sup_possible_alt(Individual &indi, Rete_Question &question){
-    if(indi.is_term && indi.term->args.size()==1){ // 只考虑对一元算子进行参数替换: {a=b} => {P(a)=P(b)}
+void sup_possible_alt(Individual &indi, Rete_Question &question, shared_ptr<vector<shared_ptr<Fact>>> conditions){
+    cout<<endl<<"当前 Question 中的所有 Fact 如下:"<<endl;
+    for(auto &fact:question.fact_list){
+        cout<<"fact: "<<*fact<<endl;
+    }
+    cout<<endl;
+    
+    if(indi.get_output_str()=="Add(Distance(p, a), Distance(p, yAxis))")
+        string s;
+
+    cout<<"考虑 eager evaluation: "<<indi<<endl;
+    if(!indi.is_term)
+        return;
+    if(indi.term->args.size()==1){ // 只考虑对一元算子进行参数替换: {a=a'} => {P(a)=P(a')}
         string oprt = indi.term->oprt;
         auto &old_body = indi.term->args[0]; // 原来的参数即 a
         if(old_body->is_term && old_body->term->args.size()==1){ // 如果 a 是项, 则递归地处理 a
             sup_possible_alt(*old_body,question);
-            // 考虑两层的替换: {a=b} => {P(P'(a))=P(P'(b))}
+            // 考虑两层的替换: {a=a'} => {P(P'(a))=P(P'(a'))}
             // 这里的 old_body 为 P'(a)
             for(auto alt:old_body->alt_vals){ // 如果 P'(a) 存在 alt, 考虑替换
                 string old_obj_name = indi.get_output_str(); // 即 P(P'(a))
-                string new_obj_name = oprt+"("+alt->get_output_str()+")"; // Term 名称对参数进行替换得到新的 Term 名称 ( 即由 P(P'(a)) 替换得到 P(P'(b)) )
+                string new_obj_name = oprt+"("+alt->get_output_str()+")"; // Term 名称对参数进行替换得到新的 Term 名称 ( 即由 P(P'(a)) 替换得到 P(P'(a')) )
+                cout<<"要求 "<<old_obj_name<<" ,只需求 "<<new_obj_name<<endl;
                 auto it = question.indi_hash_map.find(new_obj_name);
-                shared_ptr<Individual> new_obj; // 即 P(P'(b))
-                if(it!=question.indi_hash_map.end()){ // 只在 P(P'(b)) 已经存在时生成相关的等式断言
+                shared_ptr<Individual> new_obj; // 即 P(P'(a'))
+                if(it!=question.indi_hash_map.end()){ // 只在 P(P'(a')) 已经存在时生成相关的等式断言
                     new_obj = it->second;
-                    // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=b} => {P(P'(a))=P(P'(b))})
+                    // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=a'} => {P(P'(a))=P(P'(a'))})
                     assert(alt->term->args.size()==1);
                     auto a = old_body->term->args[0];
-                    auto b = alt->term->args[0];
-                    string lhs_name = "{"+a->get_output_str()+"="+b->get_output_str()+"}"; // 用于替换的参数之间的相等关系，也就是就是引起该 suffice to 关系的 assertion
+                    auto a_ = alt->term->args[0];
+                    string lhs_name = "{"+a->get_output_str()+"="+a_->get_output_str()+"}"; // 用于替换的参数之间的相等关系，也就是就是引起该 suffice to 关系的 assertion
                     string new_rule_desc = "等量代换";
                     // 用这里的 suffice to 关系创建新的规则加入 reasoning_graph
                     shared_ptr<Rete_Rule> new_rule = make_shared<Rete_Rule>();
@@ -86,7 +99,7 @@ void sup_possible_alt(Individual &indi, Rete_Question &question){
                         }
                     }
                     assert(edge->fact_start);
-                    // 创建新的 rhs (即 P(a)=P(b)) 作为终点，补充到 edge 上
+                    // 创建新的 rhs (即 P(a)=P(a')) 作为终点，补充到 edge 上
                     auto it_l = question.indi_hash_map.find(old_obj_name);
                     auto it_r = question.indi_hash_map.find(new_obj_name);
                     assert(it_l!=question.indi_hash_map.end() && it_r!=question.indi_hash_map.end());
@@ -103,16 +116,64 @@ void sup_possible_alt(Individual &indi, Rete_Question &question){
                 }
             }
         }
-        // 如果 a 是变量, 则生成新的 fact: {P(a)=P(b)}
+        else if(old_body->is_term && (old_body->term->oprt=="Add" || old_body->term->oprt=="Sub")){
+            // Add()、Sub() 应该对二元参数进行等量代换，所以当 a 为 Add()、Sub() 时，对 a 整体进行处理
+            auto conditions = make_shared<vector<shared_ptr<Fact>>>(); // 记录中间依赖
+            sup_possible_alt(*old_body, question, conditions);
+            if(indi.term->oprt=="Min"){
+                // a+(b-c) = (a+b)-c
+                // n=n' => Min(m, n) = Min(m, n')
+                cout<<"当前要求: "<<indi<<endl;
+                assert(!old_body->alt_vals.empty());
+                if(!old_body->alt_vals[0]->term->args[1]->alt_vals.empty()){
+                    cout<<"而:"<<endl;
+                    cout<<"\t"<<*old_body<<" = "<<*old_body->alt_vals[0]<<endl;
+                    sup_possible_alt(*old_body->alt_vals[0], question, conditions);
+                    shared_ptr<Individual> target;
+                    if(old_body->alt_vals[0]->alt_vals.empty()){
+                        target = old_body->alt_vals[0];
+                    }
+                    else{
+                        target = old_body->alt_vals[0]->alt_vals[0];
+                        cout<<"\t"<<*old_body->alt_vals[0]<<" = "<<*target<<endl;
+                        // sup_possible_alt(*old_body->alt_vals[0]->alt_vals[0], question);
+                    }
+                    cout<<"所以要求 "<<indi<<" ,只需求 Min("<<*target<<")"<<endl;
+                    // Min((a+b)-num)) = Min(a+b)-num
+                    if(target->is_term && target->term->oprt=="Sub" && target->term->args[0]->is_term && target->term->args[0]->term->oprt=="Add"){
+                        bool arg_2_is_num = arg_2_is_num = target->term->args[1]->val_is_known || action_eval(target->term->args[1], question)->val_is_known;
+                        if(arg_2_is_num){
+                            vector<shared_ptr<Individual>> temp_args = {target->term->args[0]};
+                            auto min_aPlusb = make_shared<Individual>(Term("Min", temp_args));
+                            temp_args = {min_aPlusb, target->term->args[1]};
+                            auto min_target = make_shared<Individual>(Term("Sub", temp_args));
+                            question.normalize_individual(min_target);
+                            cout<<"要求 Min("<<*target<<") 只需求: "<<*min_target<<endl;
+                            auto new_fact = make_shared<Fact>(Assertion(indi, *min_target));
+                            new_fact->where_is = make_shared<Rete_Question>(question);
+                            question.normalize_individual(new_fact);
+                            question.fact_list.push_back(new_fact);
+                            cout<<*new_fact<<endl;
+                            find_dependence(new_fact, conditions);
+                            string s;
+                        }
+                    }
+                }
+                
+                // TODO:处理
+            }
+        }
+        // 如果 a 是变量, 则生成新的 fact: {P(a)=P(a')}
         else if(old_body->is_math_indi && old_body->math_indi->is_math_expr && old_body->math_indi->expr_val->is_sy){
-            for(auto alt:old_body->alt_vals){ // alt 即 b
+            for(auto alt:old_body->alt_vals){ // alt 即 a'
                 string old_obj_name = indi.get_output_str(); // 即 P(a)
-                string new_obj_name = oprt+"("+alt->get_output_str()+")"; // Term 名称对参数进行替换得到新的 Term 名称 (即由 P(a) 替换得到 P(b))
+                string new_obj_name = oprt+"("+alt->get_output_str()+")"; // Term 名称对参数进行替换得到新的 Term 名称 (即由 P(a) 替换得到 P(a'))
+                cout<<"要求 "<<old_obj_name<<" ,只需求 "<<new_obj_name<<endl;
                 auto it = question.indi_hash_map.find(new_obj_name);
-                shared_ptr<Individual> new_obj; // 即 P(b)
-                if(it!=question.indi_hash_map.end()){ // 只在 P(b) 已经存在时生成相关的等式断言
+                shared_ptr<Individual> new_obj; // 即 P(a')
+                if(it!=question.indi_hash_map.end()){ // 只在 P(a') 已经存在时生成相关的等式断言
                     new_obj = it->second;
-                    // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=b} => {P(a)=P(b)})
+                    // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=a'} => {P(a)=P(a')})
                     string lhs_name = "{"+old_body->get_output_str()+"="+alt->get_output_str()+"}"; // 用于替换的参数之间的相等关系，也就是就是引起该 suffice to 关系的 assertion
                     string new_rule_desc = "等量代换";
                     // 用这里的 suffice to 关系创建新的规则加入 reasoning_graph
@@ -126,7 +187,7 @@ void sup_possible_alt(Individual &indi, Rete_Question &question){
                         }
                     }
                     assert(edge->fact_start);
-                    // 创建新的 rhs (即 P(a)=P(b)) 作为终点，补充到 edge 上
+                    // 创建新的 rhs (即 P(a)=P(a')) 作为终点，补充到 edge 上
                     auto it_l = question.indi_hash_map.find(old_obj_name);
                     auto it_r = question.indi_hash_map.find(new_obj_name);
                     assert(it_l!=question.indi_hash_map.end() && it_r!=question.indi_hash_map.end());
@@ -144,6 +205,158 @@ void sup_possible_alt(Individual &indi, Rete_Question &question){
             }
         }
     }
+    else if(indi.term->args.size()==2){
+        // 考虑对二元算子进行参数替换
+        // {a=a'} => {P(a,b)=P(a',b)} 或 {b=b'} => {P(a,b)=P(a,b')} 或 {a=a'; b=b'} => {P(a,b)=P(a',b')}
+        // TODO:开始对多元算子进行参数替换
+        string oprt = indi.term->oprt;
+        auto &old_arg_1 = indi.term->args[0]; // 第一个参数
+        auto &old_arg_2 = indi.term->args[1]; // 第二个参数
+        if(!old_arg_1->alt_vals.empty()){ // {a=a'} => {P(a,b)=P(a',b)} 或 {a=a'; b=b'} => {P(a,b)=P(a',b')}
+            for(auto alt_1:old_arg_1->alt_vals){
+                for(auto alt_2:old_arg_2->alt_vals){ // 每个 a'、b' 的组合都要考虑
+                    assert(false); // TODO: 暂不处理                    
+                }
+                // 每个 a'、b 的组合都要考虑
+                for(auto alt_1:old_arg_1->alt_vals){ // alt_1 即 a'
+                    string old_obj_name = indi.get_output_str(); // P(a,b)的名称
+                    string new_obj_name = oprt+"("+alt_1->get_output_str()+" ,"+old_arg_2->get_output_str()+")"; // P(a',b)的名称
+                    cout<<"要求 "<<old_obj_name<<" ,只需求 "<<new_obj_name<<endl;
+                    auto it = question.indi_hash_map.find(new_obj_name);
+                    shared_ptr<Individual> new_obj; // 即 P(a',b)
+                    if(it!=question.indi_hash_map.end()){ // 只在 P(a',b) 已经存在时生成相关的等式断言
+                        new_obj = it->second;
+                        // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {a=a'} => {P(a,b)=P(a',b)})
+                        string lhs_name = "{"+old_arg_1->get_output_str()+"="+alt_1->get_output_str()+"}"; // 用于替换的参数之间的相等关系，也就是就是引起该 suffice to 关系的 assertion
+                        string new_rule_desc = "等量代换";
+                        // 用这里的 suffice to 关系创建新的规则加入 reasoning_graph
+                        shared_ptr<Rete_Rule> new_rule = make_shared<Rete_Rule>();
+                        new_rule->description = new_rule_desc;
+                        shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
+                        for(auto fact: question.fact_list){ // 在当前已知的 fact 中找到该起点，补充到 edge 上
+                            if(fact->get_output_str().find(lhs_name)!=string::npos){
+                                edge->fact_start = reasoning_graph->share_or_build_fact_node(fact);
+                                break;
+                            }
+                        }
+                        assert(edge->fact_start);
+                        // 创建新的 rhs (即 P(a,b)=P(a',b)) 作为终点，补充到 edge 上
+                        auto it_l = question.indi_hash_map.find(old_obj_name);
+                        auto it_r = question.indi_hash_map.find(new_obj_name);
+                        assert(it_l!=question.indi_hash_map.end() && it_r!=question.indi_hash_map.end());
+                        auto assertion = Assertion(*it_l->second,*it_r->second);
+                        auto new_rhs = make_shared<Individual>(assertion);
+                        question.normalize_individual(new_rhs); // 保存之前先统一 Individual
+                        // 传播变量声明
+                        new_rhs->propagate_var_decl(question.var_decl);
+                        auto new_fact = make_shared<Fact>(assertion);
+                        new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
+                        question.fact_list.push_back(new_fact);
+                        edge->fact_end = new_fact;
+                        reasoning_graph->edges.push_back(edge);
+                    }
+                }
+            }
+        }
+        else{ // {b=b'} => {P(a,b)=P(a,b')}
+            bool old_arg_2_is_sy =  old_arg_2->is_math_indi && old_arg_2->math_indi->is_math_expr && old_arg_2->math_indi->expr_val->is_sy;
+            // 如果 b 是变量, 则生成新的 fact: {P(a,b)=P(a,b')}
+            if(old_arg_2_is_sy || true){
+                // 每个 a、b' 的组合都要考虑
+                for(auto alt_2:old_arg_2->alt_vals){ // alt_2 即 b'
+                    string old_obj_name = indi.get_output_str(); // P(a,b)的名称
+                    string new_obj_name = oprt+"("+old_arg_1->get_output_str()+", "+alt_2->get_output_str()+")"; // P(a,b')的名称
+                    cout<<"要求 "<<old_obj_name<<" ,只需求 "<<new_obj_name<<endl;
+                    auto it = question.indi_hash_map.find(new_obj_name);
+
+                    if(new_obj_name=="Add(Distance(p, a), Sub(Distance(p, Line_Expression(Directrix(g))), Div(Param_P(g), 2)))")
+                        string s;
+
+                    shared_ptr<Individual> new_obj; // 即 P(a,b')
+
+                    // 计算 Distance 的情况需要特殊考虑，它应该被允许为可以进行 lazy evaluation
+                    bool is_calc_distance = old_arg_1->is_term && old_arg_1->term->oprt=="Distance" && alt_2->is_term && alt_2->term->oprt=="Distance";
+                    if(is_calc_distance){
+                        // 构建新的 fact: P(a,b)=P(a,b')
+                        vector<shared_ptr<Individual>> temp_args = {old_arg_1, alt_2};
+                        auto new_right = Individual(Term(oprt,temp_args));
+                        auto new_assertion = make_shared<Assertion>(indi, new_right);
+                        auto new_rhs = make_shared<Individual>(*new_assertion);
+                        question.normalize_individual(new_rhs);
+                        new_assertion->propagate_var_decl(question.var_decl);
+                        auto new_fact = make_shared<Fact>(*new_assertion);
+                        new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
+                        question.fact_list.push_back(new_fact);
+                        if(conditions)
+                            conditions->push_back(new_fact);
+                    }
+
+                    // 计算 a+(b-c) 的情况要特殊考虑，它应该被允许为可以进行 lazy evaluation
+                    bool is_a_plus_bSubc = oprt=="Add" && old_arg_1->is_term && old_arg_1->term->oprt=="Distance" && alt_2->is_term && alt_2->term->oprt=="Sub" && alt_2->term->args.size()==2 && alt_2->term->args[0]->is_term && alt_2->term->args[0]->term->oprt=="Distance";
+                    if(is_a_plus_bSubc){
+                        // 构建新的 fact: a+(b-c) = (a+b)-c
+                        vector<shared_ptr<Individual>> temp_args = {old_arg_1, alt_2->term->args[0]};
+                        auto a_plus_b = make_shared<Individual>(Term("Add", temp_args));
+                        question.normalize_individual(a_plus_b);
+                        temp_args = {a_plus_b, alt_2->term->args[1]};
+                        auto aPlusb_sub_c = make_shared<Individual>(Term("Sub", temp_args));
+                        // question.normalize_individual(aPlusb_sub_c);
+                        auto new_assertion = make_shared<Assertion>(indi, *aPlusb_sub_c);
+                        auto new_rhs = make_shared<Individual>(*new_assertion);
+                        question.normalize_individual(new_rhs);
+                        new_assertion->propagate_var_decl(question.var_decl);
+                        auto new_fact = make_shared<Fact>(*new_assertion);
+                        new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
+                        question.fact_list.push_back(new_fact);
+                        if(conditions)
+                            conditions->push_back(new_fact);
+                    }
+
+                    if(it!=question.indi_hash_map.end() || is_calc_distance){ // 只在 P(a,b') 已经存在时生成相关的等式断言 (除了上述特例)
+                        new_obj = it->second;
+                        // 根据 用于替换的参数之间的相等关系 可以得到 suffice to 关系，而这可以抽象为一条新的规则 (即 {b=b'} => {P(a,b)=P(a,b')})
+                        string lhs_name = "{"+old_arg_2->get_output_str()+"="+alt_2->get_output_str()+"}"; // 用于替换的参数之间的相等关系，也就是就是引起该 suffice to 关系的 assertion
+                        string new_rule_desc = "等量代换";
+                        // 用这里的 suffice to 关系创建新的规则加入 reasoning_graph
+                        shared_ptr<Rete_Rule> new_rule = make_shared<Rete_Rule>();
+                        new_rule->description = new_rule_desc;
+                        shared_ptr<Reasoning_Edge> edge = make_shared<Reasoning_Edge>(new_rule);
+                        cout<<"lhs: "<<lhs_name<<endl;
+                        for(auto fact: question.fact_list){ // 在当前已知的 fact 中找到该起点，补充到 edge 上
+                            if(fact->get_output_str().find(lhs_name)!=string::npos){
+                                edge->fact_start = reasoning_graph->share_or_build_fact_node(fact);
+                                break;
+                            }
+                            cout<<"fact: "<<*fact<<endl;
+                        }
+                        assert(edge->fact_start);
+                        // 创建新的 rhs (即 P(a,b)=P(a,b')) 作为终点，补充到 edge 上
+                        auto it_l = question.indi_hash_map.find(old_obj_name);
+                        auto it_r = question.indi_hash_map.find(new_obj_name);
+                        assert(it_l!=question.indi_hash_map.end() && it_r!=question.indi_hash_map.end());
+                        auto assertion = Assertion(*it_l->second,*it_r->second);
+                        auto new_rhs = make_shared<Individual>(assertion);
+                        question.normalize_individual(new_rhs); // 保存之前先统一 Individual
+                        // 传播变量声明
+                        new_rhs->propagate_var_decl(question.var_decl);
+                        auto new_fact = make_shared<Fact>(assertion);
+                        if(!is_calc_distance){
+                            new_fact = reasoning_graph->share_or_build_fact_node(new_fact);
+                            question.fact_list.push_back(new_fact);
+                        }
+                        edge->fact_end = new_fact;
+                        reasoning_graph->edges.push_back(edge);
+                    }
+                }
+            }
+        }
+    }
+
+    cout<<endl<<"当前 Question 中的所有 Fact 如下:"<<endl;
+    for(auto &fact:question.fact_list){
+        cout<<"fact: "<<*fact<<endl;
+    }
+    cout<<endl;
 }
 
 
@@ -164,6 +377,11 @@ bool has_been_solved(shared_ptr<Rete_Question> question){
             cout<<"("<<p.second->alt_vals.size()<<"个)";
             cout<<endl;
         }
+        cout<<endl<<"当前 Question 中的所有 Fact 如下:"<<endl;
+        for(auto &fact:question->fact_list){
+            cout<<"fact: "<<*fact<<endl;
+        }
+        cout<<endl;
     #endif
 
     assert(question->to_solve.size()==1); // 目前只处理有一个待求解项的情况
@@ -527,8 +745,9 @@ bool is_potentially_solvable_eq(shared_ptr<Fact> fact){
 // 根据 fact 及其依赖创建 Reasoning_Edge
 void find_dependence(shared_ptr<Fact> fact, shared_ptr<vector<shared_ptr<Fact>>> conditions){
     cout<<"conditions->size()="<<conditions->size()<<endl;
-    if(fact->get_output_str()=="{Add(Pow(Param_A(g), 2), Pow(Param_B(g), 2))=9}")
+    if(fact->get_output_str()=="{Min(Add(Distance(p, a), d))=Sub(Min(Add(Distance(p, a), Distance(p, Focus(g)))), Div(Param_P(g), 2))}")
         string s;
+
     // 依赖中可能会包含几个连续的相同 fact, 要进行处理
     auto new_conditions = make_shared<vector<shared_ptr<Fact>>>();
     for(auto condition: *conditions){
